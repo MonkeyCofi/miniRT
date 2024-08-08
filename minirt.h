@@ -19,13 +19,39 @@
 /*		temp headers	*/
 # include <stdio.h>
 
-#define ESC 53
+#ifdef __APPLE__
+# define HEIGHT 1920
+# define WIDTH 1080
+# define APPLE 1
+# define ESC 53
+# else
+# define HEIGHT 800
+# define WIDTH 1000
+# define APPLE 0
+# define ESC 65307
+#endif
+
+typedef struct s_img
+{
+	void	*img;
+	char	*img_addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
+}		t_img;
 
 typedef struct s_mlx
 {
 	void	*mlx;
-	void	*img;
 	void	*win;
+	t_img	img;
 }	t_mlx;
+
+typedef struct s_point
+{
+	float	x;
+	float	y;
+	float	z;
+}	t_point;
 
 #endif

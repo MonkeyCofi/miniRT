@@ -1,6 +1,6 @@
 NAME = minirt
 
-CC = CC
+CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
@@ -12,7 +12,7 @@ LIBFT_DIR = libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-ifeq ($(OS_NAME), Linux)
+ifeq ($(shell uname), Linux)
 MLXOS = minilibx-linux
 MLXFLAGS = -Lminilibx-linux -lmlx -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm
 MLXOBJ =  -Wall -Wextra -Werror -I/usr/include -Iminilibx-linux -O3 -c
