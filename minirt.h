@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/05 16:38:06 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:55:41 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@
 
 /*		temp headers	*/
 # include <stdio.h>
+# include <math.h>
 
 #ifdef __APPLE__
-# define HEIGHT 1920
-# define WIDTH 1080
+# define HEIGHT 1080
+# define WIDTH 1920
 # define APPLE 1
 # define ESC 53
 # else
@@ -47,11 +48,11 @@ typedef struct s_mlx
 	t_img	img;
 }	t_mlx;
 
-typedef struct s_point
+typedef struct	s_vector
 {
-	float	x;
-	float	y;
-	float	z;
-}	t_point;
+	double	x;
+	double	y;
+	double	z;
+}	t_vector;
 
 #endif
