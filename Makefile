@@ -2,11 +2,11 @@ NAME = minirt
 
 CC = cc
 
-#CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 CFLAGS	= -g3
 
-SRCS = minirt.c
+SRCS = minirt.c camera.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -34,6 +34,9 @@ $(NAME): $(OBJS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+run: re
+	./$(NAME)
 
 clean:
 	make -C $(LIBFT_DIR) clean
