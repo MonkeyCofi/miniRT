@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 CFLAGS	= -g3
 
-SRCS = minirt.c camera.c
+SRCS = minirt.c camera.c vectors.c hooks.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -30,7 +30,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	make -C $(MLXOS)
 	make -C $(LIBFT_DIR)
-	$(CC) $(OBJS) $(LIBFT) $(MLXFLAGS) -o $(NAME)
+	$(CC) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

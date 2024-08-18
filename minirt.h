@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/09 16:55:41 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/18 13:13:20 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 /*		temp headers	*/
 # include <stdio.h>
+
+# define PI 3.14159
 
 # ifdef __APPLE__
 #  define HEIGHT 1080
@@ -55,19 +57,38 @@ typedef struct	s_vector
 	double	z;
 }	t_vector;
 
+typedef struct s_ray
+{
+	t_vector ray;
+	int		color;
+}	t_ray;
+
+
 typedef struct s_camera
 {
 	t_vector	camera;
 	t_vector	v_horiz;
 	t_vector	v_vert;
+	double		focal_length;
 	double		vh;
 	double		vw;
 	double		delta_vh;
 	double		delta_vw;
 	double		asp;
+	double		fov;
 }	t_camera;
 
-t_camera	init_cam(t_mlx *mlx);
+// camera
+t_camera	init_cam(void);
+
+// hooks
+int			escape(int keycode, void *param);
+
+// vectors
 void		set_vector_points(t_vector *v, double x, double y, double z);
+double		dot_product(t_vector *vec1, t_vector *vec2);
+void 		normalize(t_vector *vector);
+t_vector	add_vectors(t_vector *vec1, t_vector *vec2);
+void		scalar(t_vector *vec, double scalar);
 
 #endif
