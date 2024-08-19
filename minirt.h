@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/18 13:13:20 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:26:19 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_img
 	int		endian;
 }		t_img;
 
+
 typedef struct s_mlx
 {
 	void	*mlx;
@@ -56,6 +57,12 @@ typedef struct	s_vector
 	double	y;
 	double	z;
 }	t_vector;
+
+typedef struct	s_color
+{
+	t_vector	*color;
+	double		alpha;
+}	t_color;
 
 typedef struct s_ray
 {
@@ -85,10 +92,12 @@ t_camera	init_cam(void);
 int			escape(int keycode, void *param);
 
 // vectors
+t_vector	subtract_vectors(t_vector *vec1, t_vector *vec2);
 void		set_vector_points(t_vector *v, double x, double y, double z);
 double		dot_product(t_vector *vec1, t_vector *vec2);
 void 		normalize(t_vector *vector);
 t_vector	add_vectors(t_vector *vec1, t_vector *vec2);
 void		scalar(t_vector *vec, double scalar);
+t_vector	return_scalar(t_vector *vec, double scalar);
 
 #endif

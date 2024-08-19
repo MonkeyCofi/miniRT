@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/18 13:46:21 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:30:02 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,22 @@ void	draw_pixel(t_mlx *mlx, int x, int y, int color)
 	return ;
 }
 
-void	set_ray_color(t_camera *cam, t_ray *ray, int color)
+int	get_ray_color(t_color	*color)
 {
-	ray->color = color;
-	(void)cam;
+	int	r;
+	int	g;
+	int	b;
+	int	a;
+
+	r = color->color->x * 255;
+	g = color->color->y * 255;
+	b = color->color->z * 255;
+	a = color->alpha * 255;
+	return (a << 24 | r << 16 | g << 8 | b);
 }
 
 //int	return_color(t_mlx *mlx, t_camera *cam, t_vector *ray)
-double	shoot_ray(t_mlx *mlx, t_camera *cam, int i, int j)
+int	shoot_ray(t_mlx *mlx, t_camera *cam, int i, int j)
 {
 	double		a;
 	double		b;
@@ -48,7 +56,28 @@ double	shoot_ray(t_mlx *mlx, t_camera *cam, int i, int j)
 	disc = b * b - (4 * a * c);
 	if (disc <= 0)
 		return (-1);
-	return (-b - sqrt(disc / (2 * a)));
+	// for the lower end of the quadratic equation
+	{
+		double q0 = -b - disc / (2 * a);
+		// get the hit normal
+		t_vector ray_dir = return_scalar(&ray.ray, cam->focal_length);
+		t_vector hit = add_vectors(&cam->camera, &ray_dir);	// origin + direction * current point in the ray
+		t_color color;
+		color.color = &hit;
+		color.alpha = 1;
+		draw_pixel(mlx, j, i, get_ray_color(&color));
+	}
+	{
+		double q1 = -b + disc / (2 * a);
+		// get the hit normal
+		t_vector ray_dir = return_scalar(&ray.ray, cam->focal_length);
+		t_vector hit = add_vectors(&cam->camera, &ray_dir);	// origin + direction * current point in the ray
+		t_color color;
+		color.color = &hit;
+		color.alpha = 1;
+		draw_pixel(mlx, j, i, get_ray_color(&color));
+	}
+	return (1);
 }
 
 void	render(t_mlx *mlx, t_camera *cam)
@@ -64,7 +93,6 @@ void	render(t_mlx *mlx, t_camera *cam)
 		while (j < WIDTH)
 		{
 			double hit = shoot_ray(mlx, cam, i, j);
-			//draw_pixel(mlx, j, i, );
 			j++;
 		}
 		i++;
@@ -83,14 +111,13 @@ int	init_mlx(t_mlx *mlx)
 	if (!(mlx->img.img))
 		return (-1);
 	mlx->img.img_addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.line_length, &mlx->img.endian);
-	//mlx_hook(mlx->win, 17, 0, destroy, mlx);
 	if (!APPLE)
 		mlx_hook(mlx->win, 2, 1L << 0, escape, mlx);
 	else
 		mlx_hook(mlx->win, 2, 0, escape, mlx);
 	return (1);
 }
-
+// ORIGIN + (DIRECTION * POINT ALONG THE RAY))
 int main(void)
 {
 	t_mlx		mlx;
