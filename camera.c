@@ -22,7 +22,7 @@ t_camera	init_cam(void)
 	cam.vh = HEIGHT * 2;
 	cam.vw = WIDTH * 2;
 	cam.focal_length = 1.0;	// the distance from te camera to the viewport
-	set_vector_points(&cam.camera, 0, 0, -1);
+	set_vector_points(&cam.camera, 0, 0, -0.8);
 	set_vector_points(&cam.v_horiz, cam.vh, 0, 0);
 	set_vector_points(&cam.v_vert, 0, -cam.vw, 0);
 	cam.delta_vh = cam.vh / HEIGHT;

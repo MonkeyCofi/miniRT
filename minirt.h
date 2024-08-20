@@ -66,8 +66,8 @@ typedef struct	s_color
 
 typedef struct s_ray
 {
-	t_vector ray;
-	int		color;
+	t_vector	origin;
+	t_vector	direction;
 }	t_ray;
 
 
