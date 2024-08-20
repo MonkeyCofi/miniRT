@@ -4,7 +4,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
-CFLAGS	= -g3
+#CFLAGS += -fsanitize=address -g3
 
 SRCS = minirt.c camera.c vectors.c hooks.c
 

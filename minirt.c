@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/19 19:30:02 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:40:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,42 @@ void	draw_pixel(t_mlx *mlx, int x, int y, int color)
 	return ;
 }
 
+void	set_min_max(t_vector *color)
+{
+	if (color->x < 0)
+		color->x = 0;
+	if (color->x > 1)
+		color->x = 1;
+	if (color->y < 0)
+		color->y = 0;
+	if (color->y > 1)
+		color->y = 1;
+	if (color->z < 0)
+		color->z = 0;
+	if (color->z > 1)
+		color->z = 1;
+}
+
 int	get_ray_color(t_color	*color)
 {
-	int	r;
-	int	g;
-	int	b;
-	int	a;
+	int8_t	r;
+	int8_t	g;
+	int8_t	b;
+	int8_t	a;
+	int	res;
 
-	r = color->color->x * 255;
-	g = color->color->y * 255;
-	b = color->color->z * 255;
-	a = color->alpha * 255;
-	return (a << 24 | r << 16 | g << 8 | b);
+	//set_min_max(&color->color);
+	r = color->color.x * 255;
+	g = color->color.y * 255;
+	b = color->color.z * 255;
+	a = color->alpha;
+	res = a << 24 | r << 16 | g << 8 | b;
+	return (res);
+}
+
+double	magnitude(t_vector *vec)
+{
+	return (sqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z));
 }
 
 //int	return_color(t_mlx *mlx, t_camera *cam, t_vector *ray)
@@ -46,6 +70,7 @@ int	shoot_ray(t_mlx *mlx, t_camera *cam, int i, int j)
 	double		c;
 	double		disc;
 	t_ray		ray;
+	t_color		color;
 
 	ft_bzero(&ray, sizeof(t_ray));
 	double r = 0.5;
@@ -55,29 +80,24 @@ int	shoot_ray(t_mlx *mlx, t_camera *cam, int i, int j)
 	c = dot_product(&cam->camera, &cam->camera) - r * r;
 	disc = b * b - (4 * a * c);
 	if (disc <= 0)
-		return (-1);
-	// for the lower end of the quadratic equation
 	{
-		double q0 = -b - disc / (2 * a);
-		// get the hit normal
-		t_vector ray_dir = return_scalar(&ray.ray, cam->focal_length);
-		t_vector hit = add_vectors(&cam->camera, &ray_dir);	// origin + direction * current point in the ray
-		t_color color;
-		color.color = &hit;
+		color.color.x = 0;
+		color.color.y = 50;
+		color.color.z = 0;
 		color.alpha = 1;
-		draw_pixel(mlx, j, i, get_ray_color(&color));
+		return (get_ray_color(&color));
 	}
-	{
-		double q1 = -b + disc / (2 * a);
-		// get the hit normal
-		t_vector ray_dir = return_scalar(&ray.ray, cam->focal_length);
-		t_vector hit = add_vectors(&cam->camera, &ray_dir);	// origin + direction * current point in the ray
-		t_color color;
-		color.color = &hit;
-		color.alpha = 1;
-		draw_pixel(mlx, j, i, get_ray_color(&color));
-	}
-	return (1);
+	double q0 = (-b - sqrt(disc)) / (2 * a);
+	t_vector ray_dir = return_scalar(&ray.ray, q0);
+	normalize(&ray_dir);
+	t_vector hit = add_vectors(&cam->camera, &ray_dir);
+	color.color = hit;
+	color.alpha = 1;
+	color.color.x = 0.5 * hit.x + 1;
+	color.color.y = 0.5 * hit.y + 1;
+	color.color.z = 0.5 * hit.z + 1;
+	(void)mlx;
+	return (get_ray_color(&color));
 }
 
 void	render(t_mlx *mlx, t_camera *cam)
@@ -92,7 +112,10 @@ void	render(t_mlx *mlx, t_camera *cam)
 		j = 0;
 		while (j < WIDTH)
 		{
-			double hit = shoot_ray(mlx, cam, i, j);
+			//double hit = shoot_ray(mlx, cam, i, j);
+			int	color = shoot_ray(mlx, cam, i, j);
+			//printf("%d\n", color);
+			draw_pixel(mlx, j, i, color);
 			j++;
 		}
 		i++;

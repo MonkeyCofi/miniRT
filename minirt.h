@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/19 19:26:19 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:27:50 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct	s_vector
 
 typedef struct	s_color
 {
-	t_vector	*color;
+	t_vector	color;
 	double		alpha;
 }	t_color;
 
