@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:57:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/19 19:28:59 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/21 12:15:47 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,11 @@ void normalize(t_vector *vector)
 	vector->x /= magnitude;
 	vector->y /= magnitude;
 	vector->z /= magnitude;
+}
+
+void	negate(t_vector *to_negate)
+{
+	to_negate->x *= -1;
+	to_negate->y *= -1;
+	to_negate->z *= -1;
 }

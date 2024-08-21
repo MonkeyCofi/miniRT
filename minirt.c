@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/20 19:40:44 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:07:57 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,19 @@ void	set_min_max(t_vector *color)
 		color->z = 1;
 }
 
-int	get_ray_color(t_color	*color)
+uint32_t	get_ray_color(t_color	*color)
 {
-	int8_t	r;
-	int8_t	g;
-	int8_t	b;
-	int8_t	a;
-	int		res;
+	uint8_t			r;
+	uint8_t			g;
+	uint8_t			b;
+	uint8_t			a;
+	uint32_t		res;
 
 	set_min_max(&color->color);
 	r = color->color.x * 255;
 	g = color->color.y * 255;
 	b = color->color.z * 255;
-	a = color->alpha;
+	a = 1;
 	res = a << 24 | r << 16 | g << 8 | b;
 	return (res);
 }
@@ -75,7 +75,7 @@ int	shoot_ray( t_camera *cam, int i, int j)
 	ft_bzero(&ray, sizeof(t_ray));
 	double r = 0.5;
 	set_vector_points(&ray.origin, cam->camera.x, cam->camera.y, cam->camera.z);
-	set_vector_points(&ray.direction, ((double)j / WIDTH * 2 - 1) * cam->asp, (double)i / HEIGHT * 2 - 1, -1);
+	set_vector_points(&ray.direction, ((double)j / WIDTH * 2 - 1) * cam->asp, ((double)i / HEIGHT * 2 - 1), -cam->camera.z);
 	a = dot_product(&ray.direction, &ray.direction);
 	b = -2.0 * dot_product(&ray.direction, &ray.origin);
 	c = dot_product(&ray.origin, &ray.origin) - r * r;
@@ -90,23 +90,16 @@ int	shoot_ray( t_camera *cam, int i, int j)
 	}
 	double q0 = (-b - sqrt(disc)) / (2 * a);
 	t_vector ray_dir = return_scalar(&ray.direction, q0);
-	normalize(&ray_dir);
 	t_vector light;
 	set_vector_points(&light, -1, -1, -1);
-	light.x *= -1;
-	light.x *= -1;
-	light.x *= -1;
-	normalize(&light);
+	negate(&light);
 	t_vector hit = add_vectors(&ray.origin, &ray_dir);
-	normalize(&hit);
+	//normalize(&hit);
 	double t = dot_product(&hit, &light);
-	if (t < 0)
-		t = 0;
-	color.color.x = 10;
+	color.color.x = 0;
 	color.color.y = 0;
-	color.color.z = 4;
+	color.color.z = 0.4;
 	scalar(&color.color, t);
-	// color.color = hit;
 	color.alpha = 1;
 	return (get_ray_color(&color));
 }

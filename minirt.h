@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/20 19:27:50 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/21 12:15:55 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ void 		normalize(t_vector *vector);
 t_vector	add_vectors(t_vector *vec1, t_vector *vec2);
 void		scalar(t_vector *vec, double scalar);
 t_vector	return_scalar(t_vector *vec, double scalar);
+void		negate(t_vector *to_negate);
 
 #endif
