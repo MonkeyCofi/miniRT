@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hooks.c                                            :+:      :+:    :+:   */
+/*   my_mlx.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/21 15:53:36 by pipolint         ###   ########.fr       */
+/*   Created: 2024/08/21 16:13:37 by pipolint          #+#    #+#             */
+/*   Updated: 2024/08/21 16:13:55 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#ifndef MY_MLX_H
+# define MY_MLX_H
 
-int	destroy(void *param)
+typedef struct s_img
 {
-	t_mlx	*mlx;
+	void	*img;
+	char	*img_addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
+}		t_img;
 
-	mlx = param;
-	mlx_destroy_window(mlx->mlx, mlx->win);
-	exit(0);
-}
-
-int	escape(int keycode, void *param)
+typedef struct s_mlx
 {
-	t_mlx	*mlx;
+	void	*mlx;
+	void	*win;
+	t_img	img;
+}	t_mlx;
 
-	mlx = param;
-	if (keycode == ESC)
-	{
-		mlx_destroy_window(mlx->mlx, mlx->win);
-		exit(0);
-	}
-	return (1);
-}
+#endif

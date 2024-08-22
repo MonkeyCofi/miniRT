@@ -2,11 +2,13 @@ NAME = minirt
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
-
 #CFLAGS += -fsanitize=address -g3
 
-SRCS = minirt.c camera.c vectors.c hooks.c
+INCLUDES = ./includes
+
+CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES)
+
+SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c
 
 OBJS = $(SRCS:.c=.o)
 

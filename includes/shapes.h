@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hooks.c                                            :+:      :+:    :+:   */
+/*   shapes.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/21 15:53:36 by pipolint         ###   ########.fr       */
+/*   Created: 2024/08/21 19:15:08 by pipolint          #+#    #+#             */
+/*   Updated: 2024/08/21 19:24:29 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#ifndef SHAPES_H
+# define SHAPES_H
 
-int	destroy(void *param)
+# include "minirt.h"
+
+typedef struct	s_sphere
 {
-	t_mlx	*mlx;
+	t_color	*color;
+	t_ray	*ray;
+	double	radius;
+	int		hit;
+}	t_sphere;
 
-	mlx = param;
-	mlx_destroy_window(mlx->mlx, mlx->win);
-	exit(0);
-}
 
-int	escape(int keycode, void *param)
-{
-	t_mlx	*mlx;
-
-	mlx = param;
-	if (keycode == ESC)
-	{
-		mlx_destroy_window(mlx->mlx, mlx->win);
-		exit(0);
-	}
-	return (1);
-}
+#endif

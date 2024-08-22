@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hooks.c                                            :+:      :+:    :+:   */
+/*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/21 15:53:36 by pipolint         ###   ########.fr       */
+/*   Created: 2024/08/21 16:15:14 by pipolint          #+#    #+#             */
+/*   Updated: 2024/08/21 16:16:56 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#ifndef CAMERA_H
+# define CAMERA_H
 
-int	destroy(void *param)
+# include "vectors.h"
+
+typedef struct s_camera
 {
-	t_mlx	*mlx;
+	t_vector	camera;
+	t_vector	v_horiz;
+	t_vector	v_vert;
+	double		focal_length;
+	double		vh;
+	double		vw;
+	double		delta_vh;
+	double		delta_vw;
+	double		asp;
+	double		fov;
+}	t_camera;
 
-	mlx = param;
-	mlx_destroy_window(mlx->mlx, mlx->win);
-	exit(0);
-}
+t_camera	init_cam(void);
 
-int	escape(int keycode, void *param)
-{
-	t_mlx	*mlx;
-
-	mlx = param;
-	if (keycode == ESC)
-	{
-		mlx_destroy_window(mlx->mlx, mlx->win);
-		exit(0);
-	}
-	return (1);
-}
+#endif
