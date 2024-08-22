@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/21 19:09:42 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/22 10:14:43 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,23 @@ int	init_mlx(t_mlx *mlx)
 	return (1);
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
 	t_mlx		mlx;
 	t_camera	cam;
 
-	init_mlx(&mlx);
-	cam = init_cam();
-	render(&mlx, &cam);
-	mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
-	mlx_loop(mlx.mlx);
+	(void)argc;
+	if(!fileopen(argv[1])){
+		init_mlx(&mlx);
+		cam = init_cam();
+		render(&mlx, &cam);
+		mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
+		mlx_loop(mlx.mlx);
+	}
+	// init_mlx(&mlx);
+	// cam = init_cam();
+	// render(&mlx, &cam);
+	// mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
+	// mlx_loop(mlx.mlx);
 }
+

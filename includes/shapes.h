@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shapes.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 19:15:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/21 19:24:29 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/22 10:26:15 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,7 @@
 
 # include "minirt.h"
 
-typedef struct	s_sphere
-{
-	t_color	*color;
-	t_ray	*ray;
-	double	radius;
-	int		hit;
-}	t_sphere;
+
 
 
 #endif
