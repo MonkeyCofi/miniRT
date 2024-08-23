@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 18:49:48 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/23 18:50:30 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	render(t_mlx *mlx, t_minirt *minirt)
 		while (j < WIDTH)
 		{
 			//int	color = intersect_sphere(cam, i, j);
-			sphere_hit(cam, i, j);
+			sphere_hit(minirt->cam, i, j);
 			//draw_pixel(mlx, j, i, color);
 			j++;
 		}
