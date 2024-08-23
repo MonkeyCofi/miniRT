@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/08/23 13:03:37 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/08/23 13:21:10 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@
 int	dovector(char *string, t_vector *calc)
 {
 	char	**str;
-	int		i = -1;
-	int		ret = 0;
+	int		i;
+	int		ret;
+	
+	i = -1;
+	ret = 0;
 	str = ft_split(string, ',');
-	while(str && str[++i])
-		if(!is_float(str[i]))
+	while (str && str[++i])
+	{
+		if (!is_float(str[i]))
 			ret = 1;
-	if(arr_len(str) != 3)
+	}
+	if (arr_len(str) != 3)
 		ret = 1;
 	else
 	{
@@ -40,10 +45,10 @@ int	parse_camera(t_cameraparse *cam, char *string)
 	int i = 0;
 	
 	str = ft_split(string, ' ');
-	if(cam->flag != 0)
+	if(cam->flag != false)
 		return (1);
 	else
-		cam->flag = 1;
+		cam->flag = true;
 	if(arr_len(str) != 4)
 		return (1);
 	while(string && string[i++])
@@ -64,9 +69,9 @@ int	parsing(char *str, t_cameraparse *cam)
 {
 	if (strncmp(str, "A", 1) == 0)
 		return (0);
-	else if(strncmp(str, "C", 1) == 0)
+	else if (strncmp(str, "C", 1) == 0)
 		return (parse_camera(cam, str));
-	else if(strncmp(str, "L", 1) == 0)
+	else if (strncmp(str, "L", 1) == 0)
 		return (0);
 	else if (strncmp(str, "sp", 2) == 0)
 		return (0);
@@ -80,7 +85,7 @@ int	rt_file(char *str)
 
 	len = ft_strlen(str) - 3;	
 	if(len > 3)
-		return((ft_strncmp((str + len), ".rt", 3) == 0));
+		return ((ft_strncmp((str + len), ".rt", 3) == 0));
 	return (0);
 }
 
@@ -142,17 +147,17 @@ int	fileopen(char *path, t_cameraparse *cam)
 
 	int fd;
 	fd = open(path, O_RDONLY);
-	if(fd == -1)
+	if (fd == -1)
 	{
 		printf("error message should be here lol, ig we'll make a function for exiting");
 		return (1);
 	}
-	if(!rt_file(path))
+	if (!rt_file(path))
 	{
 		printf("Another error message, this one for the fact that its not a rt file");
 		return (1);
 	}
-	if(getmap(fd, cam) == 1)
+	if (getmap(fd, cam) == 1)
 		return (1);
 	return (0);
 }
