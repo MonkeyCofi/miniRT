@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 18:50:30 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/23 19:24:37 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ void	draw_pixel(t_mlx *mlx, int x, int y, int color)
 t_bool	sphere_hit(t_camera *cam, int i, int j)
 {
 	t_sphere	sphere;
-	t_vector 	light;
 	t_hit		hit;
-	double		variables[3];
+	double		variables[4];
 	double		disc;
 	double		quad;
 
@@ -47,12 +46,18 @@ t_bool	sphere_hit(t_camera *cam, int i, int j)
 	disc = variables[1] * variables[1] - (variables[0] * variables[2]);
 	if (disc < 0)
 		return (false);
-	quad = (variables[1] + sqrt(disc)) / (variables[0]);
-	printf("%f\n", quad);
-	sphere.normal = return_scalar(&hit.hit.direction, quad);
-	hit.hit.direction = add_vectors(&hit.hit.origin, &sphere.normal);
-	sphere.hit.t = dot_product(&hit.hit.direction, &light); 
-	return (false);
+	variables[3] = sqrt(disc);
+	quad = (variables[1] - variables[3]) / (variables[0]);
+	if (quad >= T_MIN && quad <= T_MAX)
+	{
+		quad = ((variables[1] + variables[3]) / variables[0]);
+		if (quad >= T_MAX || quad <= T_MIN)
+			return (false);
+	}
+	//sphere.normal = return_scalar(&hit.hit.direction, quad);
+	//hit.hit.direction = add_vectors(&hit.hit.origin, &sphere.normal);
+	//sphere.hit.t = dot_product(&hit.hit.direction, &light); 
+	return (true);
 }
 
 void	render(t_mlx *mlx, t_minirt *minirt)
@@ -67,9 +72,9 @@ void	render(t_mlx *mlx, t_minirt *minirt)
 		j = 0;
 		while (j < WIDTH)
 		{
-			//int	color = intersect_sphere(cam, i, j);
-			sphere_hit(minirt->cam, i, j);
-			//draw_pixel(mlx, j, i, color);
+			t_bool hit = sphere_hit(minirt->cam, i, j);
+			if (hit)
+				draw_pixel(mlx, j, i, 0xf0f0f0);
 			j++;
 		}
 		i++;

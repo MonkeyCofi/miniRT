@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 18:50:11 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/23 19:25:36 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <fcntl.h>
 
 # define PI 3.1415926535897932385
-# define T_MIN 10.0f
-# define T_MAX 10000.0f
+# define T_MIN (double)10.0
+# define T_MAX (double)1000.0
 
 # ifdef __APPLE__
 #  define HEIGHT 1080
