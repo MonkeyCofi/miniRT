@@ -3,29 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 11:37:40 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:17:16 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_camera	init_cam(void)
+void	init_cam(t_minirt *minirt)
 {
-	t_camera	cam;
-
-	ft_bzero(&cam, sizeof(t_camera));
-	cam.asp = ((double)WIDTH / HEIGHT);
-	cam.vh = HEIGHT * 2;
-	cam.vw = WIDTH * 2;
-	cam.focal_length = 1.0;	// the distance from te camera to the viewport
-	set_vector_points(&cam.camera, 0, 0, 0);
-	set_vector_points(&cam.v_horiz, cam.vh, 0, 0);
-	set_vector_points(&cam.v_vert, 0, -cam.vw, 0);
-	cam.delta_vh = cam.vh / HEIGHT;
-	cam.delta_vw = cam.vw / WIDTH;
-	cam.fov = 45 * (PI / 180);
-	return (cam);
+	minirt->cam->asp = ((double)WIDTH / HEIGHT);
+	minirt->cam->vh = HEIGHT * 2;
+	minirt->cam->vw = WIDTH * 2;
+	minirt->cam->focal_length = 1.0;	// the distance from te camera to the viewport
+	// set_vector_points(&minirt->cam->camera, 0, 0, 0);
+	set_vector_points(&minirt->cam->v_horiz, minirt->cam->vh, 0, 0);
+	set_vector_points(&minirt->cam->v_vert, 0, -minirt->cam->vw, 0);
+	minirt->cam->delta_vh = minirt->cam->vh / HEIGHT;
+	minirt->cam->delta_vw = minirt->cam->vw / WIDTH;
+	// cam.fov = 45 * (PI / 180);
 }

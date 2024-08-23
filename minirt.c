@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 13:06:53 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:33:19 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	draw_pixel(t_mlx *mlx, int x, int y, int color)
 	return ;
 }
 
-int	intersect_sphere(t_camera *cam, int i, int j)
+int	intersect_sphere(t_minirt *minirt, int i, int j)
 {
 	t_sphere	sphere;
 	t_hit		hit;
@@ -38,8 +38,9 @@ int	intersect_sphere(t_camera *cam, int i, int j)
 	sphere.color->color.y = 0.39;
 	sphere.color->color.z = 0;
 	sphere.radius = 0.5;
-	set_vector_points(&hit.hit.origin, cam->camera.x, cam->camera.y, cam->camera.z);
-	set_vector_points(&hit.hit.direction, ((double)j / WIDTH * 2 - 1) * cam->asp, ((double)i / HEIGHT * 2 - 1), cam->camera.z);
+	// printf("x %f y %f z %f\n", minirt->cam->camera.x, minirt->cam->camera.y, minirt->cam->camera.z);
+	set_vector_points(&hit.hit.origin, minirt->cam->camera.x, minirt->cam->camera.y, minirt->cam->camera.z);
+	set_vector_points(&hit.hit.direction, ((double)j / WIDTH * 2 - 1) * minirt->cam->asp, ((double)i / HEIGHT * 2 - 1), minirt->cam->camera.z);
 	a = dot_product(&hit.hit.direction, &hit.hit.direction);
 	b = -2.0 * dot_product(&hit.hit.direction, &hit.hit.origin);
 	c = dot_product(&hit.hit.origin, &hit.hit.origin) - sphere.radius * sphere.radius;
@@ -64,7 +65,7 @@ int	intersect_sphere(t_camera *cam, int i, int j)
 	return (get_ray_color(sphere.color));
 }
 
-void	render(t_mlx *mlx, t_camera *cam)
+void	render(t_mlx *mlx, t_minirt *minirt)
 {
 	int			i;
 	int			j;
@@ -75,7 +76,7 @@ void	render(t_mlx *mlx, t_camera *cam)
 		j = 0;
 		while (j < WIDTH)
 		{
-			int	color = intersect_sphere(cam, i, j);
+			int	color = intersect_sphere(minirt, i, j);
 			draw_pixel(mlx, j, i, color);
 			j++;
 		}
@@ -108,26 +109,22 @@ int	init_mlx(t_mlx *mlx)
 int main(int argc, char **argv)
 {
 	t_mlx		mlx;
-	t_camera	cam;
-	t_cameraparse camp;
-	camp.flag = 0;
-	(void)argc;
+	t_minirt	* minirt;
+
+	minirt = malloc(sizeof(minirt));
+	minirt->cam = malloc(sizeof(t_camera));
+	minirt->cam->flag = false;
 	if(argc == 2)
 	{
-		if(!fileopen(argv[1], &camp)){
+		if(!fileopen(argv[1], minirt)){
 			init_mlx(&mlx);
-			cam = init_cam();
-			render(&mlx, &cam);
+			init_cam(minirt);
+			render(&mlx, minirt);
 				mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
 			mlx_loop(mlx.mlx);
-		}	
+		}
 	}
 	else
 		printf("Insufficient amount of arguments!\n");
-	// init_mlx(&mlx);
-	// cam = init_cam();
-	// render(&mlx, &cam);
-	// mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
-	// mlx_loop(mlx.mlx);
 }
 

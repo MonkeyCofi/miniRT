@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 13:17:53 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:13:57 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct	s_color
 typedef struct s_camera
 {
 	t_vector	camera;
+	t_vector	orientation;
 	t_vector	v_horiz;
 	t_vector	v_vert;
 	double		focal_length;
@@ -43,7 +44,7 @@ typedef struct s_camera
 	double		delta_vh;
 	double		delta_vw;
 	double		asp;
-	double		fov;
+	int			fov;
 	t_bool		flag;
 }	t_camera;
 

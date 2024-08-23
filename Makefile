@@ -2,11 +2,10 @@ NAME = minirt
 
 CC = cc
 
-#CFLAGS += -fsanitize=address -g3
-
 INCLUDES = ./includes
 
 CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES)
+# CFLAGS += -fsanitize=address -g3
 
 SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c parsing.c utils.c
 
@@ -32,10 +31,10 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	make -C $(MLXOS)
 	make -C $(LIBFT_DIR)
-	$(CC) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+	$(CC) $(OBJS) -fsanitize=address -g3 $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -g3 -c $< -o $@
 
 run: re
 	./$(NAME)
