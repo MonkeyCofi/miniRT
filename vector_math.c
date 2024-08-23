@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:57:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/21 16:29:05 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:45:50 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,12 @@ t_vector	return_scalar(t_vector *vec, double scalar)
 	resultant.y = vec->y * scalar;
 	resultant.z = vec->z * scalar;
 	return (resultant);
+}
+
+t_vector	return_at(t_ray *ray, double t)
+{
+	t_vector	new;
+
+	new = return_scalar(&ray->direction, t);
+	return (add_vectors(&ray->origin, &new));
 }

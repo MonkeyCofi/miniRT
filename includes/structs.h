@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 14:13:57 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/08/23 18:49:06 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@ typedef struct s_ray
 
 typedef struct	s_hit
 {
-	t_ray	hit;
-	double	t;
+	t_ray		hit;
+	t_vector	normal;
+	double		t;
 }	t_hit;
 
 typedef struct s_img
@@ -78,11 +79,11 @@ typedef struct s_mlx
 
 typedef struct	s_sphere
 {
-	t_color	*color;
-	//t_ray	*ray;
-	double	radius;
-	double	center;
-	int		hit;
+	t_color		*color;
+	t_vector	normal;
+	double		radius;
+	double		center;
+	t_hit		hit;
 }	t_sphere;
 
 typedef struct s_minirt

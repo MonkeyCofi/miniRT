@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 14:17:15 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/08/23 18:50:11 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-# define PI 3.14159
+# define PI 3.1415926535897932385
+# define T_MIN 10.0f
+# define T_MAX 10000.0f
 
 # ifdef __APPLE__
 #  define HEIGHT 1080
