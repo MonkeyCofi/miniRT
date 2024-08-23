@@ -8,7 +8,7 @@ INCLUDES = ./includes
 
 CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES)
 
-SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c parsing.c
+SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c parsing.c utils.c
 
 OBJS = $(SRCS:.c=.o)
 

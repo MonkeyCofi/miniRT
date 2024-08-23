@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/22 10:14:43 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/08/23 12:09:18 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,15 +109,21 @@ int main(int argc, char **argv)
 {
 	t_mlx		mlx;
 	t_camera	cam;
-
+	t_cameraparse camp;
+	camp.flag = 0;
 	(void)argc;
-	if(!fileopen(argv[1])){
-		init_mlx(&mlx);
-		cam = init_cam();
-		render(&mlx, &cam);
-		mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
-		mlx_loop(mlx.mlx);
+	if(argc == 2)
+	{
+		if(!fileopen(argv[1], &camp)){
+			init_mlx(&mlx);
+			cam = init_cam();
+			render(&mlx, &cam);
+				mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
+			mlx_loop(mlx.mlx);
+		}	
 	}
+	else
+		printf("Insufficient amount of arguments!\n");
 	// init_mlx(&mlx);
 	// cam = init_cam();
 	// render(&mlx, &cam);
