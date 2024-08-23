@@ -6,19 +6,14 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 15:27:59 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/21 16:12:52 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/22 18:11:15 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTORS_H
 # define VECTORS_H
 
-typedef struct	s_vector
-{
-	double	x;
-	double	y;
-	double	z;
-}	t_vector;
+# include "structs.h"
 
 t_vector	subtract_vectors(t_vector *vec1, t_vector *vec2);
 void		set_vector_points(t_vector *v, double x, double y, double z);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 09:24:06 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/08/23 13:08:05 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@
 # include "../libft/libft.h"
 # include "../mlx/mlx.h"
 # include <math.h>
-# include "shapes.h"
 # include "vectors.h"
-# include "my_mlx.h"
 # include "camera.h"
+# include "structs.h"
 # include <stdio.h>
 # include <fcntl.h>
 
@@ -42,27 +41,6 @@ typedef struct s_ray
 	t_vector	direction;
 }	t_ray;
 
-typedef struct	s_color
-{
-	t_vector	color;
-	double		alpha;
-}	t_color;
-
-typedef struct	s_sphere
-{
-	t_color	*color;
-	t_ray	*ray;
-	double	radius;
-	int		hit;
-}	t_sphere;
-
-typedef struct s_cameraparse
-{
-	t_vector	campos;
-	int	fov;
-	int	flag;
-	t_vector	vec;
-}	t_cameraparse;
 
 int			escape(int keycode, void *param);
 int			destroy(void *param);

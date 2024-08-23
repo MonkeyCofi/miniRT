@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 12:09:18 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/08/23 13:06:53 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,44 +24,44 @@ void	draw_pixel(t_mlx *mlx, int x, int y, int color)
 	return ;
 }
 
-int	shoot_ray( t_camera *cam, int i, int j)
+int	intersect_sphere(t_camera *cam, int i, int j)
 {
+	t_sphere	sphere;
+	t_hit		hit;
 	double		a;
 	double		b;
 	double		c;
 	double		disc;
-	t_ray		ray;
-	t_color		color;
 
-	ft_bzero(&ray, sizeof(t_ray));
-	double r = 0.5;
-	set_vector_points(&ray.origin, cam->camera.x, cam->camera.y, cam->camera.z);
-	set_vector_points(&ray.direction, ((double)j / WIDTH * 2 - 1) * cam->asp, ((double)i / HEIGHT * 2 - 1), cam->camera.z);
-	a = dot_product(&ray.direction, &ray.direction);
-	b = -2.0 * dot_product(&ray.direction, &ray.origin);
-	c = dot_product(&ray.origin, &ray.origin) - r * r;
+	sphere.color = malloc(sizeof(t_color));
+	sphere.color->color.x = 0.94;
+	sphere.color->color.y = 0.39;
+	sphere.color->color.z = 0;
+	sphere.radius = 0.5;
+	set_vector_points(&hit.hit.origin, cam->camera.x, cam->camera.y, cam->camera.z);
+	set_vector_points(&hit.hit.direction, ((double)j / WIDTH * 2 - 1) * cam->asp, ((double)i / HEIGHT * 2 - 1), cam->camera.z);
+	a = dot_product(&hit.hit.direction, &hit.hit.direction);
+	b = -2.0 * dot_product(&hit.hit.direction, &hit.hit.origin);
+	c = dot_product(&hit.hit.origin, &hit.hit.origin) - sphere.radius * sphere.radius;
 	disc = b * b - (4 * a * c);
 	if (disc < 0)
 	{
-		color.color.x = 0.1;
-		color.color.y = 0.5;
-		color.color.z = 0.5;
-		color.alpha = 0.2;
-		return (get_ray_color(&color));
+		sphere.color->color.x = 0.1;
+		sphere.color->color.y = 0.5;
+		sphere.color->color.z = 0.5;
+		sphere.color->alpha = 0.2;
+		return (get_ray_color(sphere.color));
 	}
 	double q0 = (-b + sqrt(disc)) / (2 * a);
-	t_vector ray_dir = return_scalar(&ray.direction, q0);
+	t_vector ray_dir = return_scalar(&hit.hit.direction, q0);
 	t_vector light;
 	set_vector_points(&light, -1, -1, 1);
 	negate(&light);
-	t_vector hit = add_vectors(&ray.origin, &ray_dir);
-	double t = dot_product(&hit, &light);
-	color.color.x = 0.94;
-	color.color.y = 0.39;
-	color.color.z = 0;
-	scalar(&color.color, t);
-	color.alpha = 1;
-	return (get_ray_color(&color));
+	hit.hit.direction = add_vectors(&hit.hit.origin, &ray_dir);
+	double t = dot_product(&hit.hit.direction, &light);
+	scalar(&sphere.color->color, t);
+	sphere.color->alpha = 1;
+	return (get_ray_color(sphere.color));
 }
 
 void	render(t_mlx *mlx, t_camera *cam)
@@ -75,7 +75,7 @@ void	render(t_mlx *mlx, t_camera *cam)
 		j = 0;
 		while (j < WIDTH)
 		{
-			int	color = shoot_ray(cam, i, j);
+			int	color = intersect_sphere(cam, i, j);
 			draw_pixel(mlx, j, i, color);
 			j++;
 		}
