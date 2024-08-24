@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/21 16:19:53 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/25 02:25:57 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,28 @@ uint32_t	get_ray_color(t_color	*color)
 	uint8_t			b;
 	uint8_t			a;
 
-	set_min_max(&color->color);
-	r = color->color.x * 255;
-	g = color->color.y * 255;
-	b = color->color.z * 255;
+	set_min_max(&color->colors);
+	r = color->colors.x * 255;
+	g = color->colors.y * 255;
+	b = color->colors.z * 255;
 	a = color->alpha;
+	res = a << 24 | r << 16 | g << 8 | b;
+	return (res);
+}
+
+uint32_t	get_ray_coloraarij(t_vector	*color)
+{
+	uint32_t		res;
+	uint8_t			r;
+	uint8_t			g;
+	uint8_t			b;
+	uint8_t			a;
+
+	set_min_max(color);
+	r = color->x * 255;
+	g = color->y * 255;
+	b = color->z * 255;
+	a = 1;
 	res = a << 24 | r << 16 | g << 8 | b;
 	return (res);
 }

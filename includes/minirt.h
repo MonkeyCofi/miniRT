@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/24 20:23:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/25 02:25:42 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "../libft/libft.h"
+# include "../libft_notclone/libft.h"
 # include "../mlx/mlx.h"
 # include "vectors.h"
 # include "camera.h"
@@ -53,6 +53,7 @@ int			destroy(void *param);
 
 void		set_min_max(t_vector *color);
 uint32_t	get_ray_color(t_color *color);
+uint32_t	get_ray_coloraarij(t_vector	*color);
 
 
 int			fileopen(char *path, t_minirt *minirt);

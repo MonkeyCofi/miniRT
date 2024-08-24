@@ -11,7 +11,7 @@ SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c parsing.c ut
 
 OBJS = $(SRCS:.c=.o)
 
-LIBFT_DIR = libft
+LIBFT_DIR = libft_notclone
 
 LIBFT = $(LIBFT_DIR)/libft.a
 

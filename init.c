@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/24 20:27:55 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/25 02:19:12 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ t_minirt	*init_minirt(t_mlx *mlx)
 	ret->cam = malloc(sizeof(t_camera));
 	if (!ret->cam)
 		return (NULL);
+	ret->spheres = malloc(sizeof(t_sphere));
+	if (!ret->spheres)
+		return (NULL);
+	ret->spheres->radius = 0;
 	ret->mlx = mlx;
 	init_cam(ret);
 	return (ret);

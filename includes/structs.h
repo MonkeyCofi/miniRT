@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/24 19:51:16 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/25 01:59:18 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct	s_vector
 
 typedef struct	s_color
 {
-	t_vector	color;
+	t_vector	colors;
 	double		alpha;
 }	t_color;
 
@@ -81,7 +81,8 @@ typedef struct s_mlx
 
 typedef struct	s_sphere
 {
-	t_color		*color;
+	t_vector	color;
+	double		alpha;
 	t_vector	normal;
 	t_vector	center;
 	t_hit		hit;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/08/24 15:42:21 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/25 02:14:28 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,33 @@ int	dovector(char *string, t_vector *calc)
 	return (ret);
 }
 
+int	dovectorcolor(char *string, t_vector *calc)
+{
+	char	**str;
+	int		i;
+	int		ret;
+	
+	i = -1;
+	ret = 0;
+	str = ft_split(string, ',');
+	(void)calc;
+	while (str && str[++i])
+	{
+		if (!is_float(str[i]))
+			ret = 1;
+	}
+	if (arr_len(str) != 3)
+		ret = 1;
+	else
+	{
+		calc->x = str_to_double(str[0]) / 255.0;
+		calc->y = str_to_double(str[1]) / 255.0;
+		calc->z = str_to_double(str[2]) / 255.0;
+	}
+	free_arr(str);
+	return (ret);
+}
+
 int	isulong(char *str)
 {
 	int i = 0;
@@ -58,6 +85,14 @@ int	check_ulong(char *str, int *num)
 	*num = ft_atoi(str);
 	if(*num > 180)
 		return (1);
+	return (0);
+}
+
+int	check_double(char *str, double *num)
+{
+	if(!is_float(str))
+		return (1);
+	*num = str_to_double(str);
 	return (0);
 }
 
@@ -87,15 +122,36 @@ int	parse_camera(t_minirt *minirt, char *string)
 	return (0);
 }
 
+int	parse_sphere(t_minirt *minirt, char *string)
+{
+	int i = 1;
+	char	**str;
+	str = ft_split(string, ' ');
+	if(arr_len(str) != 4)
+		return (1);
+	while(string && string[i++])
+	{
+		if (i == 1 && dovector(str[i], &minirt->spheres->center))
+			return (1);
+		if (i == 2 && check_double(str[i], &minirt->spheres->radius))
+			return (1);
+		if (i == 3 && dovectorcolor(str[i], &minirt->spheres->color))
+			return (1);
+	}
+	free_arr(str);
+	minirt->spheres->radius /= 2;
+	return (0);
+}
+
 int	parsing(char *str, t_minirt *minirt)
 {
+	if (strncmp(str, "sp", 2) == 0)
+		return (parse_sphere(minirt, str));
 	if (strncmp(str, "A", 1) == 0)
 		return (0);
-	else if (strncmp(str, "C", 1) == 0)
+	if (strncmp(str, "C", 1) == 0)
 		return (parse_camera(minirt, str));
-	else if (strncmp(str, "L", 1) == 0)
-		return (0);
-	else if (strncmp(str, "sp", 2) == 0)
+	if (strncmp(str, "L", 1) == 0)
 		return (0);
 	else
 		return (1);
