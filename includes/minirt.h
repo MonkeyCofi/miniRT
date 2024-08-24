@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 19:25:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/24 20:23:36 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 
 # include "../libft/libft.h"
 # include "../mlx/mlx.h"
-# include <math.h>
 # include "vectors.h"
 # include "camera.h"
 # include "structs.h"
+# include "init.h"
+
+# include <math.h>
 # include <stdio.h>
 # include <fcntl.h>
 

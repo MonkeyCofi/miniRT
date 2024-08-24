@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/24 19:00:38 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/24 20:28:02 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,15 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, int i, int j)
 	double		quad;
 
 	sphere.color = malloc(sizeof(t_color));
-	set_vector_points(&sphere.center, 0, 0, 1);
+	sphere.inward_normal = false;
+	set_vector_points(&sphere.center, 0, 0, 0.012);
 	//sphere.color->color.x = 0.94;
 	//sphere.color->color.y = 0.39;
 	//sphere.color->color.z = 0;
 	sphere.radius = 0.5;
-	normalize(&hit.hit.direction);
 	set_vector_points(&hit.hit.origin, cam->camera.x, cam->camera.y, cam->camera.z);
 	set_vector_points(&hit.hit.direction, ((double)j / WIDTH * 2 - 1) * cam->asp, ((double)i / HEIGHT * 2 - 1), cam->camera.z);
+	normalize(&hit.hit.direction);
 	variables[0] = dot_product(&hit.hit.direction, &hit.hit.direction);
 	variables[1] = dot_product(&hit.hit.direction, &hit.hit.origin);
 	variables[2] = dot_product(&hit.hit.origin, &hit.hit.origin) - sphere.radius * sphere.radius;
@@ -59,7 +60,10 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, int i, int j)
 	sphere.hit.t = quad;
 	sphere.hit.p = return_at(&hit.hit, sphere.hit.t);
 	sphere.hit.normal = subtract_vectors(&sphere.center, &sphere.hit.p);
-	set_vector_points(&sphere.hit.normal, sphere.hit.normal.x, -sphere.hit.normal.y, -sphere.hit.normal.z);
+	normalize(&sphere.hit.normal);
+	if (dot_product(&sphere.hit.normal, &hit.hit.direction) < 0)
+		sphere.inward_normal = true;
+	set_vector_points(&sphere.hit.normal, sphere.hit.normal.x, sphere.hit.normal.y, -sphere.hit.normal.z);
 	color.color = sphere.hit.normal;
 	draw_pixel(minirt->mlx, j, i, get_ray_color(&color));
 	return (true);
@@ -88,47 +92,22 @@ void	render(t_mlx *mlx, t_minirt *minirt)
 	(void)ray;
 }
 
-int	init_mlx(t_mlx *mlx)
-{
-	mlx->mlx = mlx_init();
-	mlx->win = mlx_new_window(mlx->mlx, WIDTH, HEIGHT, "miniRT");
-	if (!mlx->win)
-		return (-1);
-	mlx->img.img = mlx_new_image(mlx->mlx, WIDTH, HEIGHT);
-	if (!(mlx->img.img))
-		return (-1);
-	mlx->img.img_addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.line_length, &mlx->img.endian);
-	if (!APPLE)
-	{
-		mlx_hook(mlx->win, 2, 1L << 0, escape, mlx);
-	}
-	else
-	{
-		mlx_hook(mlx->win, 2, 0, escape, mlx);
-		mlx_hook(mlx->win, 17, 0, destroy, mlx);
-	}
-	return (1);
-}
-
 int main(int argc, char **argv)
 {
 	t_mlx		mlx;
 	t_minirt	*minirt;
 
-	minirt = malloc(sizeof(minirt));
-	minirt->cam = malloc(sizeof(t_camera));
-	minirt->cam->flag = false;
 	if(argc == 2)
 	{
-		if(!fileopen(argv[1], minirt)){
+		minirt = init_minirt(&mlx);
+		if(!fileopen(argv[1], minirt))
+		{
 			init_mlx(&mlx);
-			minirt->mlx = &mlx;
-			init_cam(minirt);
-			printf("x y z %f %f %f\n", minirt->cam->camera.x, minirt->cam->camera.y, minirt->cam->camera.z);
 			render(&mlx, minirt);
 				mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
 			mlx_loop(mlx.mlx);
 		}
+		free(minirt);
 	}
 	else
 		printf("Insufficient amount of arguments!\n");

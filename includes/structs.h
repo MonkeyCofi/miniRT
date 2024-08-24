@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/24 18:22:49 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/24 19:51:16 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,9 @@ typedef struct	s_sphere
 	t_color		*color;
 	t_vector	normal;
 	t_vector	center;
-	double		radius;
 	t_hit		hit;
+	double		radius;
+	t_bool		inward_normal;
 }	t_sphere;
 
 typedef struct s_minirt

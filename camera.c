@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/24 15:43:57 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/24 20:21:13 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ void	init_cam(t_minirt *minirt)
 	set_vector_points(&minirt->cam->v_vert, 0, -minirt->cam->vw, 0);
 	minirt->cam->delta_vh = minirt->cam->vh / HEIGHT;
 	minirt->cam->delta_vw = minirt->cam->vw / WIDTH;
+	minirt->cam->flag = false;
 	// cam.fov = 45 * (PI / 180);
 }
