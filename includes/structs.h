@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 18:49:06 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/24 18:22:49 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_camera
 	t_vector	orientation;
 	t_vector	v_horiz;
 	t_vector	v_vert;
+	t_vector	first_pixel;
 	double		focal_length;
 	double		vh;
 	double		vw;
@@ -57,6 +58,7 @@ typedef struct s_ray
 typedef struct	s_hit
 {
 	t_ray		hit;
+	t_vector	p;
 	t_vector	normal;
 	double		t;
 }	t_hit;
@@ -81,13 +83,14 @@ typedef struct	s_sphere
 {
 	t_color		*color;
 	t_vector	normal;
+	t_vector	center;
 	double		radius;
-	double		center;
 	t_hit		hit;
 }	t_sphere;
 
 typedef struct s_minirt
 {
+	t_mlx		*mlx;
 	t_camera	*cam;
 	t_sphere	*spheres;
 }	t_minirt;

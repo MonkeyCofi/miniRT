@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/08/23 15:33:40 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/08/24 15:42:21 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,14 @@ int	check_ulong(char *str, int *num)
 int	parse_camera(t_minirt *minirt, char *string)
 {
 	char	**str;
-	int i;
+	int 	i;
 
 	i = 0;
 	str = ft_split(string, ' ');
-	if(minirt->cam->flag != 0){
+	if(minirt->cam->flag != false)
 		return (1);
-	}
 	else
-		minirt->cam->flag = 1;
+		minirt->cam->flag = true;
 	if(arr_len(str) != 4)
 		return (1);
 	while(string && string[i++])

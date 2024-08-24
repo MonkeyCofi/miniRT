@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 19:24:37 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/24 19:00:38 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,22 @@ void	draw_pixel(t_mlx *mlx, int x, int y, int color)
 	return ;
 }
 
-//int	intersect_sphere(t_camera *cam, int i, int j)
-t_bool	sphere_hit(t_camera *cam, int i, int j)
+t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, int i, int j)
 {
 	t_sphere	sphere;
+	t_color		color;
 	t_hit		hit;
 	double		variables[4];
 	double		disc;
 	double		quad;
 
 	sphere.color = malloc(sizeof(t_color));
-	sphere.color->color.x = 0.94;
-	sphere.color->color.y = 0.39;
-	sphere.color->color.z = 0;
+	set_vector_points(&sphere.center, 0, 0, 1);
+	//sphere.color->color.x = 0.94;
+	//sphere.color->color.y = 0.39;
+	//sphere.color->color.z = 0;
 	sphere.radius = 0.5;
+	normalize(&hit.hit.direction);
 	set_vector_points(&hit.hit.origin, cam->camera.x, cam->camera.y, cam->camera.z);
 	set_vector_points(&hit.hit.direction, ((double)j / WIDTH * 2 - 1) * cam->asp, ((double)i / HEIGHT * 2 - 1), cam->camera.z);
 	variables[0] = dot_product(&hit.hit.direction, &hit.hit.direction);
@@ -54,9 +56,12 @@ t_bool	sphere_hit(t_camera *cam, int i, int j)
 		if (quad >= T_MAX || quad <= T_MIN)
 			return (false);
 	}
-	//sphere.normal = return_scalar(&hit.hit.direction, quad);
-	//hit.hit.direction = add_vectors(&hit.hit.origin, &sphere.normal);
-	//sphere.hit.t = dot_product(&hit.hit.direction, &light); 
+	sphere.hit.t = quad;
+	sphere.hit.p = return_at(&hit.hit, sphere.hit.t);
+	sphere.hit.normal = subtract_vectors(&sphere.center, &sphere.hit.p);
+	set_vector_points(&sphere.hit.normal, sphere.hit.normal.x, -sphere.hit.normal.y, -sphere.hit.normal.z);
+	color.color = sphere.hit.normal;
+	draw_pixel(minirt->mlx, j, i, get_ray_color(&color));
 	return (true);
 }
 
@@ -72,9 +77,9 @@ void	render(t_mlx *mlx, t_minirt *minirt)
 		j = 0;
 		while (j < WIDTH)
 		{
-			t_bool hit = sphere_hit(minirt->cam, i, j);
-			if (hit)
-				draw_pixel(mlx, j, i, 0xf0f0f0);
+			sphere_hit(minirt, minirt->cam, i, j);
+			//if (hit)
+			//	draw_pixel(mlx, j, i, 0xf0f0f0);
 			j++;
 		}
 		i++;
@@ -108,7 +113,7 @@ int	init_mlx(t_mlx *mlx)
 int main(int argc, char **argv)
 {
 	t_mlx		mlx;
-	t_minirt	* minirt;
+	t_minirt	*minirt;
 
 	minirt = malloc(sizeof(minirt));
 	minirt->cam = malloc(sizeof(t_camera));
@@ -117,7 +122,9 @@ int main(int argc, char **argv)
 	{
 		if(!fileopen(argv[1], minirt)){
 			init_mlx(&mlx);
+			minirt->mlx = &mlx;
 			init_cam(minirt);
+			printf("x y z %f %f %f\n", minirt->cam->camera.x, minirt->cam->camera.y, minirt->cam->camera.z);
 			render(&mlx, minirt);
 				mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
 			mlx_loop(mlx.mlx);
