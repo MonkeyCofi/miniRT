@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 07:29:54 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/08/23 07:55:05 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/08/25 14:00:46 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,15 @@ double	str_to_double(char *str)
 	prec = 0;
 	div = 1.0;
 	sign = 1.0;
-	if(str && str[0] == '-')
+	if (str && str[0] == '-')
 		sign *= -1.0;
 	sum = (double)ft_atoi(str);
-	while(*str && *str != '.')
+	while (*str && *str != '.')
 		str++;
-	if(*str == '.')
+	if (*str == '.')
 	{
-		while(*str >= '0' && *str <= '9')
+		str++;
+		while (*str >= '0' && *str <= '9')
 		{
 			div *= 10;
 			prec += (*str - '0') / div;

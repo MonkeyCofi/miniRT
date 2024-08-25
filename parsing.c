@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/08/25 02:14:28 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/08/25 14:03:06 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,10 @@ int	check_ulong(char *str, int *num)
 int	check_double(char *str, double *num)
 {
 	if(!is_float(str))
+	{
+		printf("parameter is not a float\n");
 		return (1);
+	}
 	*num = str_to_double(str);
 	return (0);
 }
@@ -124,12 +127,14 @@ int	parse_camera(t_minirt *minirt, char *string)
 
 int	parse_sphere(t_minirt *minirt, char *string)
 {
-	int i = 1;
+	int 	i;
 	char	**str;
+	
 	str = ft_split(string, ' ');
+	i = 1;
 	if(arr_len(str) != 4)
 		return (1);
-	while(string && string[i++])
+	while(string && string[i])
 	{
 		if (i == 1 && dovector(str[i], &minirt->spheres->center))
 			return (1);
@@ -137,8 +142,10 @@ int	parse_sphere(t_minirt *minirt, char *string)
 			return (1);
 		if (i == 3 && dovectorcolor(str[i], &minirt->spheres->color))
 			return (1);
+		i++;
 	}
 	free_arr(str);
+	printf("x y z %f %f %f\n", minirt->spheres->center.x, minirt->spheres->center.y, minirt->spheres->center.z);
 	minirt->spheres->radius /= 2;
 	return (0);
 }
