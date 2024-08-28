@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/25 14:37:37 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/28 17:11:13 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, int i, int j)
 	double		quad;
 
 	minirt->spheres->inward_normal = false;
-	set_vector_points(&minirt->spheres->center, 0, 0, 0.012);
 	set_vector_points(&hit.hit.origin, cam->camera.x, cam->camera.y, cam->camera.z);
 	set_vector_points(&hit.hit.direction, ((double)j / WIDTH * 2 - 1) * cam->asp, ((double)i / HEIGHT * 2 - 1), cam->camera.z);
 	set_vector_points(&light, -1, -1, -1);
@@ -53,19 +52,18 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, int i, int j)
 			return (false);
 	}
 	negate(&light);
+	light.x *= -1;
 	minirt->spheres->hit.t = quad;
 	minirt->spheres->hit.p = return_at(&hit.hit, minirt->spheres->hit.t);	// the point of intersection of the ray against the sphere
 	minirt->spheres->hit.normal = subtract_vectors(&minirt->spheres->center, &minirt->spheres->hit.p);	// the normal at the point of intersection
 	normalize(&minirt->spheres->hit.normal);
 	if (dot_product(&minirt->spheres->hit.normal, &hit.hit.direction) < 0)
 		minirt->spheres->inward_normal = true;
-	//draw_pixel(minirt->mlx, j, i, get_ray_coloraarij(&minirt->spheres->color));
-
-	// testing with light
 	t_vector color;
-	minirt->spheres->hit.t = dot_product(&light, &minirt->spheres->hit.normal);
-	color = return_scalar(&minirt->spheres->hit.normal, minirt->spheres->hit.t);
-		draw_pixel(minirt->mlx, j, i, get_ray_coloraarij(&color));
+	double	t;
+	t = dot_product(&minirt->spheres->hit.normal, &light);
+	color = return_scalar(&minirt->spheres->color, -t);
+	draw_pixel(minirt->mlx, j, i, get_ray_coloraarij(&color));
 	return (true);
 }
 
@@ -96,15 +94,12 @@ int main(int argc, char **argv)
 {
 	t_mlx		mlx;
 	t_minirt	*minirt;
-	t_sphere sp1, sp2;
-
+	
 	if(argc == 2)
 	{
-		set_vector_points(&sp1.center, 0, 0, 1);
-		set_vector_points(&sp2.center, 0 ,0, 1);
-		sp1.radius = 0.2;
-		sp2.radius = 0.5;
 		minirt = init_minirt(&mlx);
+		if (!minirt)
+			return (1);
 		if(!fileopen(argv[1], minirt))
 		{
 			init_mlx(&mlx);

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/08/25 14:03:06 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/25 19:25:41 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	parse_camera(t_minirt *minirt, char *string)
 			return (1);
 		if (i == 2 && dovector(str[i], &minirt->cam->orientation))
 			return (1);
-		if (i == 3 && check_ulong(str[i], &minirt->cam->fov))
+		if (i == 3 && check_ulong(str[i], &minirt->cam->h_fov))
 			return (1);
 	}
 	free_arr(str);
@@ -129,12 +129,12 @@ int	parse_sphere(t_minirt *minirt, char *string)
 {
 	int 	i;
 	char	**str;
-	
+
 	str = ft_split(string, ' ');
 	i = 1;
 	if(arr_len(str) != 4)
 		return (1);
-	while(string && string[i])
+	while (string && string[i])
 	{
 		if (i == 1 && dovector(str[i], &minirt->spheres->center))
 			return (1);
@@ -153,7 +153,9 @@ int	parse_sphere(t_minirt *minirt, char *string)
 int	parsing(char *str, t_minirt *minirt)
 {
 	if (strncmp(str, "sp", 2) == 0)
+	{
 		return (parse_sphere(minirt, str));
+	}
 	if (strncmp(str, "A", 1) == 0)
 		return (0);
 	if (strncmp(str, "C", 1) == 0)
