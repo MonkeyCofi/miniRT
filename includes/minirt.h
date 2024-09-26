@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/25 14:25:15 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:31:01 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <fcntl.h>
 
 # define PI 3.1415926535897932385
+# define EPSILON 0.0001f
 # define T_MIN (double)0.001
 # define T_MAX (double)10000000
 

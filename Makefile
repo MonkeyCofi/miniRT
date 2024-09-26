@@ -7,7 +7,7 @@ INCLUDES = ./includes
 CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES)
 # CFLAGS += -fsanitize=address -g3
 
-SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c parsing.c utils.c init.c
+SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c vector_utils.c parsing.c utils.c init.c
 
 OBJS = $(SRCS:.c=.o)
 

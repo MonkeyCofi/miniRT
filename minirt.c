@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/28 17:11:13 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/26 22:32:21 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, int i, int j)
 	minirt->spheres->inward_normal = false;
 	set_vector_points(&hit.hit.origin, cam->camera.x, cam->camera.y, cam->camera.z);
 	set_vector_points(&hit.hit.direction, ((double)j / WIDTH * 2 - 1) * cam->asp, ((double)i / HEIGHT * 2 - 1), cam->camera.z);
-	set_vector_points(&light, -1, -1, -1);
+	set_vector_points(&light, 20, -1, -20);
+	normalize(&light);
 	normalize(&hit.hit.direction);
 	variables[0] = dot_product(&hit.hit.direction, &hit.hit.direction);
 	variables[1] = dot_product(&hit.hit.direction, &hit.hit.origin);
@@ -52,7 +53,7 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, int i, int j)
 			return (false);
 	}
 	negate(&light);
-	light.x *= -1;
+	//light.x *= -1;
 	minirt->spheres->hit.t = quad;
 	minirt->spheres->hit.p = return_at(&hit.hit, minirt->spheres->hit.t);	// the point of intersection of the ray against the sphere
 	minirt->spheres->hit.normal = subtract_vectors(&minirt->spheres->center, &minirt->spheres->hit.p);	// the normal at the point of intersection
@@ -80,8 +81,6 @@ void	render(t_mlx *mlx, t_minirt *minirt)
 		while (j < WIDTH)
 		{
 			sphere_hit(minirt, minirt->cam, i, j);
-			//if (hit)
-			//	draw_pixel(mlx, j, i, 0xf0f0f0);
 			j++;
 		}
 		i++;
@@ -114,3 +113,28 @@ int main(int argc, char **argv)
 		printf("Insufficient amount of arguments!\n");
 }
 
+/* =============================Test Main============================= */
+
+//int main(void)
+//{
+//	t_vector test;
+//	t_vector test2;
+
+//	set_point_points(&test, 3, 2, 1);
+//	set_point_points(&test2, 5, 6, 7);
+//	t_vector res = subtract_vectors(&test2, &test);
+//	print_vector_points(&res);
+//	printf("Resultant tuple is a vector: %s\n", is_vector(&res) ? "True" : "False");
+//	printf("Resultant tuple is a point: %s\n", is_point(&res) ? "True" : "False");
+
+//	printf("\n==============================\n\n");
+
+//	set_vector_points(&test, 1, 2, 3);
+//	set_point_points(&test2, 5, 6, 7);
+//	negate(&test);
+//	print_vector_points(&test);
+//	printf("Resultant tuple is a vector: %s\n", is_vector(&test) ? "True" : "False");
+//	printf("Resultant tuple is a point: %s\n", is_point(&test) ? "True" : "False");
+//}
+
+/* =============================Test Main============================= */

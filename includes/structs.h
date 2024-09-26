@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/25 21:31:28 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/26 22:00:00 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,25 @@ typedef enum	e_shapes
 	SPHERE,
 }	s_shapes;
 
-typedef struct	s_vector
+typedef union	u_vector
 {
-	double	x;
-	double	y;
-	double	z;
+	struct {
+	float	x;
+	float	y;
+	float	z;
+	float	w;
+	};
+	struct {
+	float	r;
+	float	g;
+	float	b;
+	float	a;
+	};
 }	t_vector;
 
 typedef struct	s_color
 {
 	t_vector	colors;
-	double		alpha;
 }	t_color;
 
 typedef struct s_camera

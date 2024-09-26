@@ -3,6 +3,7 @@
 		"minirt.h": "c",
 		"shapes.h": "c",
 		"math.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"structs.h": "c"
 	}
 }
