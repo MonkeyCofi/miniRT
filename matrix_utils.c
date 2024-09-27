@@ -6,16 +6,31 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:54:54 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/27 18:01:53 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:03:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-//t_3dmat	*create_3dmat()
-//{
+t_3dmat	*create_3dmat()
+{
+	t_3dmat	*new_mat;
+	
+	new_mat = ft_calloc(1, sizeof(t_3dmat));
+	if (!new_mat)
+		return (NULL);
+	return (new_mat);
+}
 
-//}
+t_4dmat	*create_4dmat()
+{
+	t_3dmat	*new_mat;
+	
+	new_mat = ft_calloc(1, sizeof(t_4dmat));
+	if (!new_mat)
+		return (NULL);
+	return (new_mat);
+}
 
 void	print_3dmatrix(t_3dmat *m)
 {
@@ -29,7 +44,7 @@ void	print_3dmatrix(t_3dmat *m)
 	printf("%.5f ", m->m32);
 	printf("%.5f\n", m->m13);
 }
-void	print_matrix(t_4dmat *m)
+void	print_4dmatrix(t_4dmat *m)
 {
 	printf("%.5f ", m->m11);
 	printf("%.5f ", m->m12);
