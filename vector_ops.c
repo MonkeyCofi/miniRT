@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:28:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/26 22:18:12 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:35:03 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,48 +22,50 @@
 	** subtracting a point(w=1) from a vector(w=0) doesn't make sense
 */
 
-void	set_vector_points(t_vector *v, float x, float y, float z)
-{
-	v->x = x;
-	v->y = y;
-	v->z = z;
-	v->w = 0;
-}
-
-void	set_point_points(t_vector *v, float x, float y, float z)
-{
-	v->x = x;
-	v->y = y;
-	v->z = z;
-	v->w = 1;
-}
-
-double dot_product(t_vector *vec1, t_vector *vec2)
+double	dot_product(t_tuple *vec1, t_tuple *vec2)
 {
 	return ((vec1->x * vec2->x) + (vec1->y * vec2->y) + (vec1->z * vec2->z));
 }
 
-t_vector	cross_product(t_vector *vec1, t_vector *vec2)
+t_tuple	cross_product(t_tuple *vec1, t_tuple *vec2)
 {
-	t_vector	cross;
+	t_tuple	cross;
+	float	x;
+	float	y;
+	float	z;
 
-	ft_bzero(&cross, sizeof(t_vector));
-	(void)vec1;
-	(void)vec2;
+	ft_bzero(&cross, sizeof(t_tuple));
+	x = vec1->y * vec2->z - vec1->z * vec2->y;
+	y = vec1->z * vec2->x - vec1->x * vec2->z;
+	z = vec1->x * vec2->y - vec1->y * vec2->x;
+	set_vector_points(&cross, x, y, z);
 	return (cross);
 }
 
-void normalize(t_vector *vector)
+void	normalize(t_tuple *vector)
 {
-	double	magnitude;
+	float	magnitude;
 
-	magnitude = sqrt(dot_product(vector, vector));
+	magnitude = sqrt(((vector->x * vector->x) + (vector->y * vector->y) + \
+		(vector->z * vector->z)));
 	vector->x /= magnitude;
 	vector->y /= magnitude;
 	vector->z /= magnitude;
 }
 
-void	negate(t_vector *to_negate)
+float	magnitude(t_tuple *vector)
+{
+	float	a;
+	float	b;
+	float	c;
+
+	a = vector->x * vector->x;
+	b = vector->y * vector->y;
+	c = vector->z * vector->z;
+	return (sqrt((a + b + c)));
+}
+
+void	negate(t_tuple *to_negate)
 {
 	to_negate->x = -(to_negate->x);
 	to_negate->y = -(to_negate->y);

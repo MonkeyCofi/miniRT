@@ -6,20 +6,20 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 20:38:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/26 22:29:56 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:57:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_bool	is_point(t_vector *vec)
+t_bool	is_point(t_tuple *vec)
 {
 	if (vec->w == 1)
 		return (true);
 	return (false);
 }
 
-t_bool	is_vector(t_vector *vec)
+t_bool	is_vector(t_tuple *vec)
 {
 	if (vec->w == 0)
 		return (true);
@@ -33,7 +33,7 @@ t_bool	is_equal(float n1, float n2)
 	return (false);
 }
 
-void	print_vector_points(t_vector *vec)
+void	print_tuple_points(t_tuple *vec)
 {
 	printf("x: %.5f, ", vec->x);
 	printf("y: %.5f, ", vec->y);

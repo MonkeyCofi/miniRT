@@ -6,13 +6,13 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/26 22:01:08 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:57:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minirt.h"
 
-void	set_min_max(t_vector *color)
+void	set_min_max(t_tuple *color)
 {
 	if (color->r < 0)
 		color->r = 0;
@@ -45,7 +45,7 @@ uint32_t	get_ray_color(t_color	*color)
 	return (res);
 }
 
-uint32_t	get_ray_coloraarij(t_vector	*color)
+uint32_t	get_ray_coloraarij(t_tuple	*color)
 {
 	uint32_t		res;
 	uint8_t			r;

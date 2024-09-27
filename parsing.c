@@ -6,14 +6,14 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/08/25 19:25:41 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:57:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minirt.h"
 #include <string.h>
 
-int	dovector(char *string, t_vector *calc)
+int	dovector(char *string, t_tuple *calc)
 {
 	char	**str;
 	int		i;
@@ -39,7 +39,7 @@ int	dovector(char *string, t_vector *calc)
 	return (ret);
 }
 
-int	dovectorcolor(char *string, t_vector *calc)
+int	dovectorcolor(char *string, t_tuple *calc)
 {
 	char	**str;
 	int		i;

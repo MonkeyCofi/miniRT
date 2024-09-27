@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/25 16:17:59 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:41:20 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init_cam(t_minirt *minirt)
 	minirt->cam->vh = HEIGHT * 2;
 	minirt->cam->vw = WIDTH * 2;
 	minirt->cam->focal_length = 1.0;	// the distance from te camera to the viewport
-	//set_vector_points(&minirt->cam->camera, 0, 0, 0);
+	//set_tuple_points(&minirt->cam->camera, 0, 0, 0);
 	set_vector_points(&minirt->cam->v_horiz, minirt->cam->vh, 0, 0);
 	scalar(&minirt->cam->v_horiz, minirt->cam->h_fov);
 	set_vector_points(&minirt->cam->v_vert, 0, -minirt->cam->vw, 0);

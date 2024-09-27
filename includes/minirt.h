@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/26 19:31:01 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:55:07 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft_notclone/libft.h"
 # include "../mlx/mlx.h"
 # include "vectors.h"
+# include "matrix.h"
 # include "camera.h"
 # include "structs.h"
 # include "init.h"
@@ -43,18 +44,18 @@
 
 typedef struct s_cameraparse
 {
-	t_vector	campos;
+	t_tuple	campos;
 	int			fov;
 	int			flag;
-	t_vector	vec;
+	t_tuple	vec;
 }	t_cameraparse;
 
 int			escape(int keycode, void *param);
 int			destroy(void *param);
 
-void		set_min_max(t_vector *color);
+void		set_min_max(t_tuple *color);
 uint32_t	get_ray_color(t_color *color);
-uint32_t	get_ray_coloraarij(t_vector	*color);
+uint32_t	get_ray_coloraarij(t_tuple	*color);
 
 
 int			fileopen(char *path, t_minirt *minirt);
@@ -63,7 +64,7 @@ int			arr_len(char	*arr[]);
 double		str_to_double(char *str);
 int			is_float(char *str);
 void		free_arr(char *arr[]);
-int			dovector(char *string, t_vector *calc);
+int			dovector(char *string, t_tuple *calc);
 int			parse_camera(t_minirt *minirt, char *string);
 int			parsing(char *str, t_minirt *minirt);
 

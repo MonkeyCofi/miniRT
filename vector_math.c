@@ -6,15 +6,15 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:57:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/26 22:25:13 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:57:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_vector	add_vectors(t_vector *vec1, t_vector *vec2)
+t_tuple	add_vectors(t_tuple *vec1, t_tuple *vec2)
 {
-	t_vector	vec;
+	t_tuple	vec;
 
 	vec.x = vec1->x + vec2->x;
 	vec.y = vec1->y + vec2->y;
@@ -23,9 +23,9 @@ t_vector	add_vectors(t_vector *vec1, t_vector *vec2)
 	return (vec);
 }
 
-t_vector	subtract_vectors(t_vector *vec1, t_vector *vec2)
+t_tuple	subtract_tuples(t_tuple *vec1, t_tuple *vec2)
 {
-	t_vector	resultant;
+	t_tuple	resultant;
 
 	resultant.x = vec2->x - vec1->x;
 	resultant.y = vec2->y - vec1->y;
@@ -34,16 +34,16 @@ t_vector	subtract_vectors(t_vector *vec1, t_vector *vec2)
 	return (resultant);
 }
 
-void	scalar(t_vector *vec, double scalar)
+void	scalar(t_tuple *vec, double scalar)
 {
 	vec->x *= scalar;
 	vec->y *= scalar;
 	vec->z *= scalar;
 }
 
-t_vector	return_scalar(t_vector *vec, double scalar)
+t_tuple	return_scalar(t_tuple *vec, double scalar)
 {
-	t_vector	resultant;
+	t_tuple	resultant;
 	
 	resultant.x = vec->x * scalar;
 	resultant.y = vec->y * scalar;
@@ -51,9 +51,9 @@ t_vector	return_scalar(t_vector *vec, double scalar)
 	return (resultant);
 }
 
-t_vector	return_at(t_ray *ray, double t)
+t_tuple	return_at(t_ray *ray, double t)
 {
-	t_vector	new;
+	t_tuple	new;
 
 	new = return_scalar(&ray->direction, t);
 	return (add_vectors(&ray->origin, &new));
