@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/27 17:55:39 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:00:22 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef	struct	s_4dmat
 	float	m42;
 	float	m43;
 	float	m44;
-}
+}	t_4dmat;
 
 typedef struct	s_color
 {

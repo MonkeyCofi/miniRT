@@ -6,65 +6,45 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:54:54 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/27 16:57:58 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:01:53 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_matrix	*create_matrix(int size)
+//t_3dmat	*create_3dmat()
+//{
+
+//}
+
+void	print_3dmatrix(t_3dmat *m)
 {
-	t_matrix	*newMatrix;
-	
-	newMatrix = malloc(sizeof(t_matrix));
-	if (!newMatrix)
-		return (NULL);
-	newMatrix->matrix = malloc(sizeof(float *) * size);
-	newMatrix->size = size;
-	return (newMatrix);
+	printf("%.5f ", m->m11);
+	printf("%.5f ", m->m12);
+	printf("%.5f\n", m->m13);
+	printf("%.5f ", m->m21);
+	printf("%.5f ", m->m22);
+	printf("%.5f\n", m->m23);
+	printf("%.5f ", m->m31);
+	printf("%.5f ", m->m32);
+	printf("%.5f\n", m->m13);
 }
-
-void	set_matrix(t_matrix *m, float **points)
+void	print_matrix(t_4dmat *m)
 {
-	int	i;
-	int	j;
-	int	size;
-
-	size = m->size;
-	i = -1;
-	j = -1;
-	while (++i < size)
-	{
-		m->matrix[i] = malloc(sizeof(float) * size);
-		while (++j < size)
-			m->matrix[i][j] = points[i][j];
-	}
-}
-
-void	set_column(int size, int current_row, float **matrix, float values[])
-{
-	int	i;
-
-	i = -1;
-	while (++i < size)
-		matrix[current_row][i] = values[i];
-}
-
-void	print_matrix(t_matrix *m)
-{
-	int size;
-	int	i;
-	int	j;
-	
-	size = m->size;
-	i = -1;
-	while (++i < size)
-	{
-		j = -1;
-		while (++j < size)
-		{
-			printf("%.5f ", m->matrix[i][j]);
-		}
-		printf("\n");
-	}
+	printf("%.5f ", m->m11);
+	printf("%.5f ", m->m12);
+	printf("%.5f ", m->m13);
+	printf("%.5f\n", m->m14);
+	printf("%.5f ", m->m21);
+	printf("%.5f ", m->m22);
+	printf("%.5f ", m->m23);
+	printf("%.5f\n", m->m24);
+	printf("%.5f ", m->m31);
+	printf("%.5f ", m->m32);
+	printf("%.5f ", m->m33);
+	printf("%.5f\n", m->m34);
+	printf("%.5f ", m->m41);
+	printf("%.5f ", m->m42);
+	printf("%.5f ", m->m43);
+	printf("%.5f\n", m->m44);
 }
