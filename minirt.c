@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/27 17:57:13 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:52:29 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,58 +117,35 @@ void	render(t_mlx *mlx, t_minirt *minirt)
 
 int main(void)
 {
-	t_tuple test;
-	t_tuple test2;
-
-	set_point_points(&test, 3, 2, 1);
-	set_point_points(&test2, 5, 6, 7);
-	t_tuple res = subtract_tuples(&test2, &test);
-	print_tuple_points(&res);
-	printf("Resultant tuple is a vector: %s\n", is_vector(&res) ? "True" : "False");
-	printf("Resultant tuple is a point: %s\n", is_point(&res) ? "True" : "False");
-
-	printf("\n==============================\n\n");
-
-	set_vector_points(&test, 1, 2, 3);
-	set_point_points(&test2, 5, 6, 7);
-	negate(&test);
-	print_tuple_points(&test);
-	printf("Resultant tuple is a vector: %s\n", is_vector(&test) ? "True" : "False");
-	printf("Resultant tuple is a point: %s\n", is_point(&test) ? "True" : "False");
+	float matrix[2][2] = {{1, 2}, {3, 4}};
+	t_2dmat	*m1 = create_2dmat(matrix);
+	matrix[0][0] = 5;
+	matrix[0][1] = 6;
+	matrix[1][0] = 7;
+	matrix[1][1] = 8;
+	t_2dmat	*m2 = create_2dmat(matrix);
+	t_2dmat	*res = mat2d_mult(m1, m2);
+	print_2dmatrix(res);
 	
-	printf("\n==============================\n\n");
+	printf("\n=====================\n");
 	
-	t_tuple	mag_test;
-	set_vector_points(&mag_test, -1, -2, -3);
-	printf("The magnitude is: %.5f\n", magnitude(&mag_test));
+	float mat[4][4] = {{1,2,3,4},
+				  	{2,4,4,2},
+				  	{8,6,4,1},
+					{0,0,0,1}};
+	t_4dmat *m = create_4dmat(mat);
+	t_tuple t;
+	set_point_points(&t, 1, 2, 3);
+	t_tuple *r = tuple_mult(m, &t);
+	print_tuple_points(r);
 	
-	printf("\n==============================\n\n");
+	printf("\n=====================\n");
 	
-	t_tuple	normalize_test;
-	set_vector_points(&normalize_test, 1, 2, 3);
-	normalize(&normalize_test);
-	print_tuple_points(&normalize_test);
-	printf("The magnitude of the normalized vector is: %.5f\n", magnitude(&normalize_test));
-	
-	printf("\n==============================\n\n");
-	
-	float diff = 0.000101512;
-	printf("%.10f\n", diff);
-	printf("\n=====Loop=====\n");
-	float n = 0.1;
-	for (int i = 0; i < 5; i++)
-	{
-		if (is_equal(n, diff))
-		{
-			printf("Floats are equal\n");
-			break ;	
-		}
-		printf("%.10f\n", n);
-		n /= 10;
-	}
-	printf("%.10f\n", n);
-	
-	printf("\n==============================\n\n");
+	t_4dmat id = identity();
+	print_4dmatrix(&id);
+	printf("\n\n");
+	t_4dmat *tr = transpose(&id);
+	print_4dmatrix(tr);
 
 }
 

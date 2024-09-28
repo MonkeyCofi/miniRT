@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/27 18:00:22 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:49:36 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,57 +26,74 @@ typedef enum	e_shapes
 
 typedef union	u_tuple
 {
-	struct {
-	float	x;
-	float	y;
-	float	z;
-	float	w;
+	struct
+	{
+		float	x;
+		float	y;
+		float	z;
+		float	w;
 	};
-	struct {
-	float	r;
-	float	g;
-	float	b;
-	float	a;
+	struct
+	{
+		float	r;
+		float	g;
+		float	b;
+		float	a;
 	};
 }	t_tuple;
 
-//typedef	struct s_matrix
-//{
-//	int		size;
-//	float	**matrix;
-//}	t_matrix;
-
-typedef	struct s_3dmat
+typedef union u_2dmat
 {
-	float	m11;
-	float	m12;
-	float	m13;
-	float	m21;
-	float	m22;
-	float	m23;
-	float	m31;
-	float	m32;
-	float	m33;
+	struct
+	{
+		float	m11;
+		float	m12;
+		float	m21;
+		float	m22;
+	};
+	float	matrix[2][2];
+}	t_2dmat;
+
+
+typedef	union	u_3dmat
+{
+	struct
+	{
+		float	m11;
+		float	m12;
+		float	m13;
+		float	m21;
+		float	m22;
+		float	m23;
+		float	m31;
+		float	m32;
+		float	m33;
+	};
+	float	matrix[3][3];
 }	t_3dmat;
 
-typedef	struct	s_4dmat
+typedef	union	u_4dmat
 {
-	float	m11;
-	float	m12;
-	float	m13;
-	float	m14;
-	float	m21;
-	float	m22;
-	float	m23;
-	float	m24;
-	float	m31;
-	float	m32;
-	float	m33;
-	float	m34;
-	float	m41;
-	float	m42;
-	float	m43;
-	float	m44;
+	struct
+	{
+		float	m11;
+		float	m12;
+		float	m13;
+		float	m14;
+		float	m21;
+		float	m22;
+		float	m23;
+		float	m24;
+		float	m31;
+		float	m32;
+		float	m33;
+		float	m34;
+		float	m41;
+		float	m42;
+		float	m43;
+		float	m44;
+	};
+	float	matrix[4][4];
 }	t_4dmat;
 
 typedef struct	s_color

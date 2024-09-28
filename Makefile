@@ -8,7 +8,8 @@ CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES)
 # CFLAGS += -fsanitize=address -g3
 
 SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c \
-		vector_utils.c parsing.c utils.c init.c tuple_utils.c matrix_utils.c
+		vector_utils.c parsing.c utils.c init.c tuple_utils.c matrix_utils.c \
+		matrix_cmp.c matrix_ops.c
 
 OBJS = $(SRCS:.c=.o)
 
