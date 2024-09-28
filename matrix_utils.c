@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:54:54 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/28 20:51:32 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/28 21:02:18 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,39 +107,4 @@ void	print_4dmatrix(t_4dmat *m)
 	printf("% .5f ", m->m42);
 	printf("% .5f ", m->m43);
 	printf("% .5f\n", m->m44);
-}
-
-t_4dmat	identity()
-{
-	t_4dmat	matrix;
-
-	ft_bzero(&matrix, sizeof(t_4dmat));
-	matrix.m11 = 1;
-	matrix.m22 = 1;
-	matrix.m33 = 1;
-	matrix.m44 = 1;
-	return (matrix);
-}
-
-t_4dmat	*transpose(t_4dmat *matrix)
-{
-	float	res[4][4];
-	
-	res[0][0] = matrix->m11;
-	res[0][1] = matrix->m21;
-	res[0][2] = matrix->m31;
-	res[0][3] = matrix->m41;
-	res[1][0] = matrix->m12;
-	res[1][1] = matrix->m22;
-	res[1][2] = matrix->m32;
-	res[1][3] = matrix->m42;
-	res[2][0] = matrix->m13;
-	res[2][1] = matrix->m23;
-	res[2][2] = matrix->m33;
-	res[2][3] = matrix->m43;
-	res[3][0] = matrix->m14;
-	res[3][1] = matrix->m24;
-	res[3][2] = matrix->m34;
-	res[3][3] = matrix->m44;
-	return (create_4dmat(res));
 }

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/28 20:52:29 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/28 21:05:10 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,38 @@ int main(void)
 	printf("\n\n");
 	t_4dmat *tr = transpose(&id);
 	print_4dmatrix(tr);
-
+	
+	t_4dmat uwu;
+	uwu.m11 = 0;
+	uwu.m12 = 9;
+	uwu.m13 = 3;
+	uwu.m14 = 0;
+	uwu.m21 = 9;
+	uwu.m22 = 8;
+	uwu.m23 = 0;
+	uwu.m24 = 8;
+	uwu.m31 = 1;
+	uwu.m32 = 8;
+	uwu.m33 = 5;
+	uwu.m34 = 3;
+	uwu.m41 = 0;
+	uwu.m42 = 0;
+	uwu.m43 = 5;
+	uwu.m44 = 8;
+	printf("\n\n");
+	print_4dmatrix(&uwu);
+	printf("\n");
+	t_4dmat	*owo = transpose(&uwu);
+	print_4dmatrix(owo);
+	
+	printf("\n=====================\n");
+	
+	t_2dmat two;
+	two.m11 = 1;
+	two.m12 = 5;
+	two.m21 = -3;
+	two.m22 = 2;
+	printf("The determinant of matrix two is: %.5f\n", determinant(&two));
 }
 
 /* =============================Test Main============================= */
