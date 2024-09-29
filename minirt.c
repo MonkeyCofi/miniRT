@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/29 18:30:58 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:22:12 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,22 @@ void	draw_pixel(t_mlx *mlx, int x, int y, int color)
 
 	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
 	{
-		 p = mlx->img.img_addr + (y * mlx->img.line_length) + (x * (mlx->img.bpp / 8));
-		 *(unsigned int *)p = color;
+		p = mlx->img.img_addr + (y * mlx->img.line_length) + \
+			(x * (mlx->img.bpp / 8));
+		*(unsigned int *)p = color;
 	}
 	return ;
+}
+
+t_tuple	position(t_ray *ray, float t)
+{
+	t_tuple	ret;
+
+	set_point_points(&ret, \
+		(ray->direction.x * t) + ray->origin.x, \
+		(ray->direction.y * t) + ray->origin.y, \
+		(ray->direction.z * t) + ray->origin.z);
+	return (ret);
 }
 
 t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, int i, int j)
@@ -52,8 +64,6 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, int i, int j)
 		if (quad <= T_MIN || T_MAX <= quad)
 			return (false);
 	}
-	negate(&light);
-	//light.x *= -1;
 	minirt->spheres->hit.t = quad;
 	minirt->spheres->hit.p = return_at(&hit.hit, minirt->spheres->hit.t);	// the point of intersection of the ray against the sphere
 	minirt->spheres->hit.normal = subtract_tuples(&minirt->spheres->center, &minirt->spheres->hit.p);	// the normal at the point of intersection
@@ -63,7 +73,7 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, int i, int j)
 	t_tuple color;
 	double	t;
 	t = dot_product(&minirt->spheres->hit.normal, &light);
-	color = return_scalar(&minirt->spheres->color, -t);
+	color = return_scalar(&minirt->spheres->color, t);
 	draw_pixel(minirt->mlx, j, i, get_ray_coloraarij(&color));
 	return (true);
 }
@@ -103,7 +113,7 @@ void	render(t_mlx *mlx, t_minirt *minirt)
 //		{
 //			init_mlx(&mlx);
 //			render(&mlx, minirt);
-//				mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
+//			mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
 //			mlx_loop(mlx.mlx);
 //		}
 //		free(minirt->cam);
@@ -115,65 +125,73 @@ void	render(t_mlx *mlx, t_minirt *minirt)
 
 /* =============================Test Main============================= */
 
-int main(void)
-{
-	float points[4][4];
-	points[0][0] = 3; 
-	points[0][1] = -9; 
-	points[0][2] = 7;
-	points[0][3] = 3;
-	points[1][0] = 3; 
-	points[1][1] = -8; 
-	points[1][2] = 2;
-	points[1][3] = -9;
-	points[2][0] = -4; 
-	points[2][1] = 4; 
-	points[2][2] = 4;
-	points[2][3] = 1;
-	points[3][0] = -6;
-	points[3][1] = 5; 
-	points[3][2] = -1;
-	points[3][3] = 1;
-	t_4dmat *mat_a = create_4dmat(points);
-	points[0][0] = 8; 
-	points[0][1] = 2; 
-	points[0][2] = 2;
-	points[0][3] = 2;
-	points[1][0] = 3; 
-	points[1][1] = -1; 
-	points[1][2] = 7;
-	points[1][3] = 0;
-	points[2][0] = 7; 
-	points[2][1] = 0; 
-	points[2][2] = 5;
-	points[2][3] = 4;
-	points[3][0] = 6;
-	points[3][1] = -2; 
-	points[3][2] = 0;
-	points[3][3] = 5;
-	t_4dmat *mat_b = create_4dmat(points);
-	t_4dmat *prod = mat4d_mult(mat_a, mat_b);
-	printf("Matrix A: \n");
-	print_4dmatrix(mat_a);
-	printf("\n");
-	printf("Matrix B: \n");
-	print_4dmatrix(mat_b);
-	printf("\n");
-	printf("A * B: \n");
-	print_4dmatrix(prod);
-	printf("\n");
-	printf("Inverse of Matrix B: \n");
-	t_4dmat *inv;
-	if (inverse_mat(mat_b, &inv) == false)
-		return (1);
-	print_4dmatrix(inv);
-	printf("\n");
-	t_4dmat *orig = mat4d_mult(prod, inv);
-	printf("Product * inverse of B: \n");
-	print_4dmatrix(orig);
-	free(mat_a);
-	free(mat_b);
-	free(prod);
-}
+//int main(void)
+//{
+//	float points[4][4];
+//	points[0][0] = 3; 
+//	points[0][1] = -9; 
+//	points[0][2] = 7;
+//	points[0][3] = 3;
+//	points[1][0] = 3; 
+//	points[1][1] = -8; 
+//	points[1][2] = 2;
+//	points[1][3] = -9;
+//	points[2][0] = -4; 
+//	points[2][1] = 4; 
+//	points[2][2] = 4;
+//	points[2][3] = 1;
+//	points[3][0] = -6;
+//	points[3][1] = 5; 
+//	points[3][2] = -1;
+//	points[3][3] = 1;
+//	t_4dmat *mat_a = create_4dmat(points);
+//	points[0][0] = 8; 
+//	points[0][1] = 2; 
+//	points[0][2] = 2;
+//	points[0][3] = 2;
+//	points[1][0] = 3; 
+//	points[1][1] = -1; 
+//	points[1][2] = 7;
+//	points[1][3] = 0;
+//	points[2][0] = 7; 
+//	points[2][1] = 0; 
+//	points[2][2] = 5;
+//	points[2][3] = 4;
+//	points[3][0] = 6;
+//	points[3][1] = -2; 
+//	points[3][2] = 0;
+//	points[3][3] = 5;
+//	t_4dmat *mat_b = create_4dmat(points);
+//	t_4dmat *prod = mat4d_mult(mat_a, mat_b);
+//	printf("Matrix A: \n");
+//	print_4dmatrix(mat_a);
+//	printf("\n");
+//	printf("Matrix B: \n");
+//	print_4dmatrix(mat_b);
+//	printf("\n");
+//	printf("A * B: \n");
+//	print_4dmatrix(prod);
+//	printf("\n");
+//	printf("Inverse of Matrix B: \n");
+//	t_4dmat *inv;
+//	if (inverse_mat(mat_b, &inv) == false)
+//		return (1);
+//	print_4dmatrix(inv);
+//	printf("\n");
+//	t_4dmat *orig = mat4d_mult(prod, inv);
+//	printf("Product * inverse of B: \n");
+//	print_4dmatrix(orig);
+//	free(mat_a);
+//	free(mat_b);
+//	free(prod);
+//}
 
 /* =============================Test Main============================= */
+
+int main(void)
+{
+	t_tuple point;
+	set_vector_points(&point, -3, 4, 5);
+	t_tuple tr = translate(&point, 5, -3, 2);
+	print_tuple_points(&tr);
+}

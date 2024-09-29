@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/28 20:26:35 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:14:00 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "camera.h"
 # include "structs.h"
 # include "init.h"
+# include "transformations.h"
 
 # include <math.h>
 # include <stdio.h>

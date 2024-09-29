@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/29 18:28:15 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/29 20:53:22 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,8 +195,8 @@ typedef struct s_ray
 typedef struct	s_hit
 {
 	t_ray		hit;
-	t_tuple	p;
-	t_tuple	normal;
+	t_tuple		p;
+	t_tuple		normal;
 	double		t;
 }	t_hit;
 
@@ -207,7 +207,7 @@ typedef struct s_img
 	int		bpp;
 	int		line_length;
 	int		endian;
-}		t_img;
+}	t_img;
 
 typedef struct s_mlx
 {
@@ -218,10 +218,10 @@ typedef struct s_mlx
 
 typedef struct	s_sphere
 {
-	t_tuple	color;
+	t_tuple		color;
 	double		alpha;
-	t_tuple	normal;
-	t_tuple	center;
+	t_tuple		normal;
+	t_tuple		center;
 	t_hit		hit;
 	double		radius;
 	t_bool		inward_normal;
@@ -231,9 +231,9 @@ typedef struct	s_sphere
 typedef struct	s_shape
 {
 	s_shapes	shape;
-	t_tuple	center;
-	t_tuple	color;
-	t_tuple	normal;
+	t_tuple		center;
+	t_tuple		color;
+	t_tuple		normal;
 	t_hit		hit;
 	t_bool		inward_normal;
 	double		alpha;
