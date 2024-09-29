@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/29 14:52:58 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:29:54 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,26 @@ t_4dmat	*transpose(t_4dmat *matrix)
 	return (create_4dmat(res));
 }
 
-float	determinant(t_2dmat *mat)
+float	determinant(t_2dmat *mat_2d, t_3dmat *mat_3d, t_4dmat *mat_4d)
 {
-	return ((mat->m11 * mat->m22) - (mat->m12 * mat->m21));
+	int		i;
+	float	(*cofact_3d)(t_3dmat *, int, int);
+	float	(*cofact_4d)(t_4dmat *, int, int);
+
+	i = -1;
+	cofact_3d = cofactor_3d;
+	cofact_4d = cofactor_4d;
+	if (mat_2d)
+		return ((mat_2d->m11 * mat_2d->m22) - (mat_2d->m12 * mat_2d->m21));
+	else if (mat_3d)
+	{
+		return ((mat_3d->m11 * cofact_3d(mat_3d, 0, 0)) + (mat_3d->m12 * cofact_3d(mat_3d, 0, 1)) + (mat_3d->m13 * cofact_3d(mat_3d, 0, 2)));
+	}
+	else
+	{
+		return ((mat_4d->m11 * cofact_4d(mat_4d, 0, 0)) + (mat_4d->m12 * cofact_4d(mat_4d, 0, 1)) + (mat_4d->m13 * cofact_4d(mat_4d, 0, 2)) + \
+				(mat_4d->m14 * cofact_4d(mat_4d, 0, 3)));
+	}
 }
 
 t_2dmat	*submat_3d(t_3dmat *matrix, int row, int column)
@@ -186,4 +203,114 @@ t_3dmat	*submat_4d(t_4dmat *matrix, int row, int column)
 		k++;
 	}
 	return (create_3dmat(resultant));
+}
+
+float	minor_3d(t_3dmat *mat, int row, int column)
+{
+	t_2dmat	*submatrix;
+	float	ret;
+
+	submatrix = submat_3d(mat, row, column);
+	ret = determinant(submatrix, NULL, NULL);
+	free(submatrix);
+	return (ret);
+}
+
+float	minor_4d(t_4dmat *mat, int row, int column)
+{
+	t_3dmat	*submatrix;
+	float	ret;
+
+	submatrix = submat_4d(mat, row, column);
+	ret = determinant(NULL, submatrix ,NULL);
+	free(submatrix);
+	return (ret);
+}
+
+float	cofactor_3d(t_3dmat *mat, int row, int column)
+{
+	float	minor;
+	float	cofact[3][3];
+	
+	minor = minor_3d(mat, row, column);
+	cofact[0][0] = 1;
+	cofact[0][1] = -1;
+	cofact[0][2] = 1;
+	cofact[1][0] = -1;
+	cofact[1][1] = 1;
+	cofact[1][2] = -1;
+	cofact[2][0] = 1;
+	cofact[2][1] = -1;
+	cofact[2][2] = 1;
+	return (minor * cofact[row][column]);
+}
+
+float	cofactor_4d(t_4dmat *mat, int row, int column)
+{
+	float	minor;
+	float	cofact[4][4];
+	
+	minor = minor_4d(mat, row, column);
+	cofact[0][0] = 1;
+	cofact[0][1] = -1;
+	cofact[0][2] = 1;
+	cofact[0][3] = -1;
+	cofact[1][0] = -1;
+	cofact[1][1] = 1;
+	cofact[1][2] = -1;
+	cofact[1][3] = 1;
+	cofact[2][0] = 1;
+	cofact[2][1] = -1;
+	cofact[2][2] = 1;
+	cofact[2][3] = -1;
+	cofact[3][0] = -1;
+	cofact[3][1] = 1;
+	cofact[3][2] = -1;
+	cofact[3][3] = 1;
+	return (minor * cofact[row][column]);
+}
+
+t_4dmat	*create_4dcofactor(t_4dmat *mat)
+{
+	float	res[4][4];
+	float	(*cof)(t_4dmat *, int, int);
+	int	i;
+	int	j;
+
+	i = -1;
+	cof = cofactor_4d;
+	while (++i < 4)
+	{
+		j = -1;
+		while (++j < 4)
+			res[i][j] = cof(mat, i, j);
+	}
+	return (create_4dmat(res));
+}
+
+t_bool	inverse_mat(t_4dmat *mat, t_4dmat **ptr)
+{
+	t_4dmat	*cofactor;
+	t_4dmat	*t;
+	float	res[4][4];
+	int		i;
+	int		j;
+
+	if (determinant(NULL, NULL, mat) == 0)
+		return (false);
+	cofactor = create_4dcofactor(mat);
+	t = transpose(cofactor);
+	i = -1;
+	while (++i < 4)
+	{
+		j = -1;
+		while (++j < 4)
+			res[i][j] = t->matrix[i][j] / determinant(NULL, NULL, mat);
+	}
+	free(cofactor);
+	free(t);
+	(*ptr) = create_4dmat(res);
+	if (!ptr)
+		return (error);
+	return (true);
 }

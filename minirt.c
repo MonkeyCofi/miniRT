@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/29 14:56:39 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:30:58 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	draw_pixel(t_mlx *mlx, int x, int y, int color)
 
 t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, int i, int j)
 {
-	t_tuple	light;
+	t_tuple		light;
 	t_hit		hit;
 	double		variables[4];
 	double		disc;
@@ -118,25 +118,62 @@ void	render(t_mlx *mlx, t_minirt *minirt)
 int main(void)
 {
 	float points[4][4];
-	points[0][0] = -6;
-	points[0][1] = 1;
-	points[0][2] = 1;
-	points[0][3] = 6;
-	points[1][0] = -8;
-	points[1][1] = 5;
-	points[1][2] = 8;
-	points[1][3] = 6;
-	points[2][0] = -1;
-	points[2][1] = 0;
-	points[2][2] = 8;
-	points[2][3] = 2;
-	points[3][0] = -7;
-	points[3][1] = 1;
+	points[0][0] = 3; 
+	points[0][1] = -9; 
+	points[0][2] = 7;
+	points[0][3] = 3;
+	points[1][0] = 3; 
+	points[1][1] = -8; 
+	points[1][2] = 2;
+	points[1][3] = -9;
+	points[2][0] = -4; 
+	points[2][1] = 4; 
+	points[2][2] = 4;
+	points[2][3] = 1;
+	points[3][0] = -6;
+	points[3][1] = 5; 
 	points[3][2] = -1;
 	points[3][3] = 1;
-	t_4dmat	*mat4d = create_4dmat(points);
-	t_3dmat	*submat = submat_4d(mat4d, 0, 0);
-	print_3dmatrix(submat);
+	t_4dmat *mat_a = create_4dmat(points);
+	points[0][0] = 8; 
+	points[0][1] = 2; 
+	points[0][2] = 2;
+	points[0][3] = 2;
+	points[1][0] = 3; 
+	points[1][1] = -1; 
+	points[1][2] = 7;
+	points[1][3] = 0;
+	points[2][0] = 7; 
+	points[2][1] = 0; 
+	points[2][2] = 5;
+	points[2][3] = 4;
+	points[3][0] = 6;
+	points[3][1] = -2; 
+	points[3][2] = 0;
+	points[3][3] = 5;
+	t_4dmat *mat_b = create_4dmat(points);
+	t_4dmat *prod = mat4d_mult(mat_a, mat_b);
+	printf("Matrix A: \n");
+	print_4dmatrix(mat_a);
+	printf("\n");
+	printf("Matrix B: \n");
+	print_4dmatrix(mat_b);
+	printf("\n");
+	printf("A * B: \n");
+	print_4dmatrix(prod);
+	printf("\n");
+	printf("Inverse of Matrix B: \n");
+	t_4dmat *inv;
+	if (inverse_mat(mat_b, &inv) == false)
+		return (1);
+	print_4dmatrix(inv);
+	printf("\n");
+	t_4dmat *orig = mat4d_mult(prod, inv);
+	printf("Product * inverse of B: \n");
+	print_4dmatrix(orig);
+	free(mat_a);
+	free(mat_b);
+	free(prod);
 }
 
 /* =============================Test Main============================= */

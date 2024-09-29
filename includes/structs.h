@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/29 14:04:28 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:28:15 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 typedef enum	e_bool
 {
 	false,
-	true
+	true,
+	error
 }	t_bool;
 
 typedef enum	e_shapes
