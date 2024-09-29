@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/28 13:49:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/29 14:04:28 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,73 @@ typedef	union	u_4dmat
 	};
 	float	matrix[4][4];
 }	t_4dmat;
+
+
+/* NOT IN USE: POTENTIAL MATRIX TAGGED UNION*/
+
+typedef	enum	e_matsize
+{
+	MAT2D,
+	MAT3D,
+	MAT4D
+}	t_matsize;
+
+typedef struct	s_matrix
+{
+	t_matsize	mat_type;
+	union	u_mat2d
+	{
+		struct 
+		{
+			float m11;
+			float m12;
+			float m21;
+			float m22;	
+		};
+		float	matrix[2][2];
+	}	t_mat2d;
+	union	u_mat3d
+	{
+		struct 
+		{
+			float m11;
+			float m12;
+			float m13;
+			float m21;
+			float m22;
+			float m23;
+			float m31;
+			float m32;
+			float m33;
+		};
+		float	matrix[3][3];
+	}	t_mat3d;
+	union	u_mat4d
+	{
+		struct	s_mat4
+		{
+			float m11;
+			float m12;
+			float m13;
+			float m14;
+			float m21;
+			float m22;
+			float m23;
+			float m24;
+			float m31;
+			float m32;
+			float m33;
+			float m34;
+			float m41;
+			float m42;
+			float m43;
+			float m44;
+		}	t_mat4;
+		float	matrix[4][4];
+	}	t_mat4d;
+}	t_matrix;
+
+/* NOT IN USE: POTENTIAL MATRIX TAGGED UNION*/
 
 typedef struct	s_color
 {

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/28 21:05:10 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/29 14:56:39 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,67 +117,26 @@ void	render(t_mlx *mlx, t_minirt *minirt)
 
 int main(void)
 {
-	float matrix[2][2] = {{1, 2}, {3, 4}};
-	t_2dmat	*m1 = create_2dmat(matrix);
-	matrix[0][0] = 5;
-	matrix[0][1] = 6;
-	matrix[1][0] = 7;
-	matrix[1][1] = 8;
-	t_2dmat	*m2 = create_2dmat(matrix);
-	t_2dmat	*res = mat2d_mult(m1, m2);
-	print_2dmatrix(res);
-	
-	printf("\n=====================\n");
-	
-	float mat[4][4] = {{1,2,3,4},
-				  	{2,4,4,2},
-				  	{8,6,4,1},
-					{0,0,0,1}};
-	t_4dmat *m = create_4dmat(mat);
-	t_tuple t;
-	set_point_points(&t, 1, 2, 3);
-	t_tuple *r = tuple_mult(m, &t);
-	print_tuple_points(r);
-	
-	printf("\n=====================\n");
-	
-	t_4dmat id = identity();
-	print_4dmatrix(&id);
-	printf("\n\n");
-	t_4dmat *tr = transpose(&id);
-	print_4dmatrix(tr);
-	
-	t_4dmat uwu;
-	uwu.m11 = 0;
-	uwu.m12 = 9;
-	uwu.m13 = 3;
-	uwu.m14 = 0;
-	uwu.m21 = 9;
-	uwu.m22 = 8;
-	uwu.m23 = 0;
-	uwu.m24 = 8;
-	uwu.m31 = 1;
-	uwu.m32 = 8;
-	uwu.m33 = 5;
-	uwu.m34 = 3;
-	uwu.m41 = 0;
-	uwu.m42 = 0;
-	uwu.m43 = 5;
-	uwu.m44 = 8;
-	printf("\n\n");
-	print_4dmatrix(&uwu);
-	printf("\n");
-	t_4dmat	*owo = transpose(&uwu);
-	print_4dmatrix(owo);
-	
-	printf("\n=====================\n");
-	
-	t_2dmat two;
-	two.m11 = 1;
-	two.m12 = 5;
-	two.m21 = -3;
-	two.m22 = 2;
-	printf("The determinant of matrix two is: %.5f\n", determinant(&two));
+	float points[4][4];
+	points[0][0] = -6;
+	points[0][1] = 1;
+	points[0][2] = 1;
+	points[0][3] = 6;
+	points[1][0] = -8;
+	points[1][1] = 5;
+	points[1][2] = 8;
+	points[1][3] = 6;
+	points[2][0] = -1;
+	points[2][1] = 0;
+	points[2][2] = 8;
+	points[2][3] = 2;
+	points[3][0] = -7;
+	points[3][1] = 1;
+	points[3][2] = -1;
+	points[3][3] = 1;
+	t_4dmat	*mat4d = create_4dmat(points);
+	t_3dmat	*submat = submat_4d(mat4d, 0, 0);
+	print_3dmatrix(submat);
 }
 
 /* =============================Test Main============================= */

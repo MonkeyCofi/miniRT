@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/28 21:05:51 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/29 14:52:58 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,4 +132,58 @@ t_4dmat	*transpose(t_4dmat *matrix)
 float	determinant(t_2dmat *mat)
 {
 	return ((mat->m11 * mat->m22) - (mat->m12 * mat->m21));
+}
+
+t_2dmat	*submat_3d(t_3dmat *matrix, int row, int column)
+{
+	float	resultant[2][2];
+	int		i;
+	int		j;
+	int		k;
+	int		l;
+
+	i = -1;
+	k = 0;
+	while (++i < 3)
+	{
+		if (i == row)
+			continue ;
+		j = -1;
+		l = 0;
+		while (++j < 3)
+		{
+			if (j == column)
+				continue ;
+			resultant[k][l++] = matrix->matrix[i][j];
+		}
+		k++;
+	}
+	return (create_2dmat(resultant));
+}
+
+t_3dmat	*submat_4d(t_4dmat *matrix, int row, int column)
+{
+	float	resultant[3][3];
+	int		i;
+	int		j;
+	int		k;
+	int		l;
+
+	i = -1;
+	k = 0;
+	while (++i < 4)
+	{
+		if (i == row)
+			continue ;
+		j = -1;
+		l = 0;
+		while (++j < 4)
+		{
+			if (j == column)
+				continue ;
+			resultant[k][l++] = matrix->matrix[i][j];
+		}
+		k++;
+	}
+	return (create_3dmat(resultant));
 }

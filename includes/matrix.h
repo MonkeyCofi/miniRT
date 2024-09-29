@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:48:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/28 21:03:53 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/29 14:53:08 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	print_2dmatrix(t_2dmat *m);
 void	print_3dmatrix(t_3dmat *m);
 void	print_4dmatrix(t_4dmat *m);
 
+t_2dmat	*submat_3d(t_3dmat *matrix, int row, int column);
+t_3dmat	*submat_4d(t_4dmat *matrix, int row, int column);
 t_4dmat	identity();
 t_4dmat	*transpose(t_4dmat *matrix);
 float	determinant(t_2dmat *mat);
