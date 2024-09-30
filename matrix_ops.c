@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/29 18:29:54 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:37:36 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,8 @@ float	determinant(t_2dmat *mat_2d, t_3dmat *mat_3d, t_4dmat *mat_4d)
 		return ((mat_2d->m11 * mat_2d->m22) - (mat_2d->m12 * mat_2d->m21));
 	else if (mat_3d)
 	{
-		return ((mat_3d->m11 * cofact_3d(mat_3d, 0, 0)) + (mat_3d->m12 * cofact_3d(mat_3d, 0, 1)) + (mat_3d->m13 * cofact_3d(mat_3d, 0, 2)));
+		return ((mat_3d->m11 * cofact_3d(mat_3d, 0, 0)) + (mat_3d->m12 * cofact_3d(mat_3d, 0, 1)) + \
+				(mat_3d->m13 * cofact_3d(mat_3d, 0, 2)));
 	}
 	else
 	{

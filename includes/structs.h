@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/29 20:53:22 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:42:46 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ typedef enum	e_bool
 typedef enum	e_shapes
 {
 	SPHERE,
-}	s_shapes;
+	CYLINDER,
+	PLANE
+}	t_shape_type;
 
 typedef union	u_tuple
 {
@@ -192,11 +194,22 @@ typedef struct s_ray
 	t_tuple	direction;
 }	t_ray;
 
+typedef struct	s_shape
+{
+	t_shape_type	shape;
+	t_tuple			center;
+	t_tuple			color;
+	t_tuple			normal;
+	t_bool			inward_normal;
+	double			alpha;
+}	t_shape;
+
 typedef struct	s_hit
 {
 	t_ray		hit;
 	t_tuple		p;
 	t_tuple		normal;
+	t_shape		shape;
 	double		t;
 }	t_hit;
 
@@ -226,18 +239,6 @@ typedef struct	s_sphere
 	double		radius;
 	t_bool		inward_normal;
 }	t_sphere;
-
-
-typedef struct	s_shape
-{
-	s_shapes	shape;
-	t_tuple		center;
-	t_tuple		color;
-	t_tuple		normal;
-	t_hit		hit;
-	t_bool		inward_normal;
-	double		alpha;
-}	t_shape;
 
 typedef struct s_minirt
 {
