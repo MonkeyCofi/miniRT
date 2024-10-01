@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/01 21:32:48 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/01 22:10:12 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,15 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *r
 	t_tuple	sphere_dist;
 	
 	sphere_dist = subtract_tuples(&ray->origin, &sphere->center);
+	//sphere_dist = subtract_tuples(&sphere->center, &ray->origin);
+	//print_tuple_points(&sphere_dist);
 	vars[0] = dot_product(&ray->direction, &ray->direction);
-	vars[1] = 2 * dot_product(&ray->direction, &sphere_dist);
-	vars[2] = dot_product(&sphere_dist, &sphere_dist) - sphere->radius * sphere->radius;
-	//vars[3] = (vars[1] * vars[1]) - (4 * vars[0] * vars[2]);
-	//printf("a %f b %f c %f determinant %f\n", vars[0], vars[1], vars[2], vars[3]);
+	vars[1] = 2 * dot_product(&sphere_dist, &ray->direction);
+	vars[2] = dot_product(&sphere_dist, &sphere_dist) - (sphere->radius * sphere->radius);
+	vars[3] = (vars[1] * vars[1]) - (4 * vars[0] * vars[2]);
+	printf("a %f b %f c %f determinant %f\n", vars[0], vars[1], vars[2], vars[3]);
 	if (vars[3] < 0)
 		return (false);
-	//printf("%d\n", inter->int_num);
 	inter->intersections[inter->int_num].t = (-vars[1] - sqrt(vars[3])) / (2 * vars[0]);
 	if (inter->int_num < 200)
 		inter->int_num++;
@@ -103,14 +104,14 @@ void	render_sphere(t_mlx *mlx, t_minirt *m)
 	wall_size = 7;
 	pixel_num = 400;
 	origin = return_tuple(0, 0, -5, 1);
-	wall_z = 10;
+	wall_z = 5;
 	pixel_size = (float)wall_size / pixel_num;
 	half = wall_size / 2;
 	inter = ft_calloc(1, sizeof(t_intersects));
 	t_ray ray;
 	ray.origin = return_tuple(origin.x, origin.y, origin.z, 1);
 	sphere.center = return_tuple(WIDTH / 2, HEIGHT / 2, 1, 1);
-	sphere.radius = 3;
+	sphere.radius = 1; //
 	sphere.color = return_tuple(0.2, 0.8, 0, 0);
 	color.colors = sphere.color;
 	while (++i < pixel_num)
@@ -122,8 +123,7 @@ void	render_sphere(t_mlx *mlx, t_minirt *m)
 			float world_j = -half - pixel_size * j;
 			t_tuple pos = return_tuple(world_j, world_i, wall_z, 1);
 			ray.direction = subtract_tuples(&ray.origin, &pos);
-			normalize(&ray.direction);
-			//print_tuple_points(&ray.direction);
+			//normalize(&ray.direction);
 			sphere_hit(m, NULL, inter, &ray, &sphere);
 			if (possible_hit(inter))
 			{
