@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/30 17:42:46 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:03:05 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,19 @@ typedef struct	s_hit
 	t_shape		shape;
 	double		t;
 }	t_hit;
+
+typedef struct	s_intersection
+{
+	float			t;
+	t_shape_type	type;
+}	t_intersection;
+
+typedef struct	s_intersects
+{
+	int				int_num;
+	int				last_returned;
+	t_intersection	intersections[200];
+}	t_intersects;
 
 typedef struct s_img
 {

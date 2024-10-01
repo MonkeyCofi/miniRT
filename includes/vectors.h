@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 15:27:59 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/27 15:02:48 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:49:13 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 /* Tuple utils */
 void		set_vector_points(t_tuple *v, float x, float y, float z);
 void		set_point_points(t_tuple *v, float x, float y, float z);
+t_tuple		return_tuple(float x, float y, float z, float w);
 
 /* Vector Operations and Arithmetic*/
 void 		normalize(t_tuple *vector);
