@@ -6,17 +6,20 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/02 20:12:49 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/02 20:33:00 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+t_tuple	normal_pos(t_sphere *sphere, t_tuple *pos)
+{
+	return (subtract_tuples(&sphere->center, pos));
+}
+
 t_ray	transform_ray(t_ray *old_ray, t_trans type, t_tuple transform_coords, t_sphere *sphere)
 {
 	t_ray	new_ray;
-	t_4dmat	trans_ray;
-	t_4dmat	*res;
 	
 	new_ray.origin = return_tuple(0, 0, 0, 1);
 	new_ray.direction = return_tuple(0, 0, 0, 0);
@@ -27,9 +30,6 @@ t_ray	transform_ray(t_ray *old_ray, t_trans type, t_tuple transform_coords, t_sp
 	}
 	else if (type == scale)
 	{
-		trans_ray = scaling_mat(transform_coords.x, transform_coords.y, transform_coords.z);
-		res = mat4d_mult(&trans_ray, &sphere->transform);
-		copy_mat(&sphere->transform, res);
 		new_ray.origin = scale_ray(&old_ray->origin, sphere, transform_coords.x, transform_coords.y, transform_coords.z);
 		new_ray.direction = scale_ray(&old_ray->direction, sphere, transform_coords.x, transform_coords.y, transform_coords.z);
 	}
@@ -198,11 +198,8 @@ void	render_sphere(t_mlx *mlx, t_minirt *m)
 		{
 			float world_j = half - pixel_size * j;
 			t_tuple pos = return_tuple(world_j, world_i, wall_z, 1);
-			//print_tuple_points(&pos);
-			//ray.direction = subtract_tuples(&ray.origin, &pos);	// set ray direction
 			ray.direction = subtract_tuples(&pos, &ray.origin);	// set ray direction
 			t_bool hit = sphere_hit(m, NULL, inter, &ray, sphere);
-			//t_bool hit = sphere_hit(m, NULL, inter, &ray, sphere);
 			if (hit == true)
 			if (best_hit(inter))
 			{
@@ -271,27 +268,27 @@ void	draw_background(t_mlx *mlx)
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 }
 
-int main(void)
-{
-	t_minirt		*minirt;
-	t_mlx			mlx;
-	t_ray			*test;
-	//t_ray			transformed_ray;
-	//t_sphere		*sphere;
-	t_intersects	*inter = NULL;
+//int main(void)
+//{
+//	t_minirt		*minirt;
+//	t_mlx			mlx;
+//	t_ray			*test;
+//	//t_ray			transformed_ray;
+//	//t_sphere		*sphere;
+//	t_intersects	*inter = NULL;
 
-	init_mlx(&mlx);
-	minirt = init_minirt(&mlx);
-	test = create_ray(return_tuple(1, 2, 3, 1), return_tuple(0, 1, 0, 0));
-	//sphere = create_sphere(0, 0, 0);
-	inter = ft_calloc(1, sizeof(t_intersects));
-	//sphere_hit(minirt, NULL, inter, test, sphere);
-	//printf("intersect: %f\n", inter->intersections[0].t);
-	//printf("intersect: %f\n", inter->intersections[1].t);
-	draw_background(&mlx);
-	render_sphere(&mlx, minirt);
-	mlx_loop(mlx.mlx);
-}
+//	init_mlx(&mlx);
+//	minirt = init_minirt(&mlx);
+//	test = create_ray(return_tuple(1, 2, 3, 1), return_tuple(0, 1, 0, 0));
+//	//sphere = create_sphere(0, 0, 0);
+//	inter = ft_calloc(1, sizeof(t_intersects));
+//	//sphere_hit(minirt, NULL, inter, test, sphere);
+//	//printf("intersect: %f\n", inter->intersections[0].t);
+//	//printf("intersect: %f\n", inter->intersections[1].t);
+//	draw_background(&mlx);
+//	render_sphere(&mlx, minirt);
+//	mlx_loop(mlx.mlx);
+//}
 
 //#include <time.h>
 
@@ -325,3 +322,14 @@ int main(void)
 //		printf("%.2f\n", inter.intersections[i].t);
 //	printf("hit is: %f\n", best_hit(&inter));
 //}
+
+int main(void)
+{
+	t_sphere *sphere = create_sphere(0, 0, 0);
+	t_tuple point = return_tuple(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3, 1);
+	t_tuple normal = normal_pos(sphere, &point);
+	t_tuple normal_copy = return_tuple(normal.x, normal.y, normal.z, normal.w);
+	print_tuple_points(&normal);
+	normalize(&normal_copy);
+	print_tuple_points(&normal_copy);
+}
