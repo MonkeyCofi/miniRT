@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/30 09:37:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:04:04 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,4 +314,24 @@ t_bool	inverse_mat(t_4dmat *mat, t_4dmat **ptr)
 	if (!ptr)
 		return (error);
 	return (true);
+}
+
+void	copy_mat(t_4dmat *mat_one, t_4dmat *mat_two)
+{
+	mat_one->m11 = mat_two->m11;
+	mat_one->m12 = mat_two->m12;
+	mat_one->m13 = mat_two->m13;
+	mat_one->m14 = mat_two->m14;
+	mat_one->m21 = mat_two->m21;
+	mat_one->m22 = mat_two->m22;
+	mat_one->m23 = mat_two->m23;
+	mat_one->m24 = mat_two->m24;
+	mat_one->m31 = mat_two->m31;
+	mat_one->m32 = mat_two->m32;
+	mat_one->m33 = mat_two->m33;
+	mat_one->m34 = mat_two->m34;
+	mat_one->m41 = mat_two->m41;
+	mat_one->m42 = mat_two->m42;
+	mat_one->m43 = mat_two->m43;
+	mat_one->m44 = mat_two->m44;
 }

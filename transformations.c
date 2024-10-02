@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/30 12:31:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/02 20:11:11 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,17 @@ t_4dmat	z_rotation_mat(float angle)
 	return (z_rot);
 }
 
-t_tuple	scale(t_tuple *point, float x, float y, float z)
+t_tuple	scale_ray(t_tuple *point, t_sphere *sphere, float x, float y, float z)
 {
 	t_4dmat	scaling_matrix;
 	t_tuple	*res;
+	t_4dmat	*new_transform;
 	t_tuple	ret;
 
 	scaling_matrix = scaling_mat(x, y, z);
+	new_transform = mat4d_mult(&scaling_matrix, &sphere->transform);
+	copy_mat(&sphere->transform, new_transform);
+	//free(new_transform);
 	res = tuple_mult(&scaling_matrix, point);
 	if (point->w)
 		set_point_points(&ret, res->x, res->y, res->z);
@@ -91,7 +95,7 @@ t_tuple	scale(t_tuple *point, float x, float y, float z)
 	return (ret);
 }
 
-t_tuple	translate(t_tuple *point, float x, float y, float z)
+t_tuple	translate_ray(t_tuple *point, float x, float y, float z)
 {
 	t_4dmat	translation_matrix;
 	t_tuple	*resultant;

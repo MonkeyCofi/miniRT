@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/29 21:14:00 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:14:29 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@
 
 # define PI 3.1415926535897932385
 # define EPSILON 0.0001f
-# define T_MIN (double)0.001
-# define T_MAX (double)10000000
+//# define MAX_INTERSECTS 200
 
 # ifdef __APPLE__
 #  define HEIGHT 1080

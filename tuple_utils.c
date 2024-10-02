@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:02:04 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/01 20:48:51 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/02 11:21:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,16 @@ t_tuple	return_tuple(float x, float y, float z, float w)
 	ret.z = z;
 	ret.w = w;
 	return (ret);
+}
+
+t_ray	*create_ray(t_tuple origin, t_tuple direction)
+{
+	t_ray	*ray;
+	
+	ray = ft_calloc(1, sizeof(t_ray));
+	if (!ray)
+		return (NULL);
+	ray->origin = return_tuple(origin.x, origin.y, origin.z, 1);
+	ray->direction = return_tuple(direction.x, direction.y, direction.z, 0);
+	return (ray);
 }
