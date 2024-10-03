@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/03 20:58:31 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/03 21:23:26 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ t_tuple	*normal_pos(t_sphere *sphere, t_tuple pos)
 {
 	t_4dmat	*inverse_trans;
 	t_tuple	*object_point;
-	t_tuple	sphere_norm;
 	t_tuple	*world_norm;
+	t_tuple	sphere_norm;
 	
 	if (sphere->current_inverse)
 		inverse_trans = sphere->current_inverse;
@@ -34,6 +34,15 @@ t_tuple	*normal_pos(t_sphere *sphere, t_tuple pos)
 	world_norm = tuple_mult(transpose(inverse_trans), &sphere_norm);
 	normalize(world_norm);
 	return (world_norm);
+}
+
+t_light	create_light(t_tuple intensity, t_tuple position)
+{
+	t_light	light;
+
+	light.intensity.colors = intensity;
+	light.position = position;
+	return (light);	
 }
 
 t_tuple	get_reflected_ray(t_tuple *from, t_tuple *normal)
@@ -171,7 +180,6 @@ void	render_sphere(t_mlx *mlx, t_minirt *m)
 	ray.origin = return_tuple(origin.x, origin.y, origin.z, 1);
 	sphere = create_sphere(0, 0, 0);
 	color.colors = sphere->color;
-	transform_sphere(sphere, scale, return_tuple(0.2, 2, 1, 1));
 	while (++i < pixel_num)
 	{
 		float world_i = half - pixel_size * i;
@@ -247,16 +255,12 @@ void	draw_background(t_mlx *mlx)
 
 int main(void)
 {
-	//t_minirt		*minirt;
-	//t_mlx			mlx;
+	t_minirt		*minirt;
+	t_mlx			mlx;
 
-	//init_mlx(&mlx);
-	//minirt = init_minirt(&mlx);
-	////draw_background(&mlx);
-	//render_sphere(&mlx, minirt);
-	//mlx_loop(mlx.mlx);
-	t_tuple	vec1 = return_tuple(0, -1, 0, 0);
-	t_tuple vec2 = return_tuple(sqrt(2) / 2, sqrt(2) / 2, 0, 0);
-	t_tuple reflected = get_reflected_ray(&vec1, &vec2);
-	print_tuple_points(&reflected);
+	init_mlx(&mlx);
+	minirt = init_minirt(&mlx);
+	//draw_background(&mlx);
+	render_sphere(&mlx, minirt);
+	mlx_loop(mlx.mlx);
 }

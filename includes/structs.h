@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/03 12:37:11 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/03 21:25:41 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,6 +252,14 @@ typedef struct s_mlx
 	t_img	img;
 }	t_mlx;
 
+typedef struct	s_mater
+{
+	t_color	color;
+	float	ambient;
+	float	specular;
+	float	diffuse;
+}	t_mater;
+
 typedef struct s_sphere
 {
 	t_tuple		color;
@@ -259,11 +267,18 @@ typedef struct s_sphere
 	t_tuple		center;
 	t_4dmat		transform;
 	t_4dmat		*current_inverse;
+	t_mater		material;
 	t_bool		inward_normal;
 	t_hit		hit;
 	double		alpha;
 	double		radius;
 }	t_sphere;
+
+typedef struct	s_light
+{
+	t_color	intensity;
+	t_tuple	position;
+}	t_light;
 
 typedef struct s_minirt
 {
