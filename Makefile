@@ -9,7 +9,7 @@ CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES)
 
 SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c \
 		vector_utils.c parsing.c utils.c init.c tuple_utils.c matrix_utils.c \
-		matrix_cmp.c matrix_ops.c transformations.c
+		matrix_cmp.c matrix_ops.c transformations.c intersects.c
 
 OBJS = $(SRCS:.c=.o)
 

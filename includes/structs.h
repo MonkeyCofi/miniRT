@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/02 17:57:24 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:37:11 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,8 +257,9 @@ typedef struct s_sphere
 	t_tuple		color;
 	t_tuple		normal;
 	t_tuple		center;
-	t_bool		inward_normal;
 	t_4dmat		transform;
+	t_4dmat		*current_inverse;
+	t_bool		inward_normal;
 	t_hit		hit;
 	double		alpha;
 	double		radius;

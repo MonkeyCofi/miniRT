@@ -6,89 +6,48 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/02 20:33:00 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/03 20:58:31 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_tuple	normal_pos(t_sphere *sphere, t_tuple *pos)
-{
-	return (subtract_tuples(&sphere->center, pos));
-}
+void	sort_intersects(t_intersects *intersects);
+float	best_hit(t_intersects *intersects);
 
-t_ray	transform_ray(t_ray *old_ray, t_trans type, t_tuple transform_coords, t_sphere *sphere)
+t_tuple	*normal_pos(t_sphere *sphere, t_tuple pos)
 {
-	t_ray	new_ray;
+	t_4dmat	*inverse_trans;
+	t_tuple	*object_point;
+	t_tuple	sphere_norm;
+	t_tuple	*world_norm;
 	
-	new_ray.origin = return_tuple(0, 0, 0, 1);
-	new_ray.direction = return_tuple(0, 0, 0, 0);
-	if (type == translate)
+	if (sphere->current_inverse)
+		inverse_trans = sphere->current_inverse;
+	else
 	{
-		new_ray.origin = translate_ray(&old_ray->origin, transform_coords.x, transform_coords.y, transform_coords.z);
-		new_ray.direction = translate_ray(&old_ray->direction, transform_coords.x, transform_coords.y, transform_coords.z);
+		if (inverse_mat(&sphere->transform, &inverse_trans) == error)
+			return (NULL);
 	}
-	else if (type == scale)
-	{
-		new_ray.origin = scale_ray(&old_ray->origin, sphere, transform_coords.x, transform_coords.y, transform_coords.z);
-		new_ray.direction = scale_ray(&old_ray->direction, sphere, transform_coords.x, transform_coords.y, transform_coords.z);
-	}
-	return (new_ray);
+	object_point = tuple_mult(inverse_trans, &pos);
+	sphere_norm = subtract_tuples(&sphere->center, &pos);
+	world_norm = tuple_mult(transpose(inverse_trans), &sphere_norm);
+	normalize(world_norm);
+	return (world_norm);
 }
 
-void	sort_intersects(t_intersects *intersects)
+t_tuple	get_reflected_ray(t_tuple *from, t_tuple *normal)
 {
-	int				i;
-	int				j;
-	int				count;
-	t_intersection	temp;
+	// reflection formula: 𝑟=𝑑−2(𝑑⋅𝑛)𝑛
+	// from - 2 * dot_product(from, normal) * normal;
+	float	dot;
+	float	prod;
+	t_tuple	_scalar;
 
-	i = 0;
-	if (intersects->intersection_count < MAX_INTERSECTS)
-		count = intersects->intersection_count;
-	else
-		count = MAX_INTERSECTS;
-	while (i < count)
-	{
-		j = i + 1;
-		while (j < count)
-		{
-			if (intersects->intersections[i].t > intersects->intersections[j].t)
-			{
-				temp = intersects->intersections[i];
-				intersects->intersections[i] = intersects->intersections[j];
-				intersects->intersections[j] = temp;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-float	best_hit(t_intersects *intersects)
-{
-	int		i;
-	int		count;
-	float	res;
-
-	i = -1;
-	res = -1;
-	if (intersects->intersection_count < MAX_INTERSECTS)
-		count = intersects->intersection_count;
-	else
-		count = MAX_INTERSECTS;
-	//sort_intersects(intersects);
-	while (++i < count)
-	{
-		if (intersects->intersections[i].t < 0)
-			continue ;
-		res = intersects->intersections[i].t;
-		intersects->last_intersection = i;
-		break ;
-	}
-	if (i == count && res == 0)
-		return (-1);
-	return (res);
+	dot = dot_product(from, normal);
+	prod = 2 * dot;
+	_scalar = return_scalar(normal, prod);
+	return (subtract_tuples(&_scalar, from));
 }
 
 void	draw_pixel(t_mlx *mlx, int x, int y, int color)
@@ -115,6 +74,7 @@ t_sphere	*create_sphere(float originx, float originy, float originz)
 	ret->color = return_tuple(0.8, 0.5, 0.3, 0);
 	ret->radius = 1;
 	ret->transform = identity();
+	ret->current_inverse = NULL;
 	return (ret);
 }
 
@@ -129,15 +89,44 @@ t_tuple	position(t_ray *ray, float t)
 	return (ret);
 }
 
-t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *ray, t_sphere *sphere)
+t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *ray, t_sphere *sphere, int with_transform)
 {
 	float	vars[4];
 	t_tuple	sphere_dist;
+	t_4dmat	*inverse_ray_mat;
+	t_ray	*inverse_ray;
+	t_tuple	*res;
 
-	sphere_dist = subtract_tuples(&sphere->center, &ray->origin);
-	//sphere_dist = subtract_tuples(&ray->origin, &sphere->center);
-	vars[0] = dot_product(&ray->direction, &ray->direction);
-	vars[1] = 2 * dot_product(&sphere_dist, &ray->direction);
+	if (with_transform)
+	{
+		inverse_ray = create_ray(return_tuple(ray->origin.x, ray->origin.y, ray->origin.z, 1), return_tuple(ray->direction.x, ray->direction.y, ray->direction.z, 0));
+		if (!sphere->current_inverse)
+		{
+			if (inverse_mat(&sphere->transform, &inverse_ray_mat) == error)
+				return (error);
+			sphere->current_inverse = inverse_ray_mat;
+			res = tuple_mult(inverse_ray_mat, &inverse_ray->origin);
+			inverse_ray->origin = return_tuple(res->x, res->y, res->z, 1);
+			res = tuple_mult(inverse_ray_mat, &inverse_ray->direction);
+			inverse_ray->direction = return_tuple(res->x, res->y, res->z, 1);
+		}
+		else
+		{
+			res = tuple_mult(sphere->current_inverse, &inverse_ray->origin);
+			inverse_ray->origin = return_tuple(res->x, res->y, res->z, 1);
+			res = tuple_mult(sphere->current_inverse, &inverse_ray->direction);
+			inverse_ray->direction = return_tuple(res->x, res->y, res->z, 1);
+		}
+		sphere_dist = subtract_tuples(&sphere->center, &inverse_ray->origin);
+		vars[0] = dot_product(&inverse_ray->direction, &inverse_ray->direction);
+		vars[1] = 2 * dot_product(&sphere_dist, &inverse_ray->direction);
+	}
+	else
+	{
+		sphere_dist = subtract_tuples(&sphere->center, &ray->origin);
+		vars[0] = dot_product(&ray->direction, &ray->direction);
+		vars[1] = 2 * dot_product(&sphere_dist, &ray->direction);
+	}
 	vars[2] = dot_product(&sphere_dist, &sphere_dist) - (sphere->radius * sphere->radius);
 	vars[3] = (vars[1] * vars[1]) - (4 * vars[0] * vars[2]);
 	if (vars[3] < 0)
@@ -173,7 +162,7 @@ void	render_sphere(t_mlx *mlx, t_minirt *m)
 	i = -1;
 	wall_size = 7;
 	pixel_num = 1000;
-	origin = return_tuple(0, 0, -6, 1);
+	origin = return_tuple(0, 0, -20, 1);
 	wall_z = 10;
 	pixel_size = (float)wall_size / pixel_num;
 	half = wall_size / 2;
@@ -182,14 +171,7 @@ void	render_sphere(t_mlx *mlx, t_minirt *m)
 	ray.origin = return_tuple(origin.x, origin.y, origin.z, 1);
 	sphere = create_sphere(0, 0, 0);
 	color.colors = sphere->color;
-	for (int k = 0; k < pixel_num; k++)
-	{
-		for (int l = 0; l < pixel_num; l++)
-		{
-			draw_pixel(mlx, l + 500, k + 50, 0x00ff00);
-		}
-	}
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
+	transform_sphere(sphere, scale, return_tuple(0.2, 2, 1, 1));
 	while (++i < pixel_num)
 	{
 		float world_i = half - pixel_size * i;
@@ -199,16 +181,11 @@ void	render_sphere(t_mlx *mlx, t_minirt *m)
 			float world_j = half - pixel_size * j;
 			t_tuple pos = return_tuple(world_j, world_i, wall_z, 1);
 			ray.direction = subtract_tuples(&pos, &ray.origin);	// set ray direction
-			t_bool hit = sphere_hit(m, NULL, inter, &ray, sphere);
+			t_bool hit = sphere_hit(m, NULL, inter, &ray, sphere, 1);
 			if (hit == true)
-			if (best_hit(inter))
-			{
-				//best_hit(inter);
 				draw_pixel(mlx, j + 500, i + 50, get_ray_color(&color));
-			}
 		}
 	}
-	printf("%d\n", inter->intersection_count);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 }
 
@@ -268,68 +245,18 @@ void	draw_background(t_mlx *mlx)
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 }
 
-//int main(void)
-//{
-//	t_minirt		*minirt;
-//	t_mlx			mlx;
-//	t_ray			*test;
-//	//t_ray			transformed_ray;
-//	//t_sphere		*sphere;
-//	t_intersects	*inter = NULL;
-
-//	init_mlx(&mlx);
-//	minirt = init_minirt(&mlx);
-//	test = create_ray(return_tuple(1, 2, 3, 1), return_tuple(0, 1, 0, 0));
-//	//sphere = create_sphere(0, 0, 0);
-//	inter = ft_calloc(1, sizeof(t_intersects));
-//	//sphere_hit(minirt, NULL, inter, test, sphere);
-//	//printf("intersect: %f\n", inter->intersections[0].t);
-//	//printf("intersect: %f\n", inter->intersections[1].t);
-//	draw_background(&mlx);
-//	render_sphere(&mlx, minirt);
-//	mlx_loop(mlx.mlx);
-//}
-
-//#include <time.h>
-
-//int main(void)
-//{
-//	t_intersects	inter;
-//	srand(time(NULL));
-
-//	ft_bzero(&inter, sizeof(t_intersects));
-//	//for (int i = 0; i < 10; i++)
-//	//{
-//	//	inter.intersections[inter.intersection_count++].t = rand() % 50;
-//	//	usleep(100);
-//	//}
-//	inter.intersections[inter.intersection_count++].t = 4;
-//	inter.intersections[inter.intersection_count++].t = -6;
-//	inter.intersections[inter.intersection_count++].t = -1;
-//	inter.intersections[inter.intersection_count++].t = -12;
-//	inter.intersections[inter.intersection_count++].t = -2;
-//	inter.intersections[inter.intersection_count++].t = -5;
-//	inter.intersections[inter.intersection_count++].t = -1;
-//	inter.intersections[inter.intersection_count++].t = -214;
-//	inter.intersections[inter.intersection_count++].t = -123;
-//	inter.intersections[inter.intersection_count++].t = -90;
-//	printf("Before sorting: \n");
-//	for (int i = 0; i < 10; i++)
-//		printf("%.2f\n", inter.intersections[i].t);
-//	sort_intersects(&inter);
-//	printf("After sorting: \n");
-//	for (int i = 0; i < 10; i++)
-//		printf("%.2f\n", inter.intersections[i].t);
-//	printf("hit is: %f\n", best_hit(&inter));
-//}
-
 int main(void)
 {
-	t_sphere *sphere = create_sphere(0, 0, 0);
-	t_tuple point = return_tuple(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3, 1);
-	t_tuple normal = normal_pos(sphere, &point);
-	t_tuple normal_copy = return_tuple(normal.x, normal.y, normal.z, normal.w);
-	print_tuple_points(&normal);
-	normalize(&normal_copy);
-	print_tuple_points(&normal_copy);
+	//t_minirt		*minirt;
+	//t_mlx			mlx;
+
+	//init_mlx(&mlx);
+	//minirt = init_minirt(&mlx);
+	////draw_background(&mlx);
+	//render_sphere(&mlx, minirt);
+	//mlx_loop(mlx.mlx);
+	t_tuple	vec1 = return_tuple(0, -1, 0, 0);
+	t_tuple vec2 = return_tuple(sqrt(2) / 2, sqrt(2) / 2, 0, 0);
+	t_tuple reflected = get_reflected_ray(&vec1, &vec2);
+	print_tuple_points(&reflected);
 }

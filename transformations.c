@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/02 20:11:11 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:06:24 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,42 @@ t_tuple	translate_ray(t_tuple *point, float x, float y, float z)
 	//set_point_points(&ret, res->x, res->y, res->z);
 	//free(res);
 	//return (ret);
+}
+
+t_ray	transform_ray(t_ray *old_ray, t_trans type, t_tuple transform_coords, t_sphere *sphere)
+{
+	t_ray	new_ray;
+	
+	new_ray.origin = return_tuple(0, 0, 0, 1);
+	new_ray.direction = return_tuple(0, 0, 0, 0);
+	if (type == translate)
+	{
+		new_ray.origin = translate_ray(&old_ray->origin, transform_coords.x, transform_coords.y, transform_coords.z);
+		new_ray.direction = translate_ray(&old_ray->direction, transform_coords.x, transform_coords.y, transform_coords.z);
+	}
+	else if (type == scale)
+	{
+		new_ray.origin = scale_ray(&old_ray->origin, sphere, transform_coords.x, transform_coords.y, transform_coords.z);
+		new_ray.direction = scale_ray(&old_ray->direction, sphere, transform_coords.x, transform_coords.y, transform_coords.z);
+	}
+	return (new_ray);
+}
+
+void	transform_sphere(t_sphere *sphere, t_trans type, t_tuple transform_coords)
+{
+	t_4dmat	trans_matrix;
+	t_4dmat	*res;
+
+	if (type == translate)
+	{
+		trans_matrix = translation_mat(transform_coords.x, transform_coords.y, transform_coords.z);
+		res = mat4d_mult(&trans_matrix, &sphere->transform);
+		copy_mat(&sphere->transform, res);
+	}
+	else if (type == scale)
+	{
+		trans_matrix = scaling_mat(transform_coords.x, transform_coords.y, transform_coords.z);
+		res = mat4d_mult(&trans_matrix, &sphere->transform);
+		copy_mat(&sphere->transform, res);
+	}
 }
