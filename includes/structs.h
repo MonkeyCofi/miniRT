@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/03 21:25:41 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:47:05 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include "../libft/libft.h"
 
 # define MAX_INTERSECTS 200
+# define VECTOR 0
+# define POINT 1
+# define COLOR 2
 
 typedef enum e_bool
 {
@@ -258,6 +261,7 @@ typedef struct	s_mater
 	float	ambient;
 	float	specular;
 	float	diffuse;
+	float	shine;
 }	t_mater;
 
 typedef struct s_sphere
@@ -267,7 +271,7 @@ typedef struct s_sphere
 	t_tuple		center;
 	t_4dmat		transform;
 	t_4dmat		*current_inverse;
-	t_mater		material;
+	t_mater		*material;
 	t_bool		inward_normal;
 	t_hit		hit;
 	double		alpha;

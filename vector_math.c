@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:57:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/27 12:57:44 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:43:17 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@ t_tuple	add_vectors(t_tuple *vec1, t_tuple *vec2)
 	return (vec);
 }
 
+t_tuple	multiply_tuples(t_tuple *tup1, t_tuple *tup2, int tuple_type)
+{
+	t_tuple	ret_tup;
+
+	ret_tup.x = tup1->x * tup2->x;
+	ret_tup.y = tup1->y * tup2->y;
+	ret_tup.z = tup1->z * tup2->z;
+	ret_tup.w = tuple_type;
+	return (ret_tup);
+}
+
 t_tuple	subtract_tuples(t_tuple *vec1, t_tuple *vec2)
 {
 	t_tuple	resultant;
@@ -34,14 +45,14 @@ t_tuple	subtract_tuples(t_tuple *vec1, t_tuple *vec2)
 	return (resultant);
 }
 
-void	scalar(t_tuple *vec, double scalar)
+void	scalar(t_tuple *vec, float scalar)
 {
 	vec->x *= scalar;
 	vec->y *= scalar;
 	vec->z *= scalar;
 }
 
-t_tuple	return_scalar(t_tuple *vec, double scalar)
+t_tuple	return_scalar(t_tuple *vec, float scalar)
 {
 	t_tuple	resultant;
 	
@@ -51,7 +62,7 @@ t_tuple	return_scalar(t_tuple *vec, double scalar)
 	return (resultant);
 }
 
-t_tuple	return_at(t_ray *ray, double t)
+t_tuple	return_at(t_ray *ray, float t)
 {
 	t_tuple	new;
 

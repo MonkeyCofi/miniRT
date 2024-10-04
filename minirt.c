@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/03 21:23:26 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:59:10 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,34 @@ t_tuple	*normal_pos(t_sphere *sphere, t_tuple pos)
 	normalize(world_norm);
 	return (world_norm);
 }
-
-t_light	create_light(t_tuple intensity, t_tuple position)
+t_mater	*create_default_material()
 {
-	t_light	light;
+	t_mater	*return_material;
 
-	light.intensity.colors = intensity;
-	light.position = position;
-	return (light);	
+	return_material = ft_calloc(1, sizeof(t_mater));
+	if (!return_material)
+		return (NULL);
+	return_material->ambient = 0.1;
+	return_material->diffuse = 0.9;
+	return_material->specular = 0.9;
+	return_material->shine = 200;
+	return_material->color = return_color(1, 1, 1, 1);
+	return (return_material);
 }
 
-t_tuple	get_reflected_ray(t_tuple *from, t_tuple *normal)
+t_mater	*create_material(t_color color, float diffuse, float ambient, float specular, float shine)
 {
-	// reflection formula: 𝑟=𝑑−2(𝑑⋅𝑛)𝑛
-	// from - 2 * dot_product(from, normal) * normal;
-	float	dot;
-	float	prod;
-	t_tuple	_scalar;
+	t_mater	*ret_mat;
 
-	dot = dot_product(from, normal);
-	prod = 2 * dot;
-	_scalar = return_scalar(normal, prod);
-	return (subtract_tuples(&_scalar, from));
+	ret_mat = ft_calloc(1, sizeof(t_mater));
+	if (!ret_mat)
+		return (NULL);
+	ret_mat->color = color;
+	ret_mat->diffuse = diffuse;
+	ret_mat->ambient = ambient;
+	ret_mat->specular = specular;
+	ret_mat->shine = shine;
+	return (ret_mat);
 }
 
 void	draw_pixel(t_mlx *mlx, int x, int y, int color)
@@ -72,7 +78,7 @@ void	draw_pixel(t_mlx *mlx, int x, int y, int color)
 	return ;
 }
 
-t_sphere	*create_sphere(float originx, float originy, float originz)
+t_sphere	*create_sphere(float originx, float originy, float originz, t_mater *material)
 {
 	t_sphere	*ret;
 
@@ -84,6 +90,10 @@ t_sphere	*create_sphere(float originx, float originy, float originz)
 	ret->radius = 1;
 	ret->transform = identity();
 	ret->current_inverse = NULL;
+	if (material)
+		ret->material = create_material(material->color, material->diffuse, material->ambient, material->specular, material->shine);
+	else
+		ret->material = create_material(return_color(1, 1, 1, 1), 0.9, 0.1, 0.9, 200);
 	return (ret);
 }
 
@@ -108,11 +118,13 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *r
 
 	if (with_transform)
 	{
-		inverse_ray = create_ray(return_tuple(ray->origin.x, ray->origin.y, ray->origin.z, 1), return_tuple(ray->direction.x, ray->direction.y, ray->direction.z, 0));
+		inverse_ray = create_ray(return_tuple(ray->origin.x, ray->origin.y, ray->origin.z, POINT), return_tuple(ray->direction.x, ray->direction.y, ray->direction.z, VECTOR));
 		if (!sphere->current_inverse)
 		{
 			if (inverse_mat(&sphere->transform, &inverse_ray_mat) == error)
 				return (error);
+			if (!inverse_ray_mat)
+				return (false);
 			sphere->current_inverse = inverse_ray_mat;
 			res = tuple_mult(inverse_ray_mat, &inverse_ray->origin);
 			inverse_ray->origin = return_tuple(res->x, res->y, res->z, 1);
@@ -166,20 +178,26 @@ void	render_sphere(t_mlx *mlx, t_minirt *m)
 	t_intersects	*inter;
 	t_sphere		*sphere;
 	t_color			color;
+	t_light			light;
 	t_ray 			ray;
 
 	i = -1;
 	wall_size = 7;
-	pixel_num = 1000;
-	origin = return_tuple(0, 0, -20, 1);
+	pixel_num = 700;
+	origin = return_tuple(0, 0, -10, POINT);
 	wall_z = 10;
 	pixel_size = (float)wall_size / pixel_num;
 	half = wall_size / 2;
 	inter = ft_calloc(1, sizeof(t_intersects));
 	inter->intersection_count = 0;
 	ray.origin = return_tuple(origin.x, origin.y, origin.z, 1);
-	sphere = create_sphere(0, 0, 0);
+	sphere = create_sphere(0, 0, 0, NULL);
 	color.colors = sphere->color;
+	sphere->material = create_default_material();
+	sphere->material->color.colors = return_tuple(1, 0.2, 1, COLOR);
+	light = create_light(return_tuple(1, 1, 1, COLOR), return_tuple(-10, 0, 0, POINT));
+	transform_sphere(sphere, translate, return_tuple(-0.5, -0.8, 0, POINT));
+	//transform_sphere(sphere, scale, return_tuple(1, 0.5, 1, POINT));
 	while (++i < pixel_num)
 	{
 		float world_i = half - pixel_size * i;
@@ -189,11 +207,21 @@ void	render_sphere(t_mlx *mlx, t_minirt *m)
 			float world_j = half - pixel_size * j;
 			t_tuple pos = return_tuple(world_j, world_i, wall_z, 1);
 			ray.direction = subtract_tuples(&pos, &ray.origin);	// set ray direction
+			normalize(&ray.direction);
 			t_bool hit = sphere_hit(m, NULL, inter, &ray, sphere, 1);
 			if (hit == true)
+			{
+				t_tuple point = position(&ray, inter->intersections[inter->intersection_count].t);
+				t_tuple	eye = return_tuple(ray.direction.x, ray.direction.y, ray.direction.z, VECTOR);
+				negate(&eye);
+				t_tuple *normal = normal_pos(sphere, point);
+				color.colors = lighting(sphere->material, &light, point, eye, *normal);
 				draw_pixel(mlx, j + 500, i + 50, get_ray_color(&color));
+			}
 		}
 	}
+	for (int k = 0; k < inter->intersection_count; k++)
+		printf("%d: %f\n", k, inter->intersections[k].t);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 }
 
@@ -264,3 +292,14 @@ int main(void)
 	render_sphere(&mlx, minirt);
 	mlx_loop(mlx.mlx);
 }
+
+//int main(void)
+//{
+//	t_tuple eyev = return_tuple(0, 0, -1, VECTOR);
+//	t_tuple normal = return_tuple(0, 0, -1, VECTOR);
+//	t_mater *m = create_default_material();
+//	t_light light = create_light(return_tuple(1, 1, 1, COLOR), return_tuple(0, 0, -10, POINT));
+//	t_tuple res = lighting(m, &light, return_tuple(0, 0, 0, POINT), eyev, normal);
+//	print_tuple_points(&res);
+//	free(m);
+//}

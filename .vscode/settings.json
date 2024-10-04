@@ -6,6 +6,7 @@
 		"libft.h": "c",
 		"structs.h": "c",
 		"vectors.h": "c",
-		"time.h": "c"
+		"time.h": "c",
+		"init.h": "c"
 	}
 }

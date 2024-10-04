@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/02 16:14:29 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:36:01 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ int			dovector(char *string, t_tuple *calc);
 int			parse_camera(t_minirt *minirt, char *string);
 int			parsing(char *str, t_minirt *minirt);
 
-
+t_color	return_color(float red, float green, float blue, float alpha);
+t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector);
+t_light	create_light(t_tuple intensity, t_tuple position);
+t_tuple	get_reflected_ray(t_tuple *from, t_tuple *normal);
 
 #endif

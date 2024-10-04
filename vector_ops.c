@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:28:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/27 15:35:03 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:31:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 	** subtracting a point(w=1) from a vector(w=0) doesn't make sense
 */
 
-double	dot_product(t_tuple *vec1, t_tuple *vec2)
+float	dot_product(t_tuple *vec1, t_tuple *vec2)
 {
 	return ((vec1->x * vec2->x) + (vec1->y * vec2->y) + (vec1->z * vec2->z));
 }

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 15:27:59 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/02 11:21:46 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:31:52 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@ t_ray		*create_ray(t_tuple origin, t_tuple direction);
 /* Vector Operations and Arithmetic*/
 void 		normalize(t_tuple *vector);
 float		magnitude(t_tuple *vector);
-void		scalar(t_tuple *vec, double scalar);
+void		scalar(t_tuple *vec, float scalar);
 void		negate(t_tuple *to_negate);
-double		dot_product(t_tuple *vec1, t_tuple *vec2);
+float		dot_product(t_tuple *vec1, t_tuple *vec2);
+t_tuple		multiply_tuples(t_tuple *tup1, t_tuple *tup2, int vec_point);
 t_tuple		subtract_tuples(t_tuple *vec1, t_tuple *vec2);
 t_tuple		add_vectors(t_tuple *vec1, t_tuple *vec2);
-t_tuple		return_scalar(t_tuple *vec, double scalar);
-t_tuple		return_at(t_ray *ray, double t);
+t_tuple		return_scalar(t_tuple *vec, float scalar);
+t_tuple		return_at(t_ray *ray, float t);
 
 /* Vector Utils */
 t_bool	is_point(t_tuple *vec);

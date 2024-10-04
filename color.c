@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/03 18:58:17 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/04 09:49:42 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,17 @@ void	set_min_max(t_tuple *color)
 		color->b = 0;
 	else if (color->b > 1)
 		color->b = 1;
+}
+
+t_color	return_color(float red, float green, float blue, float alpha)
+{
+	t_color	ret_color;
+
+	ret_color.colors.r = red;
+	ret_color.colors.g = green;
+	ret_color.colors.b  = blue;
+	ret_color.colors.a = alpha;
+	return (ret_color);
 }
 
 uint32_t	get_ray_color(t_color	*color)

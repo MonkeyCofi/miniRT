@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/02 18:04:04 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:54:48 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,7 +298,9 @@ t_bool	inverse_mat(t_4dmat *mat, t_4dmat **ptr)
 	int		j;
 
 	if (determinant(NULL, NULL, mat) == 0)
+	{
 		return (false);
+	}
 	cofactor = create_4dcofactor(mat);
 	t = transpose(cofactor);
 	i = -1;

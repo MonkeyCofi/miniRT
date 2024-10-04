@@ -6,11 +6,15 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/03 13:06:24 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:56:39 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+//#define IS_ROTX_SET(x) (x >> 2) & 1
+//#define IS_SCAL_SET(x) (x >> 1) & 1
+//#define IS_TRAN_SET(x) x & 1
 
 t_4dmat	translation_mat(float x, float y, float z)
 {
@@ -139,6 +143,7 @@ t_ray	transform_ray(t_ray *old_ray, t_trans type, t_tuple transform_coords, t_sp
 	return (new_ray);
 }
 
+//void	transform_sphere(t_sphere *sphere, t_trans type, char rotation_type, t_tuple transform_coords)
 void	transform_sphere(t_sphere *sphere, t_trans type, t_tuple transform_coords)
 {
 	t_4dmat	trans_matrix;
@@ -156,4 +161,10 @@ void	transform_sphere(t_sphere *sphere, t_trans type, t_tuple transform_coords)
 		res = mat4d_mult(&trans_matrix, &sphere->transform);
 		copy_mat(&sphere->transform, res);
 	}
+	//else
+	//{
+	//	if (rotation_type == 'x')
+	//		trans_matrix = x_rotation_mat
+	//}
 }
+
