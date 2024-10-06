@@ -6,26 +6,40 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/01 22:09:30 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/05 13:11:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minirt.h"
 
-t_minirt	*init_minirt(t_mlx *mlx)
+t_minirt	*init_minirt(t_mlx *mlx, int num_of_spheres, int num_of_lights)
 {
 	t_minirt	*ret;
 
-	ret = malloc(sizeof(t_minirt));
+	ret = ft_calloc(1, sizeof(t_minirt));
 	if (!ret)
 		return (NULL);
-	ret->cam = malloc(sizeof(t_camera));
+	ret->cam = ft_calloc(1, sizeof(t_camera));
 	if (!ret->cam)
+	{
+		free(ret);
 		return (NULL);
-	ret->spheres = malloc(sizeof(t_sphere));
+	}
+	ret->spheres = ft_calloc(num_of_spheres, sizeof(t_sphere *));
 	if (!ret->spheres)
+	{
+		free(ret->cam);
+		free(ret);
 		return (NULL);
-	ret->spheres->radius = 0;
+	}
+	ret->lights = ft_calloc(num_of_lights, sizeof(t_light *));
+	if (!ret->lights)
+	{
+		free(ret->spheres);
+		free(ret->cam);
+		free(ret);
+		return (NULL);
+	}
 	ret->mlx = mlx;
 	init_cam(ret);
 	return (ret);

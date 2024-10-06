@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/04 18:47:05 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/06 19:36:12 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,12 +284,25 @@ typedef struct	s_light
 	t_tuple	position;
 }	t_light;
 
+typedef struct	s_inter_comp
+{
+	t_intersects	*intersects;
+	t_tuple			*normal_vec;
+	t_sphere		*obj;
+	t_tuple			point;
+	t_tuple			eye_vec;
+	t_bool			is_inside_object;
+	float			t;
+}	t_inter_comp;
+
 typedef struct s_minirt
 {
 	t_mlx		*mlx;
 	t_camera	*cam;
-	t_sphere	*spheres;
-	t_shape		*shapes;
+	t_sphere	**spheres;
+	t_shape		**shapes;
+	t_light		**lights;
+	int			object_count;
 }	t_minirt;
 
 #endif

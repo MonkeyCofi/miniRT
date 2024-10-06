@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/04 18:54:48 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:44:16 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,11 +131,9 @@ t_4dmat	*transpose(t_4dmat *matrix)
 
 float	determinant(t_2dmat *mat_2d, t_3dmat *mat_3d, t_4dmat *mat_4d)
 {
-	int		i;
 	float	(*cofact_3d)(t_3dmat *, int, int);
 	float	(*cofact_4d)(t_4dmat *, int, int);
 
-	i = -1;
 	cofact_3d = cofactor_3d;
 	cofact_4d = cofactor_4d;
 	if (mat_2d)
@@ -298,9 +296,7 @@ t_bool	inverse_mat(t_4dmat *mat, t_4dmat **ptr)
 	int		j;
 
 	if (determinant(NULL, NULL, mat) == 0)
-	{
 		return (false);
-	}
 	cofactor = create_4dcofactor(mat);
 	t = transpose(cofactor);
 	i = -1;

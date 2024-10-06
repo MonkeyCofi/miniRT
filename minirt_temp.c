@@ -6,13 +6,71 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:02:53 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/02 14:58:22 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/05 13:02:21 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 # define T_MIN (double)0.001
 # define T_MAX (double)10000000
+
+void	draw_pixel_float(t_mlx *mlx, float x, float y, int color)
+{
+	char	*p;
+
+	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+	{
+		p = mlx->img.img_addr + ((int)y * mlx->img.line_length) + \
+			((int)x * (mlx->img.bpp / 8));
+		*(unsigned int *)p = color;
+	}
+	return ;
+}
+
+void	draw_circle(t_mlx *mlx, int originx, int originy, int radius)
+{
+	int e = -radius;
+	int x = radius;
+	int y = 0;
+	while (y < x)
+	{
+		draw_pixel(mlx, originx + x, originy + y, 0xff0000);
+		draw_pixel(mlx, originx - x, originy - y, 0xff0000);
+		draw_pixel(mlx, originx + x, originy - y, 0xff0000);
+		draw_pixel(mlx, originx - x, originy + y, 0xff0000);
+		draw_pixel(mlx, originx + y, originy + x, 0xff0000);
+		draw_pixel(mlx, originx - y, originy - x, 0xff0000);
+		draw_pixel(mlx, originx - y, originy + x, 0xff0000);
+		draw_pixel(mlx, originx + y, originy - x, 0xff0000);
+		e += 2 * y + 1;
+		y++;
+		if (e >= 0)
+		{
+			e -= (2 * (x - 1));
+			x--;
+		}
+	}
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
+}
+
+void	draw_background(t_mlx *mlx)
+{
+	int		i;
+	int		j;
+	float	a;
+
+	i = -1;
+	while (++i < HEIGHT - 1)
+	{
+		j = -1;
+		while (++j < WIDTH - 1)
+		{
+			a = 0.5 * (i + 1);
+			printf("%f\n", a);
+		}
+	}
+	(void)mlx;
+}
 
 t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, int i, int j)
 {
