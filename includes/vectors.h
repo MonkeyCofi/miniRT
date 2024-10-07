@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 15:27:59 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/04 14:31:52 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:24:39 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ float		magnitude(t_tuple *vector);
 void		scalar(t_tuple *vec, float scalar);
 void		negate(t_tuple *to_negate);
 float		dot_product(t_tuple *vec1, t_tuple *vec2);
+t_tuple		cross_product(t_tuple *vec1, t_tuple *vec2);
 t_tuple		multiply_tuples(t_tuple *tup1, t_tuple *tup2, int vec_point);
 t_tuple		subtract_tuples(t_tuple *vec1, t_tuple *vec2);
 t_tuple		add_vectors(t_tuple *vec1, t_tuple *vec2);

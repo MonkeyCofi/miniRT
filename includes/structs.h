@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/06 19:36:12 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/07 21:16:48 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define MAX_INTERSECTS 200
 # define VECTOR 0
 # define POINT 1
-# define COLOR 2
+# define COLOR 1
 
 typedef enum e_bool
 {
@@ -184,21 +184,34 @@ typedef struct s_color
 	t_tuple	colors;
 }	t_color;
 
+//typedef struct s_camera
+//{
+//	t_tuple	camera;
+//	t_tuple	orientation;
+//	t_tuple	v_horiz;
+//	t_tuple	v_vert;
+//	double	focal_length;
+//	double	vh;
+//	double	vw;
+//	double	delta_vh;
+//	double	delta_vw;
+//	double	asp;
+//	int		h_fov;
+//	int		v_fov;
+//	t_bool	flag;
+//}	t_camera;
+
 typedef struct s_camera
 {
-	t_tuple	camera;
-	t_tuple	orientation;
-	t_tuple	v_horiz;
-	t_tuple	v_vert;
-	double	focal_length;
-	double	vh;
-	double	vw;
-	double	delta_vh;
-	double	delta_vw;
-	double	asp;
-	int		h_fov;
-	int		v_fov;
-	t_bool	flag;
+	t_4dmat	*view_matrix;
+	float	horizontal_canv_size;
+	float	vertical_canv_size;
+	float	pixel_size;
+	float	fov;
+	float	aspect;
+	float	half_view;
+	float	half_width;
+	float	half_height;
 }	t_camera;
 
 typedef struct s_ray

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:15:14 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/23 15:14:52 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/07 18:39:40 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "structs.h"
 
-void	init_cam(t_minirt *minirt);
+t_camera	returm_camera(float horiz_size, float vertic_size, float fov, t_4dmat *t);
+void		init_cam(t_minirt *minirt);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/05 13:11:32 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/07 19:44:59 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_minirt	*init_minirt(t_mlx *mlx, int num_of_spheres, int num_of_lights)
 		return (NULL);
 	}
 	ret->mlx = mlx;
-	init_cam(ret);
+	//init_cam(ret);
 	return (ret);
 }
 
