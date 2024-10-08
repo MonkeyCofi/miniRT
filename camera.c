@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/07 21:52:14 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:43:56 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	get_pixel_size(t_camera *camera)
  	camera->pixel_size = (camera->half_width * 2) / camera->horizontal_canv_size;
 }
 
-t_camera	returm_camera(float horiz_size, float vertic_size, float fov, t_4dmat *t)
+t_camera	return_camera(float horiz_size, float vertic_size, float fov, t_4dmat *t)
 {
 	t_camera	cam;
 	float		iden[4][4];
