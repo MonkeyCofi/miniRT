@@ -6,15 +6,17 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/04 18:56:39 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:45:03 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-//#define IS_ROTX_SET(x) (x >> 2) & 1
-//#define IS_SCAL_SET(x) (x >> 1) & 1
-//#define IS_TRAN_SET(x) x & 1
+//# define IS_ROTX_SET(x) (x >> 2) & 1
+//# define IS_ROTY_SET(x) (x >> 2) & 1
+//# define IS_ROTZ_SET(x) (x >> 2) & 1
+//# define IS_SCAL_SET(x) (x >> 1) & 1
+//# define IS_TRANS_SET(x) x & 1
 
 t_4dmat	translation_mat(float x, float y, float z)
 {
@@ -79,23 +81,35 @@ t_4dmat	z_rotation_mat(float angle)
 	return (z_rot);
 }
 
-t_tuple	scale_ray(t_tuple *point, t_sphere *sphere, float x, float y, float z)
+//t_tuple	scale_ray(t_tuple *point, t_sphere *sphere, float x, float y, float z)
+//{
+//	t_4dmat	scaling_matrix;
+//	t_tuple	*res;
+//	t_4dmat	*new_transform;
+//	t_tuple	ret;
+
+//	scaling_matrix = scaling_mat(x, y, z);
+//	new_transform = mat4d_mult(&scaling_matrix, &sphere->transform);
+//	copy_mat(&sphere->transform, new_transform);
+//	//free(new_transform);
+//	res = tuple_mult(&scaling_matrix, point);
+//	if (point->w)
+//		set_point_points(&ret, res->x, res->y, res->z);
+//	else
+//		set_vector_points(&ret, res->x, res->y, res->z);
+//	free(res);
+//	return (ret);
+//}
+
+t_tuple	scale_ray(t_tuple *point, float x, float y, float z)
 {
 	t_4dmat	scaling_matrix;
 	t_tuple	*res;
-	t_4dmat	*new_transform;
 	t_tuple	ret;
 
 	scaling_matrix = scaling_mat(x, y, z);
-	new_transform = mat4d_mult(&scaling_matrix, &sphere->transform);
-	copy_mat(&sphere->transform, new_transform);
-	//free(new_transform);
 	res = tuple_mult(&scaling_matrix, point);
-	if (point->w)
-		set_point_points(&ret, res->x, res->y, res->z);
-	else
-		set_vector_points(&ret, res->x, res->y, res->z);
-	free(res);
+	ret = return_tuple(res->x, res->y, res->z, res->w);
 	return (ret);
 }
 
@@ -135,11 +149,17 @@ t_ray	transform_ray(t_ray *old_ray, t_trans type, t_tuple transform_coords, t_sp
 		new_ray.origin = translate_ray(&old_ray->origin, transform_coords.x, transform_coords.y, transform_coords.z);
 		new_ray.direction = translate_ray(&old_ray->direction, transform_coords.x, transform_coords.y, transform_coords.z);
 	}
+	//else if (type == scale)
+	//{
+	//	new_ray.origin = scale_ray(&old_ray->origin, sphere, transform_coords.x, transform_coords.y, transform_coords.z);
+	//	new_ray.direction = scale_ray(&old_ray->direction, sphere, transform_coords.x, transform_coords.y, transform_coords.z);
+	//}
 	else if (type == scale)
 	{
-		new_ray.origin = scale_ray(&old_ray->origin, sphere, transform_coords.x, transform_coords.y, transform_coords.z);
-		new_ray.direction = scale_ray(&old_ray->direction, sphere, transform_coords.x, transform_coords.y, transform_coords.z);
+		new_ray.origin = scale_ray(&old_ray->origin, transform_coords.x, transform_coords.y, transform_coords.z);
+		new_ray.direction = scale_ray(&old_ray->direction, transform_coords.x, transform_coords.y, transform_coords.z);
 	}
+	(void)sphere;
 	return (new_ray);
 }
 
@@ -168,3 +188,41 @@ void	transform_sphere(t_sphere *sphere, t_trans type, t_tuple transform_coords)
 	//}
 }
 
+//t_tuple	chain_transforms(t_tuple *point, t_tuple *transformations[], t_trans type[], int transformation_count, float angles[])
+t_tuple	chain_transforms(t_transform *trans, t_tuple *point)
+{
+	t_tuple		result;
+	t_4dmat		resultant_mat;
+	int			i;
+
+	i = -1;
+	ft_bzero(&result, sizeof(t_tuple));
+	ft_bzero(&resultant_mat, sizeof(t_4dmat));
+	//while (++i < trans->trans_count)
+	//{
+	//	//if (IS_ROTX_SET(trans->types[i]))
+	//	if (trans->types[i] == rotate_x)
+	//		trans->transformations[i] = x_rotation_mat(trans->rot_angle_x);
+	//	//if (IS_ROTY_SET(trans->types[i]))
+	//	if (trans->types[i] == rotate_y)
+	//		trans->transformations[i] = y_rotation_mat(trans->rot_angle_y);
+	//	//if (IS_ROTZ_SET(trans->types[i]))
+	//	if (trans->types[i] == rotate_z)
+	//		trans->transformations[i] = z_rotation_mat(trans->rot_angle_z);
+	//	//if (IS_SCAL_SET(trans->types[i]))
+	//	if (trans->types[i] == scale)
+	//		trans->transformations[i] = scaling_mat(trans->points[i].x, trans->points[i].y, trans->points[i].z);
+	//	//if (IS_TRANS_SET(trans->types[i]))
+	//	if (trans->types[i] == translate)
+	//		trans->transformations[i] = translation_mat(trans->points[i].x, trans->points[i].y, trans->points[i].z);
+	//}
+	//i = -1;
+	i = trans->trans_count - 1;
+	resultant_mat = trans->transformations[i];
+	while (i >= 1)
+	{
+		resultant_mat = mat4d_mult_fast_static(&resultant_mat, &trans->transformations[i - 1]);
+		i--;
+	}
+	return (tuple_mult_fast(&resultant_mat, point));
+}

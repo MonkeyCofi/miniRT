@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:48:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/02 18:04:12 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:51:30 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ t_bool	mat4d_cmp(t_4dmat *mat_one, t_4dmat *mat_two);
 t_2dmat	*mat2d_mult(t_2dmat *mat_one, t_2dmat *mat_two);
 t_3dmat	*mat3d_mult(t_3dmat *mat_one, t_3dmat *mat_two);
 t_4dmat	*mat4d_mult(t_4dmat *mat_one, t_4dmat *mat_two);
+t_4dmat	*mat4d_mult_fast(t_4dmat *mat_one, t_4dmat *mat_two);
+t_4dmat	mat4d_mult_fast_static(t_4dmat *one, t_4dmat *two);
+t_tuple	tuple_mult_fast(t_4dmat *mat, t_tuple *tuple);
 t_tuple	*tuple_mult(t_4dmat *mat, t_tuple *tuple);
 
 void	copy_mat(t_4dmat *mat_one, t_4dmat *mat_two);

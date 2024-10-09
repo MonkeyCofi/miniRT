@@ -6,11 +6,13 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/08 21:20:07 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:27:36 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersection, t_ray *ray);
 
 void	draw_pixel(t_mlx *mlx, int x, int y, int color)
 {
@@ -64,7 +66,7 @@ t_ray	*ray_per_pixel(t_camera *camera, int px, int py)
 	origin = tuple_mult(camera_inverse, &temp);
 	direction = subtract_tuples(origin, pixel);
 	normalize(&direction);
-	return (create_ray(return_tuple(origin->x, origin->y, origin->z, origin->w), direction));
+	return (create_ray(*origin, direction));
 }
 t_mater	*create_default_material()
 {
@@ -146,7 +148,7 @@ t_tuple	color_at(t_mlx *mlx, t_minirt *minirt, t_ray *ray, int i)
 	hit = best_hit(intersections);
 	if (hit == -1)
 		return (return_tuple(0, 0, 0, COLOR));
-	computations = precompute_intersect(intersections, &intersections->intersections[intersections->intersection_count], ray, minirt->spheres[i]);
+	computations = precompute_intersect(intersections, &intersections->intersections[intersections->intersection_count], ray);
 	final_color = shade(minirt, computations);
 	return (final_color);
 }
@@ -199,6 +201,7 @@ t_minirt	*init_default(t_mlx *mlx)
 	minirt->spheres[0]->material = create_material(c, 0.7, 0.1, 0.2, 200);
 	minirt->spheres[0]->radius = 0.5;
 	minirt->spheres[0]->center = return_tuple(0, 0, 0, POINT);
+	minirt->spheres[0]->transform = identity();
 	/* FIRST SPHERE */
 	
 	/* SECOND SPHERE */
@@ -248,19 +251,93 @@ void	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 //	mlx_loop(mlx.mlx);
 //}
 
+//int main(void)
+//{
+//	t_mater *material;
+//	t_sphere *sphere;
+//	t_tuple	*normal_test;
+//	t_ray	*ray;
+	
+//	material = create_default_material();
+//	sphere = create_sphere(0, 0, 0, material);
+	
+//	transform_sphere(sphere, translate, return_tuple(0, 1, 0, POINT));
+//	normal_test = normal_pos(sphere, return_tuple(0, 1.70711, -0.70711, POINT));
+//	print_tuple_points(normal_test);
+	
+//	ray = create_ray(return_tuple(1, 2, 3, POINT), return_tuple(0, 1, 0, VECTOR));
+//	//t_4dmat translate = translation_mat(3, 4, 5);
+//	t_ray transformed = transform_ray(ray, scale, return_tuple(2, 3, 4, POINT), NULL);
+//	printf("Origin: ");
+//	print_tuple_points(&transformed.origin);
+//	printf("Direction: ");
+//	print_tuple_points(&transformed.direction);
+	
+//	free(material);
+//	free(sphere);
+//}
+
+t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersection, t_ray *ray)
+{
+	t_inter_comp	*new;
+
+	new = ft_calloc(1, sizeof(t_inter_comp));
+	if (!new)
+		return (NULL);
+	new->eye_vec = return_tuple(-ray->direction.x, -ray->direction.y, -ray->direction.z, VECTOR);
+	new->intersects = inter;
+	new->t = intersection->t;
+	//new->point = position(ray, inter->intersections[inter->intersection_count].t);
+	new->point = position(ray, new->t);
+	new->normal_vec = normal_pos(intersection->shape, new->point);
+	new->obj = intersection->shape;
+	new->type = intersection->type;
+	if (dot_product(&new->eye_vec, new->normal_vec) < 0)
+	{
+		new->is_inside_object = true;
+		negate(new->normal_vec);
+	}
+	else
+		new->is_inside_object = false;
+	return (new);
+}
+
 int main(void)
 {
-	t_mater *material;
-	t_sphere *sphere;
-	t_tuple	*normal_test;
+	t_mlx mlx;
+	if (init_mlx(&mlx) == -1)
+		return (1);
+	t_minirt *world = init_default(&mlx);
+	t_ray *ray = create_ray(return_tuple(0, 0, 0, POINT), return_tuple(0, 0, 1, VECTOR));
+	//t_sphere *sphere = create_sphere(0, 0, 0, NULL);
+	t_intersection intersection = intersect(4, SPHERE, world->spheres[0], NULL, none, return_tuple(0, 0, 0, VECTOR));
+	t_inter_comp *intersection_comp = precompute_intersect(NULL, &intersection, ray);
+	t_tuple color = shade(world, intersection_comp);
+	print_tuple_points(&color);
 	
-	material = create_default_material();
-	sphere = create_sphere(0, 0, 0, material);
+	t_light light = create_light(return_tuple(1, 1, 1, COLOR), return_tuple(0, 0.25, 0, POINT));
+	world->lights[0] = &light;
+	intersection = intersect(0.5, SPHERE, world->spheres[1], NULL, none, return_tuple(0, 0, 0, VECTOR));
+	free(intersection_comp);
+	intersection_comp = precompute_intersect(NULL, &intersection, ray);
+	color = shade(world, intersection_comp);
+	print_tuple_points(&color);
+
+	//print_tuple_points(&color);
+	//printf("t: %f\n", intersection_comp->t);
+	//printf("shape type: %s\n", intersection_comp->type == SPHERE ? "Sphere" : "Other shape");
+	//printf("point: ");
+	//print_tuple_points(&intersection_comp->point);
+	//printf("eye vector: ");
+	//print_tuple_points(&intersection_comp->eye_vec);
+	//printf("normal vector: ");
+	//print_tuple_points(intersection_comp->normal_vec);
+	//printf("intersection inside shape: %s\n", intersection_comp->is_inside_object == true ? "True" : "False");
 	
-	transform_sphere(sphere, translate, return_tuple(0, 1, 0, POINT));
-	normal_test = normal_pos(sphere, return_tuple(0, 1.70711, -0.70711, POINT));
-	print_tuple_points(normal_test);
-	
-	free(material);
-	free(sphere);
+	//t_tuple point = return_tuple(0, 0, 0, POINT);
+	//t_tuple eye = return_tuple(0, -sqrt(2) / 2, -sqrt(2) / 2, VECTOR);
+	//t_tuple normal = return_tuple(0, 0, -1, VECTOR);
+	//t_light light = create_light(return_tuple(1, 1, 1, COLOR), return_tuple(0, 10, -10, POINT));
+	//t_tuple l = lighting(create_default_material(), &light, point, eye, normal);
+	//print_tuple_points(&l);
 }

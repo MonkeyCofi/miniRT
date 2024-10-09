@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/06 18:44:16 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:16:50 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,75 @@ t_4dmat	*mat4d_mult(t_4dmat *mat_one, t_4dmat *mat_two)
 		}
 	}
 	return (create_4dmat(res));
+}
+
+t_4dmat	*mat4d_mult_fast(t_4dmat *one, t_4dmat *two)
+{
+	t_4dmat	*res;
+	
+	res = ft_calloc(1, sizeof(t_4dmat));
+	if (!res)
+		return (NULL);
+	res->m11 = (one->m11 * two->m11) + (one->m12 * two->m21) + (one->m13 * two->m31) + (one->m14 * two->m41);
+	res->m12 = (one->m11 * two->m12) + (one->m12 * two->m22) + (one->m13 * two->m32) + (one->m14 * two->m42);
+	res->m13 = (one->m11 * two->m13) + (one->m12 * two->m23) + (one->m13 * two->m33) + (one->m14 * two->m43);
+	res->m14 = (one->m11 * two->m14) + (one->m12 * two->m24) + (one->m13 * two->m34) + (one->m14 * two->m44);
+	
+	res->m21 = (one->m21 * two->m11) + (one->m22 * two->m21) + (one->m23 * two->m31) + (one->m24 * two->m41);
+	res->m22 = (one->m21 * two->m12) + (one->m22 * two->m22) + (one->m23 * two->m32) + (one->m24 * two->m42);
+	res->m23 = (one->m21 * two->m13) + (one->m22 * two->m23) + (one->m23 * two->m33) + (one->m24 * two->m43);
+	res->m24 = (one->m21 * two->m14) + (one->m22 * two->m24) + (one->m23 * two->m34) + (one->m24 * two->m44);
+	
+	res->m31 = (one->m31 * two->m11) + (one->m32 * two->m21) + (one->m33 * two->m31) + (one->m34 * two->m41);
+	res->m32 = (one->m31 * two->m12) + (one->m32 * two->m22) + (one->m33 * two->m32) + (one->m34 * two->m42);
+	res->m33 = (one->m31 * two->m13) + (one->m32 * two->m23) + (one->m33 * two->m33) + (one->m34 * two->m43);
+	res->m34 = (one->m31 * two->m14) + (one->m32 * two->m24) + (one->m33 * two->m34) + (one->m34 * two->m44);
+	
+	res->m41 = (one->m41 * two->m11) + (one->m42 * two->m21) + (one->m43 * two->m31) + (one->m44 * two->m41);
+	res->m42 = (one->m41 * two->m12) + (one->m42 * two->m22) + (one->m43 * two->m32) + (one->m44 * two->m42);
+	res->m43 = (one->m41 * two->m13) + (one->m42 * two->m23) + (one->m43 * two->m33) + (one->m44 * two->m43);
+	res->m44 = (one->m41 * two->m14) + (one->m42 * two->m24) + (one->m43 * two->m34) + (one->m44 * two->m44);
+	
+	return (res);
+}
+
+t_4dmat	mat4d_mult_fast_static(t_4dmat *one, t_4dmat *two)
+{
+	t_4dmat	res;
+	
+	ft_bzero(&res, sizeof(t_4dmat));
+	res.m11 = (one->m11 * two->m11) + (one->m12 * two->m21) + (one->m13 * two->m31) + (one->m14 * two->m41);
+	res.m12 = (one->m11 * two->m12) + (one->m12 * two->m22) + (one->m13 * two->m32) + (one->m14 * two->m42);
+	res.m13 = (one->m11 * two->m13) + (one->m12 * two->m23) + (one->m13 * two->m33) + (one->m14 * two->m43);
+	res.m14 = (one->m11 * two->m14) + (one->m12 * two->m24) + (one->m13 * two->m34) + (one->m14 * two->m44);
+	
+	res.m21 = (one->m21 * two->m11) + (one->m22 * two->m21) + (one->m23 * two->m31) + (one->m24 * two->m41);
+	res.m22 = (one->m21 * two->m12) + (one->m22 * two->m22) + (one->m23 * two->m32) + (one->m24 * two->m42);
+	res.m23 = (one->m21 * two->m13) + (one->m22 * two->m23) + (one->m23 * two->m33) + (one->m24 * two->m43);
+	res.m24 = (one->m21 * two->m14) + (one->m22 * two->m24) + (one->m23 * two->m34) + (one->m24 * two->m44);
+	
+	res.m31 = (one->m31 * two->m11) + (one->m32 * two->m21) + (one->m33 * two->m31) + (one->m34 * two->m41);
+	res.m32 = (one->m31 * two->m12) + (one->m32 * two->m22) + (one->m33 * two->m32) + (one->m34 * two->m42);
+	res.m33 = (one->m31 * two->m13) + (one->m32 * two->m23) + (one->m33 * two->m33) + (one->m34 * two->m43);
+	res.m34 = (one->m31 * two->m14) + (one->m32 * two->m24) + (one->m33 * two->m34) + (one->m34 * two->m44);
+	
+	res.m41 = (one->m41 * two->m11) + (one->m42 * two->m21) + (one->m43 * two->m31) + (one->m44 * two->m41);
+	res.m42 = (one->m41 * two->m12) + (one->m42 * two->m22) + (one->m43 * two->m32) + (one->m44 * two->m42);
+	res.m43 = (one->m41 * two->m13) + (one->m42 * two->m23) + (one->m43 * two->m33) + (one->m44 * two->m43);
+	res.m44 = (one->m41 * two->m14) + (one->m42 * two->m24) + (one->m43 * two->m34) + (one->m44 * two->m44);
+
+	return (res);
+}
+
+t_tuple	tuple_mult_fast(t_4dmat *mat, t_tuple *tuple)
+{
+	t_tuple	resultant;
+
+	resultant.x = (mat->m11 * tuple->x) + (mat->m12 * tuple->y) + (mat->m13 * tuple->z) + (mat->m14 * tuple->w);
+	resultant.y = (mat->m21 * tuple->x) + (mat->m22 * tuple->y) + (mat->m23 * tuple->z) + (mat->m24 * tuple->w);
+	resultant.z = (mat->m31 * tuple->x) + (mat->m32 * tuple->y) + (mat->m33 * tuple->z) + (mat->m34 * tuple->w);
+	resultant.w = (mat->m41 * tuple->x) + (mat->m42 * tuple->y) + (mat->m33 * tuple->z) + (mat->m34 * tuple->w);
+	return (resultant);
 }
 
 t_tuple	*tuple_mult(t_4dmat *mat, t_tuple *tuple)

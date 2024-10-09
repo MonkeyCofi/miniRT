@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/08 21:14:18 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:15:39 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ float	best_hit(t_intersects *intersects)
 
 	i = -1;
 	res = -1;
+	sort_intersects(intersects);
 	if (intersects->intersection_count < MAX_INTERSECTS)
 		count = intersects->intersection_count;
 	else
@@ -67,35 +68,43 @@ float	best_hit(t_intersects *intersects)
 	return (res);
 }
 
-t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersection, t_ray *ray, t_sphere *sphere)
-{
-	t_inter_comp	*new;
+//t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersection, t_ray *ray, t_sphere *sphere)
+//{
+//	t_inter_comp	*new;
 
-	new = ft_calloc(1, sizeof(t_inter_comp));
-	if (!new)
-		return (NULL);
-	new->eye_vec = return_tuple(-ray->direction.x, -ray->direction.y, -ray->direction.z, VECTOR);
-	new->intersects = inter;
-	new->t = intersection->t;
-	//new->point = position(ray, inter->intersections[inter->intersection_count].t);
-	new->point = position(ray, new->t);
-	new->normal_vec = normal_pos(sphere, new->point);
-	new->obj = sphere;
-	if (dot_product(&new->eye_vec, new->normal_vec) < 0)
-	{
-		new->is_inside_object = true;
-		negate(new->normal_vec);
-	}
-	else
-		new->is_inside_object = false;
-	return (new);
-}
-t_intersection	intersect(float t, t_shape_type type)
+//	new = ft_calloc(1, sizeof(t_inter_comp));
+//	if (!new)
+//		return (NULL);
+//	new->eye_vec = return_tuple(-ray->direction.x, -ray->direction.y, -ray->direction.z, VECTOR);
+//	new->intersects = inter;
+//	new->t = intersection->t;
+//	//new->point = position(ray, inter->intersections[inter->intersection_count].t);
+//	new->point = position(ray, new->t);
+//	new->normal_vec = normal_pos(sphere, new->point);
+//	new->obj = sphere;
+//	if (dot_product(&new->eye_vec, new->normal_vec) < 0)
+//	{
+//		new->is_inside_object = true;
+//		negate(new->normal_vec);
+//	}
+//	else
+//		new->is_inside_object = false;
+//	return (new);
+//}
+
+t_intersection	intersect(float t, t_shape_type type, void *shape, t_ray *ray, t_trans trans_type, t_tuple trans_coords)
 {
 	t_intersection	intersection;
+	t_ray			new_ray;
 
+	if (trans_type != none)
+		transform_ray(ray, trans_type, trans_coords, NULL);
+	else
+		printf("Not transforming ray in intersect\n");
 	intersection.t = t;
+	intersection.shape = shape;
 	intersection.type = type;
+	(void)new_ray;
 	return (intersection);
 }
 
@@ -111,8 +120,6 @@ t_intersects	*intersect_enivornment(t_mlx *mlx, t_minirt *minirt, t_ray *ray, t_
 		if (sphere_hit(minirt, NULL, inter, ray, minirt->spheres[i], 1) == false)
 			continue ;
 	}
-	sort_intersects(inter);
-	//print_intersects(inter);
 	(void)mlx;
 	(void)sphere;
 	return (inter);
@@ -129,13 +136,20 @@ t_tuple	*normal_pos(t_sphere *sphere, t_tuple pos)
 	t_4dmat	*inverse_trans;
 	t_tuple	*world_norm;
 	t_tuple	sphere_norm;
+	t_bool	boo;
 	
 	if (sphere->current_inverse)
 		inverse_trans = sphere->current_inverse;
 	else
 	{
-		if (inverse_mat(&sphere->transform, &inverse_trans) == error)
+		boo = inverse_mat(&sphere->transform, &inverse_trans);
+		if (boo == error)
 			return (NULL);
+		if (boo == false)
+		{
+			printf("There is no inverse\n");
+			return (NULL);
+		}
 	}
 	sphere_norm = subtract_tuples(&sphere->center, &pos);
 	world_norm = tuple_mult(transpose(inverse_trans), &sphere_norm);

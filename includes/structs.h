@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/07 21:16:48 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:38:35 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ typedef enum e_bool
 typedef enum e_trans
 {
 	scale,
-	rotate,
-	translate
+	rotate_x,
+	rotate_y,
+	rotate_z,
+	translate,
+	none
 }	t_trans;
 
 typedef enum e_shapes
@@ -242,6 +245,7 @@ typedef struct s_hit
 typedef struct s_intersection
 {
 	float			t;
+	void			*shape;
 	t_shape_type	type;
 }	t_intersection;
 
@@ -300,6 +304,7 @@ typedef struct	s_light
 typedef struct	s_inter_comp
 {
 	t_intersects	*intersects;
+	t_shape_type	type;
 	t_tuple			*normal_vec;
 	t_sphere		*obj;
 	t_tuple			point;
