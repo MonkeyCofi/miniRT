@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/08 21:09:56 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:18:49 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 # define PI 3.1415926535897932385
 # define EPSILON 0.0001f
+# define DEG_RAD(x) x * (PI / 180) 
 //# define MAX_INTERSECTS 200
 
 # ifdef __APPLE__
@@ -37,8 +38,8 @@
 //#  define HEIGHT 1080
 //#  define WIDTH 1920
 #  define APPLE 1
-#  define HEIGHT 500
-#  define WIDTH 500
+#  define HEIGHT 300
+#  define WIDTH 300
 #  define W 13
 #  define A 0
 #  define S 1

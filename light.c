@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/09 20:20:06 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/10 11:25:02 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_v
 			specular = return_tuple(0, 0, 0, COLOR);
 		else
 		{
-			float fac = round(pow(eye_dot, material->shine));
+			float fac = pow(eye_dot, material->shine);
 			specular = return_scalar(&light->intensity.colors, material->specular * fac);
 		}
 	}

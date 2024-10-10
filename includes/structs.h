@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/09 19:38:35 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:58:10 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,6 +321,7 @@ typedef struct s_minirt
 	t_shape		**shapes;
 	t_light		**lights;
 	int			object_count;
+	int			light_count;
 }	t_minirt;
 
 #endif

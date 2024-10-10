@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/09 20:15:39 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/10 16:01:09 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,30 @@ void	sort_intersects(t_intersects *intersects)
 	}
 }
 
-float	best_hit(t_intersects *intersects)
+t_intersection	*best_hit(t_intersects *intersects)
 {
-	int		i;
-	int		count;
-	float	res;
+	int				i;
+	int				count;
+	t_intersection	*res;
 
 	i = -1;
-	res = -1;
+	res = NULL;
 	sort_intersects(intersects);
+	//print_intersects(intersects);
 	if (intersects->intersection_count < MAX_INTERSECTS)
 		count = intersects->intersection_count;
 	else
 		count = MAX_INTERSECTS;
-	//sort_intersects(intersects);
 	while (++i < count)
 	{
 		if (intersects->intersections[i].t < 0)
 			continue ;
-		res = intersects->intersections[i].t;
+		res = &intersects->intersections[i];
 		intersects->last_intersection = i;
 		break ;
 	}
 	if (i == count && res == 0)
-		return (-1);
+		return (NULL);
 	return (res);
 }
 
@@ -108,7 +108,7 @@ t_intersection	intersect(float t, t_shape_type type, void *shape, t_ray *ray, t_
 	return (intersection);
 }
 
-t_intersects	*intersect_enivornment(t_mlx *mlx, t_minirt *minirt, t_ray *ray, t_sphere *sphere)
+t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray)
 {
 	t_intersects	*inter;
 	int				i;
@@ -120,8 +120,6 @@ t_intersects	*intersect_enivornment(t_mlx *mlx, t_minirt *minirt, t_ray *ray, t_
 		if (sphere_hit(minirt, NULL, inter, ray, minirt->spheres[i], 1) == false)
 			continue ;
 	}
-	(void)mlx;
-	(void)sphere;
 	return (inter);
 }
 
@@ -136,16 +134,16 @@ t_tuple	*normal_pos(t_sphere *sphere, t_tuple pos)
 	t_4dmat	*inverse_trans;
 	t_tuple	*world_norm;
 	t_tuple	sphere_norm;
-	t_bool	boo;
+	t_bool	has_inverse;
 	
 	if (sphere->current_inverse)
 		inverse_trans = sphere->current_inverse;
 	else
 	{
-		boo = inverse_mat(&sphere->transform, &inverse_trans);
-		if (boo == error)
+		has_inverse = inverse_mat(&sphere->transform, &inverse_trans);
+		if (has_inverse == error)
 			return (NULL);
-		if (boo == false)
+		if (has_inverse == false)
 		{
 			printf("There is no inverse\n");
 			return (NULL);
