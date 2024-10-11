@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/10 16:01:09 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/11 19:26:09 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,31 @@ void	sort_intersects(t_intersects *intersects)
 		}
 		i++;
 	}
+}
+
+t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_index)
+{
+	t_ray			*ray;
+	t_intersects	*intersect;
+	t_tuple			new_point;
+	t_tuple			direction;
+	float			distance;
+	t_intersection	*hit;
+	
+	new_point = subtract_tuples(&point, &minirt->lights[light_index]->position);
+	distance = magnitude(&new_point);
+	direction = return_tuple(new_point.x, new_point.y, new_point.z, VECTOR);
+	normalize(&direction);
+	ray = create_ray(point, direction);
+	intersect = intersect_enivornment(minirt, ray);
+	hit = best_hit(intersect);
+	if (hit && hit->t < distance)
+	{
+		free(intersect);	
+		return (true);
+	}
+	free(intersect);
+	return (false);
 }
 
 t_intersection	*best_hit(t_intersects *intersects)

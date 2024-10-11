@@ -5,12 +5,12 @@ CC = cc
 INCLUDES = ./includes
 
 CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) -Ofast
-# CFLAGS += -fsanitize=address -g3
+#CFLAGS += -fsanitize=address -g3
 
 SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c \
 		vector_utils.c utils.c init.c tuple_utils.c matrix_utils.c \
 		matrix_cmp.c matrix_ops.c transformations.c intersects.c light.c \
-		sphere.c \
+		sphere.c frees.c \
 		#parsing.c
 
 OBJS = $(SRCS:.c=.o)
@@ -35,7 +35,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	make -C $(MLXOS) -j2
 	make -C $(LIBFT_DIR) -j2
-	#$(CC) $(OBJS) -fsanitize=address -g3 $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+	$(CC) $(OBJS) -fsanitize=address -g3 $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
 	$(CC) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
 
 %.o: %.c

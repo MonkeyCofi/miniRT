@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/10 11:25:02 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/11 19:15:52 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 	diffuse: take the dot product of the surface normal and the light vector
 	specular: take the dot product of the eye_vector and the light vector 
 	shine: */
-t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector)
+t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow)
 {
 	t_tuple	final_color;
 	t_tuple	light_vector;
@@ -56,6 +56,11 @@ t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_v
 			float fac = pow(eye_dot, material->shine);
 			specular = return_scalar(&light->intensity.colors, material->specular * fac);
 		}
+	}
+	if (in_shadow == true)
+	{
+		diffuse = return_tuple(0, 0, 0, COLOR);
+		specular = return_tuple(0, 0, 0, COLOR);
 	}
 	return (return_tuple(diffuse.x + specular.x + ambient.x, diffuse.y + specular.y + ambient.y, diffuse.z + specular.z + ambient.z, COLOR));
 }
