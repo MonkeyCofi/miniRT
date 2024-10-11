@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/08 13:43:56 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/11 21:27:56 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,38 @@ t_camera	return_camera(float horiz_size, float vertic_size, float fov, t_4dmat *
 	}
 	get_pixel_size(&cam);
 	return (cam);
+}
+
+t_4dmat	*view_transform(t_tuple *to, t_tuple *from, t_tuple *up)
+{
+	t_tuple	forward_vec;
+	t_tuple	left_vec;
+	t_tuple	real_up;
+	t_4dmat	*orientation;
+	t_4dmat	transl8;
+	t_4dmat	*res;
+	t_tuple	up_normalized;
+	float	points[4][4] = {};
+	
+	forward_vec = subtract_tuples(from, to);
+	up_normalized = return_tuple(up->x, up->y, up->z, VECTOR);
+	normalize(&up_normalized);
+	normalize(&forward_vec);
+	left_vec = cross_product(&forward_vec, &up_normalized);
+	real_up = cross_product(&left_vec, &forward_vec);
+	points[0][0] = left_vec.x;
+	points[0][1] = left_vec.y;
+	points[0][2] = left_vec.z;
+	points[1][0] = real_up.x;
+	points[1][1] = real_up.y;
+	points[1][2] = real_up.z;
+	points[2][0] = -forward_vec.x;
+	points[2][1] = -forward_vec.y;
+	points[2][2] = -forward_vec.z;
+	points[3][3] = 1;
+	orientation = create_4dmat(points);
+	transl8 = translation_mat(-from->x, -from->y, -from->z);
+	res = mat4d_mult(orientation, &transl8);
+	free(orientation);
+	return (res);
 }

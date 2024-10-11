@@ -6,11 +6,11 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/07 19:44:59 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/11 21:43:26 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minirt.h"
+#include "init.h"
 
 t_minirt	*init_minirt(t_mlx *mlx, int num_of_spheres, int num_of_lights)
 {
@@ -65,4 +65,58 @@ int	init_mlx(t_mlx *mlx)
 		mlx_hook(mlx->win, 17, 0, destroy, mlx);
 	}
 	return (1);
+}
+
+t_minirt	*init_default(t_mlx *mlx)
+{
+	t_minirt	*minirt;
+	
+	minirt = ft_calloc(1, sizeof(t_minirt));
+	if (!minirt)
+		return (NULL);
+	minirt->spheres = ft_calloc(2, sizeof(t_sphere *));
+	if (!minirt->spheres)
+	{
+		free(minirt);
+		return (NULL);
+	}
+	minirt->lights = ft_calloc(1, sizeof(t_light *));
+	if (!minirt->lights)
+	{
+		free(minirt->spheres);
+		free(minirt);
+		return (NULL);
+	}
+	
+	/* LIGHT */
+	minirt->lights[0] = ft_calloc(1, sizeof(t_light));
+	if (!minirt->lights[0])
+		return (NULL);
+	minirt->lights[0]->intensity.colors = return_tuple(1, 1, 1, COLOR);
+	minirt->lights[0]->position = return_tuple(-10, 10, -10, POINT);
+	/* LIGHT */
+	
+	/* FIRST SPHERE */
+	minirt->spheres[0] = ft_calloc(1, sizeof(t_sphere));
+	if (!minirt->spheres[0])
+		return (NULL);
+	t_color	c;
+	c.colors = return_tuple(0.8, 1, 0.6, COLOR);
+	minirt->spheres[0]->material = create_material(c, 0.7, 0.1, 0.2, 200);
+	minirt->spheres[0]->radius = 0.5;
+	minirt->spheres[0]->center = return_tuple(0, 0, 0, POINT);
+	minirt->spheres[0]->transform = identity();
+	/* FIRST SPHERE */
+	
+	/* SECOND SPHERE */
+	minirt->spheres[1] = create_sphere(0, 0, 0, create_default_material());
+	minirt->spheres[1]->radius = 1;
+	minirt->spheres[1]->center = return_tuple(0, 0, 0, POINT);
+	transform_sphere(minirt->spheres[1], scale, return_tuple(0.5, 0.5, 0.5, POINT));
+	/* SECOND SPHERE */
+
+	minirt->mlx = mlx;
+	minirt->object_count = 2;
+	minirt->light_count = 1;
+	return (minirt);
 }

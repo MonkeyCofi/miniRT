@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/11 19:26:09 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/11 21:24:52 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,31 @@ t_intersection	*best_hit(t_intersects *intersects)
 	if (i == count && res == 0)
 		return (NULL);
 	return (res);
+}
+
+t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersection, t_ray *ray)
+{
+	t_inter_comp	*new;
+
+	new = ft_calloc(1, sizeof(t_inter_comp));
+	if (!new)
+		return (NULL);
+	new->eye_vec = return_tuple(-ray->direction.x, -ray->direction.y, -ray->direction.z, VECTOR);
+	new->intersects = inter;
+	new->t = intersection->t;
+	new->obj = intersection->shape;
+	//new->point = position(ray, inter->intersections[inter->intersection_count].t);
+	new->point = position(ray, new->t);
+	new->normal_vec = normal_pos(intersection->shape, new->point);
+	new->type = intersection->type;
+	if (dot_product(&new->eye_vec, new->normal_vec) < 0)
+	{
+		new->is_inside_object = true;
+		negate(new->normal_vec);
+	}
+	else
+		new->is_inside_object = false;
+	return (new);
 }
 
 //t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersection, t_ray *ray, t_sphere *sphere)

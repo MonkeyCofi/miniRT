@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/10 15:58:10 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/11 21:32:10 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,93 +116,10 @@ typedef union u_4dmat
 	float	matrix[4][4];
 }	t_4dmat;
 
-/* NOT IN USE: POTENTIAL MATRIX TAGGED UNION*/
-
-typedef	enum e_matsize
-{
-	MAT2D,
-	MAT3D,
-	MAT4D
-}	t_matsize;
-
-typedef struct s_matrix
-{
-	t_matsize	mat_type;
-	union u_mat2d
-	{
-		struct
-		{
-			float	m11;
-			float	m12;
-			float	m21;
-			float	m22;	
-		};
-		float	matrix[2][2];
-	}	t_mat2d;
-	union u_mat3d
-	{
-		struct
-		{
-			float	m11;
-			float	m12;
-			float	m13;
-			float	m21;
-			float	m22;
-			float	m23;
-			float	m31;
-			float	m32;
-			float	m33;
-		};
-		float	matrix[3][3];
-	}	t_mat3d;
-	union u_mat4d
-	{
-		struct s_mat4
-		{
-			float	m11;
-			float	m12;
-			float	m13;
-			float	m14;
-			float	m21;
-			float	m22;
-			float	m23;
-			float	m24;
-			float	m31;
-			float	m32;
-			float	m33;
-			float	m34;
-			float	m41;
-			float	m42;
-			float	m43;
-			float	m44;
-		}	t_mat4;
-		float	matrix[4][4];
-	}	t_mat4d;
-}	t_matrix;
-
-/* NOT IN USE: POTENTIAL MATRIX TAGGED UNION*/
-
 typedef struct s_color
 {
 	t_tuple	colors;
 }	t_color;
-
-//typedef struct s_camera
-//{
-//	t_tuple	camera;
-//	t_tuple	orientation;
-//	t_tuple	v_horiz;
-//	t_tuple	v_vert;
-//	double	focal_length;
-//	double	vh;
-//	double	vw;
-//	double	delta_vh;
-//	double	delta_vw;
-//	double	asp;
-//	int		h_fov;
-//	int		v_fov;
-//	t_bool	flag;
-//}	t_camera;
 
 typedef struct s_camera
 {
@@ -222,25 +139,6 @@ typedef struct s_ray
 	t_tuple	origin;
 	t_tuple	direction;
 }	t_ray;
-
-typedef struct s_shape
-{
-	t_shape_type	shape;
-	t_tuple			center;
-	t_tuple			color;
-	t_tuple			normal;
-	t_bool			inward_normal;
-	double			alpha;
-}	t_shape;
-
-typedef struct s_hit
-{
-	t_ray		hit;
-	t_tuple		p;
-	t_tuple		normal;
-	t_shape		shape;
-	double		t;
-}	t_hit;
 
 typedef struct s_intersection
 {
@@ -280,6 +178,23 @@ typedef struct	s_mater
 	float	diffuse;
 	float	shine;
 }	t_mater;
+
+typedef struct s_shape
+{
+	t_shape_type	type;
+	t_4dmat			transform;
+	t_4dmat			inverse_mat;
+	t_mater			*material;
+}	t_shape;
+
+typedef struct s_hit
+{
+	t_ray		hit;
+	t_tuple		p;
+	t_tuple		normal;
+	t_shape		shape;
+	double		t;
+}	t_hit;
 
 typedef struct s_sphere
 {

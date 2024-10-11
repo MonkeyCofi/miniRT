@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.h                                             :+:      :+:    :+:   */
+/*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/24 20:17:30 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/11 21:43:38 by pipolint         ###   ########.fr       */
+/*   Created: 2024/10/11 21:26:09 by pipolint          #+#    #+#             */
+/*   Updated: 2024/10/11 21:30:22 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT_H
-# define INIT_H
+#ifndef COLOR_H
+# define COLOR_H
 
-# include "minirt.h"
+# include "structs.h"
 
-//t_minirt	*init_minirt(t_mlx *mlx);
-
-t_minirt	*init_minirt(t_mlx *mlx, int num_of_spheres, int num_of_lights);
-t_minirt	*init_default(t_mlx *mlx);
-int			init_mlx(t_mlx *mlx);
+t_tuple		shade(t_minirt *minirt, t_inter_comp *intersect_comp);
+t_tuple		color_at(t_minirt *minirt, t_ray *ray);
+t_color		return_color(float red, float green, float blue, float alpha);
+uint32_t	get_ray_color(t_color	*color);
+void		set_min_max(t_tuple *color);
 
 #endif
