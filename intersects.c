@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/11 21:24:52 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:59:02 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,13 @@ t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersec
 	new->intersects = inter;
 	new->t = intersection->t;
 	new->obj = intersection->shape;
+	new->type = intersection->type;
 	//new->point = position(ray, inter->intersections[inter->intersection_count].t);
 	new->point = position(ray, new->t);
-	new->normal_vec = normal_pos(intersection->shape, new->point);
+	if (new->type == SPHERE)
+		new->normal_vec = normal_pos(intersection->shape, new->point);
+	else
+		new->normal_vec = normal_pos_plane(intersection->shape, new->point);
 	new->type = intersection->type;
 	if (dot_product(&new->eye_vec, new->normal_vec) < 0)
 	{
@@ -149,13 +153,28 @@ t_intersection	intersect(float t, t_shape_type type, void *shape, t_ray *ray, t_
 
 	if (trans_type != none)
 		transform_ray(ray, trans_type, trans_coords, NULL);
-	else
-		printf("Not transforming ray in intersect\n");
+	//else
+	//	printf("Not transforming ray in intersect\n");
 	intersection.t = t;
 	intersection.shape = shape;
 	intersection.type = type;
 	(void)new_ray;
 	return (intersection);
+}
+
+t_intersection	*intersect_plane(t_ray *ray, t_plane *plane)
+{
+	t_intersection	*plane_intersection;
+	t_intersection	temp;
+
+	if (fabs(ray->direction.y) < EPSILON)
+		return (NULL);
+	plane_intersection = ft_calloc(1, sizeof(t_intersection));
+	temp = intersect(-ray->origin.y / ray->direction.y, PLANE, plane, ray, none, return_tuple(0, 0, 0, POINT));
+	plane_intersection->shape = temp.shape;
+	plane_intersection->t = temp.t;
+	plane_intersection->type = temp.type;
+	return (plane_intersection);
 }
 
 t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray)
@@ -167,9 +186,33 @@ t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray)
 	i = -1;
 	while (++i < minirt->object_count)
 	{
-		if (sphere_hit(minirt, NULL, inter, ray, minirt->spheres[i], 1) == false)
-			continue ;
+		if (minirt->shapes[i]->type == SPHERE)
+		{
+			if (sphere_hit(minirt, NULL, inter, ray, minirt->shapes[i]->shape, 1) == false)
+				continue ;
+		}
+		else if (minirt->shapes[i]->type == PLANE)
+		{
+			if (inter->intersection_count < MAX_INTERSECTS)
+			{
+				t_intersection	*plane_intersect = intersect_plane(ray, minirt->shapes[i]->shape);
+				if (plane_intersect)
+					inter->intersections[inter->intersection_count] = *plane_intersect;
+				free(plane_intersect);
+			}
+		}
+		//if (sphere_hit(minirt, NULL, inter, ray, minirt->spheres[i], 1) == false)
+		//	continue ;
 	}
+	//if (inter->intersection_count < MAX_INTERSECTS && minirt->plane)
+	//{
+	//	//printf("there is a plane\n");
+	//	//t_intersection	*plane_intersect = intersect_plane(ray, return_tuple(0, 0, 0, POINT));
+	//	t_intersection	*plane_intersect = intersect_plane(ray, minirt->plane);
+	//	if (plane_intersect)
+	//		inter->intersections[inter->intersection_count] = *plane_intersect;
+	//	free(plane_intersect);
+	//}
 	return (inter);
 }
 
@@ -177,6 +220,11 @@ void	print_intersects(t_intersects *inter)
 {
 	for (int i = 0; i < inter->intersection_count; i++)
 		printf("intersect[%d]: %f\n", i, inter->intersections[i].t);
+}
+
+t_tuple	*normal_pos_plane(t_plane *shape, t_tuple point)
+{
+
 }
 
 t_tuple	*normal_pos(t_sphere *sphere, t_tuple pos)

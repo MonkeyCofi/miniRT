@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/11 21:29:18 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:32:09 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,49 +311,76 @@ void	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 //	mlx_loop(&mlx.mlx);
 //}
 
+//int main(void)
+//{
+//	t_mlx mlx;
+//	init_mlx(&mlx);
+	
+//	// world
+//	t_minirt *world = init_default(&mlx);
+//	world->plane->transform = x_rotation_mat(PI / 2);
+//	t_4dmat hehe = scaling_mat(2, 2, 2);
+//	world->plane->transform = mat4d_mult_fast_static(&world->plane->transform, &hehe);
+//	hehe = translation_mat(0, 0, 5);
+//	world->plane->transform = mat4d_mult_fast_static(&world->plane->transform, &hehe);
+	
+//	// camera
+//	t_camera camera = return_camera(WIDTH, HEIGHT, DEG_RAD(120), NULL);
+//	t_tuple to = return_tuple(0, 0, 0, POINT);
+//	t_tuple from = return_tuple(0, 0, -2, POINT);
+//	t_tuple up = return_tuple(0, 1, 0, VECTOR);
+//	camera.view_matrix = view_transform(&to, &from, &up);
+//	hehe = x_rotation_mat(DEG_RAD(45));
+//	camera.view_matrix = mat4d_mult_fast(camera.view_matrix, &hehe);
+	
+//	free_shapes(world);
+	
+//	world->object_count = 2;
+//	world->spheres = ft_calloc(world->object_count, sizeof(t_sphere *));
+	
+//	//light
+//	t_light light = create_light(return_tuple(1, 1, 1, COLOR), return_tuple(0, 10, 0, POINT));
+//	t_light *temp = world->lights[0];
+//	free(world->lights);
+//	world->lights = ft_calloc(2, sizeof(t_light *));
+//	world->lights[0] = temp;
+//	world->lights[1] = &light;
+//	world->light_count = 2;
+	
+//	// first sphere
+//	t_mater *material = create_default_material();
+//	material->color.colors = return_tuple(0.7, 0.4, 0.1, COLOR);
+//	t_sphere *first = create_sphere(0, 0 ,0, material);
+//	world->spheres[0] = first;
+	
+//	t_mater *material2 = create_default_material();
+//	t_sphere *second = create_sphere(0, 0 ,0, material2);
+//	world->spheres[1] = second;
+//	material2->color.colors = return_tuple(0.7, 0.3, 0.1, COLOR);
+//	world->spheres[1]->transform = translation_mat(-0.3, 0.3, -0.2);
+//	t_4dmat uwu = scaling_mat(0.2, 0.2, 0.2);
+//	world->spheres[1]->transform = mat4d_mult_fast_static(&world->spheres[1]->transform, &uwu);
+
+//	render(&mlx, &camera, world);
+//	mlx_loop(&mlx.mlx);
+//}
+
 int main(void)
 {
 	t_mlx mlx;
-	init_mlx(&mlx);
-	
-	// world
-	t_minirt *world = init_default(&mlx);
-	
-	// camera
-	t_camera camera = return_camera(WIDTH, HEIGHT, DEG_RAD(90), NULL);
-	t_tuple to = return_tuple(0, 0, 0, POINT);
-	t_tuple from = return_tuple(0, 0, -1.5, POINT);
-	t_tuple up = return_tuple(0, 1, 0, VECTOR);
-	camera.view_matrix = view_transform(&to, &from, &up);
-	
-	free_shapes(world);
-	
-	world->object_count = 2;
-	world->spheres = ft_calloc(world->object_count, sizeof(t_sphere *));
-	
-	//light
-	t_light light = create_light(return_tuple(1, 1, 1, COLOR), return_tuple(0, 10, 0, POINT));
-	t_light *temp = world->lights[0];
-	free(world->lights);
-	world->lights = ft_calloc(2, sizeof(t_light *));
-	world->lights[0] = temp;
-	world->lights[1] = &light;
-	world->light_count = 2;
-	
-	// first sphere
-	t_mater *material = create_default_material();
-	material->color.colors = return_tuple(0.7, 0.4, 0.1, COLOR);
-	t_sphere *first = create_sphere(0, 0 ,0, material);
-	world->spheres[0] = first;
-	
-	t_mater *material2 = create_default_material();
-	t_sphere *second = create_sphere(0, 0 ,0, material2);
-	world->spheres[1] = second;
-	material2->color.colors = return_tuple(0.7, 0.3, 0.1, COLOR);
-	world->spheres[1]->transform = translation_mat(-0.3, 0.3, -0.2);
-	t_4dmat uwu = scaling_mat(0.2, 0.2, 0.2);
-	world->spheres[1]->transform = mat4d_mult_fast_static(&world->spheres[1]->transform, &uwu);
+	t_minirt	*m;
+	t_camera	camera;
+	t_tuple		from;
+	t_tuple		to;
+	t_tuple		up;
 
-	render(&mlx, &camera, world);
+	init_mlx(&mlx);
+	m = init_default(&mlx);
+	camera = return_camera(WIDTH, HEIGHT, 90, NULL);
+	from = return_tuple(0, 0, -1, POINT);
+	to = return_tuple(0, 0, 0, POINT);
+	up = return_tuple(0, 1, 0, VECTOR);
+	camera.view_matrix = view_transform(&to, &from, &up);
+	render(&mlx, &camera, m);
 	mlx_loop(&mlx.mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/11 21:32:10 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/12 15:01:56 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,8 @@ typedef struct s_shape
 	t_4dmat			transform;
 	t_4dmat			inverse_mat;
 	t_mater			*material;
+	t_intersects	(*shape_intersect)(float, t_ray *);
+	void			*shape;
 }	t_shape;
 
 typedef struct s_hit
@@ -209,6 +211,14 @@ typedef struct s_sphere
 	double		alpha;
 	double		radius;
 }	t_sphere;
+
+typedef struct	s_plane
+{
+	t_tuple	point;
+	t_tuple	normal;
+	t_mater	*material;
+	t_4dmat	transform;
+}	t_plane;
 
 typedef struct	s_light
 {
@@ -235,6 +245,7 @@ typedef struct s_minirt
 	t_sphere	**spheres;
 	t_shape		**shapes;
 	t_light		**lights;
+	t_plane		*plane;
 	int			object_count;
 	int			light_count;
 }	t_minirt;
