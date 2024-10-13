@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/12 17:45:34 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/13 20:03:45 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_minirt	*init_default(t_mlx *mlx)
 	minirt->lights[1]->position = return_tuple(0, -5, -5, POINT);
 	/* LIGHT */
 	
-	minirt->object_count = 2;
+	minirt->object_count = 3;
 	
 	minirt->shapes = ft_calloc(minirt->object_count, sizeof(t_shape *));
 	
@@ -153,10 +153,22 @@ t_minirt	*init_default(t_mlx *mlx)
 	plane->material = create_default_material();
 	plane->transform = identity();
 	plane->point = return_tuple(0, 0, 0, POINT);
-	plane->transform = x_rotation_mat(DEG_RAD(45));
+	//t_4dmat uwu = translation_mat(0, 0, -5);
+	//plane->transform = mat4d_mult_fast_static(&plane->transform, &uwu);
+	//uwu = scaling_mat(0.3, 0.3, 0.3);
+	//plane->transform = mat4d_mult_fast_static(&plane->transform, &uwu);
+	plane->inverse = NULL;
 	minirt->shapes[1] = ft_calloc(1, sizeof(t_shape));
 	minirt->shapes[1]->shape = plane;
 	minirt->shapes[1]->type = PLANE;
+
+	t_mater		*sphere_two_mat = create_default_material();
+	t_sphere	*sphere_two = create_sphere(0, 0, 0, sphere_two_mat);
+	sphere_two->material->color.colors = return_tuple(0.5, 0.1, 0, COLOR);
+	//sphere_two->transform = translation_mat(-2, 0, 0);
+	minirt->shapes[2] = ft_calloc(1, sizeof(t_shape));
+	minirt->shapes[2]->shape = sphere_two;
+	minirt->shapes[2]->type = SPHERE;
 
 	minirt->mlx = mlx;
 	minirt->light_count = 2;

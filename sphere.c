@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/11 20:05:38 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/13 16:46:39 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *r
 	inter->intersections[inter->intersection_count].t = (-vars[1] - sqrt(vars[3])) / (2 * vars[0]);
 	inter->intersections[inter->intersection_count].shape = sphere;
 	inter->intersections[inter->intersection_count].type = SPHERE;
+	inter->intersections[inter->intersection_count].material = sphere->material;
 	if (inter->intersection_count < MAX_INTERSECTS)
 		inter->intersection_count++;
 	else
@@ -87,6 +88,7 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *r
 	inter->intersections[inter->intersection_count].t = (-vars[1] + sqrt(vars[3])) / (2 * vars[0]);
 	inter->intersections[inter->intersection_count].shape = sphere;
 	inter->intersections[inter->intersection_count].type = SPHERE;
+	inter->intersections[inter->intersection_count].material = sphere->material;
 	if (inter->intersection_count < MAX_INTERSECTS)
 		inter->intersection_count++;
 	(void)cam;

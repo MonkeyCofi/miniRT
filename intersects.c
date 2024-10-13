@@ -6,11 +6,13 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/12 17:59:02 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/13 19:41:46 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+t_tuple	*normal_pos_plane(t_plane *plane, t_tuple point);
 
 void	sort_intersects(t_intersects *intersects)
 {
@@ -105,12 +107,16 @@ t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersec
 	new->t = intersection->t;
 	new->obj = intersection->shape;
 	new->type = intersection->type;
+	new->material = intersection->material;
 	//new->point = position(ray, inter->intersections[inter->intersection_count].t);
 	new->point = position(ray, new->t);
 	if (new->type == SPHERE)
 		new->normal_vec = normal_pos(intersection->shape, new->point);
-	else
+	else if (new->type == PLANE)
+	{
+		//printf("in here\n");
 		new->normal_vec = normal_pos_plane(intersection->shape, new->point);
+	}
 	new->type = intersection->type;
 	if (dot_product(&new->eye_vec, new->normal_vec) < 0)
 	{
@@ -146,7 +152,7 @@ t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersec
 //	return (new);
 //}
 
-t_intersection	intersect(float t, t_shape_type type, void *shape, t_ray *ray, t_trans trans_type, t_tuple trans_coords)
+t_intersection	intersect(float t, t_shape_type type, void *shape, t_ray *ray, t_trans trans_type, t_tuple trans_coords, t_mater *material)
 {
 	t_intersection	intersection;
 	t_ray			new_ray;
@@ -158,6 +164,7 @@ t_intersection	intersect(float t, t_shape_type type, void *shape, t_ray *ray, t_
 	intersection.t = t;
 	intersection.shape = shape;
 	intersection.type = type;
+	intersection.material = material;
 	(void)new_ray;
 	return (intersection);
 }
@@ -170,10 +177,11 @@ t_intersection	*intersect_plane(t_ray *ray, t_plane *plane)
 	if (fabs(ray->direction.y) < EPSILON)
 		return (NULL);
 	plane_intersection = ft_calloc(1, sizeof(t_intersection));
-	temp = intersect(-ray->origin.y / ray->direction.y, PLANE, plane, ray, none, return_tuple(0, 0, 0, POINT));
+	temp = intersect(-ray->origin.y / ray->direction.y, PLANE, plane, ray, none, return_tuple(0, 0, 0, POINT), plane->material);
 	plane_intersection->shape = temp.shape;
 	plane_intersection->t = temp.t;
 	plane_intersection->type = temp.type;
+	plane_intersection->material = temp.material;
 	return (plane_intersection);
 }
 
@@ -196,9 +204,23 @@ t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray)
 			if (inter->intersection_count < MAX_INTERSECTS)
 			{
 				t_intersection	*plane_intersect = intersect_plane(ray, minirt->shapes[i]->shape);
+				//if (minirt->shapes[i])
+				//{
+				//	printf("there is a shape\n");
+				//	if (minirt->shapes[i]->shape)
+				//		printf("shape being pointed to is %s\n", minirt->shapes[i]->type == SPHERE ? "Sphere" : "Plane");
+				//	else
+				//		printf("there is no shape being pointed to\n");
+				//}
+				//else
+				//	printf("there is no shape\n");
 				if (plane_intersect)
+				{
 					inter->intersections[inter->intersection_count] = *plane_intersect;
-				free(plane_intersect);
+					if (inter->intersection_count < MAX_INTERSECTS - 1)
+						inter->intersection_count++;
+					free(plane_intersect);
+				}
 			}
 		}
 		//if (sphere_hit(minirt, NULL, inter, ray, minirt->spheres[i], 1) == false)
@@ -222,9 +244,48 @@ void	print_intersects(t_intersects *inter)
 		printf("intersect[%d]: %f\n", i, inter->intersections[i].t);
 }
 
-t_tuple	*normal_pos_plane(t_plane *shape, t_tuple point)
+t_tuple	*normal_pos_plane(t_plane *plane, t_tuple point)
 {
+	t_tuple	*norml;
 
+	norml = ft_calloc(1, sizeof(t_tuple));
+	norml->x = plane->normal.x;
+	norml->y = plane->normal.y;
+	norml->z = plane->normal.z;
+	norml->w = plane->normal.w;
+	(void)point;
+	return (norml);
+	//t_4dmat	*inverse_trans;
+	//t_tuple	*world_norm;
+	//t_tuple	plane_norm;
+	//t_bool	has_inverse;
+	
+	//if (plane->inverse)
+	//	inverse_trans = plane->inverse;
+	//else
+	//{
+	//	has_inverse = inverse_mat(&plane->transform, &inverse_trans);
+	//	if (has_inverse == error)
+	//		return (NULL);
+	//	if (has_inverse == false)
+	//	{
+	//		printf("There is no inverse\n");
+	//		return (NULL);
+	//	}
+	//	plane->inverse = inverse_trans;
+	//	printf("assigned inverse to plane\n");
+	//}
+	//plane_norm = subtract_tuples(&plane->point, &point);
+	//world_norm = tuple_mult(transpose(inverse_trans), &plane_norm);
+	//world_norm->w = 0;
+	//normalize(world_norm); 
+	//return (world_norm);
+	
+	//function normal_at(shape, point)
+	//local_point ← inverse(shape.transform) * point
+	//local_normal ← local_normal_at(shape, local_point)
+	//world_normal ← transpose(inverse(shape.transform)) * local_normal world_normal.w ← 0
+	//return normalize(world_normal) end function
 }
 
 t_tuple	*normal_pos(t_sphere *sphere, t_tuple pos)
@@ -246,6 +307,7 @@ t_tuple	*normal_pos(t_sphere *sphere, t_tuple pos)
 			printf("There is no inverse\n");
 			return (NULL);
 		}
+		sphere->current_inverse = inverse_trans;
 	}
 	sphere_norm = subtract_tuples(&sphere->center, &pos);
 	world_norm = tuple_mult(transpose(inverse_trans), &sphere_norm);

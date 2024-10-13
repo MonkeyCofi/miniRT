@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/12 17:32:09 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/13 20:01:41 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,10 +377,26 @@ int main(void)
 	init_mlx(&mlx);
 	m = init_default(&mlx);
 	camera = return_camera(WIDTH, HEIGHT, 90, NULL);
-	from = return_tuple(0, 0, -1, POINT);
+	from = return_tuple(0, 0.8, -2, POINT);
 	to = return_tuple(0, 0, 0, POINT);
 	up = return_tuple(0, 1, 0, VECTOR);
 	camera.view_matrix = view_transform(&to, &from, &up);
 	render(&mlx, &camera, m);
 	mlx_loop(&mlx.mlx);
 }
+
+//int main(void)
+//{
+//	t_plane *p = ft_calloc(1, sizeof(t_plane));
+//	p->transform = identity();
+//	p->normal = return_tuple(0, 1, 0, VECTOR);
+//	p->point = return_tuple(0, 0, 0, POINT);
+//	t_ray	*ray = create_ray(return_tuple(0, 1, 0, POINT), return_tuple(0, -1, 0, VECTOR));
+//	t_intersection *inter = intersect_plane(ray, p);
+//	if (!inter)
+//		printf("there is no intersect\n");
+//	else
+//		printf("intersect: %f\n", inter->t);
+//	//t_tuple *norm = normal_pos_plane(p, return_tuple(10, 0, -10, POINT));
+//	//print_tuple_points(norm);
+//}

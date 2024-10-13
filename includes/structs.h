@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/12 15:01:56 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/13 19:39:39 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,10 +140,20 @@ typedef struct s_ray
 	t_tuple	direction;
 }	t_ray;
 
+typedef struct	s_mater
+{
+	t_color	color;
+	float	ambient;
+	float	specular;
+	float	diffuse;
+	float	shine;
+}	t_mater;
+
 typedef struct s_intersection
 {
 	float			t;
 	void			*shape;
+	t_mater			*material;
 	t_shape_type	type;
 }	t_intersection;
 
@@ -170,23 +180,14 @@ typedef struct s_mlx
 	t_img	img;
 }	t_mlx;
 
-typedef struct	s_mater
-{
-	t_color	color;
-	float	ambient;
-	float	specular;
-	float	diffuse;
-	float	shine;
-}	t_mater;
-
 typedef struct s_shape
 {
 	t_shape_type	type;
+	void			*shape;
 	t_4dmat			transform;
 	t_4dmat			inverse_mat;
 	t_mater			*material;
 	t_intersects	(*shape_intersect)(float, t_ray *);
-	void			*shape;
 }	t_shape;
 
 typedef struct s_hit
@@ -217,6 +218,7 @@ typedef struct	s_plane
 	t_tuple	point;
 	t_tuple	normal;
 	t_mater	*material;
+	t_4dmat	*inverse;
 	t_4dmat	transform;
 }	t_plane;
 
@@ -231,7 +233,8 @@ typedef struct	s_inter_comp
 	t_intersects	*intersects;
 	t_shape_type	type;
 	t_tuple			*normal_vec;
-	t_sphere		*obj;
+	t_shape			*obj;
+	t_mater			*material;
 	t_tuple			point;
 	t_tuple			eye_vec;
 	t_bool			is_inside_object;
