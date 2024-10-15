@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/15 11:58:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:45:14 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -385,6 +385,29 @@ int main(void)
 	render(&mlx, &camera, m);
 	mlx_loop(&mlx.mlx);
 }
+
+//int main(void)
+//{
+//	t_mlx mlx;
+//	init_mlx(&mlx);
+//	t_minirt *m = init_default(&mlx);
+//	t_cylinder *cylinder = create_cylinder(return_tuple(0, 0, 0, VECTOR));
+//	t_tuple		direction = return_tuple(0, 0, 1, VECTOR);
+//	normalize(&direction);
+
+//	cylinder->minimum = 1;
+//	cylinder->maximum = 2;
+//	t_ray *ray = create_ray(return_tuple(0, 1.5, -2, POINT), direction);
+//	t_intersects *intersects = ft_calloc(1, sizeof(t_intersects));
+//	if (cylinder_hit(m, intersects, ray, cylinder) == false)
+//		printf("there is no intersect\n");
+//	else
+//	{
+//		printf("intersect[0]: %f\n", intersects->intersections[0].t);
+//		printf("intersect[1]: %f\n", intersects->intersections[1].t);
+//	}
+//	printf("intersect count: %d\n", intersects->intersection_count);
+//}
 
 //int main(void)
 //{

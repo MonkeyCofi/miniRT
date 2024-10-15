@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/15 11:59:32 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:46:40 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	init_mlx(t_mlx *mlx)
 //	return (minirt);
 //}
 
-t_minirt	*init_default(t_mlx *mlx)
+t_minirt	* init_default(t_mlx *mlx)
 {
 	t_minirt	*minirt;
 	
@@ -207,6 +207,7 @@ t_minirt	*init_default(t_mlx *mlx)
 
 	minirt->shapes[0] = ft_calloc(1, sizeof(t_shape));
 	t_mater*	default_material = create_default_material();
+	default_material->ambient = 0.1;
 	t_sphere *sphere = create_sphere(0, 0, 0, default_material);
 	sphere->material->color.colors = return_tuple(0.1, 0.2, 0.6, COLOR);
 	
@@ -218,6 +219,8 @@ t_minirt	*init_default(t_mlx *mlx)
 	
 	t_cylinder *cylinder = create_cylinder(return_tuple(0,0,5,POINT));
 	cylinder->material->color.colors = return_tuple(0.7, 0, 0, COLOR);
+	cylinder->minimum = 1;
+	cylinder->maximum = 3;
 	minirt->shapes[1] = ft_calloc(1, sizeof(t_shape));
 	minirt->shapes[1]->shape = cylinder;
 	minirt->shapes[1]->type = CYLINDER;

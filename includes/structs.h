@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/15 12:08:03 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:01:00 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,6 +249,9 @@ typedef struct	s_cylinder
 	t_mater			*material;
 	t_4dmat			transform;
 	t_4dmat			*inverse;
+	t_bool			is_closed;
+	float			minimum;
+	float			maximum;
 	t_shape_type	type;
 }	t_cylinder;
 
