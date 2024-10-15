@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/13 16:46:39 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:20:53 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,26 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *r
 	vars[3] = (vars[1] * vars[1]) - (4 * vars[0] * vars[2]);
 	if (vars[3] < 0)
 		return (false);
-	inter->intersections[inter->intersection_count].t = (-vars[1] - sqrt(vars[3])) / (2 * vars[0]);
-	inter->intersections[inter->intersection_count].shape = sphere;
-	inter->intersections[inter->intersection_count].type = SPHERE;
-	inter->intersections[inter->intersection_count].material = sphere->material;
 	if (inter->intersection_count < MAX_INTERSECTS)
-		inter->intersection_count++;
-	else
-		return (true);
-	inter->intersections[inter->intersection_count].t = (-vars[1] + sqrt(vars[3])) / (2 * vars[0]);
-	inter->intersections[inter->intersection_count].shape = sphere;
-	inter->intersections[inter->intersection_count].type = SPHERE;
-	inter->intersections[inter->intersection_count].material = sphere->material;
+	{
+		inter->intersections[inter->intersection_count].t = (-vars[1] - sqrt(vars[3])) / (2 * vars[0]);
+		inter->intersections[inter->intersection_count].shape = sphere;
+		inter->intersections[inter->intersection_count].type = SPHERE;
+		inter->intersections[inter->intersection_count].material = sphere->material;
+		if (inter->intersection_count < MAX_INTERSECTS)
+			inter->intersection_count++;
+		else
+			return (true);
+	}
 	if (inter->intersection_count < MAX_INTERSECTS)
-		inter->intersection_count++;
+	{
+		inter->intersections[inter->intersection_count].t = (-vars[1] + sqrt(vars[3])) / (2 * vars[0]);
+		inter->intersections[inter->intersection_count].shape = sphere;
+		inter->intersections[inter->intersection_count].type = SPHERE;
+		inter->intersections[inter->intersection_count].material = sphere->material;
+		if (inter->intersection_count < MAX_INTERSECTS)
+			inter->intersection_count++;
+	}
 	(void)cam;
 	(void)minirt;
 	return (true);

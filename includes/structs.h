@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/13 19:39:39 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/15 12:08:03 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,17 @@ typedef struct	s_inter_comp
 	t_bool			is_inside_object;
 	float			t;
 }	t_inter_comp;
+
+typedef struct	s_cylinder
+{
+	t_tuple			orientation;
+	t_tuple			point;
+	t_tuple			normal;
+	t_mater			*material;
+	t_4dmat			transform;
+	t_4dmat			*inverse;
+	t_shape_type	type;
+}	t_cylinder;
 
 typedef struct s_minirt
 {

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:02:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/13 18:15:08 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/14 21:04:51 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,12 @@ void			print_intersects(t_intersects *inter);
 
 t_tuple			*normal_pos(t_sphere *sphere, t_tuple pos);
 t_tuple			position(t_ray *ray, float t);
+t_tuple			*normal_pos_cylinder(t_cylinder *cylinder, t_tuple pos);
 
 t_bool			is_in_shadow(t_minirt *minirt, t_tuple point, int light_index);
+
+t_bool			cylinder_hit(t_minirt *m, t_intersects *intersects, t_ray *ray, t_cylinder *cyl);
+
+t_cylinder		*create_cylinder(t_tuple orientation);
 
 #endif

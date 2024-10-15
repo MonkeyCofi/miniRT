@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/13 20:03:45 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:59:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,73 @@ int	init_mlx(t_mlx *mlx)
 	}
 	return (1);
 }
+
+//t_minirt	*init_default(t_mlx *mlx)
+//{
+//	t_minirt	*minirt;
+	
+//	minirt = ft_calloc(1, sizeof(t_minirt));
+//	if (!minirt)
+//		return (NULL);
+//	minirt->spheres = ft_calloc(2, sizeof(t_sphere *));
+//	if (!minirt->spheres)
+//	{
+//		free(minirt);
+//		return (NULL);
+//	}
+//	minirt->light_count = 3;
+//	minirt->lights = ft_calloc(minirt->light_count, sizeof(t_light *));
+//	if (!minirt->lights)
+//	{
+//		free(minirt->spheres);
+//		free(minirt);
+//		return (NULL);
+//	}
+	
+//	/* LIGHT */
+//	minirt->lights[0] = ft_calloc(1, sizeof(t_light));
+//	if (!minirt->lights[0])
+//		return (NULL);
+//	minirt->lights[0]->intensity.colors = return_tuple(1, 1, 1, COLOR);
+//	minirt->lights[0]->position = return_tuple(-10, 10, -10, POINT);
+	
+//	minirt->lights[1] = ft_calloc(1, sizeof(t_light));
+//	if (!minirt->lights[1])
+//		return (NULL);
+//	minirt->lights[1]->intensity.colors = return_tuple(0.2, 0.2, 0.2, COLOR);
+//	minirt->lights[1]->position = return_tuple(0, -5, -5, POINT);
+	
+//	minirt->lights[2] = ft_calloc(1, sizeof(t_light));
+//	if (!minirt->lights[2])
+//		return (NULL);
+//	minirt->lights[2]->intensity.colors = return_tuple(0.2, 0.2, 0.2, COLOR);
+//	minirt->lights[2]->position = return_tuple(0, 10, 0, POINT);
+	
+	
+//	/* LIGHT */
+	
+//	minirt->object_count = 1;
+	
+//	minirt->shapes = ft_calloc(minirt->object_count, sizeof(t_shape *));
+	
+//	t_sphere *sphere = create_sphere(0, 0, 0, create_default_material());
+//	sphere->transform = scaling_mat(1.1, 1.1, 1.1);
+//	minirt->shapes[0] = ft_calloc(1, sizeof(t_shape));
+//	minirt->shapes[0]->shape = sphere;
+//	minirt->shapes[0]->type = SPHERE;
+	
+//	//t_plane *plane = ft_calloc(1, sizeof(t_plane));
+//	//plane->material = create_default_material();
+//	//plane->transform = identity();
+//	//plane->point = return_tuple(0, 0, 0, POINT);
+	
+//	//minirt->shapes[1] = ft_calloc(1, sizeof(t_shape));
+//	//minirt->shapes[1]->shape = plane;
+//	//minirt->shapes[1]->type = PLANE;
+
+//	minirt->mlx = mlx;
+//	return (minirt);
+//}
 
 t_minirt	*init_default(t_mlx *mlx)
 {
@@ -148,24 +215,28 @@ t_minirt	*init_default(t_mlx *mlx)
 	sphere->transform = identity();
 	minirt->shapes[0]->shape = sphere;
 	minirt->shapes[0]->type = SPHERE;
-
-	t_plane *plane = ft_calloc(1, sizeof(t_plane));
-	plane->material = create_default_material();
-	plane->transform = identity();
-	plane->point = return_tuple(0, 0, 0, POINT);
-	//t_4dmat uwu = translation_mat(0, 0, -5);
-	//plane->transform = mat4d_mult_fast_static(&plane->transform, &uwu);
-	//uwu = scaling_mat(0.3, 0.3, 0.3);
-	//plane->transform = mat4d_mult_fast_static(&plane->transform, &uwu);
-	plane->inverse = NULL;
+	
+	t_cylinder *cylinder = create_cylinder(return_tuple(0,0,5,POINT));
+	cylinder->material->color.colors = return_tuple(0.7, 0, 0, COLOR);
 	minirt->shapes[1] = ft_calloc(1, sizeof(t_shape));
-	minirt->shapes[1]->shape = plane;
-	minirt->shapes[1]->type = PLANE;
+	minirt->shapes[1]->shape = cylinder;
+	minirt->shapes[1]->type = CYLINDER;
+
+	//t_plane *plane = ft_calloc(1, sizeof(t_plane));
+	//plane->material = create_default_material();
+	//plane->transform = identity();
+	//plane->point = return_tuple(0, 0, 0, POINT);
+	//plane->inverse = NULL;
+	//minirt->shapes[1] = ft_calloc(1, sizeof(t_shape));
+	//minirt->shapes[1]->shape = plane;
+	//minirt->shapes[1]->type = PLANE;
 
 	t_mater		*sphere_two_mat = create_default_material();
 	t_sphere	*sphere_two = create_sphere(0, 0, 0, sphere_two_mat);
 	sphere_two->material->color.colors = return_tuple(0.5, 0.1, 0, COLOR);
-	//sphere_two->transform = translation_mat(-2, 0, 0);
+	sphere_two->transform = translation_mat(-2, 0, 0);
+	t_4dmat uwu = scaling_mat(0.3, 0.3, 0.3);
+	sphere_two->transform = mat4d_mult_fast_static(&uwu, &sphere_two->transform);
 	minirt->shapes[2] = ft_calloc(1, sizeof(t_shape));
 	minirt->shapes[2]->shape = sphere_two;
 	minirt->shapes[2]->type = SPHERE;

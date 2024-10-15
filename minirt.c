@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/13 20:01:41 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:58:33 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 	int		i;
 	int		j;
 	t_ray	*ray;
+	t_color c;
+	t_tuple color;
 
 	i = -1;
 	while (++i < camera->horizontal_canv_size - 1)
@@ -92,8 +94,7 @@ void	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 		while (++j < camera->vertical_canv_size - 1)
 		{
 			ray = ray_per_pixel(camera, j, i);
-			t_tuple color = color_at(minirt, ray);
-			t_color c;
+			color = color_at(minirt, ray);
 			c.colors = return_tuple(color.x, color.y, color.z, COLOR);
 			draw_pixel(mlx, j, i, get_ray_color(&c));
 		}
@@ -377,7 +378,7 @@ int main(void)
 	init_mlx(&mlx);
 	m = init_default(&mlx);
 	camera = return_camera(WIDTH, HEIGHT, 90, NULL);
-	from = return_tuple(0, 0.8, -2, POINT);
+	from = return_tuple(-0.4, 0.7, -0.8, POINT);
 	to = return_tuple(0, 0, 0, POINT);
 	up = return_tuple(0, 1, 0, VECTOR);
 	camera.view_matrix = view_transform(&to, &from, &up);

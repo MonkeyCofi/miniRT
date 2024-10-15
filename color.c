@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/13 17:25:32 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:33:49 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,19 +83,12 @@ t_tuple	shade(t_minirt *minirt, t_inter_comp *intersect_comp)
 	ft_bzero(&final_res, sizeof(t_tuple));
 	while (++i < minirt->light_count)
 	{
-		//res = lighting(intersect_comp->obj->material, minirt->lights[i], intersect_comp->point, intersect_comp->eye_vec, *intersect_comp->normal_vec, 
-		//	is_in_shadow(minirt, intersect_comp->point, i));
 		t_tuple test = add_vectors(&intersect_comp->point, intersect_comp->normal_vec);
-		//if (intersect_comp->obj->material)
-		//	printf("%s has a material\n", intersect_comp->obj->type == SPHERE ? "Sphere" : "Plane");
-		//else
-		//	printf("%s has no material\n", intersect_comp->obj->type == SPHERE ? "Sphere" : "Plane");
 		res = lighting(intersect_comp->material, minirt->lights[i], return_scalar(&test, EPSILON), intersect_comp->eye_vec, *intersect_comp->normal_vec, 
 			is_in_shadow(minirt, test, i));
 		final_res = add_vectors(&final_res, &res);
 	}
 	return (final_res);
-	//return (lighting(intersect_comp->obj->material, minirt->lights[0], intersect_comp->point, intersect_comp->eye_vec, *intersect_comp->normal_vec));
 }
 
 t_tuple	color_at(t_minirt *minirt, t_ray *ray)
@@ -107,10 +100,6 @@ t_tuple	color_at(t_minirt *minirt, t_ray *ray)
 
 	intersections = intersect_enivornment(minirt, ray);
 	hit = best_hit(intersections);
-	//if (!hit)
-	//	printf("There is no hit\n");
-	//else
-	//	printf("hit type: %s\n", hit->type == SPHERE ? "Sphere" : "Plane");
 	if (hit == NULL)
 		return (return_tuple(0, 0, 0, COLOR));
 	computations = precompute_intersect(intersections, hit, ray);

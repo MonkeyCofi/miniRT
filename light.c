@@ -6,12 +6,11 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/13 15:01:47 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/14 14:32:37 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
 
 /* 	Four components: ambient, diffuse, specular and shininess 
 	ambient: light reflected from the background and other objects within the scene

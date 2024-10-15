@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/13 19:41:46 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/14 21:05:29 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ t_intersection	*best_hit(t_intersects *intersects)
 	i = -1;
 	res = NULL;
 	sort_intersects(intersects);
-	//print_intersects(intersects);
 	if (intersects->intersection_count < MAX_INTERSECTS)
 		count = intersects->intersection_count;
 	else
@@ -116,6 +115,10 @@ t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersec
 	{
 		//printf("in here\n");
 		new->normal_vec = normal_pos_plane(intersection->shape, new->point);
+	}
+	else if (new->type == CYLINDER)
+	{
+		new->normal_vec = normal_pos_cylinder(intersection->shape, new->point);
 	}
 	new->type = intersection->type;
 	if (dot_product(&new->eye_vec, new->normal_vec) < 0)
@@ -204,16 +207,6 @@ t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray)
 			if (inter->intersection_count < MAX_INTERSECTS)
 			{
 				t_intersection	*plane_intersect = intersect_plane(ray, minirt->shapes[i]->shape);
-				//if (minirt->shapes[i])
-				//{
-				//	printf("there is a shape\n");
-				//	if (minirt->shapes[i]->shape)
-				//		printf("shape being pointed to is %s\n", minirt->shapes[i]->type == SPHERE ? "Sphere" : "Plane");
-				//	else
-				//		printf("there is no shape being pointed to\n");
-				//}
-				//else
-				//	printf("there is no shape\n");
 				if (plane_intersect)
 				{
 					inter->intersections[inter->intersection_count] = *plane_intersect;
@@ -223,18 +216,12 @@ t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray)
 				}
 			}
 		}
-		//if (sphere_hit(minirt, NULL, inter, ray, minirt->spheres[i], 1) == false)
-		//	continue ;
+		else if (minirt->shapes[i]->type == CYLINDER)
+		{
+			if (cylinder_hit(minirt, inter, ray, minirt->shapes[i]->shape) == false)
+				continue ;
+		}
 	}
-	//if (inter->intersection_count < MAX_INTERSECTS && minirt->plane)
-	//{
-	//	//printf("there is a plane\n");
-	//	//t_intersection	*plane_intersect = intersect_plane(ray, return_tuple(0, 0, 0, POINT));
-	//	t_intersection	*plane_intersect = intersect_plane(ray, minirt->plane);
-	//	if (plane_intersect)
-	//		inter->intersections[inter->intersection_count] = *plane_intersect;
-	//	free(plane_intersect);
-	//}
 	return (inter);
 }
 
@@ -286,6 +273,19 @@ t_tuple	*normal_pos_plane(t_plane *plane, t_tuple point)
 	//local_normal ← local_normal_at(shape, local_point)
 	//world_normal ← transpose(inverse(shape.transform)) * local_normal world_normal.w ← 0
 	//return normalize(world_normal) end function
+}
+
+t_tuple	*normal_pos_cylinder(t_cylinder *cylinder, t_tuple pos)
+{
+	t_tuple		*normal;
+
+	normal = ft_calloc(1, sizeof(t_tuple));
+	normal->x = pos.x;
+	normal->y = 0;
+	normal->z = pos.z;
+	normal->w = VECTOR;
+	(void)cylinder;
+	return (normal);
 }
 
 t_tuple	*normal_pos(t_sphere *sphere, t_tuple pos)
