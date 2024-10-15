@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/15 12:08:03 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/15 12:22:17 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define STRUCTS_H
 
 # include <stdlib.h>
-# include "../libft/libft.h"
+# include "../libft_notclone/libft.h"
 
 # define MAX_INTERSECTS 200
 # define VECTOR 0
@@ -123,15 +123,18 @@ typedef struct s_color
 
 typedef struct s_camera
 {
-	t_4dmat	*view_matrix;
-	float	horizontal_canv_size;
-	float	vertical_canv_size;
-	float	pixel_size;
-	float	fov;
-	float	aspect;
-	float	half_view;
-	float	half_width;
-	float	half_height;
+	t_4dmat	*view_matrix; ///
+	float	horizontal_canv_size; ////
+	float	vertical_canv_size; ///
+	float	pixel_size;    ///
+	float	fov;     ///
+	float	aspect; ///
+	float	half_view; ///
+	float	half_width; ///
+	float	half_height; ///
+	int		flag;
+	t_tuple coords;
+	t_tuple orientation;
 }	t_camera;
 
 typedef struct s_ray
@@ -185,8 +188,9 @@ typedef struct s_shape
 	t_shape_type	type;
 	void			*shape;
 	t_4dmat			transform;
-	t_4dmat			inverse_mat;
+	t_4dmat			*inverse_mat;
 	t_mater			*material;
+	t_tuple			*color;
 	t_intersects	(*shape_intersect)(float, t_ray *);
 }	t_shape;
 

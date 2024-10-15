@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/09/27 12:57:44 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:43:32 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	check_ulong(char *str, int *num)
 	if(!isulong(str))
 		return (1);
 	*num = ft_atoi(str);
-	if(*num > 180)
+	if(*num > 180 || *num < 0)
 		return (1);
 	return (0);
 }
@@ -114,11 +114,11 @@ int	parse_camera(t_minirt *minirt, char *string)
 		return (1);
 	while(string && string[i++])
 	{
-		if (i == 1 && dovector(str[i], &minirt->cam->camera))
+		if (i == 1 && dovector(str[i], &minirt->cam->coords))
 			return (1);
 		if (i == 2 && dovector(str[i], &minirt->cam->orientation))
 			return (1);
-		if (i == 3 && check_ulong(str[i], &minirt->cam->h_fov))
+		if (i == 3 && check_ulong(str[i], &minirt->cam->fov))
 			return (1);
 	}
 	free_arr(str);
@@ -136,7 +136,7 @@ int	parse_sphere(t_minirt *minirt, char *string)
 		return (1);
 	while (string && string[i])
 	{
-		if (i == 1 && dovector(str[i], &minirt->spheres->center))
+		if (i == 1 && dovector(str[i], &minirt->shapes->type))
 			return (1);
 		if (i == 2 && check_double(str[i], &minirt->spheres->radius))
 			return (1);
@@ -154,14 +154,28 @@ int	parsing(char *str, t_minirt *minirt)
 {
 	if (strncmp(str, "sp", 2) == 0)
 	{
-		return (parse_sphere(minirt, str));
+		// return (parse_sphere(minirt, str));
+		minirt->object_count += 1;
+	}
+	if (strncmp(str, "cy", 2) == 0)
+	{
+		// return (parse_sphere(minirt, str));
+		minirt->object_count += 1;
+	}
+	if (strncmp(str, "pl", 2) == 0)
+	{
+		// return (parse_sphere(minirt, str));
+		minirt->object_count += 1;
 	}
 	if (strncmp(str, "A", 1) == 0)
 		return (0);
 	if (strncmp(str, "C", 1) == 0)
 		return (parse_camera(minirt, str));
 	if (strncmp(str, "L", 1) == 0)
+	{
+		minirt->light_count += 1;	
 		return (0);
+	}
 	else
 		return (1);
 }
