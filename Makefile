@@ -10,7 +10,7 @@ CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) -Ofast -O3
 SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c \
 		vector_utils.c utils.c init.c tuple_utils.c matrix_utils.c \
 		matrix_cmp.c matrix_ops.c transformations.c intersects.c light.c \
-		sphere.c frees.c material.c cylinder.c \
+		sphere.c frees.c material.c cylinder.c cone.c \
 		#parsing.c
 
 OBJS = $(SRCS:.c=.o)
@@ -35,12 +35,12 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	make -C $(MLXOS) -j2
 	make -C $(LIBFT_DIR) -j2
-#	$(CC) $(OBJS) -fsanitize=address -g3 $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+	$(CC) $(OBJS) -fsanitize=address -g3 $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+#	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
 
 %.o: %.c
-#	$(CC) $(CFLAGS) -g3 -c $< -o $@
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -g3 -c $< -o $@
+#	$(CC) $(CFLAGS) -c $< -o $@
 
 run: re
 	./$(NAME)

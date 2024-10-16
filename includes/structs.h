@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/15 16:01:00 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/16 20:32:23 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ typedef enum e_shapes
 {
 	SPHERE,
 	CYLINDER,
-	PLANE
+	PLANE,
+	CONE
 }	t_shape_type;
 
 typedef union u_tuple
@@ -243,6 +244,7 @@ typedef struct	s_inter_comp
 
 typedef struct	s_cylinder
 {
+	float			radius;
 	t_tuple			orientation;
 	t_tuple			point;
 	t_tuple			normal;
@@ -254,6 +256,19 @@ typedef struct	s_cylinder
 	float			maximum;
 	t_shape_type	type;
 }	t_cylinder;
+
+typedef struct	s_cone
+{
+	float			radius;
+	float			minimum;
+	float			maximum;
+	t_bool			is_closed;
+	t_tuple			point;
+	t_4dmat			transform;
+	t_4dmat			*inverse;
+	t_mater			*material;
+	t_shape_type	type;
+}	t_cone;
 
 typedef struct s_minirt
 {

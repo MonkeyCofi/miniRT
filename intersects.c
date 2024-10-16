@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/14 21:05:29 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:58:22 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,14 +112,11 @@ t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersec
 	if (new->type == SPHERE)
 		new->normal_vec = normal_pos(intersection->shape, new->point);
 	else if (new->type == PLANE)
-	{
-		//printf("in here\n");
 		new->normal_vec = normal_pos_plane(intersection->shape, new->point);
-	}
 	else if (new->type == CYLINDER)
-	{
 		new->normal_vec = normal_pos_cylinder(intersection->shape, new->point);
-	}
+	else if (new->type == CONE)
+		new->normal_vec = normal_pos_cone(intersection->shape, new->point);
 	new->type = intersection->type;
 	if (dot_product(&new->eye_vec, new->normal_vec) < 0)
 	{
@@ -221,6 +218,11 @@ t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray)
 			if (cylinder_hit(minirt, inter, ray, minirt->shapes[i]->shape) == false)
 				continue ;
 		}
+		else if (minirt->shapes[i]->type == CONE)
+		{
+			if (cone_hit(minirt->shapes[i]->shape, ray, inter) == false)
+				continue;
+		}
 	}
 	return (inter);
 }
@@ -273,19 +275,6 @@ t_tuple	*normal_pos_plane(t_plane *plane, t_tuple point)
 	//local_normal ← local_normal_at(shape, local_point)
 	//world_normal ← transpose(inverse(shape.transform)) * local_normal world_normal.w ← 0
 	//return normalize(world_normal) end function
-}
-
-t_tuple	*normal_pos_cylinder(t_cylinder *cylinder, t_tuple pos)
-{
-	t_tuple		*normal;
-
-	normal = ft_calloc(1, sizeof(t_tuple));
-	normal->x = pos.x;
-	normal->y = 0;
-	normal->z = pos.z;
-	normal->w = VECTOR;
-	(void)cylinder;
-	return (normal);
 }
 
 t_tuple	*normal_pos(t_sphere *sphere, t_tuple pos)

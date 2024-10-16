@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:02:04 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/02 11:21:32 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:46:38 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,20 @@ t_tuple	return_tuple(float x, float y, float z, float w)
 	ret.y = y;
 	ret.z = z;
 	ret.w = w;
+	return (ret);
+}
+
+t_tuple	*return_tuple_pointer(float x, float y, float z, float w)
+{
+	t_tuple	*ret;
+
+	ret = ft_calloc(1, sizeof(t_tuple));
+	if (!ret)
+		return (NULL);
+	ret->x = x;
+	ret->y = y;
+	ret->z = z;
+	ret->w = w;
 	return (ret);
 }
 
