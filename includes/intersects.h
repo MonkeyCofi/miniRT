@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:02:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/16 22:23:59 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:26:01 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@ t_cylinder		*create_cylinder(t_tuple orientation);
 t_cone			*create_cone();
 t_bool			cone_hit(t_cone *cone, t_ray *ray, t_intersects *intersects);
 t_tuple			*normal_pos_cone(t_cone *cone, t_tuple pos);
+
+t_bool			add_to_intersect(float t, t_intersects *intersects, t_shape_type type, void *shape, t_mater *material);
 
 #endif

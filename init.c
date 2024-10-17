@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/16 22:26:21 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:12:53 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,53 +155,69 @@ t_minirt	* init_default(t_mlx *mlx)
 		return (NULL);
 	}
 	
-	minirt->light_count = 1;
+	minirt->light_count = 2;
 	
 	/* LIGHT */
 	minirt->lights[0] = ft_calloc(1, sizeof(t_light));
 	if (!minirt->lights[0])
 		return (NULL);
 	minirt->lights[0]->intensity.colors = return_tuple(1, 1, 1, COLOR);
-	//minirt->lights[0]->position = return_tuple(-10, 10, -10, POINT);
-	minirt->lights[0]->position = return_tuple(0, 1.2, 0, POINT);
+	minirt->lights[0]->position = return_tuple(0, 0.5, 0, POINT);
 	
-	//minirt->lights[1] = ft_calloc(1, sizeof(t_light));
-	//if (!minirt->lights[1])
+	minirt->lights[1] = ft_calloc(1, sizeof(t_light));
+	if (!minirt->lights[1])
+		return (NULL);
+	minirt->lights[1]->intensity.colors = return_tuple(0, 0.7, 1, COLOR);
+	minirt->lights[1]->position = return_tuple(0, -0.5, 0, POINT);
+	
+	//minirt->lights[2] = ft_calloc(1, sizeof(t_light));
+	//if (!minirt->lights[2])
 	//	return (NULL);
-	//minirt->lights[1]->intensity.colors = return_tuple(0.2, 0.2, 0.2, COLOR);
-	//minirt->lights[1]->position = return_tuple(0, 3, 0, POINT);
+	//minirt->lights[2]->intensity.colors = return_tuple(1, 1, 1, COLOR);
+	//minirt->lights[2]->position = return_tuple(0, 0, 0.99, POINT);
+
 	/* LIGHT */
 	
-	minirt->object_count = 1;
+	minirt->object_count = 4;
 	
 	minirt->shapes = ft_calloc(minirt->object_count, sizeof(t_shape *));
 
-	//t_cylinder *cylinder = create_cylinder(return_tuple(0, 0, 0, VECTOR));
-	//cylinder->is_closed = true;
-	//cylinder->minimum = 0;
-	//cylinder->maximum = 0.3;
-	//cylinder->material->color.colors = return_tuple(1, 0, 0, COLOR);
-	//minirt->shapes[0] = ft_calloc(1, sizeof(t_shape));
-	//minirt->shapes[0]->shape = cylinder;
-	//minirt->shapes[0]->type = CYLINDER;
-	
-	t_cone *cone = create_cone();
-	cone->material = create_default_material();
-	cone->material->color.colors = return_tuple(0.9, 0, 0, COLOR);
-	cone->is_closed = true;
-	cone->minimum = -0.5;
-	cone->maximum = 0.5;
+	t_sphere *sphere = create_sphere(0, 0, 0, create_default_material());
+	sphere->transform = translation_mat(-0.2, 0, 0);
+	sphere->radius = 0.4;
+	sphere->material->color.colors = return_tuple(0.5, 0.3, 0.1, COLOR);
 	minirt->shapes[0] = ft_calloc(1, sizeof(t_shape));
-	minirt->shapes[0]->shape = cone;
-	minirt->shapes[0]->type = CONE;
+	minirt->shapes[0]->shape = sphere;
+	minirt->shapes[0]->type = SPHERE;
 	
-	//t_sphere *sphere = create_sphere(0, 0, 0, create_default_material());
-	//sphere->transform = translation_mat(0, 0, 0.8);
-	//sphere->radius = 1.5;
-	//minirt->shapes[1] = ft_calloc(1, sizeof(t_shape));
-	//minirt->shapes[1]->shape = sphere;
-	//minirt->shapes[1]->type = SPHERE;
-
+	t_sphere *sphere_two = create_sphere(0, 0, 0, create_default_material());
+	sphere_two->radius = 0.4;
+	sphere_two->transform = translation_mat(0.2, 0, 0);
+	minirt->shapes[1] = ft_calloc(1, sizeof(t_shape));
+	minirt->shapes[1]->shape = sphere_two;
+	minirt->shapes[1]->type = SPHERE;
+	
+	t_plane *plane = ft_calloc(1, sizeof(t_plane));
+	plane->material = create_default_material();
+	plane->material->color.colors = return_tuple(0.5, 0.1, 0, COLOR);
+	plane->material->ambient = 0.1;
+	plane->transform = identity();
+	t_4dmat temp = translation_mat(0, -0.7, 1);
+	plane->transform = mat4d_mult_fast_static(&temp, &plane->transform);
+	minirt->shapes[2] = ft_calloc(1, sizeof(t_shape));
+	minirt->shapes[2]->shape = plane;
+	minirt->shapes[2]->type = PLANE;
+	
+	t_plane *plane_two = ft_calloc(1, sizeof(t_plane));
+	plane_two->material = create_default_material();
+	plane_two->material->ambient = 0.2;
+	plane_two->transform = x_rotation_mat(PI / 2);
+	temp = translation_mat(0, 0, 2);
+	plane_two->transform = mat4d_mult_fast_static(&temp, &plane_two->transform);
+	minirt->shapes[3] = ft_calloc(1, sizeof(t_shape));
+	minirt->shapes[3]->shape = plane_two;
+	minirt->shapes[3]->type = PLANE;
+	
 	minirt->mlx = mlx;
 	return (minirt);
 }

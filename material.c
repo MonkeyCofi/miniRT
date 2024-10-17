@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:27:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/11 21:27:41 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:15:20 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_mater	*create_default_material()
 	return_material = ft_calloc(1, sizeof(t_mater));
 	if (!return_material)
 		return (NULL);
-	return_material->ambient = 0.1;
+	return_material->ambient = 0.01;
 	return_material->diffuse = 0.9;
 	return_material->specular = 0.9;
 	return_material->shine = 200;

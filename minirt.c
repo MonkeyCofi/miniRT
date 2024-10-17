@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/16 22:26:39 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:13:26 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ void	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 	t_tuple color;
 
 	i = -1;
-	while (++i < camera->horizontal_canv_size - 1)
+	while (++i < camera->horizontal_canv_size)
 	{
 		j = -1;
-		while (++j < camera->vertical_canv_size - 1)
+		while (++j < camera->vertical_canv_size)
 		{
 			ray = ray_per_pixel(camera, j, i);
 			color = color_at(minirt, ray);
@@ -114,34 +114,10 @@ int main(void)
 	init_mlx(&mlx);
 	m = init_default(&mlx);
 	camera = return_camera(WIDTH, HEIGHT, 90, NULL);
-	from = return_tuple(0, 0, -1, POINT);
+	from = return_tuple(0, 0.2, -1, POINT);
 	to = return_tuple(0, 0, 0, POINT);
 	up = return_tuple(0, 1, 0, VECTOR);
 	camera.view_matrix = view_transform(&to, &from, &up);
 	render(&mlx, &camera, m);
 	mlx_loop(&mlx.mlx);
 }
-
-//int main(void)
-//{
-//	t_cone *cone = create_cone();
-//	t_tuple direction = return_tuple(0, 1, 0, VECTOR);
-//	t_tuple origin = return_tuple(0, 0, -5, POINT);
-//	t_intersects *inter = ft_calloc(1, sizeof(t_intersects));
-//	cone->is_closed = true;
-//	cone->minimum = -0.5;
-//	cone->maximum = 0.5;
-//	normalize(&direction);
-//	t_ray *ray = create_ray(origin, direction);
-//	if (cone_hit(cone, ray, inter) == false)
-//		printf("Cone not hit\n");
-//	else
-//	{
-//		printf("Number of intersections: %d\n", inter->intersection_count);
-//		print_intersects(inter);
-//	}
-//	t_tuple	*normal = normal_pos_cone(cone, return_tuple(-1, -1, 0, POINT));
-//	printf("Normal: ");
-//	print_tuple_points(normal);
-//}
-

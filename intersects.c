@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/16 18:58:22 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:26:34 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void	sort_intersects(t_intersects *intersects)
 
 t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_index)
 {
-	t_ray			*ray;
-	t_intersects	*intersect;
-	t_tuple			new_point;
-	t_tuple			direction;
-	float			distance;
 	t_intersection	*hit;
+	t_intersects	*intersect;
+	t_tuple			direction;
+	t_tuple			new_point;
+	t_ray			*ray;
+	float			distance;
 	
 	new_point = subtract_tuples(&point, &minirt->lights[light_index]->position);
 	distance = magnitude(&new_point);
@@ -107,7 +107,6 @@ t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersec
 	new->obj = intersection->shape;
 	new->type = intersection->type;
 	new->material = intersection->material;
-	//new->point = position(ray, inter->intersections[inter->intersection_count].t);
 	new->point = position(ray, new->t);
 	if (new->type == SPHERE)
 		new->normal_vec = normal_pos(intersection->shape, new->point);
@@ -173,11 +172,21 @@ t_intersection	*intersect_plane(t_ray *ray, t_plane *plane)
 {
 	t_intersection	*plane_intersection;
 	t_intersection	temp;
+	t_4dmat			*inverse_ray;
+	t_ray			new_ray;
 
 	if (fabs(ray->direction.y) < EPSILON)
 		return (NULL);
+	if (plane->inverse == NULL)
+	{
+		if (inverse_mat(&plane->transform, &inverse_ray) == error)
+			return (NULL);
+		plane->inverse = inverse_ray;
+	}
 	plane_intersection = ft_calloc(1, sizeof(t_intersection));
-	temp = intersect(-ray->origin.y / ray->direction.y, PLANE, plane, ray, none, return_tuple(0, 0, 0, POINT), plane->material);
+	new_ray.origin = tuple_mult_fast(plane->inverse, &ray->origin);
+	new_ray.direction = tuple_mult_fast(plane->inverse, &ray->direction);
+	temp = intersect(-new_ray.origin.y / new_ray.direction.y, PLANE, plane, &new_ray, none, return_tuple(0, 0, 0, POINT), plane->material);
 	plane_intersection->shape = temp.shape;
 	plane_intersection->t = temp.t;
 	plane_intersection->type = temp.type;
@@ -313,4 +322,20 @@ t_tuple	position(t_ray *ray, float t)
 		(ray->direction.y * t) + ray->origin.y, \
 		(ray->direction.z * t) + ray->origin.z);
 	return (ret);
+}
+
+t_bool	add_to_intersect(float t, t_intersects *intersects, t_shape_type type, void *shape, t_mater *material)
+{
+	if (intersects->intersection_count < MAX_INTERSECTS)
+	{
+		intersects->intersections[intersects->intersection_count].t = t;
+		intersects->intersections[intersects->intersection_count].type = type;
+		intersects->intersections[intersects->intersection_count].shape = shape;
+		intersects->intersections[intersects->intersection_count].material = material;
+		if (intersects->intersection_count < MAX_INTERSECTS)
+			intersects->intersection_count++;
+		else
+			return (false);
+	}
+	return (true);
 }
