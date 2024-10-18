@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/15 11:58:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/19 02:22:49 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 	int		i;
 	int		j;
 	t_ray	*ray;
-	t_color c;
+	t_tuple c;
 	t_tuple color;
 
 	i = -1;
@@ -95,7 +95,7 @@ void	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 		{
 			ray = ray_per_pixel(camera, j, i);
 			color = color_at(minirt, ray);
-			c.colors = return_tuple(color.x, color.y, color.z, COLOR);
+			c = return_tuple(color.x, color.y, color.z, COLOR);
 			draw_pixel(mlx, j, i, get_ray_color(&c));
 		}
 	}
@@ -385,6 +385,54 @@ int main(void)
 	render(&mlx, &camera, m);
 	mlx_loop(&mlx.mlx);
 }
+
+// t_minirt *init_minirtaarij(t_minirt *m)
+// {
+// 	m->cam = calloc(1, sizeof(t_camera));
+// 	m->shapes = ft_calloc(1, (sizeof(t_shape)));
+// 	m->ambient = ft_calloc(1, sizeof(t_ambient));
+// 	m->lights = ft_calloc(1, (sizeof(t_light)));
+// 	m->ambient->flag = 0;
+// 	m->cam->flag = 0;
+// 	m->object_count = 0;
+// 	m->light_count = 0;
+	
+// 	return (m);
+// }
+
+// int main(int argc, char **argv)
+// {
+// 	if(argc == 2)
+// 	{
+// 		t_minirt *m = calloc(1, sizeof(t_minirt));
+// 		m = init_minirtaarij(m);
+// 		if(fileopen(argv[1], m) == 0)
+// 		{
+// 			int i = 0;
+// 			while(m->shapes[i])
+// 			{
+// 				printf("--------------------\n");
+// 				printf("Shape : %u\n\n\n", m->shapes[i]->type);
+// 				printf("Coords:\n");
+// 				printf("%f\n", m->shapes[i]->coords->x);
+// 				printf("%f\n", m->shapes[i]->coords->y);
+// 				printf("%f\n\n\n", m->shapes[i]->coords->z);
+// 				printf("Orientation:\n");
+// 				printf("%f\n", m->shapes[i]->orientation->x);
+// 				printf("%f\n", m->shapes[i]->orientation->y);
+// 				printf("%f\n\n\n", m->shapes[i]->orientation->z);
+// 				printf("Color:\n");
+// 				printf("%f\n", m->shapes[i]->material->color->r);
+// 				printf("%f\n", m->shapes[i]->material->color->g);
+// 				printf("%f\n\n\n", m->shapes[i]->material->color->b);
+// 				printf("Radius:%f\n\n\n", m->shapes[i]->r);
+// 				printf("Height:%f\n\n\n", m->shapes[i]->h);
+// 				i++;
+// 			}
+// 		}
+// 		free(m);
+// 	}
+// }
 
 //int main(void)
 //{

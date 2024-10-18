@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/15 11:32:14 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/19 01:18:43 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int			is_float(char *str);
 void		free_arr(char *arr[]);
 int			dovector(char *string, t_tuple *calc);
 int			parse_camera(t_minirt *minirt, char *string);
-int			parsing(char *str, t_minirt *minirt);
+int			parsing(char *str, t_minirt *minirt, int *i, int *j);
 
 //t_tuple		lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector);
 t_tuple		lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow);
@@ -127,6 +127,6 @@ t_tuple		get_reflected_ray(t_tuple *from, t_tuple *normal);
 int			get_key_pressed(int keycode, t_mlx *mlx, t_sphere *sphere);
 void		draw_pixel(t_mlx *mlx, int x, int y, int color);
 t_mater		*create_default_material();
-t_mater		*create_material(t_color color, float diffuse, float ambient, float specular, float shine);
+t_mater		*create_material(t_tuple color, float diffuse, float ambient, float specular, float shine);
 
 #endif

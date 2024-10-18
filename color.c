@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/14 15:33:49 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/15 12:46:00 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,18 @@ void	set_min_max(t_tuple *color)
 		color->b = 1;
 }
 
-t_color	return_color(float red, float green, float blue, float alpha)
+t_tuple	return_color(float red, float green, float blue, float alpha)
 {
-	t_color	ret_color;
+	t_tuple	ret_color;
 
-	ret_color.colors.r = red;
-	ret_color.colors.g = green;
-	ret_color.colors.b  = blue;
-	ret_color.colors.a = alpha;
+	ret_color.r = red;
+	ret_color.g = green;
+	ret_color.b  = blue;
+	ret_color.a = alpha;
 	return (ret_color);
 }
 
-uint32_t	get_ray_color(t_color	*color)
+uint32_t	get_ray_color(t_tuple	*color)
 {
 	uint32_t		res;
 	uint8_t			r;
@@ -47,11 +47,11 @@ uint32_t	get_ray_color(t_color	*color)
 	uint8_t			b;
 	uint8_t			a;
 
-	set_min_max(&color->colors);
-	r = color->colors.r * 255;
-	g = color->colors.g * 255;
-	b = color->colors.b * 255;
-	a = color->colors.a;
+	set_min_max(color);
+	r = color->r * 255;
+	g = color->g * 255;
+	b = color->b * 255;
+	a = color->a;
 	res = a << 24 | r << 16 | g << 8 | b;
 	return (res);
 }

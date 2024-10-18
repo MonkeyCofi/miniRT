@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersects.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/14 21:05:29 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/19 01:45:02 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_index)
 	float			distance;
 	t_intersection	*hit;
 	
-	new_point = subtract_tuples(&point, &minirt->lights[light_index]->position);
+	new_point = subtract_tuples(&point, minirt->lights[light_index]->position);
 	distance = magnitude(&new_point);
 	direction = return_tuple(new_point.x, new_point.y, new_point.z, VECTOR);
 	normalize(&direction);

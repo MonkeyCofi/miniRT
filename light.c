@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/15 12:13:04 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/19 01:46:12 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_v
 	float	light_dot;
 	float	eye_dot;
 
-	final_color = multiply_tuples(&light->intensity.colors, &material->color.colors, COLOR);
-	light_vector = subtract_tuples(&point, &light->position);
+	final_color = multiply_tuples(light->intensity, material->color, COLOR);
+	light_vector = subtract_tuples(&point, light->position);
 	normalize(&light_vector);
 	ambient = return_scalar(&final_color, material->ambient);
 	light_dot = dot_product(&normal_vector, &light_vector);
@@ -53,7 +53,7 @@ t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_v
 		else
 		{
 			float fac = pow(eye_dot, material->shine);
-			specular = return_scalar(&light->intensity.colors, material->specular * fac);
+			specular = return_scalar(light->intensity, material->specular * fac);
 		}
 	}
 	if (in_shadow == true)
@@ -68,8 +68,8 @@ t_light	create_light(t_tuple intensity, t_tuple position)
 {
 	t_light	light;
 
-	light.intensity.colors = intensity;
-	light.position = position;
+	light.intensity = &intensity;
+	light.position = &position;
 	return (light);	
 }
 

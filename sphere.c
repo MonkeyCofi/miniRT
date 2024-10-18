@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/14 17:20:53 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/19 01:46:25 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_sphere	*create_sphere(float originx, float originy, float originz, t_mater *ma
 	ret->transform = identity();
 	ret->current_inverse = NULL;
 	if (material)
-		ret->material = create_material(material->color, material->diffuse, material->ambient, material->specular, material->shine);
+		ret->material = create_material(*material->color, material->diffuse, material->ambient, material->specular, material->shine);
 	else
 		ret->material = create_material(return_color(1, 1, 1, 1), 0.9, 0.1, 0.9, 200);
 	return (ret);

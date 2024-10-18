@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/15 12:22:17 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/19 01:34:47 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,10 @@ typedef union u_4dmat
 	float	matrix[4][4];
 }	t_4dmat;
 
-typedef struct s_color
-{
-	t_tuple	colors;
-}	t_color;
+// typedef struct s_color
+// {
+// 	t_tuple	colors;
+// }	t_color;
 
 typedef struct s_camera
 {
@@ -145,7 +145,7 @@ typedef struct s_ray
 
 typedef struct	s_mater
 {
-	t_color	color;
+	t_tuple	*color;
 	float	ambient;
 	float	specular;
 	float	diffuse;
@@ -190,8 +190,11 @@ typedef struct s_shape
 	t_4dmat			transform;
 	t_4dmat			*inverse_mat;
 	t_mater			*material;
-	t_tuple			*color;
 	t_intersects	(*shape_intersect)(float, t_ray *);
+	t_tuple			*coords;
+	t_tuple			*orientation;
+	float			r;
+	float			h;
 }	t_shape;
 
 typedef struct s_hit
@@ -228,8 +231,9 @@ typedef struct	s_plane
 
 typedef struct	s_light
 {
-	t_color	intensity;
-	t_tuple	position;
+	t_tuple	*intensity;
+	t_tuple	*position;
+	float	brightness;
 }	t_light;
 
 typedef struct	s_inter_comp
@@ -256,6 +260,14 @@ typedef struct	s_cylinder
 	t_shape_type	type;
 }	t_cylinder;
 
+typedef struct s_ambient
+{
+	float			ratio;
+	t_tuple			*color;
+	int				flag;
+}	t_ambient;
+
+
 typedef struct s_minirt
 {
 	t_mlx		*mlx;
@@ -264,6 +276,7 @@ typedef struct s_minirt
 	t_shape		**shapes;
 	t_light		**lights;
 	t_plane		*plane;
+	t_ambient	*ambient;
 	int			object_count;
 	int			light_count;
 }	t_minirt;

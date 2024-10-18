@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tuple_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:02:04 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/02 11:21:32 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/19 02:28:21 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,17 @@ t_tuple	return_tuple(float x, float y, float z, float w)
 	ret.y = y;
 	ret.z = z;
 	ret.w = w;
+	return (ret);
+}
+
+t_tuple	*return_tuplepoint(float x, float y, float z, float w)
+{
+	t_tuple	*ret = ft_calloc(1, sizeof(t_tuple));
+
+	ret->x = x;
+	ret->y = y;
+	ret->z = z;
+	ret->w = w;
 	return (ret);
 }
 
