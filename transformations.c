@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/17 15:11:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:16:50 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ t_4dmat	y_rotation_mat(float angle)
 	t_4dmat	y_rot;
 
 	ft_bzero(&y_rot, sizeof(t_4dmat));
-	y_rot.m22 = 1;
 	y_rot.m11 = cos(angle);
 	y_rot.m13 = sin(angle);
+	y_rot.m22 = 1;
 	y_rot.m31 = -sin(angle);
 	y_rot.m33 = cos(angle);
 	y_rot.m44 = 1;

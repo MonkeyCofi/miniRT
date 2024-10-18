@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/17 16:26:34 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:09:24 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_index)
 	t_ray			*ray;
 	float			distance;
 	
-	new_point = subtract_tuples(&point, &minirt->lights[light_index]->position);
+	new_point = subtract_tuples(&minirt->lights[light_index]->position, &point);
 	distance = magnitude(&new_point);
 	direction = return_tuple(new_point.x, new_point.y, new_point.z, VECTOR);
 	normalize(&direction);
@@ -109,7 +109,7 @@ t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersec
 	new->material = intersection->material;
 	new->point = position(ray, new->t);
 	if (new->type == SPHERE)
-		new->normal_vec = normal_pos(intersection->shape, new->point);
+		new->normal_vec = normal_sphere(intersection->shape, new->point);
 	else if (new->type == PLANE)
 		new->normal_vec = normal_pos_plane(intersection->shape, new->point);
 	else if (new->type == CYLINDER)
@@ -126,30 +126,6 @@ t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersec
 		new->is_inside_object = false;
 	return (new);
 }
-
-//t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersection, t_ray *ray, t_sphere *sphere)
-//{
-//	t_inter_comp	*new;
-
-//	new = ft_calloc(1, sizeof(t_inter_comp));
-//	if (!new)
-//		return (NULL);
-//	new->eye_vec = return_tuple(-ray->direction.x, -ray->direction.y, -ray->direction.z, VECTOR);
-//	new->intersects = inter;
-//	new->t = intersection->t;
-//	//new->point = position(ray, inter->intersections[inter->intersection_count].t);
-//	new->point = position(ray, new->t);
-//	new->normal_vec = normal_pos(sphere, new->point);
-//	new->obj = sphere;
-//	if (dot_product(&new->eye_vec, new->normal_vec) < 0)
-//	{
-//		new->is_inside_object = true;
-//		negate(new->normal_vec);
-//	}
-//	else
-//		new->is_inside_object = false;
-//	return (new);
-//}
 
 t_intersection	intersect(float t, t_shape_type type, void *shape, t_ray *ray, t_trans trans_type, t_tuple trans_coords, t_mater *material)
 {
@@ -205,7 +181,7 @@ t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray)
 	{
 		if (minirt->shapes[i]->type == SPHERE)
 		{
-			if (sphere_hit(minirt, NULL, inter, ray, minirt->shapes[i]->shape, 1) == false)
+			if (sphere_hit(minirt, NULL, inter, ray, minirt->shapes[i]->shape, 1, i) == false)
 				continue ;
 		}
 		else if (minirt->shapes[i]->type == PLANE)
@@ -284,33 +260,6 @@ t_tuple	*normal_pos_plane(t_plane *plane, t_tuple point)
 	//local_normal ← local_normal_at(shape, local_point)
 	//world_normal ← transpose(inverse(shape.transform)) * local_normal world_normal.w ← 0
 	//return normalize(world_normal) end function
-}
-
-t_tuple	*normal_pos(t_sphere *sphere, t_tuple pos)
-{
-	t_4dmat	*inverse_trans;
-	t_tuple	*world_norm;
-	t_tuple	sphere_norm;
-	t_bool	has_inverse;
-	
-	if (sphere->current_inverse)
-		inverse_trans = sphere->current_inverse;
-	else
-	{
-		has_inverse = inverse_mat(&sphere->transform, &inverse_trans);
-		if (has_inverse == error)
-			return (NULL);
-		if (has_inverse == false)
-		{
-			printf("There is no inverse\n");
-			return (NULL);
-		}
-		sphere->current_inverse = inverse_trans;
-	}
-	sphere_norm = subtract_tuples(&sphere->center, &pos);
-	world_norm = tuple_mult(transpose(inverse_trans), &sphere_norm);
-	normalize(world_norm);
-	return (world_norm);
 }
 
 t_tuple	position(t_ray *ray, float t)

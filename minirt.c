@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/17 16:13:26 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/18 21:44:34 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,14 +110,42 @@ int main(void)
 	t_tuple		from;
 	t_tuple		to;
 	t_tuple		up;
+	t_4dmat		temp;
 
 	init_mlx(&mlx);
 	m = init_default(&mlx);
-	camera = return_camera(WIDTH, HEIGHT, 90, NULL);
-	from = return_tuple(0, 0.2, -1, POINT);
+	camera = return_camera(WIDTH, HEIGHT, DEG_RAD(120), NULL);
+	from = return_tuple(0, 0, -1, POINT);
 	to = return_tuple(0, 0, 0, POINT);
 	up = return_tuple(0, 1, 0, VECTOR);
 	camera.view_matrix = view_transform(&to, &from, &up);
+	temp = y_rotation_mat(DEG_RAD(35));
+	camera.view_matrix = mat4d_mult_fast(&temp, camera.view_matrix);
+	//temp = translation_mat(0, 0, -1);
+	//camera.view_matrix = mat4d_mult_fast(&temp, camera.view_matrix);
+	//temp = y_rotation_mat(DEG_RAD(40));
+	//camera.view_matrix = mat4d_mult_fast(&temp, camera.view_matrix);
+	//temp = translation_mat(0, 0, 1);
+	//camera.view_matrix = mat4d_mult_fast(&temp, camera.view_matrix);
 	render(&mlx, &camera, m);
+	(void)temp;
 	mlx_loop(&mlx.mlx);
 }
+
+//int main(void)
+//{
+//	t_tuple	point = return_tuple(0, 3, -2, POINT);
+//	t_tuple	direction = return_tuple(0, -1, 2, VECTOR);
+//	t_cylinder *cylinder = create_cylinder(return_tuple(0, 0, 0, VECTOR));
+//	cylinder->minimum = 1;
+//	cylinder->maximum = 2;
+//	cylinder->is_closed = true;
+//	normalize(&direction);
+//	t_intersects *inter = ft_calloc(1, sizeof(t_intersects));
+//	t_ray	*ray = create_ray(point, direction);
+//	cylinder_hit(NULL, inter, ray, cylinder);
+//	print_intersects(inter);
+//	//t_tuple *normal = normal_pos_cylinder(cylinder, point);
+//	//printf("Normal: ");
+//	//print_tuple_points(normal);
+//}

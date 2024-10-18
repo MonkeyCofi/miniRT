@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/17 16:27:05 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:41:25 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_sphere	*create_sphere(float originx, float originy, float originz, t_mater *ma
 		ret->material = create_material(return_color(1, 1, 1, 1), 0.9, 0.1, 0.9, 200);
 	return (ret);
 }
-t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *ray, t_sphere *sphere, int with_transform)
+t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *ray, t_sphere *sphere, int with_transform, int i)
 {
 	float	vars[4];
 	t_tuple	sphere_dist;
@@ -73,6 +73,7 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *r
 		vars[0] = dot_product(&ray->direction, &ray->direction);
 		vars[1] = 2 * dot_product(&sphere_dist, &ray->direction);
 	}
+	minirt->shapes[i]->inverse_mat = inverse_ray_mat;
 	vars[2] = dot_product(&sphere_dist, &sphere_dist) - (sphere->radius * sphere->radius);
 	vars[3] = (vars[1] * vars[1]) - (4 * vars[0] * vars[2]);
 	if (vars[3] < 0)
@@ -81,27 +82,34 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *r
 		return (true);
 	if (add_to_intersect((-vars[1] + sqrt(vars[3])) / (2 * vars[0]), inter, SPHERE, sphere, sphere->material) == false)
 		return (true);
-	//if (inter->intersection_count < MAX_INTERSECTS)
-	//{
-		//inter->intersections[inter->intersection_count].t = (-vars[1] - sqrt(vars[3])) / (2 * vars[0]);
-		//inter->intersections[inter->intersection_count].shape = sphere;
-		//inter->intersections[inter->intersection_count].type = SPHERE;
-		//inter->intersections[inter->intersection_count].material = sphere->material;
-		//if (inter->intersection_count < MAX_INTERSECTS)
-		//	inter->intersection_count++;
-		//else
-		//	return (true);
-	//}
-	//if (inter->intersection_count < MAX_INTERSECTS)
-	//{
-	//	inter->intersections[inter->intersection_count].t = (-vars[1] + sqrt(vars[3])) / (2 * vars[0]);
-	//	inter->intersections[inter->intersection_count].shape = sphere;
-	//	inter->intersections[inter->intersection_count].type = SPHERE;
-	//	inter->intersections[inter->intersection_count].material = sphere->material;
-	//	if (inter->intersection_count < MAX_INTERSECTS)
-	//		inter->intersection_count++;
-	//}
 	(void)cam;
 	(void)minirt;
 	return (true);
+}
+
+t_tuple	*normal_sphere(t_sphere *sphere, t_tuple pos)
+{
+	t_4dmat	*inverse_trans;
+	t_tuple	*sphere_point;
+	t_tuple	*world_norm;
+	t_tuple	sphere_norm;
+	t_bool	has_inverse;
+	
+	if (sphere->current_inverse)
+		inverse_trans = sphere->current_inverse;
+	else
+	{
+		has_inverse = inverse_mat(&sphere->transform, &inverse_trans);
+		if (has_inverse == error)
+			return (NULL);
+		if (has_inverse == false)
+			return (NULL);
+		sphere->current_inverse = inverse_trans;
+	}
+	sphere_point = tuple_mult(sphere->current_inverse, &pos);
+	sphere_norm = subtract_tuples(&sphere->center, sphere_point);
+	world_norm = tuple_mult(transpose(inverse_trans), &sphere_norm);
+	normalize(world_norm);
+	world_norm->w = 0;
+	return (world_norm);
 }

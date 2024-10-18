@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/17 13:49:41 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/17 21:26:18 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # include <fcntl.h>
 
 # define PI 3.1415926535897932385
-# define EPSILON 0.001f
+# define EPSILON 0.0001f
 # define DEG_RAD(x) x * (PI / 180) 
 //# define MAX_INTERSECTS 200
 

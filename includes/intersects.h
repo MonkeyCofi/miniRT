@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:02:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/17 16:26:01 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/17 21:18:41 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void			sort_intersects(t_intersects *intersects);
 t_intersection	*best_hit(t_intersects *intersects);
 void			print_intersects(t_intersects *inter);
 
-t_tuple			*normal_pos(t_sphere *sphere, t_tuple pos);
+t_tuple			*normal_sphere(t_sphere *sphere, t_tuple pos);
 t_tuple			position(t_ray *ray, float t);
 t_tuple			*normal_pos_cylinder(t_cylinder *cylinder, t_tuple pos);
 

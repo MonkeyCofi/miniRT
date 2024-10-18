@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/16 20:43:03 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:25:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ static t_bool	at_cap(t_ray *ray, float t)
 	float	x;
 	float	z;
 
-	x = ray->direction.x + t * ray->direction.x;
-	z = ray->direction.z + t * ray->direction.z;
+	x = ray->origin.x + t * ray->direction.x;
+	z = ray->origin.z + t * ray->direction.z;
 	return ((x * x) + (z * z) <= 1);
 }
 
@@ -70,27 +70,79 @@ t_bool	cylinder_end_hit(t_cylinder *cylinder, t_ray *ray, t_intersects *intersec
 	t = (cylinder->minimum - ray->origin.y) / ray->direction.y;
 	if (at_cap(ray, t))
 	{
-		intersects->intersections[intersects->intersection_count].t = t;
-		intersects->intersections[intersects->intersection_count].shape = cylinder;
-		intersects->intersections[intersects->intersection_count].type = CYLINDER;
-		intersects->intersections[intersects->intersection_count].material = cylinder->material;
-		if (intersects->intersection_count < MAX_INTERSECTS)
-			intersects->intersection_count++;
-		else
+		if (add_to_intersect(t, intersects, CYLINDER, cylinder, cylinder->material) == false)
 			return (true);
 	}
 	t = (cylinder->maximum - ray->origin.y) / ray->direction.y;
 	if (at_cap(ray, t))
-	{
-		intersects->intersections[intersects->intersection_count].t = t;
-		intersects->intersections[intersects->intersection_count].shape = cylinder;
-		intersects->intersections[intersects->intersection_count].type = CYLINDER;
-		intersects->intersections[intersects->intersection_count].material = cylinder->material;
-		if (intersects->intersection_count < MAX_INTERSECTS)
-			intersects->intersection_count++;
-	}
+		add_to_intersect(t, intersects, CYLINDER, cylinder, cylinder->material);
 	return (true);
 }
+
+//t_bool	cylinder_hit(t_minirt *m, t_intersects *intersects, t_ray *ray, t_cylinder *cyl)
+//{
+//	float	a;
+//	float	b;
+//	float	c;
+//	float	disc;
+//	float	t[3];
+//	float	tt[2];
+//	t_4dmat	*inverse;
+//	t_ray	inverse_ray;
+
+//	if (!cyl->inverse)
+//	{
+//		if (inverse_mat(&cyl->transform, &inverse) == error)
+//			return (error);
+//		if (!inverse)
+//			return (false);
+//		cyl->inverse = inverse;
+//		inverse_ray.origin = tuple_mult_fast(cyl->inverse, &ray->origin);
+//		inverse_ray.direction = tuple_mult_fast(cyl->inverse, &ray->direction);
+//	}
+//	a = (ray->direction.x * ray->direction.x) + (ray->direction.z * ray->direction.z);
+//	if (is_equal(a, 0))
+//		return (cylinder_end_hit(cyl, ray, intersects));
+//	b = 2 * (ray->origin.x * ray->direction.x) + 2 * (ray->origin.z * ray->direction.z);
+//	c = (ray->origin.x * ray->origin.x) + (ray->origin.z * ray->origin.z) - 1;
+//	disc = (b * b) - 4 * a * c;
+//	if (disc < 0)
+//		return (false);
+//	t[0] = (-b - sqrt(disc)) / (2 * a);
+//	t[1] = (-b + sqrt(disc)) / (2 * a);
+//	if (t[0] > t[1])
+//	{
+//		t[2] = t[0];
+//		t[0] = t[1];
+//		t[1] = t[2];
+//	}
+//	tt[0] = ray->origin.y + t[0] * ray->direction.y;
+//	if (cyl->minimum < tt[0] && tt[0] < cyl->maximum)
+//	{
+//		//printf("true\n");
+//		intersects->intersections[intersects->intersection_count].t = t[0];
+//		intersects->intersections[intersects->intersection_count].shape = cyl;
+//		intersects->intersections[intersects->intersection_count].type = CYLINDER;
+//		intersects->intersections[intersects->intersection_count].material = cyl->material;
+//		if (intersects->intersection_count < MAX_INTERSECTS)
+//			intersects->intersection_count++;
+//		else
+//			return (true);
+//	}
+//	tt[1] = ray->origin.y + t[1] * ray->direction.y;
+//	if (tt[1] > cyl->minimum && tt[1] < cyl->maximum)
+//	{
+//		intersects->intersections[intersects->intersection_count].t = t[1];
+//		intersects->intersections[intersects->intersection_count].shape = cyl;
+//		intersects->intersections[intersects->intersection_count].type = CYLINDER;
+//		intersects->intersections[intersects->intersection_count].material = cyl->material;
+//		if (intersects->intersection_count < MAX_INTERSECTS)
+//			intersects->intersection_count++;
+//	}
+//	(void)m;
+//	cylinder_end_hit(cyl, ray, intersects);
+//	return (true);
+//}
 
 t_bool	cylinder_hit(t_minirt *m, t_intersects *intersects, t_ray *ray, t_cylinder *cyl)
 {
@@ -100,12 +152,24 @@ t_bool	cylinder_hit(t_minirt *m, t_intersects *intersects, t_ray *ray, t_cylinde
 	float	disc;
 	float	t[3];
 	float	tt[2];
-	
-	a = (ray->direction.x * ray->direction.x) + (ray->direction.z * ray->direction.z);
+	t_4dmat	*inverse;
+	t_ray	inverse_ray;
+
+	if (!cyl->inverse)
+	{
+		if (inverse_mat(&cyl->transform, &inverse) == error)
+			return (error);
+		if (!inverse)
+			return (false);
+		cyl->inverse = inverse;
+		inverse_ray.origin = tuple_mult_fast(cyl->inverse, &ray->origin);
+		inverse_ray.direction = tuple_mult_fast(cyl->inverse, &ray->direction);
+	}
+	a = (inverse_ray.direction.x * inverse_ray.direction.x) + (inverse_ray.direction.z * inverse_ray.direction.z);
 	if (is_equal(a, 0))
-		return (cylinder_end_hit(cyl, ray, intersects));
-	b = 2 * (ray->origin.x * ray->direction.x) + 2 * (ray->origin.z * ray->direction.z);
-	c = (ray->origin.x * ray->origin.x) + (ray->origin.z * ray->origin.z) - 1;
+		return (cylinder_end_hit(cyl, &inverse_ray, intersects));
+	b = 2 * (inverse_ray.origin.x * inverse_ray.direction.x) + 2 * (inverse_ray.origin.z * inverse_ray.direction.z);
+	c = inverse_ray.origin.x * inverse_ray.origin.x + inverse_ray.origin.z * inverse_ray.origin.z - 1;
 	disc = (b * b) - 4 * a * c;
 	if (disc < 0)
 		return (false);
@@ -117,30 +181,16 @@ t_bool	cylinder_hit(t_minirt *m, t_intersects *intersects, t_ray *ray, t_cylinde
 		t[0] = t[1];
 		t[1] = t[2];
 	}
-	tt[0] = ray->origin.y + t[0] * ray->direction.y;
+	tt[0] = inverse_ray.origin.y + t[0] * inverse_ray.direction.y;
 	if (cyl->minimum < tt[0] && tt[0] < cyl->maximum)
 	{
-		//printf("true\n");
-		intersects->intersections[intersects->intersection_count].t = t[0];
-		intersects->intersections[intersects->intersection_count].shape = cyl;
-		intersects->intersections[intersects->intersection_count].type = CYLINDER;
-		intersects->intersections[intersects->intersection_count].material = cyl->material;
-		if (intersects->intersection_count < MAX_INTERSECTS)
-			intersects->intersection_count++;
-		else
+		if (add_to_intersect(t[0], intersects, CYLINDER, cyl, cyl->material) == false)
 			return (true);
 	}
-	tt[1] = ray->origin.y + t[1] * ray->direction.y;
-	if (tt[1] > cyl->minimum && tt[1] < cyl->maximum)
-	{
-		intersects->intersections[intersects->intersection_count].t = t[1];
-		intersects->intersections[intersects->intersection_count].shape = cyl;
-		intersects->intersections[intersects->intersection_count].type = CYLINDER;
-		intersects->intersections[intersects->intersection_count].material = cyl->material;
-		if (intersects->intersection_count < MAX_INTERSECTS)
-			intersects->intersection_count++;
-	}
+	tt[1] = inverse_ray.origin.y + t[1] * inverse_ray.direction.y;
+	if (cyl->minimum < tt[1] && tt[1] < cyl->maximum)
+		add_to_intersect(t[1], intersects, CYLINDER, cyl, cyl->material);
 	(void)m;
-	cylinder_end_hit(cyl, ray, intersects);
+	cylinder_end_hit(cyl, &inverse_ray, intersects);
 	return (true);
 }
