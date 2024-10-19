@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:13:25 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/09 17:07:49 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/19 20:35:50 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ t_tuple	scale_ray(t_tuple *point, float x, float y, float z);
 t_ray	transform_ray(t_ray *old_ray, t_trans type, t_tuple transform_coords, t_sphere *sphere);
 void	transform_sphere(t_sphere *sphere, t_trans type, t_tuple transform_coords);
 t_tuple	chain_transforms(t_transform *trans, t_tuple *point);
+
+t_bool	transform_shape(t_minirt *m, int index, t_trans type, float angle, t_tuple *transform_coords);
 
 #endif

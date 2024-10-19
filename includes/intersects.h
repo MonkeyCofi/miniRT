@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:02:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/17 21:18:41 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/19 20:50:35 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_tuple			*normal_pos_cylinder(t_cylinder *cylinder, t_tuple pos);
 
 t_bool			is_in_shadow(t_minirt *minirt, t_tuple point, int light_index);
 
-t_bool			cylinder_hit(t_minirt *m, t_intersects *intersects, t_ray *ray, t_cylinder *cyl);
+t_bool			cylinder_hit(t_minirt *m, int index, t_intersects *intersects, t_ray *ray, t_cylinder *cyl);
 
 t_cylinder		*create_cylinder(t_tuple orientation);
 

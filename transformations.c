@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/18 20:16:50 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/19 20:52:43 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,18 +124,6 @@ t_tuple	translate_ray(t_tuple *point, float x, float y, float z)
 	set_point_points(&ret, resultant->x, resultant->y, resultant->z);
 	free(resultant);
 	return (ret);
-	//t_tuple	ret;
-	//t_4dmat	id;
-	//t_tuple	*res;
-
-	//id = identity();
-	//id.m14 = x;
-	//id.m24 = y;
-	//id.m34 = z;
-	//res = tuple_mult(&id, point);
-	//set_point_points(&ret, res->x, res->y, res->z);
-	//free(res);
-	//return (ret);
 }
 
 t_ray	transform_ray(t_ray *old_ray, t_trans type, t_tuple transform_coords, t_sphere *sphere)
@@ -176,11 +164,40 @@ void	transform_sphere(t_sphere *sphere, t_trans type, t_tuple transform_coords)
 		res = mat4d_mult(&trans_matrix, &sphere->transform);
 		copy_mat(&sphere->transform, res);
 	}
+	inverse_mat(&trans_matrix, &sphere->current_inverse);
 	//else
 	//{
 	//	if (rotation_type == 'x')
 	//		trans_matrix = x_rotation_mat
 	//}
+}
+
+t_bool	transform_shape(t_minirt *m, int index, t_trans type, float angle, t_tuple *transform_coords)
+{
+	t_4dmat	trans_matrix;
+	t_4dmat	*res;
+
+	if (type == translate)
+	{
+		trans_matrix = translation_mat(transform_coords->x, transform_coords->y, transform_coords->z);
+		res = mat4d_mult(&trans_matrix, &m->shapes[index]->transform);
+		copy_mat(&m->shapes[index]->transform, res);
+	}
+	else if (type == scale)
+	{
+		trans_matrix = scaling_mat(transform_coords->x, transform_coords->y, transform_coords->z);
+		res = mat4d_mult(&trans_matrix, &m->shapes[index]->transform);
+		copy_mat(&m->shapes[index]->transform, res);
+	}
+	else if (type == rotate_x)
+	{
+		trans_matrix = x_rotation_mat(angle);
+		m->shapes[index]->transform = mat4d_mult_fast_static(&trans_matrix, &m->shapes[index]->transform);
+		printf("transformed\n");
+	}
+	if (inverse_mat(&trans_matrix, &m->shapes[index]->inverse_mat) == error)
+		return (error);
+	return (true);
 }
 
 //t_tuple	chain_transforms(t_tuple *point, t_tuple *transformations[], t_trans type[], int transformation_count, float angles[])

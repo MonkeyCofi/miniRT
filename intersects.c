@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/18 17:09:24 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/19 20:50:21 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray)
 		}
 		else if (minirt->shapes[i]->type == CYLINDER)
 		{
-			if (cylinder_hit(minirt, inter, ray, minirt->shapes[i]->shape) == false)
+			if (cylinder_hit(minirt, i, inter, ray, minirt->shapes[i]->shape) == false)
 				continue ;
 		}
 		else if (minirt->shapes[i]->type == CONE)
@@ -220,47 +220,41 @@ void	print_intersects(t_intersects *inter)
 
 t_tuple	*normal_pos_plane(t_plane *plane, t_tuple point)
 {
-	t_tuple	*norml;
+	t_4dmat	*inverse_matrix;
+	t_tuple	*transformed_point;
+	t_tuple	*plane_normal;
+	t_tuple	*world_normal;
 
-	norml = ft_calloc(1, sizeof(t_tuple));
-	norml->x = plane->normal.x;
-	norml->y = plane->normal.y;
-	norml->z = plane->normal.z;
-	norml->w = plane->normal.w;
-	(void)point;
-	return (norml);
-	//t_4dmat	*inverse_trans;
-	//t_tuple	*world_norm;
-	//t_tuple	plane_norm;
-	//t_bool	has_inverse;
-	
-	//if (plane->inverse)
-	//	inverse_trans = plane->inverse;
-	//else
-	//{
-	//	has_inverse = inverse_mat(&plane->transform, &inverse_trans);
-	//	if (has_inverse == error)
-	//		return (NULL);
-	//	if (has_inverse == false)
-	//	{
-	//		printf("There is no inverse\n");
-	//		return (NULL);
-	//	}
-	//	plane->inverse = inverse_trans;
-	//	printf("assigned inverse to plane\n");
-	//}
-	//plane_norm = subtract_tuples(&plane->point, &point);
-	//world_norm = tuple_mult(transpose(inverse_trans), &plane_norm);
-	//world_norm->w = 0;
-	//normalize(world_norm); 
-	//return (world_norm);
-	
-	//function normal_at(shape, point)
-	//local_point ← inverse(shape.transform) * point
-	//local_normal ← local_normal_at(shape, local_point)
-	//world_normal ← transpose(inverse(shape.transform)) * local_normal world_normal.w ← 0
-	//return normalize(world_normal) end function
+	if (!plane->inverse)
+	{
+		if (inverse_mat(&plane->transform, &inverse_matrix) == error)
+			return (NULL);
+		plane->inverse = inverse_matrix;
+	}
+	transformed_point = tuple_mult(plane->inverse, &point);
+	plane_normal = ft_calloc(1, sizeof(t_tuple));
+	plane_normal->x = plane->normal.x;
+	plane_normal->y = plane->normal.y;
+	plane_normal->z = plane->normal.z;
+	plane_normal->w = plane->normal.w;
+	world_normal = tuple_mult(transpose(plane->inverse), plane_normal);
+	normalize(world_normal);
+	world_normal->w = 0;
+	return (world_normal);
 }
+
+//t_tuple	*normal_pos_plane(t_plane *plane, t_tuple point)
+//{
+//	t_tuple	*norml;
+
+//	norml = ft_calloc(1, sizeof(t_tuple));
+//	norml->x = plane->normal.x;
+//	norml->y = plane->normal.y;
+//	norml->z = plane->normal.z;
+//	norml->w = plane->normal.w;
+//	(void)point;
+//	return (norml);
+//}
 
 t_tuple	position(t_ray *ray, float t)
 {

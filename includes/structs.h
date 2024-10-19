@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/17 21:18:57 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/19 19:02:50 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,9 +185,11 @@ typedef struct s_shape
 {
 	t_shape_type	type;
 	void			*shape;
+	t_ray			*inverse_ray;
 	t_4dmat			transform;
 	t_4dmat			*inverse_mat;
 	t_mater			*material;
+	t_tuple			*normal;
 	t_intersects	(*shape_intersect)(float, t_ray *);
 }	t_shape;
 
