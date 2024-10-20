@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/20 16:28:18 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/20 16:51:27 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -495,9 +495,9 @@ int main(int argc, char **argv)
 			// m = init_default(&mlx);
 			if (m->object_count > 0)
 				m = parse_objects(m);
-			camera = return_camera(WIDTH, HEIGHT, m->cam->fo, NULL);
-			from = return_tuple(-0.4, 0.7, -0.8, POINT);
-			to = return_tuple(0, 0, 0, POINT);
+			camera = return_camera(WIDTH, HEIGHT, m->cam->fov, NULL);
+			from = return_tuple(m->cam->coords.x, m->cam->coords.y, m->cam->coords.z, POINT);
+			to = return_tuple(m->cam->orientation.x, m->cam->orientation.y, m->cam->orientation.z, POINT);
 			up = return_tuple(0, 1, 0, VECTOR);
 			camera.view_matrix = view_transform(&to, &from, &up);
 			render(&mlx, &camera, m);
