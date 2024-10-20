@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/19 02:22:49 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/20 16:28:18 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -366,7 +366,118 @@ void	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 //	mlx_loop(&mlx.mlx);
 //}
 
-int main(void)
+t_minirt *init_minirtaarij(t_minirt *m)
+{
+	m->cam = ft_calloc(1, sizeof(t_camera));
+	m->shapes = ft_calloc(1, (sizeof(t_shape)));
+	m->ambient = ft_calloc(1, sizeof(t_ambient));
+	m->lights = ft_calloc(1, (sizeof(t_light)));
+	m->ambient->flag = 0;
+	m->cam->flag = 0;
+	m->object_count = 0;
+	m->light_count = 0;
+	
+	return (m);
+}
+
+t_minirt *init_aarij(t_minirt *m)
+{	
+	// t_mater*	default_material = create_default_material();
+	// t_sphere *sphere = create_sphere(0, 0, 0, default_material);
+	// sphere->material->color = m->shapes[0]->material->color;
+	// sphere->center = return_tuple(0, 0, 0, POINT);
+	// sphere->transform = identity();
+	// m->shapes[0]->shape = sphere;
+
+	t_mater*	default_material = create_default_material();
+	t_sphere *sphere = create_sphere(0, 0, 0, default_material);
+	sphere->material->color = m->shapes[0]->material->color;
+	
+	sphere->radius = m->shapes[0]->r;
+	sphere->center = return_tuple(m->shapes[0]->coords->x, m->shapes[0]->coords->y, m->shapes[0]->coords->z, POINT);
+	sphere->transform = translation_mat(m->shapes[0]->coords->x, m->shapes[0]->coords->y, m->shapes[0]->coords->z);
+	t_4dmat owo = scaling_mat(0.3, 0.3, 0.3);
+	sphere->transform = mat4d_mult_fast_static(&owo, &sphere->transform);
+	m->shapes[0]->shape = sphere;
+
+	t_mater*	default_material2 = create_default_material();
+	t_sphere *sphere2 = create_sphere(0, 0, 0, default_material2);
+	sphere2->material->color = m->shapes[1]->material->color;
+	
+	sphere2->radius = m->shapes[1]->r;
+	sphere2->center = return_tuple(m->shapes[1]->coords->x, m->shapes[1]->coords->y, m->shapes[1]->coords->z, POINT);
+	sphere2->transform = translation_mat(m->shapes[1]->coords->x, m->shapes[1]->coords->y, m->shapes[1]->coords->z);
+	t_4dmat uwu = scaling_mat(0.3, 0.3, 0.3);
+	sphere2->transform = mat4d_mult_fast_static(&uwu, &sphere2->transform);
+	
+	m->shapes[1]->shape = sphere2;
+
+
+	// t_mater		*sphere_two_mat = create_default_material();
+	// t_sphere	*sphere_two = create_sphere(m->shapes[1]->coords->x, m->shapes[1]->coords->y, m->shapes[1]->coords->z, sphere_two_mat);
+	// sphere_two->material->color = m->shapes[1]->material->color;
+
+	// sphere_two->radius = m->shapes[1]->r;
+	// sphere_two->center = return_tuple(m->shapes[1]->coords->x, m->shapes[1]->coords->y, m->shapes[1]->coords->z, POINT);
+	// sphere_two->transform = identity();
+	// m->shapes[1]->shape = sphere_two;
+
+	t_plane *plane = ft_calloc(1, sizeof(t_plane));
+	plane->material = create_default_material();
+	plane->material->color = m->shapes[2]->material->color;
+	plane->transform = identity();
+	plane->point = return_tuple(0, 0, 0, POINT);
+	plane->inverse = NULL;
+	m->shapes[2]->shape = plane;
+	return(m);
+}
+
+t_minirt *init_sphere(t_minirt *m, int *i)
+{
+	t_mater*	default_material = create_default_material();
+	t_sphere *sphere = create_sphere(0, 0, 0, default_material);
+	sphere->material->color = m->shapes[*i]->material->color;
+	
+	sphere->radius = m->shapes[*i]->r;
+	sphere->center = return_tuple(m->shapes[*i]->coords->x, m->shapes[*i]->coords->y, m->shapes[*i]->coords->z, POINT);
+	sphere->transform = translation_mat(m->shapes[*i]->coords->x, m->shapes[*i]->coords->y, m->shapes[*i]->coords->z);
+	t_4dmat owo = scaling_mat(0.3, 0.3, 0.3);
+	sphere->transform = mat4d_mult_fast_static(&owo, &sphere->transform);
+	m->shapes[*i]->shape = sphere;
+	*i += 1;
+	return (m);
+}
+
+t_minirt *init_plane(t_minirt *m, int *i)
+{
+	t_plane *plane = ft_calloc(1, sizeof(t_plane));
+	plane->material = create_default_material();
+	plane->material->color = m->shapes[*i]->material->color;
+	plane->transform = identity();
+	plane->point = return_tuple(0, 0, 0, POINT);
+	plane->inverse = NULL;
+	m->shapes[*i]->shape = plane;
+	*i += 1;
+	return(m);
+}
+
+t_minirt *parse_objects(t_minirt *m)
+{
+	int i = 0;
+	while(i < m->object_count)
+	{
+		if(m->shapes[i]->type == SPHERE)
+			m = init_sphere(m, &i);
+		else if(m->shapes[i]->type == PLANE)
+			m = init_plane(m, &i);
+		else if(m->shapes[i]->type == CYLINDER)
+			i += 1;
+	}
+	return (m);
+}
+// to do list
+// if condition if theres any objects, if so, pass it to a function that'll create all shapes :)
+int main(int argc, char **argv)
 {
 	t_mlx mlx;
 	t_minirt	*m;
@@ -374,31 +485,28 @@ int main(void)
 	t_tuple		from;
 	t_tuple		to;
 	t_tuple		up;
-
-	init_mlx(&mlx);
-	m = init_default(&mlx);
-	camera = return_camera(WIDTH, HEIGHT, 90, NULL);
-	from = return_tuple(-0.4, 0.7, -0.8, POINT);
-	to = return_tuple(0, 0, 0, POINT);
-	up = return_tuple(0, 1, 0, VECTOR);
-	camera.view_matrix = view_transform(&to, &from, &up);
-	render(&mlx, &camera, m);
-	mlx_loop(&mlx.mlx);
+	if(argc == 2)
+	{
+		m = ft_calloc(1, sizeof(t_minirt));
+		m = init_minirtaarij(m);
+		if(fileopen(argv[1], m) == 0)
+		{
+			init_mlx(&mlx);
+			// m = init_default(&mlx);
+			if (m->object_count > 0)
+				m = parse_objects(m);
+			camera = return_camera(WIDTH, HEIGHT, m->cam->fo, NULL);
+			from = return_tuple(-0.4, 0.7, -0.8, POINT);
+			to = return_tuple(0, 0, 0, POINT);
+			up = return_tuple(0, 1, 0, VECTOR);
+			camera.view_matrix = view_transform(&to, &from, &up);
+			render(&mlx, &camera, m);
+			mlx_loop(&mlx.mlx);
+		}
+	}
+		
 }
 
-// t_minirt *init_minirtaarij(t_minirt *m)
-// {
-// 	m->cam = calloc(1, sizeof(t_camera));
-// 	m->shapes = ft_calloc(1, (sizeof(t_shape)));
-// 	m->ambient = ft_calloc(1, sizeof(t_ambient));
-// 	m->lights = ft_calloc(1, (sizeof(t_light)));
-// 	m->ambient->flag = 0;
-// 	m->cam->flag = 0;
-// 	m->object_count = 0;
-// 	m->light_count = 0;
-	
-// 	return (m);
-// }
 
 // int main(int argc, char **argv)
 // {

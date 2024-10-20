@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/10/19 02:20:56 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/19 03:13:35 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,6 +337,7 @@ int	parse_light(t_minirt *minirt, char *string, int *j)
 	}
 	free_arr(str);
 	minirt->light_count++;
+	*j += 1;
 	return (0);
 }
 
