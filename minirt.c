@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/20 16:51:27 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/20 17:42:37 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -461,6 +461,16 @@ t_minirt *init_plane(t_minirt *m, int *i)
 	return(m);
 }
 
+t_minirt *init_cylinder(t_minirt *m, int *i)
+{
+	t_cylinder *cylinder = create_cylinder(return_tuple(m->shapes[*i]->orientation->x,m->shapes[*i]->orientation->y, m->shapes[*i]->orientation->z, POINT));
+	cylinder->material->color = m->shapes[*i]->material->color;
+	m->shapes[*i] = ft_calloc(1, sizeof(t_shape));
+	m->shapes[*i]->shape = cylinder;
+	*i += 1;
+	return (m);
+}
+
 t_minirt *parse_objects(t_minirt *m)
 {
 	int i = 0;
@@ -471,7 +481,7 @@ t_minirt *parse_objects(t_minirt *m)
 		else if(m->shapes[i]->type == PLANE)
 			m = init_plane(m, &i);
 		else if(m->shapes[i]->type == CYLINDER)
-			i += 1;
+			m = init_cylinder(m, &i);
 	}
 	return (m);
 }
