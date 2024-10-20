@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/19 01:46:25 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/20 23:58:11 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *r
 		inverse_ray = create_ray(return_tuple(ray->origin.x, ray->origin.y, ray->origin.z, POINT), return_tuple(ray->direction.x, ray->direction.y, ray->direction.z, VECTOR));
 		if (!sphere->current_inverse)
 		{
-			if (inverse_mat(&sphere->transform, &inverse_ray_mat) == error)
+			if (inverse_mat(&sphere->transform, &sphere->current_inverse) == error)
 				return (error);
 			if (!inverse_ray_mat)
 				return (false);
@@ -83,10 +83,10 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *r
 		inter->intersections[inter->intersection_count].shape = sphere;
 		inter->intersections[inter->intersection_count].type = SPHERE;
 		inter->intersections[inter->intersection_count].material = sphere->material;
-		if (inter->intersection_count < MAX_INTERSECTS)
-			inter->intersection_count++;
-		else
-			return (true);
+			// if (inter->intersection_count < MAX_INTERSECTS)
+		inter->intersection_count++;
+		if (inter->intersection_count >= MAX_INTERSECTS)
+        	return true;	
 	}
 	if (inter->intersection_count < MAX_INTERSECTS)
 	{
@@ -94,7 +94,7 @@ t_bool	sphere_hit(t_minirt *minirt, t_camera *cam, t_intersects *inter, t_ray *r
 		inter->intersections[inter->intersection_count].shape = sphere;
 		inter->intersections[inter->intersection_count].type = SPHERE;
 		inter->intersections[inter->intersection_count].material = sphere->material;
-		if (inter->intersection_count < MAX_INTERSECTS)
+		// if (inter->intersection_count < MAX_INTERSECTS)
 			inter->intersection_count++;
 	}
 	(void)cam;

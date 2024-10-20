@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/20 17:42:37 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/20 23:59:46 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,12 @@ void	print_4d_points(float points[4][4])
 	}
 }
 
-t_ray	*ray_per_pixel(t_camera *camera, int px, int py)
+t_ray	*ray_per_pixel(t_camera *camera, int px, int py, t_4dmat *camera_inverse)
 {
 	float	x_offset;
 	float	y_offset;
 	float	world_x;
 	float	world_y;
-	t_4dmat	*camera_inverse;
 	t_tuple	*pixel;
 	t_tuple	*origin;
 	t_tuple	direction;
@@ -58,8 +57,6 @@ t_ray	*ray_per_pixel(t_camera *camera, int px, int py)
 	y_offset = (py + 0.5) * camera->pixel_size;
 	world_x = camera->half_width - x_offset;
 	world_y = camera->half_height - y_offset;
-	if (inverse_mat(camera->view_matrix, &camera_inverse) == false)
-		return (NULL);
 	temp = return_tuple(world_x, world_y, -1, POINT);
 	pixel = tuple_mult(camera_inverse, &temp);
 	temp = return_tuple(0, 0, 0, POINT);
@@ -86,14 +83,17 @@ void	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 	t_ray	*ray;
 	t_tuple c;
 	t_tuple color;
+	t_4dmat *camera_inverse;
 
+	if (inverse_mat(camera->view_matrix, &camera_inverse) == false)
+        return;
 	i = -1;
 	while (++i < camera->horizontal_canv_size - 1)
 	{
 		j = -1;
 		while (++j < camera->vertical_canv_size - 1)
 		{
-			ray = ray_per_pixel(camera, j, i);
+			ray = ray_per_pixel(camera, j, i, camera_inverse);
 			color = color_at(minirt, ray);
 			c = return_tuple(color.x, color.y, color.z, COLOR);
 			draw_pixel(mlx, j, i, get_ray_color(&c));
@@ -502,7 +502,6 @@ int main(int argc, char **argv)
 		if(fileopen(argv[1], m) == 0)
 		{
 			init_mlx(&mlx);
-			// m = init_default(&mlx);
 			if (m->object_count > 0)
 				m = parse_objects(m);
 			camera = return_camera(WIDTH, HEIGHT, m->cam->fov, NULL);

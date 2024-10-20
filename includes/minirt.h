@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/19 01:18:43 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/20 23:04:34 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,9 @@ void		free_arr(char *arr[]);
 int			dovector(char *string, t_tuple *calc);
 int			parse_camera(t_minirt *minirt, char *string);
 int			parsing(char *str, t_minirt *minirt, int *i, int *j);
+t_minirt 	*init_sphere(t_minirt *m, int *i);
+t_minirt 	*init_plane(t_minirt *m, int *i);
+t_minirt 	*init_cylinder(t_minirt *m, int *i);
 
 //t_tuple		lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector);
 t_tuple		lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow);
