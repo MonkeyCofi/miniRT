@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/19 20:52:43 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:11:57 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,30 +172,50 @@ void	transform_sphere(t_sphere *sphere, t_trans type, t_tuple transform_coords)
 	//}
 }
 
+t_bool	set_inverse_transpose(t_shape *shape, t_4dmat *transform_mat)
+{
+	t_4dmat	*old_inverse;
+
+	old_inverse = shape->inverse_mat;
+	if (inverse_mat(transform_mat, &shape->inverse_mat) == error)
+		return (error);
+	shape->inverse_mat = mat4d_mult_fast(shape->inverse_mat, old_inverse);
+	if (shape->inverse_transpose)
+	{
+		free(shape->inverse_transpose);
+		shape->inverse_transpose = NULL;
+	}
+	shape->inverse_transpose = transpose(shape->inverse_mat);
+	if (!shape->inverse_transpose)
+		return (error);
+	free(old_inverse);
+	return (true);
+}
+
 t_bool	transform_shape(t_minirt *m, int index, t_trans type, float angle, t_tuple *transform_coords)
 {
 	t_4dmat	trans_matrix;
 	t_4dmat	*res;
+	t_bool	inverse_res;
 
+	res = NULL;
+	if (type == none)
+	{
+		inverse_res = inverse_mat(&m->shapes[index]->transform, &m->shapes[index]->inverse_mat);
+		return (true);
+	}
 	if (type == translate)
-	{
 		trans_matrix = translation_mat(transform_coords->x, transform_coords->y, transform_coords->z);
-		res = mat4d_mult(&trans_matrix, &m->shapes[index]->transform);
-		copy_mat(&m->shapes[index]->transform, res);
-	}
 	else if (type == scale)
-	{
 		trans_matrix = scaling_mat(transform_coords->x, transform_coords->y, transform_coords->z);
-		res = mat4d_mult(&trans_matrix, &m->shapes[index]->transform);
-		copy_mat(&m->shapes[index]->transform, res);
-	}
 	else if (type == rotate_x)
-	{
 		trans_matrix = x_rotation_mat(angle);
-		m->shapes[index]->transform = mat4d_mult_fast_static(&trans_matrix, &m->shapes[index]->transform);
-		printf("transformed\n");
-	}
-	if (inverse_mat(&trans_matrix, &m->shapes[index]->inverse_mat) == error)
+	else if (type == rotate_y)
+		trans_matrix = y_rotation_mat(angle);
+	else if (type == rotate_z)
+		trans_matrix = z_rotation_mat(angle);
+	m->shapes[index]->transform = mat4d_mult_fast_static(&m->shapes[index]->transform, &trans_matrix);
+	if (set_inverse_transpose(m->shapes[index], &trans_matrix) == error)
 		return (error);
 	return (true);
 }

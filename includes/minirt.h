@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/19 18:59:49 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:07:11 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "material.h"
 # include "init.h"
 # include "shapes.h"
+# include "render.h"
 
 
 # include <math.h>

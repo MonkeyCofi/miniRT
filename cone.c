@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/16 22:23:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/21 20:33:06 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ t_cone	*create_cone()
 		return (NULL);
 	cone->point = return_tuple(0, 0, 0, POINT);
 	cone->transform = identity();
-	cone->inverse = NULL;
+	if (inverse_mat(&cone->transform, &cone->inverse) == error)
+	{
+		free(cone);
+		return (NULL);
+	}
 	cone->type = CONE;
 	cone->minimum = -INFINITY;
 	cone->maximum = INFINITY;
@@ -57,11 +61,13 @@ static inline t_bool	at_cap(t_ray *ray, float t, float min_max)
 	return ((x * x) + (z * z) <= (min_max * min_max));
 }
 
-t_tuple	*normal_pos_cone(t_cone *cone, t_tuple pos)
+t_tuple	*normal_pos_cone(t_shape *shape, t_tuple pos)
 {
+	t_cone		*cone;
 	float		distance;
 	float		y;
-	
+
+	cone = shape->shape;
 	distance = (pos.x * pos.x) + (pos.z * pos.z);
 	if (distance < 1 && pos.y >= cone->maximum - EPSILON)
 		return (return_tuple_pointer(0, 1, 0, VECTOR));
@@ -104,8 +110,9 @@ t_bool	cone_end_hit(t_cone *cone, t_ray *ray, t_intersects *intersects)
 	return (true);
 }
 
-t_bool	cone_hit(t_cone *cone, t_ray *ray, t_intersects *intersects)
+t_bool	intersect_cone(t_minirt *m, t_intersects *intersects, t_ray *ray, int shape_index)
 {
+	t_cone	*cone;
 	float	a;
 	float	b;
 	float	c;
@@ -113,6 +120,7 @@ t_bool	cone_hit(t_cone *cone, t_ray *ray, t_intersects *intersects)
 	float	t[3];
 	float	y[2];
 	
+	cone = m->shapes[shape_index]->shape;
 	a = (ray->direction.x * ray->direction.x) - (ray->direction.y * ray->direction.y) + (ray->direction.z * ray->direction.z);
 	b = (2 * ray->origin.x * ray->direction.x) - (2 * ray->origin.y * ray->direction.y) + (2 * ray->origin.z * ray->direction.z);
 	c = (ray->origin.x * ray->origin.x) - (ray->origin.y * ray->origin.y) + (ray->origin.z * ray->origin.z);
@@ -120,13 +128,7 @@ t_bool	cone_hit(t_cone *cone, t_ray *ray, t_intersects *intersects)
 	{
 		if (is_equal(b, 0))
 			return (false);
-		intersects->intersections[intersects->intersection_count].t = -c / (2 * b);
-		intersects->intersections[intersects->intersection_count].shape = cone;
-		intersects->intersections[intersects->intersection_count].type = CONE;
-		intersects->intersections[intersects->intersection_count].material = cone->material;
-		if (intersects->intersection_count < MAX_INTERSECTS)
-			intersects->intersection_count++;
-		else
+		if (add_to_intersect(-c / (2 * b), m->shapes[shape_index], intersects, CONE, cone, cone->material) == false)
 			return (true);
 	}
 	disc = (b * b) - 4 * a * c;

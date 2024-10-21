@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shape.h                                            :+:      :+:    :+:   */
+/*   shapes.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:57:12 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/19 18:59:32 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/21 20:41:16 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,9 @@
 # include "structs.h"
 
 t_shape	*create_shape(t_shape_type type, void *shape_ptr);
+void	assign_normal_intersect_func(t_shape *shape, t_shape_type type);
+
+t_bool	intersect_plane(t_minirt *m, t_intersects *intersects, t_ray *ray, int shape_index);
+t_tuple	*normal_pos_plane(t_shape *object, t_tuple point);
 
 #endif

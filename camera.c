@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/17 14:43:17 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/21 20:42:49 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_4dmat	*view_transform(t_tuple *to, t_tuple *from, t_tuple *up)
 	t_tuple	up_normalized;
 	float	points[4][4];
 	
-	ft_bzero(&points, sizeof(float *) * 4);
+	ft_bzero(&points, sizeof(float) * (4 * 4));
 	forward_vec = subtract_tuples(from, to);
 	up_normalized = return_tuple(up->x, up->y, up->z, VECTOR);
 	normalize(&up_normalized);

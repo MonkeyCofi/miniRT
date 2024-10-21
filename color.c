@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/19 20:19:55 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:03:49 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ t_tuple	shade(t_minirt *minirt, t_inter_comp *intersect_comp)
 	ft_bzero(&final_res, sizeof(t_tuple));
 	while (++i < minirt->light_count)
 	{
-		point_slight = add_vectors(&intersect_comp->point, intersect_comp->normal_vec);
-		res = lighting(intersect_comp->material, minirt->lights[i], return_scalar(&point_slight, EPSILON), intersect_comp->eye_vec, *intersect_comp->normal_vec, 
+		point_slight = add_vectors(&intersect_comp->point, &intersect_comp->normal_vec);
+		res = lighting(intersect_comp->material, minirt->lights[i], return_scalar(&point_slight, EPSILON), intersect_comp->eye_vec, intersect_comp->normal_vec, 
 			is_in_shadow(minirt, point_slight, i));
 		final_res = add_vectors(&final_res, &res);
 	}
@@ -94,10 +94,10 @@ t_tuple	shade(t_minirt *minirt, t_inter_comp *intersect_comp)
 
 t_tuple	color_at(t_minirt *minirt, t_ray *ray)
 {
+	t_intersection	*hit;
 	t_intersects	*intersections;
 	t_inter_comp	*computations;
 	t_tuple			final_color;
-	t_intersection	*hit;
 
 	intersections = intersect_enivornment(minirt, ray);
 	hit = best_hit(intersections);

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/19 19:02:50 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:02:52 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # define VECTOR 0
 # define POINT 1
 # define COLOR 1
+
+typedef struct s_intersects t_intersects;
+typedef struct s_minirt t_minirt;
 
 typedef enum e_bool
 {
@@ -125,6 +128,7 @@ typedef struct s_color
 typedef struct s_camera
 {
 	t_4dmat	*view_matrix;
+	t_4dmat	*inverse;
 	float	horizontal_canv_size;
 	float	vertical_canv_size;
 	float	pixel_size;
@@ -150,9 +154,23 @@ typedef struct	s_mater
 	float	shine;
 }	t_mater;
 
+typedef struct s_shape
+{
+	t_shape_type	type;
+	void			*shape;
+	t_ray			*inverse_ray;
+	t_4dmat			transform;
+	t_4dmat			*inverse_mat;
+	t_4dmat			*inverse_transpose;
+	t_mater			*material;
+	t_tuple			*(*normal)(struct s_shape *, t_tuple);
+	t_bool			(*intersect)(t_minirt *, t_intersects *, t_ray *, int);
+}	t_shape;
+
 typedef struct s_intersection
 {
 	float			t;
+	t_shape			*shape_ptr;
 	void			*shape;
 	t_mater			*material;
 	t_shape_type	type;
@@ -181,25 +199,13 @@ typedef struct s_mlx
 	t_img	img;
 }	t_mlx;
 
-typedef struct s_shape
-{
-	t_shape_type	type;
-	void			*shape;
-	t_ray			*inverse_ray;
-	t_4dmat			transform;
-	t_4dmat			*inverse_mat;
-	t_mater			*material;
-	t_tuple			*normal;
-	t_intersects	(*shape_intersect)(float, t_ray *);
-}	t_shape;
-
 typedef struct s_hit
 {
 	t_ray		hit;
 	t_tuple		p;
 	t_tuple		normal;
 	t_shape		shape;
-	double		t;
+	float		t;
 }	t_hit;
 
 typedef struct s_sphere
@@ -212,8 +218,9 @@ typedef struct s_sphere
 	t_mater		*material;
 	t_bool		inward_normal;
 	t_hit		hit;
-	double		alpha;
-	double		radius;
+	float		alpha;
+	float		radius;
+	float		diameter;
 }	t_sphere;
 
 typedef struct	s_plane
@@ -230,19 +237,6 @@ typedef struct	s_light
 	t_color	intensity;
 	t_tuple	position;
 }	t_light;
-
-typedef struct	s_inter_comp
-{
-	t_intersects	*intersects;
-	t_shape_type	type;
-	t_tuple			*normal_vec;
-	t_shape			*obj;
-	t_mater			*material;
-	t_tuple			point;
-	t_tuple			eye_vec;
-	t_bool			is_inside_object;
-	float			t;
-}	t_inter_comp;
 
 typedef struct	s_cylinder
 {
@@ -271,6 +265,19 @@ typedef struct	s_cone
 	t_mater			*material;
 	t_shape_type	type;
 }	t_cone;
+
+typedef struct	s_inter_comp
+{
+	t_intersects	*intersects;
+	t_shape_type	type;
+	t_tuple			normal_vec;
+	t_shape			*obj;
+	t_mater			*material;
+	t_tuple			point;
+	t_tuple			eye_vec;
+	t_bool			is_inside_object;
+	float			t;
+}	t_inter_comp;
 
 typedef struct s_minirt
 {

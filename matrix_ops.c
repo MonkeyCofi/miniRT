@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/09 20:16:50 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/20 19:15:42 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ t_4dmat	identity()
 t_4dmat	*transpose(t_4dmat *matrix)
 {
 	float	res[4][4];
-	
+
 	res[0][0] = matrix->m11;
 	res[0][1] = matrix->m21;
 	res[0][2] = matrix->m31;

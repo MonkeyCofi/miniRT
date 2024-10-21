@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere.h                                           :+:      :+:    :+:   */
+/*   normal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 21:05:33 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 21:15:42 by pipolint         ###   ########.fr       */
+/*   Created: 2024/10/21 18:08:19 by pipolint          #+#    #+#             */
+/*   Updated: 2024/10/21 21:04:19 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPHERE_H
-# define SPHERE_H
+#include "minirt.h"
 
-# include "structs.h"
-
-t_sphere	*create_sphere(float originx, float originy, float originz, float radius, t_mater *material);
-t_bool		sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, int shape_index);
-void		render_sphere(t_mlx *mlx, t_minirt *m);
-t_tuple		*normal_sphere_test(t_shape *shape, t_tuple pos);
-
-#endif
+t_tuple	normal_at(t_shape *shape, t_tuple point)
+{
+	t_tuple	local_point;
+	t_tuple	*local_normal;
+	t_tuple	world_normal;
+	
+	local_point = tuple_mult_fast(shape->inverse_mat, &point);
+	local_normal = shape->normal(shape, point);
+	world_normal = tuple_mult_fast(shape->inverse_transpose, local_normal);
+	world_normal.w = 0;
+	return (world_normal);
+}
