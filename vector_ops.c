@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_ops.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:28:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/07 15:58:24 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/22 00:02:26 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,18 @@ void	normalize(t_tuple *vector)
 
 	magnitude = sqrt(((vector->x * vector->x) + (vector->y * vector->y) + \
 		(vector->z * vector->z)));
-	vector->x /= magnitude;
-	vector->y /= magnitude;
-	vector->z /= magnitude;
+	if (magnitude != 0)
+	{
+		vector->x /= magnitude;
+		vector->y /= magnitude;
+		vector->z /= magnitude;
+	}
+		else
+	{
+		vector->x = 0;
+		vector->y = 0;
+		vector->z = 0;
+	}
 }
 
 float	magnitude(t_tuple *vector)

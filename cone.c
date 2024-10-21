@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 20:33:06 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/21 22:26:57 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ t_cone	*create_cone()
 static inline t_bool	at_cap(t_ray *ray, float t, float min_max)
 {
 	float	x;
-	float	y;
+	// float	y;
 	float	z;
 
 	if (ray->direction.y == 0)
 		return (false);
-	y = -(ray->origin.y / ray->direction.y);
 	x = ray->origin.x + t * ray->direction.x;
+	// y = -(ray->origin.y / ray->direction.y);
 	z = ray->origin.z + t * ray->direction.z;
 	return ((x * x) + (z * z) <= (min_max * min_max));
 }

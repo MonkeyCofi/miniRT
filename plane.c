@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:40:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 20:40:44 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/21 22:27:47 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ t_bool	intersect_plane(t_minirt *m, t_intersects *intersects, t_ray *ray, int sh
 
 t_tuple	*normal_pos_plane(t_shape *object, t_tuple point)
 {
-	t_plane	*plane;
+	// t_plane	*plane;
 	t_tuple	*plane_normal;
 	t_tuple	*world_normal;
 
-	plane = object->shape;
+	// plane = object->shape;
 	plane_normal = ft_calloc(1, sizeof(t_tuple));
 	plane_normal->x = 0;
 	plane_normal->y = 1;

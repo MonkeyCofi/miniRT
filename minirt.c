@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 21:28:27 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/22 00:21:44 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int main(void)
 
 	init_mlx(&mlx);
 	m = init_default(&mlx);
-	camera = return_camera(WIDTH, HEIGHT, DEG_RAD(60), NULL);
-	from = return_tuple(0, 1.5, -5, POINT);
-	to = return_tuple(0, 1, 0, POINT);
+	camera = return_camera(WIDTH, HEIGHT, DEG_RAD(90), NULL);
+	from = return_tuple(0, 0, -2, POINT);
+	to = return_tuple(0, 0, 0, POINT);
 	up = return_tuple(0, 1, 0, VECTOR);
 	camera.view_matrix = view_transform(&to, &from, &up);
 	render(&mlx, &camera, m);

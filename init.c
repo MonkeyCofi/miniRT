@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 21:26:21 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/22 00:31:44 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,25 +172,33 @@ t_minirt	* init_default(t_mlx *mlx)
 	
 	minirt->lights[0] = ft_calloc(1, sizeof(t_light));
 	minirt->lights[0]->intensity.colors = return_tuple(1, 1, 1, COLOR);
-	minirt->lights[0]->position = return_tuple(-10, 10, -10, COLOR);
+	minirt->lights[0]->position = return_tuple(0, 2, -2, COLOR);
 
 	/* LIGHT */
 	
-	minirt->object_count = 2;
+	minirt->object_count = 3;
 	minirt->shapes = ft_calloc(minirt->object_count, sizeof(t_shape *));
 	
-	t_sphere *floor = create_sphere(0, 0, 0, 1, create_default_material());
+	t_sphere *floor = create_sphere(0, 0, 0, 0.5, create_default_material());
+	floor->material->color.colors = return_tuple(1, 0, 0, COLOR);
+	floor->material->specular = 1;
 	minirt->shapes[0] = create_shape(SPHERE, floor);
-	transform_shape(minirt, 0, scale, 0, return_tuple_pointer(10, 0.01, 10, POINT));
-	floor->material->color.colors = return_tuple(1, 0.9, 0.9, COLOR);
-	floor->material->specular = 0;
+	transform_shape(minirt, 0, translate, 0, return_tuple_pointer(1, 0, 0, POINT));
+	// transform_shape(minirt, 0, scale, 0, return_tuple_pointer(1, 1, 1, POINT));
 	
-	t_sphere *middle = create_sphere(0, 0, 0, 1, create_default_material());
-	middle->transform = translation_mat(-0.5, 1, 0.5);
+	t_sphere *middle = create_sphere(0, 0, 0, 0.5, create_default_material());
+	middle->transform = translation_mat(-1, 0, 0);
 	middle->material->color.colors = return_tuple(0.1, 1, 0.5, COLOR);
 	middle->material->diffuse = 0.7;
 	middle->material->specular = 0.3;
 	minirt->shapes[1] = create_shape(SPHERE, middle);
+	transform_shape(minirt, 1, translate, 0, return_tuple_pointer(-1, 0, 0, POINT));
+
+	t_sphere *last = create_sphere(0, 0, 0, 0.5, create_default_material());
+	last->material->color.colors = return_tuple(0, 0, 1, COLOR);
+	last->material->specular = 1;
+	minirt->shapes[2] = create_shape(SPHERE, last);
+	transform_shape(minirt, 2, translate, 0, return_tuple_pointer(0, 0, 0, POINT));
 	
 	minirt->mlx = mlx;
 	(void)temp;

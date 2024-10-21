@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transformations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 21:11:57 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/21 22:24:54 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,15 +195,16 @@ t_bool	set_inverse_transpose(t_shape *shape, t_4dmat *transform_mat)
 t_bool	transform_shape(t_minirt *m, int index, t_trans type, float angle, t_tuple *transform_coords)
 {
 	t_4dmat	trans_matrix;
-	t_4dmat	*res;
+	// t_4dmat	*res;
 	t_bool	inverse_res;
 
-	res = NULL;
+	// res = NULL;
 	if (type == none)
 	{
 		inverse_res = inverse_mat(&m->shapes[index]->transform, &m->shapes[index]->inverse_mat);
 		return (true);
 	}
+	(void)inverse_res;
 	if (type == translate)
 		trans_matrix = translation_mat(transform_coords->x, transform_coords->y, transform_coords->z);
 	else if (type == scale)

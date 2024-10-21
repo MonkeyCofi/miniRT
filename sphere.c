@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 21:15:34 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/21 22:48:59 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ t_tuple	*normal_sphere_test(t_shape *shape, t_tuple pos)
 	res->x = pos.x - sphere->center.x;
 	res->y = pos.y - sphere->center.y;
 	res->z = pos.z - sphere->center.z;
-	res->w = pos.w - sphere->center.w;
+	res->w = 0;
+	normalize(res);
 	return (res);
 }
