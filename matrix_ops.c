@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/20 19:15:42 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:38:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_2dmat	*mat2d_mult(t_2dmat *mat_one, t_2dmat *mat_two)
 {
-	float	res[2][2];
+	double	res[2][2];
 	int		i;
 	int		j;
 
@@ -33,7 +33,7 @@ t_2dmat	*mat2d_mult(t_2dmat *mat_one, t_2dmat *mat_two)
 
 t_3dmat	*mat3d_mult(t_3dmat *mat_one, t_3dmat *mat_two)
 {
-	float	res[3][3];
+	double	res[3][3];
 	int		i;
 	int		j;
 
@@ -53,7 +53,7 @@ t_3dmat	*mat3d_mult(t_3dmat *mat_one, t_3dmat *mat_two)
 
 t_4dmat	*mat4d_mult(t_4dmat *mat_one, t_4dmat *mat_two)
 {
-	float	res[4][4];
+	double	res[4][4];
 	int		i;
 	int		j;
 
@@ -144,7 +144,7 @@ t_tuple	tuple_mult_fast(t_4dmat *mat, t_tuple *tuple)
 t_tuple	*tuple_mult(t_4dmat *mat, t_tuple *tuple)
 {
 	t_tuple	*resultant;
-	float	res[4];
+	double	res[4];
 	int		i;
 
 	i = -1;
@@ -177,7 +177,7 @@ t_4dmat	identity()
 
 t_4dmat	*transpose(t_4dmat *matrix)
 {
-	float	res[4][4];
+	double	res[4][4];
 
 	res[0][0] = matrix->m11;
 	res[0][1] = matrix->m21;
@@ -198,10 +198,10 @@ t_4dmat	*transpose(t_4dmat *matrix)
 	return (create_4dmat(res));
 }
 
-float	determinant(t_2dmat *mat_2d, t_3dmat *mat_3d, t_4dmat *mat_4d)
+double	determinant(t_2dmat *mat_2d, t_3dmat *mat_3d, t_4dmat *mat_4d)
 {
-	float	(*cofact_3d)(t_3dmat *, int, int);
-	float	(*cofact_4d)(t_4dmat *, int, int);
+	double	(*cofact_3d)(t_3dmat *, int, int);
+	double	(*cofact_4d)(t_4dmat *, int, int);
 
 	cofact_3d = cofactor_3d;
 	cofact_4d = cofactor_4d;
@@ -221,7 +221,7 @@ float	determinant(t_2dmat *mat_2d, t_3dmat *mat_3d, t_4dmat *mat_4d)
 
 t_2dmat	*submat_3d(t_3dmat *matrix, int row, int column)
 {
-	float	resultant[2][2];
+	double	resultant[2][2];
 	int		i;
 	int		j;
 	int		k;
@@ -248,7 +248,7 @@ t_2dmat	*submat_3d(t_3dmat *matrix, int row, int column)
 
 t_3dmat	*submat_4d(t_4dmat *matrix, int row, int column)
 {
-	float	resultant[3][3];
+	double	resultant[3][3];
 	int		i;
 	int		j;
 	int		k;
@@ -273,10 +273,10 @@ t_3dmat	*submat_4d(t_4dmat *matrix, int row, int column)
 	return (create_3dmat(resultant));
 }
 
-float	minor_3d(t_3dmat *mat, int row, int column)
+double	minor_3d(t_3dmat *mat, int row, int column)
 {
 	t_2dmat	*submatrix;
-	float	ret;
+	double	ret;
 
 	submatrix = submat_3d(mat, row, column);
 	ret = determinant(submatrix, NULL, NULL);
@@ -284,10 +284,10 @@ float	minor_3d(t_3dmat *mat, int row, int column)
 	return (ret);
 }
 
-float	minor_4d(t_4dmat *mat, int row, int column)
+double	minor_4d(t_4dmat *mat, int row, int column)
 {
 	t_3dmat	*submatrix;
-	float	ret;
+	double	ret;
 
 	submatrix = submat_4d(mat, row, column);
 	ret = determinant(NULL, submatrix ,NULL);
@@ -295,10 +295,10 @@ float	minor_4d(t_4dmat *mat, int row, int column)
 	return (ret);
 }
 
-float	cofactor_3d(t_3dmat *mat, int row, int column)
+double	cofactor_3d(t_3dmat *mat, int row, int column)
 {
-	float	minor;
-	float	cofact[3][3];
+	double	minor;
+	double	cofact[3][3];
 	
 	minor = minor_3d(mat, row, column);
 	cofact[0][0] = 1;
@@ -313,10 +313,10 @@ float	cofactor_3d(t_3dmat *mat, int row, int column)
 	return (minor * cofact[row][column]);
 }
 
-float	cofactor_4d(t_4dmat *mat, int row, int column)
+double	cofactor_4d(t_4dmat *mat, int row, int column)
 {
-	float	minor;
-	float	cofact[4][4];
+	double	minor;
+	double	cofact[4][4];
 	
 	minor = minor_4d(mat, row, column);
 	cofact[0][0] = 1;
@@ -340,8 +340,8 @@ float	cofactor_4d(t_4dmat *mat, int row, int column)
 
 t_4dmat	*create_4dcofactor(t_4dmat *mat)
 {
-	float	res[4][4];
-	float	(*cof)(t_4dmat *, int, int);
+	double	res[4][4];
+	double	(*cof)(t_4dmat *, int, int);
 	int	i;
 	int	j;
 
@@ -360,7 +360,7 @@ t_bool	inverse_mat(t_4dmat *mat, t_4dmat **ptr)
 {
 	t_4dmat	*cofactor;
 	t_4dmat	*t;
-	float	res[4][4];
+	double	res[4][4];
 	int		i;
 	int		j;
 

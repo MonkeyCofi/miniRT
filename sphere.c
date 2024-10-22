@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 22:48:59 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/22 18:38:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_sphere	*create_sphere(float originx, float originy, float originz, float radius, t_mater *material)
+t_sphere	*create_sphere(double originx, double originy, double originz, double radius, t_mater *material)
 {
 	t_sphere	*ret;
 
@@ -33,7 +33,7 @@ t_sphere	*create_sphere(float originx, float originy, float originz, float radiu
 }
 t_bool	sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, int shape_index)
 {
-	float		vars[4];
+	double		vars[4];
 	t_sphere	*sphere;
 	t_tuple		sphere_dist;
 

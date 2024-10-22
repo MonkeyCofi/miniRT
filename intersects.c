@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 21:05:21 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:38:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_index)
 	t_tuple			direction;
 	t_tuple			new_point;
 	t_ray			*ray;
-	float			distance;
+	double			distance;
 	
-	new_point = subtract_tuples(&minirt->lights[light_index]->position, &point);
+	new_point = subtract_tuples(&point, &minirt->lights[light_index]->position);
 	distance = magnitude(&new_point);
 	direction = return_tuple(new_point.x, new_point.y, new_point.z, VECTOR);
 	normalize(&direction);
 	ray = create_ray(point, direction);
-	intersect = intersect_enivornment(minirt, ray);
+	intersect = intersect_enivornment(minirt, ray, true);
 	hit = best_hit(intersect);
 	if (hit && hit->t < distance)
 	{
@@ -117,10 +117,18 @@ t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersec
 	}
 	else
 		new->is_inside_object = false;
+	//new->point_adjusted = add_vectors(&new->point, &new->normal_vec);
+	t_tuple test = return_scalar(&new->normal_vec, EPSILON);
+	new->point_adjusted = add_vectors(&new->point, &test);
+	//printf("non adjusted: ");
+	//print_tuple_points(&new->point);
+	//printf("adjusted: ");
+	//print_tuple_points(&new->point_adjusted);
+	//new->point_adjusted = return_scalar(&new->point_adjusted, EPSILON);
 	return (new);
 }
 
-t_intersection	intersect(float t, t_shape_type type, void *shape, t_ray *ray, t_trans trans_type, t_tuple trans_coords, t_mater *material)
+t_intersection	intersect(double t, t_shape_type type, void *shape, t_ray *ray, t_trans trans_type, t_tuple trans_coords, t_mater *material)
 {
 	t_intersection	intersection;
 	t_ray			new_ray;
@@ -135,7 +143,7 @@ t_intersection	intersect(float t, t_shape_type type, void *shape, t_ray *ray, t_
 	return (intersection);
 }
 
-t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray)
+t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray, t_bool shadow)
 {
 	t_intersects	*inter;
 	t_ray			*real_ray;
@@ -145,7 +153,10 @@ t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray)
 	i = -1;
 	while (++i < minirt->object_count)
 	{
-		real_ray = create_ray(tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->direction));
+		if (shadow == false)
+			real_ray = create_ray(tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->direction));
+		else
+			real_ray = ray;
 		if (minirt->shapes[i]->intersect(minirt, inter, real_ray, i) == false)
 			continue ;
 	}
@@ -158,7 +169,7 @@ void	print_intersects(t_intersects *inter)
 		printf("intersect[%d]: %f\n", i, inter->intersections[i].t);
 }
 
-t_tuple	position(t_ray *ray, float t)
+t_tuple	position(t_ray *ray, double t)
 {
 	t_tuple	ret;
 
@@ -169,7 +180,7 @@ t_tuple	position(t_ray *ray, float t)
 	return (ret);
 }
 
-t_bool	add_to_intersect(float t, t_shape *shape_ptr, t_intersects *intersects, t_shape_type type, void *shape, t_mater *material)
+t_bool	add_to_intersect(double t, t_shape *shape_ptr, t_intersects *intersects, t_shape_type type, void *shape, t_mater *material)
 {
 	if (intersects->intersection_count < MAX_INTERSECTS)
 	{

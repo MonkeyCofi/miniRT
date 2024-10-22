@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/22 02:00:09 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/22 18:38:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,11 @@ t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_v
 	t_tuple	specular;
 	t_tuple	diffuse;
 	t_tuple	reflect_vector;
-	float	light_dot;
-	float	eye_dot;
+	double	light_dot;
+	double	eye_dot;
 
 	final_color = multiply_tuples(&light->intensity.colors, &material->color.colors, COLOR);
-	// light vec should point from the point being shaded toward the light source
-	// although the logic is correct, thhe light position gets flipped..
-	light_vector = subtract_tuples(&light->position, &point);
-	// light_vector = subtract_tuples(&point, &light->position);
-	// u had it as this but im confused cuz it works.. only in the context of light direction origin..
-	printf("Light Position: %f, %f, %f\n", light->position.x, light->position.y, light->position.z);
-	// printf("Light Position: %f, %f, %f\n", light_vector.x, light_vector.y, light_vector.z);
+	light_vector = subtract_tuples(&point, &light->position);
 	normalize(&light_vector);
 	ambient = return_scalar(&final_color, material->ambient);
 	light_dot = dot_product(&normal_vector, &light_vector);
@@ -52,14 +46,13 @@ t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_v
 	{
 		diffuse = return_scalar(&final_color, material->diffuse * light_dot);
 		t_tuple negated_lightv = return_tuple(-light_vector.x, -light_vector.y, -light_vector.z, VECTOR);
-		// printf("Negated Light Position: %f, %f, %f\n", negated_lightv.x, negated_lightv.y, negated_lightv.z);
 		reflect_vector = get_reflected_ray(&negated_lightv, &normal_vector);
 		eye_dot = dot_product(&reflect_vector, &eye_vector);
 		if (eye_dot <= 0)
 			specular = return_tuple(0, 0, 0, COLOR);
 		else
 		{
-			float fac = pow(eye_dot, material->shine);
+			double fac = pow(eye_dot, material->shine);
 			specular = return_scalar(&light->intensity.colors, material->specular * fac);
 		}
 	}
@@ -84,8 +77,8 @@ t_tuple	get_reflected_ray(t_tuple *from, t_tuple *normal)
 {
 	// reflection formula: 𝑟=𝑑−2(𝑑⋅𝑛)𝑛
 	// from - 2 * dot_product(from, normal) * normal;
-	float	dot;
-	float	prod;
+	double	dot;
+	double	prod;
 	t_tuple	_scalar;
 
 	dot = dot_product(from, normal);

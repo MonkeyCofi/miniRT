@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 20:18:02 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:38:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_tuple	*normal_pos_cylinder(t_shape *shape, t_tuple pos)
 	t_cylinder	*cylinder;
 	t_tuple		*world_normal;
 	t_4dmat		*transpose_inv;
-	float		distance;
+	double		distance;
 
 	cylinder = shape->shape;
 	distance = (pos.x * pos.x) + (pos.z * pos.z);
@@ -59,10 +59,10 @@ t_tuple	*normal_pos_cylinder(t_shape *shape, t_tuple pos)
 	return (world_normal);
 }
 
-static t_bool	at_cap(t_ray *ray, float radius, float t)
+static t_bool	at_cap(t_ray *ray, double radius, double t)
 {
-	float	x;
-	float	z;
+	double	x;
+	double	z;
 
 	x = ray->origin.x + t * ray->direction.x;
 	z = ray->origin.z + t * ray->direction.z;
@@ -71,7 +71,7 @@ static t_bool	at_cap(t_ray *ray, float radius, float t)
 
 static t_bool	cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, t_ray *ray, t_intersects *intersects)
 {
-	float	t;
+	double	t;
 
 	if (cylinder->is_closed == false || is_equal(ray->direction.y, 0))
 		return (false);
@@ -90,12 +90,12 @@ static t_bool	cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, t_ray *
 t_bool	intersect_cylinder(t_minirt *m, t_intersects *intersects, t_ray *ray, int shape_index)
 {
 	t_cylinder	*cyl;
-	float		a;
-	float		b;
-	float		c;
-	float		disc;
-	float		t[3];
-	float		tt[2];
+	double		a;
+	double		b;
+	double		c;
+	double		disc;
+	double		t[3];
+	double		tt[2];
 	
 	cyl = m->shapes[shape_index]->shape;
 	a = (ray->direction.x * ray->direction.x) + (ray->direction.z * ray->direction.z);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 22:26:57 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/22 18:38:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ t_cone	*create_cone()
 	return (cone);
 }
 
-//static inline t_bool	at_cap(t_ray *ray, float t)
+//static inline t_bool	at_cap(t_ray *ray, double t)
 //{
-//	float	x;
-//	float	y;
-//	float	z;
+//	double	x;
+//	double	y;
+//	double	z;
 
 //	if (ray->direction.y == 0)
 //		return (false);
@@ -47,11 +47,11 @@ t_cone	*create_cone()
 //	return ((x * x) + (z * z) <= (y * y));
 //}
 
-static inline t_bool	at_cap(t_ray *ray, float t, float min_max)
+static inline t_bool	at_cap(t_ray *ray, double t, double min_max)
 {
-	float	x;
-	// float	y;
-	float	z;
+	double	x;
+	// double	y;
+	double	z;
 
 	if (ray->direction.y == 0)
 		return (false);
@@ -64,8 +64,8 @@ static inline t_bool	at_cap(t_ray *ray, float t, float min_max)
 t_tuple	*normal_pos_cone(t_shape *shape, t_tuple pos)
 {
 	t_cone		*cone;
-	float		distance;
-	float		y;
+	double		distance;
+	double		y;
 
 	cone = shape->shape;
 	distance = (pos.x * pos.x) + (pos.z * pos.z);
@@ -81,7 +81,7 @@ t_tuple	*normal_pos_cone(t_shape *shape, t_tuple pos)
 
 t_bool	cone_end_hit(t_cone *cone, t_ray *ray, t_intersects *intersects)
 {
-	float	t;
+	double	t;
 	
 	if (cone->is_closed == false || is_equal(ray->direction.y, 0))
 		return (false);
@@ -113,12 +113,12 @@ t_bool	cone_end_hit(t_cone *cone, t_ray *ray, t_intersects *intersects)
 t_bool	intersect_cone(t_minirt *m, t_intersects *intersects, t_ray *ray, int shape_index)
 {
 	t_cone	*cone;
-	float	a;
-	float	b;
-	float	c;
-	float	disc;
-	float	t[3];
-	float	y[2];
+	double	a;
+	double	b;
+	double	c;
+	double	disc;
+	double	t[3];
+	double	y[2];
 	
 	cone = m->shapes[shape_index]->shape;
 	a = (ray->direction.x * ray->direction.x) - (ray->direction.y * ray->direction.y) + (ray->direction.z * ray->direction.z);

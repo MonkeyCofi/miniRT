@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 20:42:49 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/22 21:45:04 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 void	get_pixel_size(t_camera *camera)
 {
-	float	aspect;
+	double	aspect;
 
 	aspect = camera->horizontal_canv_size / camera->vertical_canv_size;
 	camera->half_view = tan(camera->fov / 2);
@@ -48,12 +48,12 @@ void	get_pixel_size(t_camera *camera)
  	camera->pixel_size = (camera->half_width * 2) / camera->horizontal_canv_size;
 }
 
-t_camera	return_camera(float horiz_size, float vertic_size, float fov, t_4dmat *t)
+t_camera	return_camera(double horiz_size, double vertic_size, double fov, t_4dmat *t)
 {
 	t_camera	cam;
-	float		iden[4][4];
+	double		iden[4][4];
 
-	ft_bzero(iden, (4 * 4) * sizeof(float));
+	ft_bzero(iden, (4 * 4) * sizeof(double));
 	cam.horizontal_canv_size = horiz_size;
 	cam.vertical_canv_size = vertic_size;
 	cam.fov = fov;
@@ -71,6 +71,29 @@ t_camera	return_camera(float horiz_size, float vertic_size, float fov, t_4dmat *
 	return (cam);
 }
 
+t_camera	*return_camera_ptr(double horiz_size, double vertic_size, double fov, t_4dmat *t)
+{
+	t_camera	*cam;
+	double		iden[4][4];
+
+	cam = ft_calloc(1, sizeof(t_camera));
+	cam->horizontal_canv_size = horiz_size;
+	cam->vertical_canv_size = vertic_size;
+	cam->fov = fov;
+	if (t)
+		cam->view_matrix = t;
+	else
+	{
+		iden[0][0] = 1;
+		iden[1][1] = 1;
+		iden[2][2] = 1;
+		iden[3][3] = 1;
+		cam->view_matrix = create_4dmat(iden);
+	}
+	get_pixel_size(cam);
+	return (cam);
+}
+
 t_4dmat	*view_transform(t_tuple *to, t_tuple *from, t_tuple *up)
 {
 	t_tuple	forward_vec;
@@ -80,9 +103,9 @@ t_4dmat	*view_transform(t_tuple *to, t_tuple *from, t_tuple *up)
 	t_4dmat	transl8;
 	t_4dmat	*res;
 	t_tuple	up_normalized;
-	float	points[4][4];
+	double	points[4][4];
 	
-	ft_bzero(&points, sizeof(float) * (4 * 4));
+	ft_bzero(&points, sizeof(double) * (4 * 4));
 	forward_vec = subtract_tuples(from, to);
 	up_normalized = return_tuple(up->x, up->y, up->z, VECTOR);
 	normalize(&up_normalized);

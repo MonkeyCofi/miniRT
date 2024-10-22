@@ -2,8 +2,8 @@
 
 int main(void)
 {
-	float a = 3.14;
-	float b = 4.23;
+	double a = 3.14;
+	double b = 4.23;
 
 	printf("a is %f and b is %f\n", a, b);
 	a = a ^ b;

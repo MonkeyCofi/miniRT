@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 22:23:46 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/22 21:36:34 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,17 @@ typedef union u_tuple
 {
 	struct
 	{
-		float	x;
-		float	y;
-		float	z;
-		float	w;
+		double	x;
+		double	y;
+		double	z;
+		double	w;
 	};
 	struct
 	{
-		float	r;
-		float	g;
-		float	b;
-		float	a;
+		double	r;
+		double	g;
+		double	b;
+		double	a;
 	};
 }	t_tuple;
 
@@ -71,53 +71,53 @@ typedef union u_2dmat
 {
 	struct
 	{
-		float	m11;
-		float	m12;
-		float	m21;
-		float	m22;
+		double	m11;
+		double	m12;
+		double	m21;
+		double	m22;
 	};
-	float	matrix[2][2];
+	double	matrix[2][2];
 }	t_2dmat;
 
 typedef union u_3dmat
 {
 	struct
 	{
-		float	m11;
-		float	m12;
-		float	m13;
-		float	m21;
-		float	m22;
-		float	m23;
-		float	m31;
-		float	m32;
-		float	m33;
+		double	m11;
+		double	m12;
+		double	m13;
+		double	m21;
+		double	m22;
+		double	m23;
+		double	m31;
+		double	m32;
+		double	m33;
 	};
-	float	matrix[3][3];
+	double	matrix[3][3];
 }	t_3dmat;
 
 typedef union u_4dmat
 {
 	struct
 	{
-		float	m11;
-		float	m12;
-		float	m13;
-		float	m14;
-		float	m21;
-		float	m22;
-		float	m23;
-		float	m24;
-		float	m31;
-		float	m32;
-		float	m33;
-		float	m34;
-		float	m41;
-		float	m42;
-		float	m43;
-		float	m44;
+		double	m11;
+		double	m12;
+		double	m13;
+		double	m14;
+		double	m21;
+		double	m22;
+		double	m23;
+		double	m24;
+		double	m31;
+		double	m32;
+		double	m33;
+		double	m34;
+		double	m41;
+		double	m42;
+		double	m43;
+		double	m44;
 	};
-	float	matrix[4][4];
+	double	matrix[4][4];
 }	t_4dmat;
 
 typedef struct s_color
@@ -129,14 +129,14 @@ typedef struct s_camera
 {
 	t_4dmat	*view_matrix;
 	t_4dmat	*inverse;
-	float	horizontal_canv_size;
-	float	vertical_canv_size;
-	float	pixel_size;
-	float	fov;
-	float	aspect;
-	float	half_view;
-	float	half_width;
-	float	half_height;
+	double	horizontal_canv_size;
+	double	vertical_canv_size;
+	double	pixel_size;
+	double	fov;
+	double	aspect;
+	double	half_view;
+	double	half_width;
+	double	half_height;
 }	t_camera;
 
 typedef struct s_ray
@@ -148,10 +148,10 @@ typedef struct s_ray
 typedef struct	s_mater
 {
 	t_color	color;
-	float	ambient;
-	float	specular;
-	float	diffuse;
-	float	shine;
+	double	ambient;
+	double	specular;
+	double	diffuse;
+	double	shine;
 }	t_mater;
 
 typedef struct s_shape
@@ -169,7 +169,7 @@ typedef struct s_shape
 
 typedef struct s_intersection
 {
-	float			t;
+	double			t;
 	t_shape			*shape_ptr;
 	void			*shape;
 	t_mater			*material;
@@ -205,7 +205,7 @@ typedef struct s_hit
 	t_tuple		p;
 	t_tuple		normal;
 	t_shape		shape;
-	float		t;
+	double		t;
 }	t_hit;
 
 typedef struct s_sphere
@@ -218,9 +218,9 @@ typedef struct s_sphere
 	t_mater		*material;
 	t_bool		inward_normal;
 	t_hit		hit;
-	float		alpha;
-	float		radius;
-	float		diameter;
+	double		alpha;
+	double		radius;
+	double		diameter;
 }	t_sphere;
 
 typedef struct	s_plane
@@ -240,7 +240,7 @@ typedef struct	s_light
 
 typedef struct	s_cylinder
 {
-	float			radius;
+	double			radius;
 	t_tuple			orientation;
 	t_tuple			point;
 	t_tuple			normal;
@@ -248,16 +248,16 @@ typedef struct	s_cylinder
 	t_4dmat			transform;
 	t_4dmat			*inverse;
 	t_bool			is_closed;
-	float			minimum;
-	float			maximum;
+	double			minimum;
+	double			maximum;
 	t_shape_type	type;
 }	t_cylinder;
 
 typedef struct	s_cone
 {
-	float			radius;
-	float			minimum;
-	float			maximum;
+	double			radius;
+	double			minimum;
+	double			maximum;
 	t_bool			is_closed;
 	t_tuple			point;
 	t_4dmat			transform;
@@ -274,9 +274,10 @@ typedef struct	s_inter_comp
 	t_shape			*obj;
 	t_mater			*material;
 	t_tuple			point;
+	t_tuple			point_adjusted;
 	t_tuple			eye_vec;
 	t_bool			is_inside_object;
-	float			t;
+	double			t;
 }	t_inter_comp;
 
 typedef struct s_minirt
@@ -287,6 +288,9 @@ typedef struct s_minirt
 	t_shape		**shapes;
 	t_light		**lights;
 	t_plane		*plane;
+	t_tuple		from;
+	t_tuple		to;
+	t_tuple		up;
 	int			object_count;
 	int			light_count;
 }	t_minirt;

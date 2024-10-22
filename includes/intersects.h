@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:02:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 21:02:14 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:38:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,20 @@
 # include "structs.h"
 
 t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersection, t_ray *ray);
-//t_intersection	intersect(float t, t_shape_type type);
-t_intersection	intersect(float t, t_shape_type type, void *shape, t_ray *ray, t_trans trans_type, t_tuple trans_coords, t_mater *material);
+//t_intersection	intersect(double t, t_shape_type type);
+t_intersection	intersect(double t, t_shape_type type, void *shape, t_ray *ray, t_trans trans_type, t_tuple trans_coords, t_mater *material);
 
 t_tuple			*normal_pos_plane(t_shape *shape, t_tuple point);
 
-t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray);
+//t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray);
+t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray, t_bool shadow);
 void			sort_intersects(t_intersects *intersects);
-//float			best_hit(t_intersects *intersects);
+//double			best_hit(t_intersects *intersects);
 t_intersection	*best_hit(t_intersects *intersects);
 void			print_intersects(t_intersects *inter);
 
 t_tuple			*normal_sphere(t_shape *shape, t_tuple pos);
-t_tuple			position(t_ray *ray, float t);
+t_tuple			position(t_ray *ray, double t);
 t_tuple			*normal_pos_cylinder(t_shape *shape, t_tuple pos);
 
 t_bool			is_in_shadow(t_minirt *minirt, t_tuple point, int light_index);
@@ -38,8 +39,8 @@ t_cylinder		*create_cylinder(t_tuple orientation);
 t_cone			*create_cone();
 t_tuple			*normal_pos_cone(t_shape *shape, t_tuple pos);
 
-//t_bool			add_to_intersect(float t, t_intersects *intersects, t_shape_type type, void *shape, t_mater *material);
-t_bool			add_to_intersect(float t, t_shape *shape_ptr, t_intersects *intersects, t_shape_type type, void *shape, t_mater *material);
+//t_bool			add_to_intersect(double t, t_intersects *intersects, t_shape_type type, void *shape, t_mater *material);
+t_bool			add_to_intersect(double t, t_shape *shape_ptr, t_intersects *intersects, t_shape_type type, void *shape, t_mater *material);
 
 t_bool			intersect_plane(t_minirt *m, t_intersects *intersects, t_ray *ray, int shape_index);
 t_bool			intersect_cylinder(t_minirt *m, t_intersects *intersects, t_ray *ray, int shape_index);

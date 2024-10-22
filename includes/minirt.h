@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 21:07:11 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/22 21:37:37 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int			destroy(void *param);
 int			fileopen(char *path, t_minirt *minirt);
 int			arr_len(char	*arr[]);
 double		str_to_double(char *str);
-int			is_float(char *str);
+int			is_double(char *str);
 void		free_arr(char *arr[]);
 int			dovector(char *string, t_tuple *calc);
 int			parse_camera(t_minirt *minirt, char *string);
@@ -126,9 +126,9 @@ t_tuple		lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_
 t_light		create_light(t_tuple intensity, t_tuple position);
 t_tuple		get_reflected_ray(t_tuple *from, t_tuple *normal);
 
-int			get_key_pressed(int keycode, t_mlx *mlx, t_sphere *sphere);
+//int			get_key_pressed(int keycode, t_mlx *mlx, int scale);
 void		draw_pixel(t_mlx *mlx, int x, int y, int color);
 t_mater		*create_default_material();
-t_mater		*create_material(t_color color, float diffuse, float ambient, float specular, float shine);
+t_mater		*create_material(t_color color, double diffuse, double ambient, double specular, double shine);
 
 #endif

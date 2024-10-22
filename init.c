@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/22 00:31:44 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/22 21:27:06 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ t_minirt	* init_default(t_mlx *mlx)
 		free(minirt);
 		return (NULL);
 	}
-	minirt->light_count = 1;
+	minirt->light_count = 3;
 	minirt->lights = ft_calloc(minirt->light_count, sizeof(t_light *));
 	if (!minirt->lights)
 	{
@@ -170,13 +170,29 @@ t_minirt	* init_default(t_mlx *mlx)
 	//minirt->lights[1]->intensity.colors = return_tuple(1, 1, 0, COLOR);
 	//minirt->lights[1]->position = return_tuple(0, 0, -0.3, POINT);
 	
+	//minirt->lights[0] = ft_calloc(1, sizeof(t_light));
+	//minirt->lights[0]->intensity.colors = return_tuple(1, 1, 1, COLOR);
+	//minirt->lights[0]->position = return_tuple(0, 2, 0, COLOR);
+	
+	//minirt->lights[1] = ft_calloc(1, sizeof(t_light));
+	//minirt->lights[1]->intensity.colors = return_tuple(1, 1, 1, COLOR);
+	//minirt->lights[1]->position = return_tuple(0, -2, 0, COLOR);
+
 	minirt->lights[0] = ft_calloc(1, sizeof(t_light));
 	minirt->lights[0]->intensity.colors = return_tuple(1, 1, 1, COLOR);
-	minirt->lights[0]->position = return_tuple(0, 2, -2, COLOR);
+	minirt->lights[0]->position = return_tuple(0, 0, -0.1, COLOR);
+	
+	minirt->lights[1] = ft_calloc(1, sizeof(t_light));
+	minirt->lights[1]->intensity.colors = return_tuple(1, 1, 1, COLOR);
+	minirt->lights[1]->position = return_tuple(0, 0, -1, COLOR);
+	
+	minirt->lights[2] = ft_calloc(1, sizeof(t_light));
+	minirt->lights[2]->intensity.colors = return_tuple(1, 1, 1, COLOR);
+	minirt->lights[2]->position = return_tuple(0, 1, 0, COLOR);
 
 	/* LIGHT */
 	
-	minirt->object_count = 3;
+	minirt->object_count = 4;
 	minirt->shapes = ft_calloc(minirt->object_count, sizeof(t_shape *));
 	
 	t_sphere *floor = create_sphere(0, 0, 0, 0.5, create_default_material());
@@ -184,7 +200,7 @@ t_minirt	* init_default(t_mlx *mlx)
 	floor->material->specular = 1;
 	minirt->shapes[0] = create_shape(SPHERE, floor);
 	transform_shape(minirt, 0, translate, 0, return_tuple_pointer(1, 0, 0, POINT));
-	// transform_shape(minirt, 0, scale, 0, return_tuple_pointer(1, 1, 1, POINT));
+	transform_shape(minirt, 0, scale, 0, return_tuple_pointer(1, 1, 1, POINT));
 	
 	t_sphere *middle = create_sphere(0, 0, 0, 0.5, create_default_material());
 	middle->transform = translation_mat(-1, 0, 0);
@@ -195,11 +211,15 @@ t_minirt	* init_default(t_mlx *mlx)
 	transform_shape(minirt, 1, translate, 0, return_tuple_pointer(-1, 0, 0, POINT));
 
 	t_sphere *last = create_sphere(0, 0, 0, 0.5, create_default_material());
-	last->material->color.colors = return_tuple(0, 0, 1, COLOR);
+	last->material->color.colors = return_tuple(0, 1, 0, COLOR);
 	last->material->specular = 1;
 	minirt->shapes[2] = create_shape(SPHERE, last);
 	transform_shape(minirt, 2, translate, 0, return_tuple_pointer(0, 0, 0, POINT));
 	
+	t_plane *plane = ft_calloc(1, sizeof(t_plane));
+	minirt->shapes[3] = create_shape(PLANE, plane);
+	transform_shape(minirt, 3, rotate_x, DEG_RAD(90), NULL);
+
 	minirt->mlx = mlx;
 	(void)temp;
 	return (minirt);

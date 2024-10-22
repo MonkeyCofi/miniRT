@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/22 00:21:44 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/22 21:51:51 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,19 @@ void	print_4d_points(float points[4][4])
 	}
 }
 
-int	get_key_pressed(int keycode, t_mlx *mlx, t_sphere *sphere)
+int		get_key_pressed(int keycode, t_mlx *mlx, t_minirt *m)
 {
-	if (keycode == PLUS)
-		transform_sphere(sphere, scale, return_tuple(1, 2, 1, POINT));
+	//if (keycode == PLUS)
+	//	transform_sphere(sphere, scale, return_tuple(1, 2, 1, POINT));
+	if (keycode == W)
+	{
+		m->from = return_tuple(m->from.x, m->from.y + 2, m->from.z, POINT);
+		render(mlx, m->cam, m);
+	}
 	else if (keycode == ESC)
 		exit(1);
 	(void)mlx;
+	(void)m;
 	return (0);
 }
 
@@ -44,19 +50,25 @@ int main(void)
 	t_mlx		mlx;
 	t_minirt 	*m;
 	t_camera	camera;
-	t_tuple		from;
-	t_tuple		to;
-	t_tuple		up;
 	t_4dmat		temp;
 
 	init_mlx(&mlx);
 	m = init_default(&mlx);
-	camera = return_camera(WIDTH, HEIGHT, DEG_RAD(90), NULL);
-	from = return_tuple(0, 0, -2, POINT);
-	to = return_tuple(0, 0, 0, POINT);
-	up = return_tuple(0, 1, 0, VECTOR);
-	camera.view_matrix = view_transform(&to, &from, &up);
-	render(&mlx, &camera, m);
+	//mlx_hook(mlx.win, 2, 0, get_key_pressed, m);
+	camera = return_camera(WIDTH, HEIGHT, DEG_RAD(60), NULL);
+	m->cam = return_camera_ptr(WIDTH, HEIGHT, DEG_RAD(120), NULL);
+	m->from = return_tuple(0, 0, -2, POINT);
+	//from = return_tuple(1, 0, 2, POINT);
+	m->to = return_tuple(0, 0, 0, POINT);
+	m->up = return_tuple(0, 1, 0, VECTOR);
+	m->cam->view_matrix = view_transform(&m->to, &m->from, &m->up);
+	//camera.view_matrix = view_transform(&m->to, &m->from, &m->up);
+	//temp = translation_mat(0, 0, -1);
+	//camera.view_matrix = mat4d_mult_fast(&temp, camera.view_matrix);
+	//temp = y_rotation_mat(DEG_RAD(10));
+	//camera.view_matrix = mat4d_mult_fast(&temp, camera.view_matrix);
+	//mlx_loop_hook(&mlx.mlx, render, m);
+	render(&mlx, m->cam, m);
 	(void)temp;
 	mlx_loop(&mlx.mlx);
 }
@@ -67,6 +79,7 @@ int main(void)
 //	t_minirt	*world;
 //	//t_camera	camera;
 //	t_sphere 	*sphere;
+//	t_intersects	*inter = ft_calloc(1, sizeof(t_intersects));
 
 //	init_mlx(&mlx);
 //	world = init_default(&mlx);
@@ -75,8 +88,14 @@ int main(void)
 //	world->shapes[0] = create_shape(SPHERE, sphere);
 //	world->shapes[0]->normal = normal_sphere;
 //	world->shapes[0]->intersect = sphere_hit;
-//	transform_shape(world, 0, scale, 0, return_tuple_pointer(1, 0.5, 1, POINT));
-//	transform_shape(world, 0, rotate_z, PI / 5, NULL);
-//	t_tuple *normal = normal_sphere(world->shapes[0], return_tuple(0, 1.70711, -0.70711, POINT));
-//	print_tuple_points(normal);
+//	transform_shape(world, 0, scale, 0, return_tuple_pointer(0, 0, 1, POINT));
+//	t_ray *ray = create_ray(tuple_mult_fast(world->shapes[0]->inverse_mat, return_tuple_pointer(0, 0, -5, POINT)), tuple_mult_fast(world->shapes[0]->inverse_mat, return_tuple_pointer(0, 0, 1, POINT)));
+//	t_intersection t = intersect(5, SPHERE, sphere, ray, none, return_tuple(0, 0, 0, VECTOR), sphere->material);
+//	t.shape_ptr = world->shapes[0];
+//	t_inter_comp	*comp = precompute_intersect(inter, &t, ray);
+//	printf("%f\n", comp->point_adjusted.x);
+//	printf("%f\n", comp->point_adjusted.y);
+//	printf("%f\n", comp->point_adjusted.z);
+//	printf("%s\n", comp->point_adjusted.z < -EPSILON / 2 ? "True" : "False");
+//	printf("%s\n", comp->point.z > comp->point_adjusted.z ? "True" : "False");
 //}

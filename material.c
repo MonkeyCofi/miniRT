@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:27:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/17 15:15:20 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:38:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_mater	*create_default_material()
 	return (return_material);
 }
 
-t_mater	*create_material(t_color color, float diffuse, float ambient, float specular, float shine)
+t_mater	*create_material(t_color color, double diffuse, double ambient, double specular, double shine)
 {
 	t_mater	*ret_mat;
 

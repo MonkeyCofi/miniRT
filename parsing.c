@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/09/27 12:57:44 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:38:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	dovector(char *string, t_tuple *calc)
 	str = ft_split(string, ',');
 	while (str && str[++i])
 	{
-		if (!is_float(str[i]))
+		if (!is_double(str[i]))
 			ret = 1;
 	}
 	if (arr_len(str) != 3)
@@ -51,7 +51,7 @@ int	dovectorcolor(char *string, t_tuple *calc)
 	(void)calc;
 	while (str && str[++i])
 	{
-		if (!is_float(str[i]))
+		if (!is_double(str[i]))
 			ret = 1;
 	}
 	if (arr_len(str) != 3)
@@ -90,9 +90,9 @@ int	check_ulong(char *str, int *num)
 
 int	check_double(char *str, double *num)
 {
-	if(!is_float(str))
+	if(!is_double(str))
 	{
-		printf("parameter is not a float\n");
+		printf("parameter is not a double\n");
 		return (1);
 	}
 	*num = str_to_double(str);

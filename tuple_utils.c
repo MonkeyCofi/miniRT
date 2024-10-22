@@ -6,13 +6,13 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:02:04 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/16 12:46:38 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:38:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vectors.h"
 
-void	set_vector_points(t_tuple *v, float x, float y, float z)
+void	set_vector_points(t_tuple *v, double x, double y, double z)
 {
 	v->x = x;
 	v->y = y;
@@ -20,7 +20,7 @@ void	set_vector_points(t_tuple *v, float x, float y, float z)
 	v->w = 0;
 }
 
-void	set_point_points(t_tuple *v, float x, float y, float z)
+void	set_point_points(t_tuple *v, double x, double y, double z)
 {
 	v->x = x;
 	v->y = y;
@@ -28,7 +28,7 @@ void	set_point_points(t_tuple *v, float x, float y, float z)
 	v->w = 1;
 }
 
-t_tuple	return_tuple(float x, float y, float z, float w)
+t_tuple	return_tuple(double x, double y, double z, double w)
 {
 	t_tuple	ret;
 
@@ -39,7 +39,7 @@ t_tuple	return_tuple(float x, float y, float z, float w)
 	return (ret);
 }
 
-t_tuple	*return_tuple_pointer(float x, float y, float z, float w)
+t_tuple	*return_tuple_pointer(double x, double y, double z, double w)
 {
 	t_tuple	*ret;
 

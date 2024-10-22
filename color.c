@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/22 00:19:58 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/22 18:42:29 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	set_min_max(t_tuple *color)
 		color->b = 1;
 }
 
-t_color	return_color(float red, float green, float blue, float alpha)
+t_color	return_color(double red, double green, double blue, double alpha)
 {
 	t_color	ret_color;
 
@@ -85,8 +85,9 @@ t_tuple	shade(t_minirt *minirt, t_inter_comp *intersect_comp)
 	while (++i < minirt->light_count)
 	{
 		point_slight = add_vectors(&intersect_comp->point, &intersect_comp->normal_vec);
-		res = lighting(intersect_comp->material, minirt->lights[i], return_scalar(&point_slight, EPSILON), intersect_comp->eye_vec, intersect_comp->normal_vec, 
-			is_in_shadow(minirt, point_slight, i));
+		t_bool uwu = is_in_shadow(minirt, intersect_comp->point_adjusted, i);
+		res = lighting(intersect_comp->material, minirt->lights[i], intersect_comp->point_adjusted, intersect_comp->eye_vec, intersect_comp->normal_vec, 
+			uwu);
 		final_res = add_vectors(&final_res, &res);
 	}
 	return (final_res);
@@ -99,7 +100,7 @@ t_tuple	color_at(t_minirt *minirt, t_ray *ray)
 	t_inter_comp	*computations;
 	t_tuple			final_color;
 
-	intersections = intersect_enivornment(minirt, ray);
+	intersections = intersect_enivornment(minirt, ray, false);
 	hit = best_hit(intersections);
 	if (hit == NULL)
 		return (return_tuple(0, 0, 0, COLOR));

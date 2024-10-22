@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transformations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 22:24:54 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/22 18:38:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 //# define IS_SCAL_SET(x) (x >> 1) & 1
 //# define IS_TRANS_SET(x) x & 1
 
-t_4dmat	translation_mat(float x, float y, float z)
+t_4dmat	translation_mat(double x, double y, double z)
 {
 	t_4dmat	translation_mat;
 	
@@ -29,7 +29,7 @@ t_4dmat	translation_mat(float x, float y, float z)
 	return (translation_mat);
 }
 
-t_4dmat	scaling_mat(float x, float y, float z)
+t_4dmat	scaling_mat(double x, double y, double z)
 {
 	t_4dmat	scaling_mat;
 
@@ -40,7 +40,7 @@ t_4dmat	scaling_mat(float x, float y, float z)
 	return (scaling_mat);
 }
 
-t_4dmat	x_rotation_mat(float angle)
+t_4dmat	x_rotation_mat(double angle)
 {
 	t_4dmat	x_rot;
 
@@ -54,7 +54,7 @@ t_4dmat	x_rotation_mat(float angle)
 	return (x_rot);
 }
 
-t_4dmat	y_rotation_mat(float angle)
+t_4dmat	y_rotation_mat(double angle)
 {
 	t_4dmat	y_rot;
 
@@ -67,7 +67,7 @@ t_4dmat	y_rotation_mat(float angle)
 	y_rot.m44 = 1;
 	return (y_rot);
 }
-t_4dmat	z_rotation_mat(float angle)
+t_4dmat	z_rotation_mat(double angle)
 {
 	t_4dmat	z_rot;
 
@@ -81,7 +81,7 @@ t_4dmat	z_rotation_mat(float angle)
 	return (z_rot);
 }
 
-//t_tuple	scale_ray(t_tuple *point, t_sphere *sphere, float x, float y, float z)
+//t_tuple	scale_ray(t_tuple *point, t_sphere *sphere, double x, double y, double z)
 //{
 //	t_4dmat	scaling_matrix;
 //	t_tuple	*res;
@@ -101,7 +101,7 @@ t_4dmat	z_rotation_mat(float angle)
 //	return (ret);
 //}
 
-t_tuple	scale_ray(t_tuple *point, float x, float y, float z)
+t_tuple	scale_ray(t_tuple *point, double x, double y, double z)
 {
 	t_4dmat	scaling_matrix;
 	t_tuple	*res;
@@ -113,7 +113,7 @@ t_tuple	scale_ray(t_tuple *point, float x, float y, float z)
 	return (ret);
 }
 
-t_tuple	translate_ray(t_tuple *point, float x, float y, float z)
+t_tuple	translate_ray(t_tuple *point, double x, double y, double z)
 {
 	t_4dmat	translation_matrix;
 	t_tuple	*resultant;
@@ -192,7 +192,7 @@ t_bool	set_inverse_transpose(t_shape *shape, t_4dmat *transform_mat)
 	return (true);
 }
 
-t_bool	transform_shape(t_minirt *m, int index, t_trans type, float angle, t_tuple *transform_coords)
+t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tuple *transform_coords)
 {
 	t_4dmat	trans_matrix;
 	// t_4dmat	*res;
@@ -221,7 +221,7 @@ t_bool	transform_shape(t_minirt *m, int index, t_trans type, float angle, t_tupl
 	return (true);
 }
 
-//t_tuple	chain_transforms(t_tuple *point, t_tuple *transformations[], t_trans type[], int transformation_count, float angles[])
+//t_tuple	chain_transforms(t_tuple *point, t_tuple *transformations[], t_trans type[], int transformation_count, double angles[])
 t_tuple	chain_transforms(t_transform *trans, t_tuple *point)
 {
 	t_tuple		result;

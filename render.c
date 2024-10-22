@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 21:06:15 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/22 00:20:19 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/22 21:39:20 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	draw_pixel(t_mlx *mlx, int x, int y, int color)
 
 t_ray	*ray_per_pixel(t_camera *camera, int px, int py)
 {
-	float	x_offset;
-	float	y_offset;
-	float	world_x;
-	float	world_y;
+	double	x_offset;
+	double	y_offset;
+	double	world_x;
+	double	world_y;
 	t_tuple	*pixel;
 	t_tuple	*origin;
 	t_tuple	direction;
@@ -49,7 +49,7 @@ t_ray	*ray_per_pixel(t_camera *camera, int px, int py)
 	return (create_ray(*origin, direction));
 }
 
-void	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
+int	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 {
 	int		i;
 	int		j;
@@ -59,7 +59,7 @@ void	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 
 	i = -1;
 	if (inverse_mat(camera->view_matrix, &camera->inverse) == false)
-		return ;
+		return (-1);
 	while (++i < camera->horizontal_canv_size)
 	{
 		j = -1;
@@ -72,4 +72,5 @@ void	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 		}
 	}
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
+	return (1);
 }
