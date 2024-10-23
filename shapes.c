@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 13:17:33 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 21:13:49 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/23 19:16:04 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	assign_normal_intersect_func(t_shape *shape, t_shape_type type)
 {
 	if (type == SPHERE)
 	{
-		shape->normal = normal_sphere_test;
+		shape->normal = normal_sphere;
 		shape->intersect = sphere_hit;
 	}
 	else if (type == PLANE)

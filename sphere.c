@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/22 18:38:32 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/23 19:51:20 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,14 @@ t_bool	sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, int shape_i
 
 t_tuple	*normal_sphere(t_shape *shape, t_tuple pos)
 {
-	t_tuple		*sphere_point;
-	t_tuple		*world_norm;
-	t_tuple		sphere_norm;
 	t_sphere	*sphere;
+	t_tuple		temp;
+	t_tuple		*normal;
 
 	sphere = shape->shape;
-	sphere_point = tuple_mult(shape->inverse_mat, &pos);
-	sphere_norm = subtract_tuples(&sphere->center, sphere_point);
-	world_norm = tuple_mult(shape->inverse_transpose, &sphere_norm);
-	world_norm->w = 0;
-	normalize(world_norm);
-	return (world_norm);
+	temp = subtract_tuples(&sphere->center, &pos);
+	normal = return_tuple_pointer(temp.x, temp.y, temp.z, temp.w);
+	return (normal);
 }
 
 t_tuple	*normal_sphere_test(t_shape *shape, t_tuple pos)

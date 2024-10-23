@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 21:06:15 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/22 21:39:20 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:46:56 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_ray	*ray_per_pixel(t_camera *camera, int px, int py)
 	temp = return_tuple(0, 0, 0, POINT);
 	origin = tuple_mult(camera->inverse, &temp);
 	direction = subtract_tuples(origin, pixel);
-	normalize(&direction);
+	//normalize(&direction);
 	return (create_ray(*origin, direction));
 }
 

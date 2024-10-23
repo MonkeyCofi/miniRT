@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/22 18:38:32 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_4dmat	scaling_mat(double x, double y, double z)
 	scaling_mat.m11 = x;
 	scaling_mat.m22 = y;
 	scaling_mat.m33 = z;
+	scaling_mat.m44 = 1;
 	return (scaling_mat);
 }
 
@@ -204,7 +205,6 @@ t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tup
 		inverse_res = inverse_mat(&m->shapes[index]->transform, &m->shapes[index]->inverse_mat);
 		return (true);
 	}
-	(void)inverse_res;
 	if (type == translate)
 		trans_matrix = translation_mat(transform_coords->x, transform_coords->y, transform_coords->z);
 	else if (type == scale)
