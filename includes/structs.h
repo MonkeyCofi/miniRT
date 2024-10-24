@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 18:09:03 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/25 01:04:17 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,11 +286,17 @@ typedef struct s_minirt
 	t_camera	*cam;
 	t_shape		**shapes;
 	t_light		**lights;
-	t_tuple		from;
-	t_tuple		to;
-	t_tuple		up;
+	t_tuple		*from;
+	t_tuple		*to;
+	t_tuple		*up;
 	int			object_count;
 	int			light_count;
 }	t_minirt;
+
+typedef struct s_hook_params
+{
+	t_mlx *mlx;
+	t_minirt *m;
+}	t_hook_params;
 
 #endif

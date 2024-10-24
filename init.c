@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 21:48:47 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/25 01:35:48 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,16 @@ t_minirt	* init_default(t_mlx *mlx)
 	minirt->shapes[0] = create_shape(PLANE, wall);
 	transform_shape(minirt, 0, translate, 0, return_tuple_pointer(0, 0, 1, POINT));
 	transform_shape(minirt, 0, rotate_x, DEG_RAD(90), NULL);
+	
+	// t_cylinder *cylinder = create_cylinder(return_point(0, 0, 0));
+	// cylinder->material->color = return_tuple(0, 1, 0, COLOR);
+	// cylinder->minimum = 0;
+	// cylinder->maximum = 1;
+	// cylinder->is_closed = true;
+	// minirt->shapes[1] = create_shape(CYLINDER, cylinder);
+	// transform_shape(minirt, 1, translate, 0, return_tuple_pointer(0, 2, 0, POINT));
+	// transform_shape(minirt, 1, rotate_x, DEG_RAD(50), NULL);
+	// transform_shape(minirt, 1, rotate_y, DEG_RAD(30), NULL);
 	
 	t_sphere *sphere = create_sphere(0, 0, 0, 1, create_default_material());
 	minirt->shapes[1] = create_shape(SPHERE, sphere);
