@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 21:49:47 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 16:00:25 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,6 @@ void	sort_intersects(t_intersects *intersects)
 		}
 		i++;
 	}
-}
-
-t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_index)
-{
-	t_intersection	*hit;
-	t_intersects	*intersect;
-	t_tuple			direction;
-	t_tuple			new_point;
-	t_ray			*ray;
-	double			distance;
-	
-	new_point = subtract_tuples(&point, &minirt->lights[light_index]->position);
-	direction = return_tuple(new_point.x, new_point.y, new_point.z, VECTOR);
-	normalize(&direction);
-	distance = magnitude(&new_point);
-	ray = create_ray(new_point, direction);
-	intersect = intersect_enivornment(minirt, ray, true);
-	hit = best_hit(intersect);
-	if (hit && hit->t < distance)
-	{
-		free(intersect);
-		free(ray);
-		return (true);
-	}
-	free(intersect);
-	return (false);
 }
 
 t_intersection	*best_hit(t_intersects *intersects)
@@ -109,9 +83,9 @@ t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersec
 	object_ray = create_ray(tuple_mult_fast(new->obj->inverse_mat, &ray->origin), tuple_mult_fast(new->obj->inverse_mat, &ray->direction));	// transformed into object space
 	new->eye_vec = return_tuple(-ray->direction.x, -ray->direction.y, -ray->direction.z, VECTOR);	// eye vector in world space
 	normalize(&new->eye_vec);
-	new->point = position(ray, new->t);
+	new->point = position(ray, new->t);	// position of the object in world space
 	new->type = intersection->type;
-	new->normal_vec = normal_at(new->obj, new->point);
+	new->normal_vec = normal_at(new->obj, new->point);	// takes the normal of the point 
 	if (dot_product(&new->eye_vec, &new->normal_vec) < 0)
 	{
 		new->is_inside_object = true;
@@ -119,7 +93,8 @@ t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersec
 	}
 	else
 		new->is_inside_object = false;
-	t_tuple test = return_scalar(&new->normal_vec, EPSILON);
+	t_tuple test = return_tuple(new->normal_vec.x * EPSILON, new->normal_vec.y * EPSILON, new->normal_vec.z * EPSILON, new->normal_vec.w * EPSILON);
+	test.w = POINT;
 	new->point_adjusted = add_vectors(&new->point, &test);
 	return (new);
 }
@@ -139,7 +114,7 @@ t_intersection	intersect(double t, t_shape_type type, void *shape, t_ray *ray, t
 	return (intersection);
 }
 
-t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray, t_bool shadow)
+t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray)
 {
 	t_intersects	*inter;
 	t_ray			*real_ray;
@@ -149,10 +124,7 @@ t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray, t_bool shadow)
 	i = -1;
 	while (++i < minirt->object_count)
 	{
-		if (shadow == false)
-			real_ray = create_ray(tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->direction));
-		else
-			real_ray = ray;
+		real_ray = create_ray(tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->direction));
 		if (minirt->shapes[i]->intersect(minirt, inter, real_ray, i) == false)
 			continue ;
 	}

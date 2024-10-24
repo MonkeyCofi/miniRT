@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 21:46:00 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:32:16 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,73 +67,6 @@ int	init_mlx(t_mlx *mlx)
 	return (1);
 }
 
-//t_minirt	*init_default(t_mlx *mlx)
-//{
-//	t_minirt	*minirt;
-	
-//	minirt = ft_calloc(1, sizeof(t_minirt));
-//	if (!minirt)
-//		return (NULL);
-//	minirt->spheres = ft_calloc(2, sizeof(t_sphere *));
-//	if (!minirt->spheres)
-//	{
-//		free(minirt);
-//		return (NULL);
-//	}
-//	minirt->light_count = 3;
-//	minirt->lights = ft_calloc(minirt->light_count, sizeof(t_light *));
-//	if (!minirt->lights)
-//	{
-//		free(minirt->spheres);
-//		free(minirt);
-//		return (NULL);
-//	}
-	
-//	/* LIGHT */
-//	minirt->lights[0] = ft_calloc(1, sizeof(t_light));
-//	if (!minirt->lights[0])
-//		return (NULL);
-//	minirt->lights[0]->intensity.colors = return_tuple(1, 1, 1, COLOR);
-//	minirt->lights[0]->position = return_tuple(-10, 10, -10, POINT);
-	
-//	minirt->lights[1] = ft_calloc(1, sizeof(t_light));
-//	if (!minirt->lights[1])
-//		return (NULL);
-//	minirt->lights[1]->intensity.colors = return_tuple(0.2, 0.2, 0.2, COLOR);
-//	minirt->lights[1]->position = return_tuple(0, -5, -5, POINT);
-	
-//	minirt->lights[2] = ft_calloc(1, sizeof(t_light));
-//	if (!minirt->lights[2])
-//		return (NULL);
-//	minirt->lights[2]->intensity.colors = return_tuple(0.2, 0.2, 0.2, COLOR);
-//	minirt->lights[2]->position = return_tuple(0, 10, 0, POINT);
-	
-	
-//	/* LIGHT */
-	
-//	minirt->object_count = 1;
-	
-//	minirt->shapes = ft_calloc(minirt->object_count, sizeof(t_shape *));
-	
-//	t_sphere *sphere = create_sphere(0, 0, 0, create_default_material());
-//	sphere->transform = scaling_mat(1.1, 1.1, 1.1);
-//	minirt->shapes[0] = ft_calloc(1, sizeof(t_shape));
-//	minirt->shapes[0]->shape = sphere;
-//	minirt->shapes[0]->type = SPHERE;
-	
-//	//t_plane *plane = ft_calloc(1, sizeof(t_plane));
-//	//plane->material = create_default_material();
-//	//plane->transform = identity();
-//	//plane->point = return_tuple(0, 0, 0, POINT);
-	
-//	//minirt->shapes[1] = ft_calloc(1, sizeof(t_shape));
-//	//minirt->shapes[1]->shape = plane;
-//	//minirt->shapes[1]->type = PLANE;
-
-//	minirt->mlx = mlx;
-//	return (minirt);
-//}
-
 t_minirt	* init_default(t_mlx *mlx)
 {
 	t_minirt	*minirt;
@@ -164,8 +97,20 @@ t_minirt	* init_default(t_mlx *mlx)
 	minirt->lights[0]->intensity.colors = return_tuple(1, 1, 1, COLOR);
 	
 	minirt->lights[1] = ft_calloc(1, sizeof(t_light));
-	minirt->lights[1]->position = return_tuple(0, 3, 0, POINT);
+	minirt->lights[1]->position = return_tuple(0, 0, -1, POINT);
 	minirt->lights[1]->intensity.colors = return_tuple(1, 0, 0, COLOR);
+	
+	//minirt->lights[2] = ft_calloc(1, sizeof(t_light));
+	//minirt->lights[2]->position = return_tuple(0, 3, 0, POINT);
+	//minirt->lights[2]->intensity.colors = return_tuple(1, 1, 1, COLOR);
+	
+	//minirt->lights[1] = ft_calloc(1, sizeof(t_light));
+	//minirt->lights[1]->position = return_tuple(0, 0, -1, POINT);
+	//minirt->lights[1]->intensity.colors = return_tuple(1, 1, 1, COLOR);
+	
+	//minirt->lights[1] = ft_calloc(1, sizeof(t_light));
+	//minirt->lights[1]->position = return_tuple(0, 3, 0, POINT);
+	//minirt->lights[1]->intensity.colors = return_tuple(1, 0, 0, COLOR);
 
 	//minirt->object_count = 1;
 	//minirt->shapes = ft_calloc(minirt->object_count, sizeof(t_shape *));
@@ -204,15 +149,15 @@ t_minirt	* init_default(t_mlx *mlx)
 	
 	/* SCENE */
 
-	minirt->object_count = 1;
-	minirt->shapes = ft_calloc(1, sizeof(t_shape *));
+	minirt->object_count = 6;
+	minirt->shapes = ft_calloc(minirt->object_count, sizeof(t_shape *));
 	
-	t_sphere *floor = create_sphere(0, 0, 0, 1, create_default_material());
-	minirt->shapes[0] = create_shape(SPHERE, floor);
-	floor->material->color.colors = return_tuple(1, 0.9, 0.9, COLOR);
-	floor->material->specular = 0.1;
-	transform_shape(minirt, 0, scale, 0, return_tuple_pointer(1.5, 0.5, 1.5, POINT));
-	transform_shape(minirt, 0, rotate_z, DEG_RAD(30), NULL);
+	//t_sphere *floor = create_sphere(0, 0, 0, 1, create_default_material());
+	//minirt->shapes[0] = create_shape(SPHERE, floor);
+	//floor->material->color.colors = return_tuple(1, 0.9, 0.9, COLOR);
+	//floor->material->specular = 0.1;
+	//transform_shape(minirt, 0, rotate_z, DEG_RAD(30), NULL);
+	//transform_shape(minirt, 0, scale, 0, return_tuple_pointer(1.5, 0.5, 1.5, POINT));
 	
 	//t_sphere *floor = create_sphere(0, 0, 0, 1, create_default_material());
 	//minirt->shapes[0] = create_shape(SPHERE, floor);
@@ -220,42 +165,51 @@ t_minirt	* init_default(t_mlx *mlx)
 	//floor->material->specular = 0;
 	//transform_shape(minirt, 0, scale, 0, return_tuple_pointer(10, 0.01, 10, POINT));
 	
-	//t_sphere *left_wall = create_sphere(0, 0, 0, 1, create_default_material());
-	//minirt->shapes[0] = create_shape(SPHERE, left_wall);
-	//transform_shape(minirt, 0, scale, 0, return_tuple_pointer(10, 0.01, 10, POINT));
-	//transform_shape(minirt, 0, rotate_x, PI / 2, NULL);
-	//transform_shape(minirt, 0, rotate_y, -PI / 4, NULL);
-	//transform_shape(minirt, 1, translate, 0, return_tuple_pointer(0, 0, 5, POINT));
+	t_plane *floor = create_plane();
+	minirt->shapes[0] = create_shape(PLANE, floor);
+
+	t_plane *left_wall = create_plane();
+	minirt->shapes[1] = create_shape(PLANE, left_wall);
+	transform_shape(minirt, 1, translate, 0, return_tuple_pointer(0, 0, 15, POINT));
+	transform_shape(minirt, 1, rotate_x, DEG_RAD(120), NULL);
+	
+	t_plane *right_wall = create_plane();
+	minirt->shapes[2] = create_shape(PLANE, right_wall);
+	transform_shape(minirt, 2, translate, 0, return_tuple_pointer(0, 0, 15, POINT));
+	transform_shape(minirt, 2, rotate_y, -DEG_RAD(80), NULL);
+	transform_shape(minirt, 2, rotate_x, DEG_RAD(100), NULL);
 	
 	//t_sphere *right_wall = create_sphere(0, 0, 0, 1, create_default_material());
 	//minirt->shapes[2] = create_shape(SPHERE, right_wall);
-	//transform_shape(minirt, 2, scale, 0, return_tuple_pointer(10, 0.01, 10, POINT));
-	//transform_shape(minirt, 2, rotate_x, PI / 2, NULL);
-	//transform_shape(minirt, 2, rotate_y, PI / 4, NULL);
+	//right_wall->material->specular = 0;
 	//transform_shape(minirt, 2, translate, 0, return_tuple_pointer(0, 0, 5, POINT));
+	//transform_shape(minirt, 2, rotate_y, PI / 4, NULL);
+	//transform_shape(minirt, 2, rotate_x, PI / 2, NULL);
+	//transform_shape(minirt, 2, scale, 0, return_tuple_pointer(10, 0.01, 10, POINT));
 	
-	//t_sphere *middle = create_sphere(0, 0, 0, 1, create_default_material());
-	//middle->material->color.colors = return_tuple(0.1, 1, 0.5, COLOR);
-	//middle->material->diffuse = 0.7;
-	//middle->material->specular = 0.3;
-	//minirt->shapes[3] = create_shape(SPHERE, middle);
-	//transform_shape(minirt, 3, translate, 0, return_tuple_pointer(-0.5, 1, 0.5, POINT));
+	t_sphere *middle = create_sphere(0, 0, 0, 1, create_default_material());
+	middle->material->color.colors = return_tuple(0.1, 1, 0.5, COLOR);
+	middle->material->diffuse = 0.7;
+	middle->material->specular = 0.3;
+	minirt->shapes[3] = create_shape(SPHERE, middle);
+	transform_shape(minirt, 3, translate, 0, return_tuple_pointer(-0.5, 0.9, -1, POINT));
+	transform_shape(minirt, 3, scale, 0, return_tuple_pointer(1, 0.3, 1, POINT));
 	
-	//t_sphere *right = create_sphere(0, 0, 0, 1, create_default_material());
-	//right->material->color.colors = return_tuple(0.5, 1, 0.1, COLOR);
-	//right->material->diffuse = 0.7;
-	//right->material->specular = 0.3;
-	//minirt->shapes[4] = create_shape(SPHERE, right);
-	//transform_shape(minirt, 4, scale, 0, return_tuple_pointer(0.8, 0.8, 0.8, POINT));
-	//transform_shape(minirt, 4, translate, 0, return_tuple_pointer(1.5, 0.5, -0.5, POINT));
+	t_sphere *right = create_sphere(0, 0, 0, 1, create_default_material());
+	right->material->color.colors = return_tuple(0.5, 1, 0.1, COLOR);
+	right->material->diffuse = 0.7;
+	right->material->specular = 0.3;
+	minirt->shapes[4] = create_shape(SPHERE, right);
+	transform_shape(minirt, 4, scale, 0, return_tuple_pointer(0.5, 0.5, 0.5, POINT));
+	transform_shape(minirt, 4, translate, 0, return_tuple_pointer(2, 1, -0.5, POINT));
 	
-	//t_sphere *left = create_sphere(0, 0, 0, 1, create_default_material());
-	//left->material->color.colors = return_tuple(1, 0.8, 0.1, COLOR);
-	//left->material->diffuse = 0.7;
-	//left->material->specular = 0.3;
-	//minirt->shapes[5] = create_shape(SPHERE, left);
-	//transform_shape(minirt, 5, translate, 0, return_tuple_pointer(-1.5, 1, -0.75, POINT));
-	
+	t_sphere *left = create_sphere(0, 0, 0, 1, create_default_material());
+	left->material->color.colors = return_tuple(1, 0.8, 0.1, COLOR);
+	left->material->diffuse = 0.7;
+	left->material->specular = 0.3;
+	minirt->shapes[5] = create_shape(SPHERE, left);
+	transform_shape(minirt, 5, translate, 0, return_tuple_pointer(-1.5, 0.33, -0.75, POINT));
+	transform_shape(minirt, 5, scale, 0, return_tuple_pointer(0.33, 0.33, 0.33, POINT));
 
 	minirt->mlx = mlx;
 	(void)temp;
@@ -288,20 +242,20 @@ t_minirt	* init_default(t_mlx *mlx)
 //	/* LIGHT */
 	
 //	minirt->lights[0] = ft_calloc(1, sizeof(t_light));
-//	minirt->lights[0]->position = return_tuple(0, 0, -10, POINT);
+//	minirt->lights[0]->position = return_tuple(0, 0, -2, POINT);
 //	minirt->lights[0]->intensity.colors = return_tuple(1, 1, 1, COLOR);
 	
 //	minirt->object_count = 2;
 //	minirt->shapes = ft_calloc(minirt->object_count, sizeof(t_shape *));
 
-//	t_sphere *sphere_one = create_sphere(0, 0, 0, 1, create_default_material());
-//	minirt->shapes[0] = create_shape(SPHERE, sphere_one);
-//	transform_shape(minirt, 0, translate, 0, return_tuple_pointer(0.2, 0, 0, POINT));
-
-//	t_sphere *sphere_two = create_sphere(0, 0, 0, 1, create_default_material());
-//	minirt->shapes[1] = create_shape(SPHERE, sphere_two);
-//	transform_shape(minirt, 1, scale, 0, return_tuple_pointer(3, 3, 3, POINT));
-//	transform_shape(minirt, 1, translate, 0, return_tuple_pointer(0, 0, 2, POINT));
+//	t_plane *wall = create_plane();
+//	minirt->shapes[0] = create_shape(PLANE, wall);
+//	transform_shape(minirt, 0, translate, 0, return_tuple_pointer(0, 0, 2, POINT));
+//	transform_shape(minirt, 0, rotate_x, DEG_RAD(90), NULL);
+	
+//	t_sphere *sphere = create_sphere(0, 0, 0, 1, create_default_material());
+//	minirt->shapes[1] = create_shape(SPHERE, sphere);
+//	transform_shape(minirt, 1, translate, 0, return_tuple_pointer(0, 1.5, -1, POINT));
 
 //	minirt->mlx = mlx;
 //	(void)temp;

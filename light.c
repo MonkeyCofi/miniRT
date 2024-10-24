@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 19:15:13 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:22:53 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_v
 	light_vector = subtract_tuples(&point, &light->position);
 	normalize(&light_vector);
 	ambient = return_scalar(&final_color, material->ambient);
+	if (in_shadow)
+		return (ambient);
 	light_dot = dot_product(&normal_vector, &light_vector);
 	if (light_dot < 0)
 	{
@@ -55,11 +57,6 @@ t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_v
 			double fac = pow(eye_dot, material->shine);
 			specular = return_scalar(&light->intensity.colors, material->specular * fac);
 		}
-	}
-	if (in_shadow == true)
-	{
-		diffuse = return_tuple(0, 0, 0, COLOR);
-		specular = return_tuple(0, 0, 0, COLOR);
 	}
 	return (return_tuple(diffuse.x + specular.x + ambient.x, diffuse.y + specular.y + ambient.y, diffuse.z + specular.z + ambient.z, COLOR));
 }

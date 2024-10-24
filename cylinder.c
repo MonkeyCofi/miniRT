@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:24:50 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,20 @@ t_tuple	*normal_pos_cylinder(t_shape *shape, t_tuple pos)
 {
 	t_tuple		*normal;
 	t_cylinder	*cylinder;
-	t_tuple		*world_normal;
-	t_4dmat		*transpose_inv;
 	double		distance;
 
 	cylinder = shape->shape;
 	distance = (pos.x * pos.x) + (pos.z * pos.z);
-	if (distance < 1 && pos.y >= cylinder->maximum - EPSILON)
+	if (distance < 1 && (pos.y > cylinder->maximum - EPSILON || is_equal(pos.y, cylinder->maximum)))
 		return (return_tuple_pointer(0, 1, 0, VECTOR));
-	else if (distance < 1 && pos.y <= cylinder->minimum + EPSILON)
+	else if (distance < 1 && (pos.y < cylinder->minimum + EPSILON || is_equal(pos.y, cylinder->minimum)))
 		return (return_tuple_pointer(0, -1, 0, VECTOR));
 	normal = ft_calloc(1, sizeof(t_tuple));
 	normal->x = pos.x;
 	normal->y = 0;
 	normal->z = pos.z;
 	normal->w = VECTOR;
-	transpose_inv = transpose(shape->inverse_mat);
-	world_normal = tuple_mult(transpose_inv, &pos);
-	world_normal->w = 0;
-	normalize(world_normal);
-	free(transpose_inv);
-	return (world_normal);
+	return (normal);
 }
 
 static t_bool	at_cap(t_ray *ray, double radius, double t)

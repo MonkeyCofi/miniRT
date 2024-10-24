@@ -1,0 +1,9 @@
+order of transformations according to what works in our program:
+	- translation
+	- rotation
+	- scaling
+
+things that are broken:
+	- shadows
+	- cylinders
+	- planes (somewhat broken. maybe???)

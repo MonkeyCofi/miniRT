@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:02:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:46:42 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_intersection	intersect(double t, t_shape_type type, void *shape, t_ray *ray, t
 t_tuple			*normal_pos_plane(t_shape *shape, t_tuple point);
 
 //t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray);
-t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray, t_bool shadow);
+t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray);
 void			sort_intersects(t_intersects *intersects);
 //double			best_hit(t_intersects *intersects);
 t_intersection	*best_hit(t_intersects *intersects);

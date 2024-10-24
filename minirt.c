@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 19:50:30 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:35:09 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ int		get_key_pressed(int keycode, t_mlx *mlx, t_minirt *m)
 	//	transform_sphere(sphere, scale, return_tuple(1, 2, 1, POINT));
 	if (keycode == W)
 	{
-		m->from = return_tuple(m->from.x, m->from.y + 2, m->from.z, POINT);
+		printf("w\n");
+		//m->from = return_tuple(m->from.x, m->from.y + 2, m->from.z, POINT);		
+		m->cam->view_matrix = view_transform(&m->to, &m->from, &m->up);
 		render(mlx, m->cam, m);
 	}
 	else if (keycode == ESC)
@@ -73,8 +75,8 @@ int		get_key_pressed(int keycode, t_mlx *mlx, t_minirt *m)
 
 int main(void)
 {
-	t_mlx		mlx;
 	t_minirt 	*m;
+	t_mlx		mlx;
 	t_4dmat		temp;
 
 	init_mlx(&mlx);

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:02:04 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:37:04 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,21 @@ t_tuple	*return_tuple_pointer(double x, double y, double z, double w)
 	ret->z = z;
 	ret->w = w;
 	return (ret);
+}
+
+t_ray	create_ray_static(t_tuple origin, t_tuple direction)
+{
+	t_ray	ray;
+
+	ray.origin.x = origin.x;
+	ray.origin.y = origin.y;
+	ray.origin.z = origin.z;
+	ray.origin.w = origin.w;
+	ray.direction.x = direction.x;
+	ray.direction.y = direction.y;
+	ray.direction.z = direction.z;
+	ray.direction.w = direction.w;
+	return (ray);
 }
 
 t_ray	*create_ray(t_tuple origin, t_tuple direction)

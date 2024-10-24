@@ -36,12 +36,12 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	make -C $(MLXOS) -j2
 	make -C $(LIBFT_DIR) -j2
-	$(CC) $(OBJS) -fsanitize=address -g3 $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
-#	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+#	$(CC) $(OBJS) -fsanitize=address -g3 $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -g3 -c $< -o $@
-#	$(CC) $(CFLAGS) -c $< -o $@
+#	$(CC) $(CFLAGS) -g3 -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 run: re
 	./$(NAME)

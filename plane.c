@@ -6,11 +6,21 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:40:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/22 18:39:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:37:12 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+t_plane	*create_plane()
+{
+	t_plane	*plane;
+
+	plane = ft_calloc(1, sizeof(t_plane));
+	if (plane == NULL)
+		return (NULL);
+	return (plane);
+}
 
 t_bool	intersect_plane(t_minirt *m, t_intersects *intersects, t_ray *ray, int shape_index)
 {
@@ -32,9 +42,13 @@ t_tuple	*normal_pos_plane(t_shape *object, t_tuple point)
 	plane_normal->y = 1;
 	plane_normal->z = 0;
 	plane_normal->w = 0;
-	world_normal = tuple_mult(object->inverse_transpose, plane_normal);
-	world_normal->w = 0;
-	normalize(world_normal);
 	(void)point;
-	return (world_normal);
+	(void)object;
+	(void)world_normal;
+	return (plane_normal);
+	//world_normal = tuple_mult(object->inverse_transpose, plane_normal);
+	//world_normal->w = 0;
+	//normalize(world_normal);
+	//(void)point;
+	//return (world_normal);
 }
