@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 19:51:20 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 18:01:48 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_sphere	*create_sphere(double originx, double originy, double originz, double r
 	if (material)
 		ret->material = create_material(material->color, material->diffuse, material->ambient, material->specular, material->shine);
 	else
-		ret->material = create_material(return_color(1, 1, 1, 1), 0.9, 0.1, 0.9, 200);
+		ret->material = create_material(return_color(1, 1, 1), 0.9, 0.1, 0.9, 200);
 	return (ret);
 }
 t_bool	sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, int shape_index)

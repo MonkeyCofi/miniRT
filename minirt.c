@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 17:35:09 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:38:22 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,34 +86,8 @@ int main(void)
 	m->to = return_tuple(0, 1, 0, POINT);
 	m->up = return_tuple(0, 1, 0, VECTOR);
 	m->cam->view_matrix = view_transform(&m->to, &m->from, &m->up);
-	render(&mlx, m->cam, m);
+	//render(&mlx, m->cam, m);
+	threaded_render(&mlx, m, m->cam);
 	(void)temp;
 	mlx_loop(&mlx.mlx);
 }
-
-//int main(void)
-//{
-//	t_mlx 		mlx;
-//	t_minirt	*world;
-//	//t_camera	camera;
-//	t_sphere 	*sphere;
-//	t_intersects	*inter = ft_calloc(1, sizeof(t_intersects));
-
-//	init_mlx(&mlx);
-//	world = init_default(&mlx);
-//	sphere = create_sphere(0, 0, 0, 1, create_default_material());
-//	world->shapes = ft_calloc(1, sizeof(t_shape *));
-//	world->shapes[0] = create_shape(SPHERE, sphere);
-//	world->shapes[0]->normal = normal_sphere;
-//	world->shapes[0]->intersect = sphere_hit;
-//	transform_shape(world, 0, scale, 0, return_tuple_pointer(0, 0, 1, POINT));
-//	t_ray *ray = create_ray(tuple_mult_fast(world->shapes[0]->inverse_mat, return_tuple_pointer(0, 0, -5, POINT)), tuple_mult_fast(world->shapes[0]->inverse_mat, return_tuple_pointer(0, 0, 1, POINT)));
-//	t_intersection t = intersect(5, SPHERE, sphere, ray, none, return_tuple(0, 0, 0, VECTOR), sphere->material);
-//	t.shape_ptr = world->shapes[0];
-//	t_inter_comp	*comp = precompute_intersect(inter, &t, ray);
-//	printf("%f\n", comp->point_adjusted.x);
-//	printf("%f\n", comp->point_adjusted.y);
-//	printf("%f\n", comp->point_adjusted.z);
-//	printf("%s\n", comp->point_adjusted.z < -EPSILON / 2 ? "True" : "False");
-//	printf("%s\n", comp->point.z > comp->point_adjusted.z ? "True" : "False");
-//}

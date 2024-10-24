@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 17:30:21 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:24:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include "init.h"
 # include "shapes.h"
 # include "render.h"
+# include "threads.h"
 
 
 # include <math.h>
@@ -43,8 +44,8 @@
 //#  define HEIGHT 1080
 //#  define WIDTH 1920
 #  define APPLE 1
-#  define HEIGHT 300
-#  define WIDTH 300
+#  define HEIGHT 800
+#  define WIDTH 800
 #  define W 13
 #  define A 0
 #  define S 1
@@ -129,6 +130,5 @@ t_tuple		get_reflected_ray(t_tuple *from, t_tuple *normal);
 //int			get_key_pressed(int keycode, t_mlx *mlx, int scale);
 void		draw_pixel(t_mlx *mlx, int x, int y, int color);
 t_mater		*create_default_material();
-t_mater		*create_material(t_color color, double diffuse, double ambient, double specular, double shine);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 18:15:06 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,25 +145,12 @@ t_bool	intersect_cone(t_minirt *m, t_intersects *intersects, t_ray *ray, int sha
 	y[0] = ray->origin.y + t[0] * ray->direction.y;
 	if (y[0] > cone->minimum && y[0] < cone->maximum)
 	{
-		intersects->intersections[intersects->intersection_count].t = t[0];
-		intersects->intersections[intersects->intersection_count].shape = cone;
-		intersects->intersections[intersects->intersection_count].type = CONE;
-		intersects->intersections[intersects->intersection_count].material = cone->material;
-		if (intersects->intersection_count < MAX_INTERSECTS)
-			intersects->intersection_count++;
-		else
+		if (add_to_intersect(t[0], m->shapes[shape_index], intersects, CONE, cone, cone->material) == false)
 			return (true);
 	}
 	y[1] = ray->origin.y + t[1] * ray->direction.y;
 	if (y[1] > cone->minimum && y[1] < cone->maximum)
-	{
-		intersects->intersections[intersects->intersection_count].t = t[1];
-		intersects->intersections[intersects->intersection_count].shape = cone;
-		intersects->intersections[intersects->intersection_count].type = CONE;
-		intersects->intersections[intersects->intersection_count].material = cone->material;
-		if (intersects->intersection_count < MAX_INTERSECTS)
-			intersects->intersection_count++;
-	}
+		add_to_intersect(t[1], m->shapes[shape_index], intersects, CONE, cone, cone->material);
 	cone_end_hit(cone, ray, intersects);
 	return (true);
 }

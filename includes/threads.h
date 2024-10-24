@@ -1,18 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   frees.c                                            :+:      :+:    :+:   */
+/*   threads.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/11 20:03:24 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 18:09:52 by pipolint         ###   ########.fr       */
+/*   Created: 2024/10/24 19:31:22 by pipolint          #+#    #+#             */
+/*   Updated: 2024/10/24 21:38:04 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#ifndef THREADS_H
+# define THREADS_H
 
-void	free_shapes(t_minirt *minirt)
+# include <pthread.h>
+# include "structs.h"
+
+typedef struct	s_thread
 {
-	(void)minirt;
-}
+	t_minirt		*minirt;
+	t_camera		*camera;
+	t_mlx			*mlx;
+	int				id;
+	int				start_x;
+	int				end_x;
+	int				start_y;
+	int				end_y;
+}	t_thread;
+
+# define THREAD_NUM 12
+
+int	threaded_render(t_mlx *mlx, t_minirt *minirt, t_camera *camera);
+
+#endif

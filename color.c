@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 17:33:51 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 18:07:58 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,15 @@ void	set_min_max(t_tuple *color)
 		color->b = 1;
 }
 
-t_color	return_color(double red, double green, double blue, double alpha)
-{
-	t_color	ret_color;
+//t_color	return_color(double red, double green, double blue)
+//{
+//	t_color	ret_color;
 
-	ret_color.colors.r = red;
-	ret_color.colors.g = green;
-	ret_color.colors.b  = blue;
-	ret_color.colors.a = alpha;
-	return (ret_color);
-}
+//	ret_color.colors.r = red;
+//	ret_color.colors.g = green;
+//	ret_color.colors.b  = blue;
+//	return (ret_color);
+//}
 
 uint32_t	get_ray_color(t_color	*color)
 {
@@ -73,13 +72,13 @@ uint32_t	get_ray_coloraarij(t_tuple	*color)
 	return (res);
 }
 
-t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_index)
+static inline t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_index)
 {
 	t_intersection	*hit;
-	t_intersects	*intersect;
+	t_intersects	intersect;
 	t_tuple			direction;
 	t_tuple			new_point;
-	t_ray			*ray;
+	t_ray			ray;
 	double			distance;
 	
 	ft_bzero(&new_point, sizeof(t_tuple));
@@ -87,19 +86,11 @@ t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_index)
 	direction = return_tuple(new_point.x, new_point.y, new_point.z, VECTOR);
 	normalize(&direction);
 	distance = magnitude(&direction);
-	ray = create_ray(point, direction);
-	intersect = intersect_enivornment(minirt, ray);
-	hit = best_hit(intersect);
-	//printf("hit: %f\n", hit->t);
+	ray = create_ray_static(point, direction);
+	intersect = intersect_enivornment(minirt, &ray);
+	hit = best_hit(&intersect);
 	if (hit && hit->t < distance)
-	{
-		free(intersect);
-		free(ray);
-		//free(hit);
 		return (true);
-	}
-	free(intersect);
-	free(ray);
 	return (false);
 }
 
@@ -124,15 +115,31 @@ t_tuple	shade(t_minirt *minirt, t_inter_comp *intersect_comp)
 t_tuple	color_at(t_minirt *minirt, t_ray *ray)
 {
 	t_intersection	*hit;
-	t_intersects	*intersections;
-	t_inter_comp	*computations;
+	t_intersects	intersections;
+	t_inter_comp	computations;
 	t_tuple			final_color;
 
 	intersections = intersect_enivornment(minirt, ray);
-	hit = best_hit(intersections);
+	hit = best_hit(&intersections);
 	if (hit == NULL)
 		return (return_tuple(0, 0, 0, COLOR));
-	computations = precompute_intersect(intersections, hit, ray);
-	final_color = shade(minirt, computations);
+	computations = precompute_intersect(&intersections, hit, ray);
+	final_color = shade(minirt, &computations);
 	return (final_color);
 }
+
+//t_tuple	color_at_temp(t_minirt *minirt, t_ray *ray)
+//{
+//	t_intersection	*hit;
+//	t_intersects	*intersections;
+//	t_inter_comp	*computations;
+//	t_tuple			final_color;
+
+//	intersections = intersect_enivornment(minirt, ray);
+//	hit = best_hit(intersections);
+//	if (hit == NULL)
+//		return (return_tuple(0, 0, 0, COLOR));
+//	computations = precompute_intersect(intersections, hit, ray);
+//	final_color = shade(minirt, computations);
+//	return (final_color);
+//}

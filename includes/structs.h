@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 18:09:03 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ typedef struct s_ray
 
 typedef struct	s_mater
 {
-	t_color	color;
+	t_tuple	color;
 	double	ambient;
 	double	specular;
 	double	diffuse;
@@ -284,10 +284,8 @@ typedef struct s_minirt
 {
 	t_mlx		*mlx;
 	t_camera	*cam;
-	t_sphere	**spheres;
 	t_shape		**shapes;
 	t_light		**lights;
-	t_plane		*plane;
 	t_tuple		from;
 	t_tuple		to;
 	t_tuple		up;

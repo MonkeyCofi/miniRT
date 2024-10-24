@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:02:04 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 17:37:04 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:48:48 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,39 @@ void	set_point_points(t_tuple *v, double x, double y, double z)
 	v->y = y;
 	v->z = z;
 	v->w = 1;
+}
+
+t_tuple	return_point(double x, double y, double z)
+{
+	t_tuple	ret;
+
+	ret.x = x;
+	ret.y = y;
+	ret.z = z;
+	ret.w = POINT;
+	return (ret);
+}
+
+t_tuple	return_vector(double x, double y, double z)
+{
+	t_tuple	ret;
+
+	ret.x = x;
+	ret.y = y;
+	ret.z = z;
+	ret.w = VECTOR;
+	return (ret);
+}
+
+t_tuple	return_color(double r, double g, double b)
+{
+	t_tuple	ret;
+
+	ret.r = r;
+	ret.g = g;
+	ret.b = b;
+	ret.w = COLOR;
+	return (ret);
 }
 
 t_tuple	return_tuple(double x, double y, double z, double w)
@@ -60,11 +93,11 @@ t_ray	create_ray_static(t_tuple origin, t_tuple direction)
 	ray.origin.x = origin.x;
 	ray.origin.y = origin.y;
 	ray.origin.z = origin.z;
-	ray.origin.w = origin.w;
+	ray.origin.w = POINT;
 	ray.direction.x = direction.x;
 	ray.direction.y = direction.y;
 	ray.direction.z = direction.z;
-	ray.direction.w = direction.w;
+	ray.direction.w = VECTOR;
 	return (ray);
 }
 

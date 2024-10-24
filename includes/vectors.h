@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 15:27:59 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 17:37:13 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:49:22 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,9 @@ t_bool	is_point(t_tuple *vec);
 t_bool	is_vector(t_tuple *vec);
 t_bool	is_equal(double n1, double n2);
 void	print_tuple_points(t_tuple *vec);
+
+t_tuple	return_point(double x, double y, double z);
+t_tuple	return_vector(double x, double y, double z);
+t_tuple	return_color(double r, double g, double b);
 
 #endif

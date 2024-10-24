@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 15:22:53 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 18:02:58 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_v
 	double	light_dot;
 	double	eye_dot;
 
-	final_color = multiply_tuples(&light->intensity.colors, &material->color.colors, COLOR);
+	final_color = multiply_tuples(&light->intensity.colors, &material->color, COLOR);
 	light_vector = subtract_tuples(&point, &light->position);
 	normalize(&light_vector);
 	ambient = return_scalar(&final_color, material->ambient);
