@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:40:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 21:49:07 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/25 14:15:39 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,9 @@ t_bool	intersect_plane(t_minirt *m, t_intersects *intersects, t_ray *ray, int sh
 	return (true);
 }
 
-t_tuple	*normal_pos_plane(t_shape *object, t_tuple point)
+t_tuple	normal_pos_plane(t_shape *object, t_tuple point)
 {
-	t_tuple	*plane_normal;
-
-	plane_normal = ft_calloc(1, sizeof(t_tuple));
-	plane_normal->x = 0;
-	plane_normal->y = 1;
-	plane_normal->z = 0;
-	plane_normal->w = 0;
 	(void)object;
 	(void)point;
-	return (plane_normal);
+	return (return_vector(0, 1, 0));
 }

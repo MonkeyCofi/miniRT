@@ -6,11 +6,16 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 18:19:04 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:30:42 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+//void	quick_sort_intersects(t_intersects *intersects)
+//{
+
+//}
 
 void	sort_intersects(t_intersects *intersects)
 {
@@ -59,7 +64,6 @@ t_intersection	*best_hit(t_intersects *intersects)
 		if (intersects->intersections[i].t < 0)
 			continue ;
 		res = &intersects->intersections[i];
-		intersects->last_intersection = i;
 		break ;
 	}
 	if (i == count && res == 0)
@@ -72,7 +76,7 @@ t_inter_comp	precompute_intersect(t_intersects *inter, t_intersection *intersect
 	t_inter_comp	new;
 	t_tuple			point_adjusted;
 
-	ft_bzero(&new, sizeof(t_inter_comp));
+	//ft_bzero(&new, sizeof(t_inter_comp));
 	new.intersects = inter;
 	new.t = intersection->t;
 	new.obj = intersection->shape_ptr;
@@ -90,8 +94,7 @@ t_inter_comp	precompute_intersect(t_intersects *inter, t_intersection *intersect
 	}
 	else
 		new.is_inside_object = false;
-	point_adjusted = return_tuple(new.normal_vec.x * EPSILON, new.normal_vec.y * EPSILON, new.normal_vec.z * EPSILON, POINT);
-	point_adjusted.w = POINT;
+	point_adjusted = return_point(new.normal_vec.x * EPSILON, new.normal_vec.y * EPSILON, new.normal_vec.z * EPSILON);
 	new.point_adjusted = add_vectors(&new.point, &point_adjusted);
 	return (new);
 }
@@ -114,7 +117,7 @@ t_intersects	intersect_enivornment(t_minirt *minirt, t_ray *ray)
 	int				i;
 
 	i = -1;
-	ft_bzero(&inter, sizeof(t_intersects));
+	inter.intersection_count = 0;
 	while (++i < minirt->object_count)
 	{
 		real_ray = create_ray_static(tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->direction));

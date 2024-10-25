@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 18:07:58 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:48:09 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static inline t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_ind
 	t_ray			ray;
 	double			distance;
 	
-	ft_bzero(&new_point, sizeof(t_tuple));
+	new_point = (t_tuple){0};
 	new_point = subtract_tuples(&point, &minirt->lights[light_index]->position);
 	direction = return_tuple(new_point.x, new_point.y, new_point.z, VECTOR);
 	normalize(&direction);
@@ -102,11 +102,12 @@ t_tuple	shade(t_minirt *minirt, t_inter_comp *intersect_comp)
 	int		i;
 
 	i = -1;
-	ft_bzero(&final_res, sizeof(t_tuple));
+	final_res = (t_tuple){0};
 	while (++i < minirt->light_count)
 	{
 		shadow = is_in_shadow(minirt, intersect_comp->point_adjusted, i);
 		res = lighting(intersect_comp->material, minirt->lights[i], intersect_comp->point_adjusted, intersect_comp->eye_vec, intersect_comp->normal_vec, shadow);
+		//res = lighting(intersect_comp->obj, minirt->lights[i], intersect_comp->point_adjusted, intersect_comp->eye_vec, intersect_comp->normal_vec, shadow);
 		final_res = add_vectors(&final_res, &res);
 	}
 	return (final_res);

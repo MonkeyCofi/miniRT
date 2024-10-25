@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 21:24:44 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:45:08 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@
 //#  define HEIGHT 1080
 //#  define WIDTH 1920
 #  define APPLE 1
-#  define HEIGHT 800
-#  define WIDTH 800
+#  define HEIGHT 900
+#  define WIDTH 900
 #  define W 13
 #  define A 0
 #  define S 1
@@ -124,6 +124,7 @@ int			parsing(char *str, t_minirt *minirt);
 
 //t_tuple		lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector);
 t_tuple		lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow);
+//t_tuple		lighting(t_shape *shape, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow);
 t_light		create_light(t_tuple intensity, t_tuple position);
 t_tuple		get_reflected_ray(t_tuple *from, t_tuple *normal);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/25 01:04:17 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/25 14:09:11 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ typedef struct s_shape
 	t_4dmat			*inverse_mat;
 	t_4dmat			*inverse_transpose;
 	t_mater			*material;
-	t_tuple			*(*normal)(struct s_shape *, t_tuple);
+	t_tuple			(*normal)(struct s_shape *, t_tuple);
 	t_bool			(*intersect)(t_minirt *, t_intersects *, t_ray *, int);
 }	t_shape;
 
@@ -295,8 +295,11 @@ typedef struct s_minirt
 
 typedef struct s_hook_params
 {
-	t_mlx *mlx;
-	t_minirt *m;
+	t_mlx 		*mlx;
+	t_minirt 	*m;
+	t_tuple		original_from;
+	t_tuple		original_to;
+	t_tuple		original_up;
 }	t_hook_params;
 
 #endif

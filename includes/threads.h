@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:31:22 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 21:38:04 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:33:32 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct	s_thread
 	int				end_y;
 }	t_thread;
 
-# define THREAD_NUM 12
+# define THREAD_NUM 16
 
 int	threaded_render(t_mlx *mlx, t_minirt *minirt, t_camera *camera);
 

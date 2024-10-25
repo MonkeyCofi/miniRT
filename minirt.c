@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/25 01:48:35 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/25 18:33:27 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,22 +69,32 @@ void	adjust_yaw(t_minirt *m, int i)
 {
 	float old_x;
 	float old_z;
+
 	if(i == 0)
 	{
 		old_x = m->to->x - m->from->x;
 		old_z = m->to->z - m->from->z;
 
-		m->to->x = old_x * cos(0.5) - old_z * sin(0.5) + m->from->x;
-		m->to->z = old_x * sin(0.5) + old_z * cos(0.5) + m->from->z;
+		m->to->x = old_x * cos(0.25) - old_z * sin(0.25) + m->from->x;
+		m->to->z = old_x * sin(0.25) + old_z * cos(0.25) + m->from->z;
 	}
 	if(i == 1)
 	{
 		old_x = m->to->x - m->from->x;
 		old_z = m->to->z - m->from->z;
-		m->to->x = old_x * cos(-0.5) - old_z * sin(-0.5) + m->from->x;
-		m->to->z = old_x * sin(-0.5) + old_z * cos(-0.5) + m->from->z;
+	
+		m->to->x = old_x * cos(-0.25) - old_z * sin(-0.25) + m->from->x;
+		m->to->z = old_x * sin(-0.25) + old_z * cos(-0.25) + m->from->z;
 	}
 }
+
+//void	adjust_pitch(t_minirt *m, int i)
+//{
+//	float	old_y;
+
+//	if (i == UP)
+		
+//}
 
 // i should make one for up down too (pitch) but im too tireddd :(
 
@@ -127,6 +137,16 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 		adjust_yaw(m, 1);
 		printf("RIGHT\n");
 	}
+	if (keycode == R)
+	{
+		m->from = return_tuple_pointer(hooks->original_from.x, hooks->original_from.y, hooks->original_from.z, hooks->original_from.w);
+		m->to = return_tuple_pointer(hooks->original_to.x, hooks->original_to.y, hooks->original_to.z, hooks->original_to.w);
+		m->up = return_tuple_pointer(hooks->original_up.x, hooks->original_up.y, hooks->original_up.z, hooks->original_up.w);
+	}
+	//if (keycode == UP)
+	//{
+	//	adjust_pitch()
+	//}
 	if (keycode == ESC)
 		closert(hooks->m);
 	m->cam->view_matrix = view_transform(m->to, m->from, m->up);
@@ -172,15 +192,19 @@ int main(void)
 	init_mlx(&mlx);
 	m = init_default(&mlx);
 	m->cam = return_camera_ptr(WIDTH, HEIGHT, PI / 3, NULL);
-	m->from = return_tuple_pointer(0, 1.5, -5, POINT);
-	m->to = return_tuple_pointer(0, 1, 0, POINT);
+	m->from = return_tuple_pointer(1, 0, -5, POINT);
+	m->to = return_tuple_pointer(0, 0.5, 0, POINT);
 	m->up = return_tuple_pointer(0, 1, 0, VECTOR);
 	m->cam->view_matrix = view_transform(m->to, m->from, m->up);
-	// render(&mlx, m->cam, m);
+	//render(&mlx, m->cam, m);
 	threaded_render(&mlx, m, m->cam);
 	(void)temp;
 	hooks->m = m;
 	hooks->mlx = &mlx;
+	hooks->original_from = return_point(m->from->x, m->from->y, m->from->z);
+	hooks->original_to = return_point(m->to->x, m->to->y, m->to->z);
+	hooks->original_up = return_vector(m->up->x, m->up->y, m->up->z);
+	
 	// I FUCKING COOKED HERE BRO WATCH THIS SHIT RIGHT HERE
 	mlx_hook(mlx.win, 2, 1L << 0, get_key_pressed, hooks);
 	mlx_hook(mlx.win, 17, 1L << 2, closert, m);

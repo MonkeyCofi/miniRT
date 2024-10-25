@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 18:02:58 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:46:09 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 	diffuse: take the dot product of the surface normal and the light vector
 	specular: take the dot product of the eye_vector and the light vector 
 	shine: */
+//t_tuple	lighting(t_shape *shape, t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow)
 t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow)
 {
 	t_tuple	final_color;
@@ -36,14 +37,9 @@ t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_v
 	light_vector = subtract_tuples(&point, &light->position);
 	normalize(&light_vector);
 	ambient = return_scalar(&final_color, material->ambient);
-	if (in_shadow)
-		return (ambient);
 	light_dot = dot_product(&normal_vector, &light_vector);
-	if (light_dot < 0)
-	{
-		diffuse = return_tuple(0, 0, 0, COLOR);
-		specular = return_tuple(0, 0, 0, COLOR);
-	}
+	if (in_shadow || light_dot < 0)
+		return (ambient);
 	else
 	{
 		diffuse = return_scalar(&final_color, material->diffuse * light_dot);

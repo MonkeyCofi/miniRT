@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:28:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/25 13:28:59 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	normalize(t_tuple *vector)
 {
 	double	magnitude;
 
-	magnitude = sqrt(((vector->x * vector->x) + (vector->y * vector->y) + \
+	magnitude =  sqrt(((vector->x * vector->x) + (vector->y * vector->y) + \
 		(vector->z * vector->z)));
 	if (magnitude != 0)
 	{
@@ -54,7 +54,7 @@ void	normalize(t_tuple *vector)
 		vector->y /= magnitude;
 		vector->z /= magnitude;
 	}
-		else
+	else
 	{
 		vector->x = 0;
 		vector->y = 0;
@@ -79,5 +79,5 @@ void	negate(t_tuple *to_negate)
 	to_negate->x = -(to_negate->x);
 	to_negate->y = -(to_negate->y);
 	to_negate->z = -(to_negate->z);
-	to_negate->w = -(to_negate->w);
+	//to_negate->w = -(to_negate->w);
 }

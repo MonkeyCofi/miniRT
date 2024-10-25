@@ -8,6 +8,7 @@
 		"vectors.h": "c",
 		"time.h": "c",
 		"init.h": "c",
-		"intersects.h": "c"
+		"intersects.h": "c",
+		"__locale": "c"
 	}
 }

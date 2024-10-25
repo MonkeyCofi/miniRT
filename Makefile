@@ -4,7 +4,7 @@ CC = cc
 
 INCLUDES = ./includes
 
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) -Ofast -O3
+CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) -Ofast #-flto
 #CFLAGS += -fsanitize=address -g3
 
 SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c \
@@ -36,12 +36,12 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	make -C $(MLXOS) -j2
 	make -C $(LIBFT_DIR) -j2
-	$(CC) $(OBJS) -fsanitize=address -g3 $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
-#	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+#	$(CC) $(OBJS) -fsanitize=address -g3 $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -g3 -c $< -o $@
-#	$(CC) $(CFLAGS) -c $< -o $@
+#	$(CC) $(CFLAGS) -g3 -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 run: re
 	./$(NAME)

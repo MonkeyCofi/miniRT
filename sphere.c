@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 18:01:48 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/25 14:10:04 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,15 @@ t_bool	sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, int shape_i
 	return (true);
 }
 
-t_tuple	*normal_sphere(t_shape *shape, t_tuple pos)
+t_tuple	normal_sphere(t_shape *shape, t_tuple pos)
 {
 	t_sphere	*sphere;
 	t_tuple		temp;
-	t_tuple		*normal;
+	t_tuple		normal;
 
 	sphere = shape->shape;
 	temp = subtract_tuples(&sphere->center, &pos);
-	normal = return_tuple_pointer(temp.x, temp.y, temp.z, temp.w);
+	normal = return_point(temp.x, temp.y, temp.z);
 	return (normal);
 }
 
