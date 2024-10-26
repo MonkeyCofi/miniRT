@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transformations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 22:58:03 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/26 17:45:19 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

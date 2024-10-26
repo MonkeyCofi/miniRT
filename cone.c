@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/25 16:05:45 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/26 20:26:53 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ t_tuple	normal_pos_cone(t_shape *shape, t_tuple pos)
 
 	cone = shape->shape;
 	distance = (pos.x * pos.x) + (pos.z * pos.z);
-	if (distance < 1 && pos.y >= cone->maximum - EPSILON)
+	if (distance < 1 && (pos.y > cone->maximum - EPSILON || is_equal(pos.y, cone->maximum - EPSILON)))
 		return (return_vector(0, 1, 0));
-	else if (distance < 1 && pos.y <= cone->minimum + EPSILON)
+	else if (distance < 1 && (pos.y < cone->minimum + EPSILON || is_equal(pos.y, cone->minimum + EPSILON)))
 		return (return_vector(0, -1, 0));
 	y = sqrt((pos.x * pos.x) + (pos.z * pos.z));
 	if (y > 0)
@@ -80,34 +80,23 @@ t_tuple	normal_pos_cone(t_shape *shape, t_tuple pos)
 	return (return_vector(pos.x, y, pos.z));
 }
 
-t_bool	cone_end_hit(t_cone *cone, t_ray *ray, t_intersects *intersects)
+t_bool	cone_end_hit(t_shape *shape_ptr, t_ray *ray, t_intersects *intersects)
 {
+	t_cone	*cone;
 	double	t;
 	
+	cone = shape_ptr->shape;
 	if (cone->is_closed == false || is_equal(ray->direction.y, 0))
 		return (false);
 	t = (cone->minimum - ray->origin.y) / ray->direction.y;
 	if (at_cap(ray, t, cone->minimum))
 	{
-		intersects->intersections[intersects->intersection_count].t = t;
-		intersects->intersections[intersects->intersection_count].shape = cone;
-		intersects->intersections[intersects->intersection_count].type = CONE;
-		intersects->intersections[intersects->intersection_count].material = cone->material;
-		if (intersects->intersection_count < MAX_INTERSECTS)
-			intersects->intersection_count++;
-		else
+		if (add_to_intersect(t, shape_ptr, intersects, CONE, cone) == false)
 			return (true);
 	}
 	t = (cone->maximum - ray->origin.y) / ray->direction.y;
 	if (at_cap(ray, t, cone->maximum))
-	{
-		intersects->intersections[intersects->intersection_count].t = t;
-		intersects->intersections[intersects->intersection_count].shape = cone;
-		intersects->intersections[intersects->intersection_count].type = CONE;
-		intersects->intersections[intersects->intersection_count].material = cone->material;
-		if (intersects->intersection_count < MAX_INTERSECTS)
-			intersects->intersection_count++;
-	}
+		add_to_intersect(t, shape_ptr, intersects, CONE, cone);
 	return (true);
 }
 
@@ -129,14 +118,16 @@ t_bool	intersect_cone(t_minirt *m, t_intersects *intersects, t_ray *ray, int sha
 	{
 		if (is_equal(b, 0))
 			return (false);
-		if (add_to_intersect(-c / (2 * b), m->shapes[shape_index], intersects, CONE, cone, cone->material) == false)
+		if (add_to_intersect(-c / (2 * b), m->shapes[shape_index], intersects, CONE, cone) == false)
 			return (true);
 	}
 	disc = (b * b) - 4 * a * c;
 	if (disc < 0)
 		return (false);
-	t[0] = (-b - sqrt(disc)) / (2 * a);
-	t[1] = (-b + sqrt(disc)) / (2 * a);
+	a *= 2;
+	b *= -1;
+	t[0] = (b - sqrt(disc)) / (a);
+	t[1] = (b + sqrt(disc)) / (a);
 	if (t[0] > t[1])
 	{
 		t[2] = t[0];
@@ -146,12 +137,12 @@ t_bool	intersect_cone(t_minirt *m, t_intersects *intersects, t_ray *ray, int sha
 	y[0] = ray->origin.y + t[0] * ray->direction.y;
 	if (y[0] > cone->minimum && y[0] < cone->maximum)
 	{
-		if (add_to_intersect(t[0], m->shapes[shape_index], intersects, CONE, cone, cone->material) == false)
+		if (add_to_intersect(t[0], m->shapes[shape_index], intersects, CONE, cone) == false)
 			return (true);
 	}
 	y[1] = ray->origin.y + t[1] * ray->direction.y;
 	if (y[1] > cone->minimum && y[1] < cone->maximum)
-		add_to_intersect(t[1], m->shapes[shape_index], intersects, CONE, cone, cone->material);
-	cone_end_hit(cone, ray, intersects);
+		add_to_intersect(t[1], m->shapes[shape_index], intersects, CONE, cone);
+	cone_end_hit(m->shapes[shape_index], ray, intersects);
 	return (true);
 }

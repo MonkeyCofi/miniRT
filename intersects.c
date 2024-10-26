@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/25 18:30:42 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/26 21:17:08 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,14 +144,14 @@ t_tuple	position(t_ray *ray, double t)
 	return (ret);
 }
 
-t_bool	add_to_intersect(double t, t_shape *shape_ptr, t_intersects *intersects, t_shape_type type, void *shape, t_mater *material)
+t_bool	add_to_intersect(double t, t_shape *shape_ptr, t_intersects *intersects, t_shape_type type, void *shape)
 {
 	if (intersects->intersection_count < MAX_INTERSECTS)
 	{
 		intersects->intersections[intersects->intersection_count].t = t;
 		intersects->intersections[intersects->intersection_count].type = type;
 		intersects->intersections[intersects->intersection_count].shape = shape;
-		intersects->intersections[intersects->intersection_count].material = material;
+		intersects->intersections[intersects->intersection_count].material = shape_ptr->material;
 		intersects->intersections[intersects->intersection_count].shape_ptr = shape_ptr;
 		if (intersects->intersection_count < MAX_INTERSECTS)
 			intersects->intersection_count++;

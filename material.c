@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   material.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:27:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 23:24:27 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/26 16:24:28 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_mater	*create_default_material()
 	return_material->specular = 0.9;
 	return_material->shine = 200;
 	return_material->color = return_color(1, 1, 1);
+	return_material->is_patterned = false;
 	return (return_material);
 }
 
@@ -39,5 +40,6 @@ t_mater	*create_material(t_tuple color, double diffuse, double ambient, double s
 	ret_mat->ambient = ambient;
 	ret_mat->specular = specular;
 	ret_mat->shine = shine;
+	ret_mat->is_patterned = false;
 	return (ret_mat);
 }

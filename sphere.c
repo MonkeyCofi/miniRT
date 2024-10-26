@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/25 14:10:04 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/26 16:55:41 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_sphere	*create_sphere(double originx, double originy, double originz, double r
 		ret->material = create_material(return_color(1, 1, 1), 0.9, 0.1, 0.9, 200);
 	return (ret);
 }
+
 t_bool	sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, int shape_index)
 {
 	double		vars[4];
@@ -45,9 +46,12 @@ t_bool	sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, int shape_i
 	vars[3] = (vars[1] * vars[1]) - (4 * vars[0] * vars[2]);
 	if (vars[3] < 0)
 		return (false);
-	if (add_to_intersect((-vars[1] - sqrt(vars[3])) / (2 * vars[0]), minirt->shapes[shape_index], inter, SPHERE, sphere, sphere->material) == false)
+	vars[0] *= 2;
+	vars[1] *= -1;
+	vars[3] = sqrt(vars[3]);
+	if (add_to_intersect((vars[1] - vars[3]) / (vars[0]), minirt->shapes[shape_index], inter, SPHERE, sphere) == false)
 		return (true);
-	if (add_to_intersect((-vars[1] + sqrt(vars[3])) / (2 * vars[0]), minirt->shapes[shape_index], inter, SPHERE, sphere, sphere->material) == false)
+	if (add_to_intersect((vars[1] + vars[3]) / (vars[0]), minirt->shapes[shape_index], inter, SPHERE, sphere) == false)
 		return (true);
 	(void)minirt;
 	return (true);

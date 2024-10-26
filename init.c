@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/25 18:49:07 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/26 21:23:16 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,16 @@ t_minirt	* init_default(t_mlx *mlx)
 	
 	minirt->lights[1] = ft_calloc(1, sizeof(t_light));
 	minirt->lights[1]->position = return_tuple(2, 0, 0, POINT);
-	minirt->lights[1]->intensity.colors = return_tuple(1, 0, 1, COLOR);
+	//minirt->lights[1]->intensity.colors = return_tuple(1, 0, 1, COLOR);
+	minirt->lights[1]->intensity.colors = return_tuple(0, 0.4, 0.4, COLOR);
 	
-	minirt->object_count = 7;
+	minirt->object_count = 10;
 	minirt->shapes = ft_calloc(minirt->object_count, sizeof(t_shape *));
 
-	t_plane *wall = create_plane();
-	minirt->shapes[0] = create_shape(PLANE, wall);
+	t_plane *back_wall = create_plane();
+	minirt->shapes[0] = create_shape(PLANE, back_wall);
+	minirt->shapes[0]->material->is_patterned = true;
+	minirt->shapes[0]->material->pattern = create_pattern(return_color(0, 0, 0), return_color(1, 1, 1), 1);
 	transform_shape(minirt, 0, translate, 0, return_tuple_pointer(0, 0, 2.5, POINT));
 	transform_shape(minirt, 0, rotate_x, DEG_RAD(90), NULL);
 	
@@ -74,37 +77,38 @@ t_minirt	* init_default(t_mlx *mlx)
 	transform_shape(minirt, 1, rotate_x, DEG_RAD(0), NULL);
 	
 	t_cone	*cone = create_cone();
-	cone->maximum = 0.5;
-	cone->minimum = -0.5;
+	cone->maximum = 1;
+	cone->minimum = -1;
+	cone->is_closed = true;
 	minirt->shapes[2] = create_shape(CONE, cone);
-	transform_shape(minirt, 2, rotate_x, -DEG_RAD(40), NULL);
-	transform_shape(minirt, 2, translate, 0, return_tuple_pointer(3, 0, 0, POINT));
+	minirt->shapes[2]->material->color = return_color(1, 0 ,0);
+	transform_shape(minirt, 2, translate, 0, return_tuple_pointer(6, 1, 0, POINT));
+	transform_shape(minirt, 2, rotate_x, -DEG_RAD(90), NULL);
 	
 	t_cylinder	*cylinder = create_cylinder(return_point(0, 0, 0));
-	cylinder->maximum = 1;
 	cylinder->minimum = -1;
-	//cylinder->is_closed = true;
+	cylinder->maximum = 2;
+	cylinder->is_closed = true;
 	minirt->shapes[3] = create_shape(CYLINDER, cylinder);
-	transform_shape(minirt, 3, rotate_x, -DEG_RAD(80), NULL);
+	minirt->shapes[3]->material->is_patterned = true;
+	minirt->shapes[3]->material->pattern = create_pattern(return_color(1, 0, 0), return_color(0, 1, 0), 2);
 	transform_shape(minirt, 3, translate, 0, return_tuple_pointer(-3, 0.5, 0, POINT));
-	
-	// t_cylinder *cylinder = create_cylinder(return_point(0, 0, 0));
-	// cylinder->material->color = return_tuple(0, 1, 0, COLOR);
-	// cylinder->minimum = 0;
-	// cylinder->maximum = 1;
-	// cylinder->is_closed = true;
-	// minirt->shapes[1] = create_shape(CYLINDER, cylinder);
-	// transform_shape(minirt, 1, translate, 0, return_tuple_pointer(0, 2, 0, POINT));
-	// transform_shape(minirt, 1, rotate_x, DEG_RAD(50), NULL);
-	// transform_shape(minirt, 1, rotate_y, DEG_RAD(30), NULL);
+	//transform_shape(minirt, 3, rotate_y, DEG_RAD(80), NULL);
+	transform_shape(minirt, 3, rotate_x, -DEG_RAD(80), NULL);
 	
 	t_sphere *sphere = create_sphere(0, 0, 0, 1, create_default_material());
 	minirt->shapes[4] = create_shape(SPHERE, sphere);
+	minirt->shapes[4]->material->is_patterned = true;
+	//minirt->shapes[4]->material->pattern = stripe(return_color(0.3, 1, 0.5), return_color(0, 1, 1), 5);
+	minirt->shapes[4]->material->pattern = create_pattern(return_color(0, 0, 0), return_color(1, 1, 1), 5);
 	transform_shape(minirt, 4, translate, 0, return_tuple_pointer(0, 0, 0.9, POINT));
 	
-	t_sphere *sphere_two = create_sphere(0, 0, 0, 0.5, create_default_material());
-	sphere_two->material->color = return_color(1, 0, 0);
-	minirt->shapes[5] = create_shape(SPHERE, sphere_two);
+	t_sphere *pill = create_sphere(0, 0, 0, 0.5, create_default_material());
+	pill->material->color = return_color(1, 0, 0);
+	minirt->shapes[5] = create_shape(SPHERE, pill);
+	minirt->shapes[5]->material->color = return_color(0, 1, 1);
+	minirt->shapes[5]->material->is_patterned = true;
+	minirt->shapes[5]->material->pattern = create_pattern(return_color(0, 1, 1), return_color(0, 0, 0), 1);
 	transform_shape(minirt, 5, translate, 0, return_tuple_pointer(3, 2, 0, POINT));
 	transform_shape(minirt, 5, scale, 0, return_tuple_pointer(1, 2, 1, POINT));
 
@@ -112,6 +116,23 @@ t_minirt	* init_default(t_mlx *mlx)
 	new_sphere->material->color = return_color(0.7, 0.5, 0.3);
 	minirt->shapes[6] = create_shape(SPHERE, new_sphere);
 	transform_shape(minirt, 6, translate, 0, return_tuple_pointer(0, 3, 0, POINT));
+	
+	t_plane	*left_wall = create_plane();
+	minirt->shapes[7] = create_shape(PLANE, left_wall);
+	minirt->shapes[7]->material->color = return_color(0.3, 0, 0);
+	transform_shape(minirt, 7, translate, 0, return_tuple_pointer(-10, 0, 0, POINT));
+	transform_shape(minirt, 7, rotate_z, DEG_RAD(90), NULL);
+
+	t_plane	*right_wall = create_plane();
+	minirt->shapes[8] = create_shape(PLANE, right_wall);
+	minirt->shapes[8]->material->color = return_color(0, 1, 0);
+	transform_shape(minirt, 8, translate, 0, return_tuple_pointer(10, 0, 0, POINT));
+	transform_shape(minirt, 8, rotate_z, DEG_RAD(90), NULL);
+
+	t_plane	*ceiling = create_plane();
+	minirt->shapes[9] = create_shape(PLANE, ceiling);
+	transform_shape(minirt, 9, translate, 0, return_tuple_pointer(0, 8, 0, POINT));
+	transform_shape(minirt, 9, rotate_x, DEG_RAD(0), NULL);
 
 	minirt->mlx = mlx;
 	(void)temp;

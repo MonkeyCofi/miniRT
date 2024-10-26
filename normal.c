@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 18:08:19 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/25 14:16:47 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/26 21:14:05 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ t_tuple	normal_at(t_shape *shape, t_tuple point)
 	local_normal = shape->normal(shape, point_obj_space);
 	world_normal = tuple_mult_fast(shape->inverse_transpose, &local_normal);
 	normalize(&world_normal);
-	world_normal.w = 0;
+	world_normal.w = VECTOR;
 	return (world_normal);
 }

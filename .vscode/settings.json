@@ -9,6 +9,8 @@
 		"time.h": "c",
 		"init.h": "c",
 		"intersects.h": "c",
-		"__locale": "c"
+		"__locale": "c",
+		"bitset": "c",
+		"locale": "c"
 	}
 }

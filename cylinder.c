@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/25 15:50:02 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/26 22:05:25 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ t_tuple	normal_pos_cylinder(t_shape *shape, t_tuple pos)
 
 	cylinder = shape->shape;
 	distance = (pos.x * pos.x) + (pos.z * pos.z);
-	if (distance < 1 && (pos.y > cylinder->maximum - EPSILON || is_equal(pos.y, cylinder->maximum - EPSILON)))
+	if (distance < 1 && (pos.y >= cylinder->maximum - EPSILON)) // || is_equal(pos.y, cylinder->maximum - EPSILON)))
 		return (return_vector(0, 1, 0));
-	else if (distance < 1 && (pos.y < cylinder->minimum + EPSILON || is_equal(pos.y, cylinder->minimum + EPSILON)))
+	else if (distance < 1 && (pos.y <= cylinder->minimum + EPSILON)) // || is_equal(pos.y, cylinder->minimum + EPSILON)))
 		return (return_vector(0, -1, 0));
 	return (return_vector(pos.x, 0, pos.z));
 }
@@ -50,11 +50,11 @@ static int	at_cap(t_ray *ray, double radius, double t)
 {
 	double	x;
 	double	z;
-
+	
 	x = ray->origin.x + t * ray->direction.x;
 	z = ray->origin.z + t * ray->direction.z;
 	(void)radius;
-	return (((x * x) + (z * z)) <= 1);
+	return ((x * x) + (z * z) <= 1);
 }
 
 static t_bool	cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, t_ray *ray, t_intersects *intersects)
@@ -68,12 +68,12 @@ static t_bool	cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, t_ray *
 		t = (cylinder->minimum - ray->origin.y) / ray->direction.y;
 		if (at_cap(ray, t, cylinder->radius))
 		{
-			if (add_to_intersect(t, shape_ptr, intersects, CYLINDER, cylinder, cylinder->material) == false)
+			if (add_to_intersect(t, shape_ptr, intersects, CYLINDER, cylinder) == false)
 				return (true);
 		}
 		t = (cylinder->maximum - ray->origin.y) / ray->direction.y;
 		if (at_cap(ray, t, cylinder->radius))
-			add_to_intersect(t, shape_ptr, intersects, CYLINDER, cylinder, cylinder->material);
+			add_to_intersect(t, shape_ptr, intersects, CYLINDER, cylinder);
 	}
 	return (true);
 }
@@ -91,35 +91,32 @@ t_bool	intersect_cylinder(t_minirt *m, t_intersects *intersects, t_ray *ray, int
 	cyl = m->shapes[shape_index]->shape;
 	a = (ray->direction.x * ray->direction.x) + (ray->direction.z * ray->direction.z);
 	if (a < EPSILON)
-	{
-		cylinder_end_hit(cyl, m->shapes[shape_index], ray, intersects);
-		return (false);
-	}
-	b = (2 * ray->origin.x * ray->direction.x) + (2 * ray->origin.z * ray->direction.z);
+		return (cylinder_end_hit(cyl, m->shapes[shape_index], ray, intersects));
+	b = 2 * ray->origin.x * ray->direction.x + 2 * ray->origin.z * ray->direction.z;
 	c = ray->origin.x * ray->origin.x + ray->origin.z * ray->origin.z - 1;
 	disc = (b * b) - (4 * a * c);
 	if (disc < 0)
 		return (false);
 	a *= 2;
-	b *= -1;
+	b = -b;
 	disc = sqrt(disc);
 	t[0] = (b - disc) / (a);
 	t[1] = (b + disc) / (a);
-	if (t[0] > t[1])
-	{
-		t[2] = t[0];
-		t[0] = t[1];
-		t[1] = t[2];
-	}
+	//if (t[0] > t[1])
+	//{
+	//	t[2] = t[0];
+	//	t[0] = t[1];
+	//	t[1] = t[2];
+	//}
 	tt[0] = ray->origin.y + t[0] * ray->direction.y;
 	if (cyl->minimum < tt[0] && tt[0] < cyl->maximum)
 	{
-		if (add_to_intersect(t[0], m->shapes[shape_index], intersects, CYLINDER, cyl, cyl->material) == false)
+		if (add_to_intersect(t[0], m->shapes[shape_index], intersects, CYLINDER, cyl) == false)
 			return (true);
 	}
 	tt[1] = ray->origin.y + t[1] * ray->direction.y;
 	if (cyl->minimum < tt[1] && tt[1] < cyl->maximum)
-		add_to_intersect(t[1], m->shapes[shape_index], intersects, CYLINDER, cyl, cyl->material);
+		add_to_intersect(t[1], m->shapes[shape_index], intersects, CYLINDER, cyl);
 	cylinder_end_hit(cyl, m->shapes[shape_index], ray, intersects);
 	return (true);
 }

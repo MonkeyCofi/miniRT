@@ -4,14 +4,14 @@ CC = cc
 
 INCLUDES = ./includes
 
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) -Ofast #-flto
+CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) -Ofast -flto
 #CFLAGS += -fsanitize=address -g3
 
 SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c \
 		vector_utils.c utils.c init.c tuple_utils.c matrix_utils.c \
 		matrix_cmp.c matrix_ops.c transformations.c intersects.c light.c \
 		sphere.c frees.c material.c cylinder.c cone.c shapes.c plane.c \
-		normal.c render.c threads.c \
+		normal.c render.c threads.c pattern.c \
 		# parsing.c
 
 OBJS = $(SRCS:.c=.o)

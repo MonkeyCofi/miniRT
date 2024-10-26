@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/25 18:45:08 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/26 20:38:12 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include "shapes.h"
 # include "render.h"
 # include "threads.h"
+# include "pattern.h"
 
 
 # include <math.h>
@@ -35,7 +36,7 @@
 # include <fcntl.h>
 
 # define PI 3.1415926535897932385
-# define EPSILON 0.001f
+# define EPSILON 0.00001f
 # define DEG_RAD(x) x * (PI / 180) 
 //# define MAX_INTERSECTS 200
 
@@ -44,8 +45,8 @@
 //#  define HEIGHT 1080
 //#  define WIDTH 1920
 #  define APPLE 1
-#  define HEIGHT 900
-#  define WIDTH 900
+#  define HEIGHT 800
+#  define WIDTH 1000
 #  define W 13
 #  define A 0
 #  define S 1
@@ -103,7 +104,7 @@
 
 typedef struct s_cameraparse
 {
-	t_tuple	campos;
+	t_tuple		campos;
 	int			fov;
 	int			flag;
 	t_tuple	vec;
@@ -123,7 +124,7 @@ int			parse_camera(t_minirt *minirt, char *string);
 int			parsing(char *str, t_minirt *minirt);
 
 //t_tuple		lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector);
-t_tuple		lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow);
+t_tuple		lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow);
 //t_tuple		lighting(t_shape *shape, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow);
 t_light		create_light(t_tuple intensity, t_tuple position);
 t_tuple		get_reflected_ray(t_tuple *from, t_tuple *normal);

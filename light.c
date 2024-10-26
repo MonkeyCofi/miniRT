@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/25 18:46:09 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/26 20:39:56 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 	specular: take the dot product of the eye_vector and the light vector 
 	shine: */
 //t_tuple	lighting(t_shape *shape, t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow)
-t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow)
+t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow)
 {
 	t_tuple	final_color;
 	t_tuple	light_vector;
@@ -30,10 +30,24 @@ t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_v
 	t_tuple	specular;
 	t_tuple	diffuse;
 	t_tuple	reflect_vector;
+	t_tuple	color;
+	t_mater	*material;
 	double	light_dot;
 	double	eye_dot;
 
-	final_color = multiply_tuples(&light->intensity.colors, &material->color, COLOR);
+	material = intersection->material;
+	if (material->is_patterned == true)
+	{
+		//color = pattern_at_point(material->pattern, point);
+		if (intersection->type == SPHERE)
+			color = checkerboard_sphere(material->pattern, intersection);
+		else
+			color = checkerboard(material->pattern, point);
+	}
+	else
+		color = material->color;
+	//final_color = multiply_tuples(&light->intensity.colors, &material->color, COLOR);
+	final_color = multiply_tuples(&light->intensity.colors, &color, COLOR);
 	light_vector = subtract_tuples(&point, &light->position);
 	normalize(&light_vector);
 	ambient = return_scalar(&final_color, material->ambient);
@@ -54,7 +68,7 @@ t_tuple	lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_v
 			specular = return_scalar(&light->intensity.colors, material->specular * fac);
 		}
 	}
-	return (return_tuple(diffuse.x + specular.x + ambient.x, diffuse.y + specular.y + ambient.y, diffuse.z + specular.z + ambient.z, COLOR));
+	return (return_color(diffuse.x + specular.x + ambient.x, diffuse.y + specular.y + ambient.y, diffuse.z + specular.z + ambient.z));
 }
 
 t_light	create_light(t_tuple intensity, t_tuple position)

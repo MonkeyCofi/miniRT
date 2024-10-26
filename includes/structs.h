@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/25 14:09:11 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/26 16:19:21 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,26 +145,38 @@ typedef struct s_ray
 	t_tuple	direction;
 }	t_ray;
 
+typedef struct	s_pattern
+{
+	t_tuple	color_one;
+	t_tuple	color_two;
+	int		pattern_scale;
+}	t_pattern;
+
 typedef struct	s_mater
 {
-	t_tuple	color;
-	double	ambient;
-	double	specular;
-	double	diffuse;
-	double	shine;
+	t_tuple		color;
+	t_pattern	pattern;
+	double		ambient;
+	double		specular;
+	double		diffuse;
+	double		shine;
+	t_bool		is_patterned;
 }	t_mater;
+
 
 typedef struct s_shape
 {
 	t_shape_type	type;
-	void			*shape;
-	t_ray			*inverse_ray;
+	t_pattern		pattern;
 	t_4dmat			transform;
 	t_4dmat			*inverse_mat;
 	t_4dmat			*inverse_transpose;
 	t_mater			*material;
+	t_bool			patterned;
+	//t_ray			*inverse_ray;
 	t_tuple			(*normal)(struct s_shape *, t_tuple);
 	t_bool			(*intersect)(t_minirt *, t_intersects *, t_ray *, int);
+	void			*shape;
 }	t_shape;
 
 typedef struct s_intersection

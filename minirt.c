@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/25 18:33:27 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/26 13:22:02 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ int	closert(t_minirt *m)
 
 void	adjust_yaw(t_minirt *m, int i)
 {
-	float old_x;
-	float old_z;
+	double	old_x;
+	double	old_z;
 
-	if(i == 0)
+	if (i == LEFT)
 	{
 		old_x = m->to->x - m->from->x;
 		old_z = m->to->z - m->from->z;
@@ -78,7 +78,7 @@ void	adjust_yaw(t_minirt *m, int i)
 		m->to->x = old_x * cos(0.25) - old_z * sin(0.25) + m->from->x;
 		m->to->z = old_x * sin(0.25) + old_z * cos(0.25) + m->from->z;
 	}
-	if(i == 1)
+	if (i == RIGHT)
 	{
 		old_x = m->to->x - m->from->x;
 		old_z = m->to->z - m->from->z;
@@ -88,13 +88,16 @@ void	adjust_yaw(t_minirt *m, int i)
 	}
 }
 
-//void	adjust_pitch(t_minirt *m, int i)
-//{
-//	float	old_y;
+void	adjust_pitch(t_minirt *m, int i)
+{
+	t_4dmat	movement_matrix;
 
-//	if (i == UP)
-		
-//}
+	if (i == UP)
+	{
+		movement_matrix = x_rotation_mat(DEG_RAD(10));
+		m->to = tuple_mult(&movement_matrix, m->from);
+	}		
+}
 
 // i should make one for up down too (pitch) but im too tireddd :(
 
@@ -129,57 +132,28 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 	// found out rotations bymistake lmaoô
 	if (keycode == LEFT)
 	{
-		adjust_yaw(m, 0);
+		adjust_yaw(m, LEFT);
 		printf("LEFT\n");
 	}
 	if (keycode == RIGHT)
 	{
-		adjust_yaw(m, 1);
+		adjust_yaw(m, RIGHT);
 		printf("RIGHT\n");
 	}
+	if (keycode == UP)
+		adjust_pitch(m, UP);
 	if (keycode == R)
 	{
 		m->from = return_tuple_pointer(hooks->original_from.x, hooks->original_from.y, hooks->original_from.z, hooks->original_from.w);
 		m->to = return_tuple_pointer(hooks->original_to.x, hooks->original_to.y, hooks->original_to.z, hooks->original_to.w);
 		m->up = return_tuple_pointer(hooks->original_up.x, hooks->original_up.y, hooks->original_up.z, hooks->original_up.w);
 	}
-	//if (keycode == UP)
-	//{
-	//	adjust_pitch()
-	//}
 	if (keycode == ESC)
 		closert(hooks->m);
 	m->cam->view_matrix = view_transform(m->to, m->from, m->up);
 	threaded_render(hooks->mlx, m, hooks->m->cam);
 	return (0);
 }
-
-//int main(void)
-//{
-//	t_mlx		mlx;
-//	t_minirt 	*m;
-//	t_4dmat		temp;
-
-//	init_mlx(&mlx);
-//	m = init_default(&mlx);
-//	//mlx_hook(mlx.win, 2, 0, get_key_pressed, m);
-//	m->cam = return_camera_ptr(WIDTH, HEIGHT, DEG_RAD(60), NULL);
-//	m->from = return_tuple(0, 0, -2, POINT);
-//	//from = return_tuple(1, 0, 2, POINT);
-//	m->to = return_tuple(0, 0, 0, POINT);
-//	m->up = return_tuple(0, 1, 0, VECTOR);
-//	m->cam->view_matrix = view_transform(&m->to, &m->from, &m->up);
-//	//camera.view_matrix = view_transform(&m->to, &m->from, &m->up);
-//	//temp = translation_mat(0, 0, -1);
-//	//camera.view_matrix = mat4d_mult_fast(&temp, camera.view_matrix);
-//	//temp = y_rotation_mat(DEG_RAD(10));
-//	//camera.view_matrix = mat4d_mult_fast(&temp, camera.view_matrix);
-//	//mlx_loop_hook(&mlx.mlx, render, m);
-//	render(&mlx, m->cam, m);
-//	(void)temp;
-//	mlx_loop(&mlx.mlx);
-//}
-
 
 int main(void)
 {
@@ -192,8 +166,8 @@ int main(void)
 	init_mlx(&mlx);
 	m = init_default(&mlx);
 	m->cam = return_camera_ptr(WIDTH, HEIGHT, PI / 3, NULL);
-	m->from = return_tuple_pointer(1, 0, -5, POINT);
-	m->to = return_tuple_pointer(0, 0.5, 0, POINT);
+	m->from = return_tuple_pointer(0, 0.8, -20, POINT);
+	m->to = return_tuple_pointer(0, 0, 0, POINT);
 	m->up = return_tuple_pointer(0, 1, 0, VECTOR);
 	m->cam->view_matrix = view_transform(m->to, m->from, m->up);
 	//render(&mlx, m->cam, m);
