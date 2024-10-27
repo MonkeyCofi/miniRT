@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/26 13:22:02 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:58:21 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,132 +27,6 @@ void	print_4d_points(double points[4][4])
 			printf("%.3f ", points[i][j]);
 		printf("\n");
 	}
-}
-
-// int		get_key_pressed(int keycode, t_hook_params hooks)
-// {
-// 	t_minirt *m = hooks.m;
-// 	m->cam->view_matrix = hooks.m->cam->view_matrix;
-// 	t_mlx *mlx = hooks.mlx;
-// 	//if (keycode == PLUS)
-// 	//	transform_sphere(sphere, scale, return_tuple(1, 2, 1, POINT));
-// 	if (keycode == W)
-// 	{
-// 		printf("W pressed. m: %p, m->cam: %p\n", m, m->cam);
-// 		print_4dmatrix(m->cam->view_matrix);
-// 		// m->from = return_tuple(m->from.x, m->from.y + 2, m->from.z, POINT);	
-// 		m->cam->view_matrix = view_transform(&m->to, &m->from, &m->up);
-// 		render(mlx, m->cam, m);
-// 	}
-// 	else if (keycode == ESC)
-// 		exit(1);
-// 	(void)mlx;
-// 	(void)m;
-// 	return (0);
-// }
-
-int	closert(t_minirt *m)
-{
-	// int i;
-	// if(m->cam)
-		// free cam func
-	// if (m->lights)
-	// 	free lights func
-	// if (m->shapes)
-		// free shapes func
-	// ill do these once we merge the parsing tree cuz theres some more things to do :)
-	(void)m;
-	exit(0);
-}
-
-void	adjust_yaw(t_minirt *m, int i)
-{
-	double	old_x;
-	double	old_z;
-
-	if (i == LEFT)
-	{
-		old_x = m->to->x - m->from->x;
-		old_z = m->to->z - m->from->z;
-
-		m->to->x = old_x * cos(0.25) - old_z * sin(0.25) + m->from->x;
-		m->to->z = old_x * sin(0.25) + old_z * cos(0.25) + m->from->z;
-	}
-	if (i == RIGHT)
-	{
-		old_x = m->to->x - m->from->x;
-		old_z = m->to->z - m->from->z;
-	
-		m->to->x = old_x * cos(-0.25) - old_z * sin(-0.25) + m->from->x;
-		m->to->z = old_x * sin(-0.25) + old_z * cos(-0.25) + m->from->z;
-	}
-}
-
-void	adjust_pitch(t_minirt *m, int i)
-{
-	t_4dmat	movement_matrix;
-
-	if (i == UP)
-	{
-		movement_matrix = x_rotation_mat(DEG_RAD(10));
-		m->to = tuple_mult(&movement_matrix, m->from);
-	}		
-}
-
-// i should make one for up down too (pitch) but im too tireddd :(
-
-int get_key_pressed(int keycode, t_hook_params *hooks)
-{
-	// I FUCKING COOKED HOLY SHIT IM SO CRAAACKKEEDDDD
-	t_minirt *m = hooks->m; 
-	if (keycode == W) 
-	{
-		m->from->z += 0.5;
-		m->to->z += 0.5;
-		printf("W\n");
-	}
-	if (keycode == S)
-	{
-		m->from->z -= 0.5;
-		m->to->z -= 0.5;
-		printf("S\n");
-	}
-	if (keycode == A)
-	{
-		m->from->x -= 0.5;
-		m->to->x -= 0.5;
-		printf("A\n");
-	}
-	if (keycode == D)
-	{
-		m->from->x += 0.5;
-		m->to->x += 0.5;
-		printf("D\n");
-	}
-	// found out rotations bymistake lmaoô
-	if (keycode == LEFT)
-	{
-		adjust_yaw(m, LEFT);
-		printf("LEFT\n");
-	}
-	if (keycode == RIGHT)
-	{
-		adjust_yaw(m, RIGHT);
-		printf("RIGHT\n");
-	}
-	if (keycode == UP)
-		adjust_pitch(m, UP);
-	if (keycode == R)
-	{
-		m->from = return_tuple_pointer(hooks->original_from.x, hooks->original_from.y, hooks->original_from.z, hooks->original_from.w);
-		m->to = return_tuple_pointer(hooks->original_to.x, hooks->original_to.y, hooks->original_to.z, hooks->original_to.w);
-		m->up = return_tuple_pointer(hooks->original_up.x, hooks->original_up.y, hooks->original_up.z, hooks->original_up.w);
-	}
-	if (keycode == ESC)
-		closert(hooks->m);
-	m->cam->view_matrix = view_transform(m->to, m->from, m->up);
-	threaded_render(hooks->mlx, m, hooks->m->cam);
-	return (0);
 }
 
 int main(void)

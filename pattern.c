@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pattern.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:35:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/26 18:05:31 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/27 22:44:25 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,16 @@ t_tuple	checkerboard_sphere(t_pattern pattern, t_inter_comp *intersection)
 	t_tuple	point;
 	double	u;
 	double	v;
+	int		u_scaled;
+	int		v_scaled;
 
 	point = tuple_mult_fast(intersection->obj->inverse_mat, &intersection->point);
 	u = 0.5 + (atan2(point.z, point.x) / (2 * PI));
-	v = 0.5 - (asin(point.y) * PI);
-	if ((int)(floor(u * pattern.pattern_scale) + floor(v * pattern.pattern_scale)) % 2 == 0)
+	// v = 0.5 - (asin(point.y) * PI);
+	v = 0.5 - (asin(point.y) + M_PI_2) / M_PI;
+	u_scaled = floor(u * pattern.pattern_scale);
+	v_scaled = floor(v * pattern.pattern_scale);
+	if ((u_scaled + v_scaled) % 2 == 0)
 	{
 		return (pattern.color_one);
 	}

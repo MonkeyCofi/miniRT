@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/26 21:23:16 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/27 22:47:14 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_minirt	* init_default(t_mlx *mlx)
 	minirt = ft_calloc(1, sizeof(t_minirt));
 	if (!minirt)
 		return (NULL);
-	minirt->light_count = 2;
+	minirt->light_count = 3;
 	minirt->lights = ft_calloc(minirt->light_count, sizeof(t_light *));
 	if (!minirt->lights)
 	{
@@ -60,6 +60,10 @@ t_minirt	* init_default(t_mlx *mlx)
 	minirt->lights[1]->position = return_tuple(2, 0, 0, POINT);
 	//minirt->lights[1]->intensity.colors = return_tuple(1, 0, 1, COLOR);
 	minirt->lights[1]->intensity.colors = return_tuple(0, 0.4, 0.4, COLOR);
+
+	minirt->lights[2] = ft_calloc(1, sizeof(t_light));
+	minirt->lights[2]->position = return_tuple(-6, 0.5, 0, POINT);
+	minirt->lights[2]->intensity.colors = return_tuple(1, 1, 1, COLOR);
 	
 	minirt->object_count = 10;
 	minirt->shapes = ft_calloc(minirt->object_count, sizeof(t_shape *));
@@ -88,19 +92,19 @@ t_minirt	* init_default(t_mlx *mlx)
 	t_cylinder	*cylinder = create_cylinder(return_point(0, 0, 0));
 	cylinder->minimum = -1;
 	cylinder->maximum = 2;
-	cylinder->is_closed = true;
+	cylinder->is_closed = 1;
 	minirt->shapes[3] = create_shape(CYLINDER, cylinder);
 	minirt->shapes[3]->material->is_patterned = true;
 	minirt->shapes[3]->material->pattern = create_pattern(return_color(1, 0, 0), return_color(0, 1, 0), 2);
 	transform_shape(minirt, 3, translate, 0, return_tuple_pointer(-3, 0.5, 0, POINT));
-	//transform_shape(minirt, 3, rotate_y, DEG_RAD(80), NULL);
+	transform_shape(minirt, 3, rotate_y, DEG_RAD(80), NULL);
 	transform_shape(minirt, 3, rotate_x, -DEG_RAD(80), NULL);
 	
 	t_sphere *sphere = create_sphere(0, 0, 0, 1, create_default_material());
 	minirt->shapes[4] = create_shape(SPHERE, sphere);
 	minirt->shapes[4]->material->is_patterned = true;
 	//minirt->shapes[4]->material->pattern = stripe(return_color(0.3, 1, 0.5), return_color(0, 1, 1), 5);
-	minirt->shapes[4]->material->pattern = create_pattern(return_color(0, 0, 0), return_color(1, 1, 1), 5);
+	minirt->shapes[4]->material->pattern = create_pattern(return_color(0, 0, 0), return_color(1, 1, 1), 10);
 	transform_shape(minirt, 4, translate, 0, return_tuple_pointer(0, 0, 0.9, POINT));
 	
 	t_sphere *pill = create_sphere(0, 0, 0, 0.5, create_default_material());

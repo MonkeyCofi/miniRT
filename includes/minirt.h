@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/26 20:38:12 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/27 23:18:12 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,10 @@ t_tuple		get_reflected_ray(t_tuple *from, t_tuple *normal);
 //int			get_key_pressed(int keycode, t_mlx *mlx, int scale);
 void		draw_pixel(t_mlx *mlx, int x, int y, int color);
 t_mater		*create_default_material();
+
+int			closert(t_minirt *m);
+void		adjust_yaw(t_minirt *m, int i);
+void		adjust_pitch(t_minirt *m, int i);
+int			get_key_pressed(int keycode, t_hook_params *hooks);
 
 #endif
