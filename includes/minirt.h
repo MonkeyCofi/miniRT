@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/27 23:18:12 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/28 10:39:24 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,5 +137,7 @@ int			closert(t_minirt *m);
 void		adjust_yaw(t_minirt *m, int i);
 void		adjust_pitch(t_minirt *m, int i);
 int			get_key_pressed(int keycode, t_hook_params *hooks);
+t_tuple checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection);
+t_tuple checkerboard_cap(t_pattern pattern, t_tuple point);
 
 #endif

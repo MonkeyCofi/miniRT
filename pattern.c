@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:35:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/27 22:44:25 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/28 10:15:54 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,40 @@ t_tuple	checkerboard_sphere(t_pattern pattern, t_inter_comp *intersection)
 	u_scaled = floor(u * pattern.pattern_scale);
 	v_scaled = floor(v * pattern.pattern_scale);
 	if ((u_scaled + v_scaled) % 2 == 0)
-	{
 		return (pattern.color_one);
-	}
 	return (pattern.color_two);
+}
+t_tuple checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection)
+{
+    t_tuple point;
+    double u;
+	double v;
+    int u_scaled;
+	int v_scaled;
+    
+    point = tuple_mult_fast(intersection->obj->inverse_mat, &intersection->point);
+    u = 0.5 + (atan2(point.z, point.x) / (2 * PI)); //basedon angle aroud cylinder
+
+	// v based off height, the normalized
+    double min_y = ((t_cylinder *)(intersection->obj->shape))->minimum;
+    double max_y = ((t_cylinder *)(intersection->obj->shape))->maximum;
+    double height = max_y - min_y;
+	// v to fit 0,1
+    v = (point.y - min_y) / height;
+    u_scaled = floor(u * pattern.pattern_scale);
+    v_scaled = floor(v * pattern.pattern_scale);
+    if ((u_scaled + v_scaled) % 2 == 0)
+        return pattern.color_one;
+    return pattern.color_two;
+}
+
+t_tuple checkerboard_cap(t_pattern pattern, t_tuple point)
+{
+	int x;
+	int z;
+	x = floor((point.x + 1.0) * 0.2 * pattern.pattern_scale);
+	z = floor((point.z + 1.0) * 0.2 * pattern.pattern_scale); 
+	if ((x + z) % 2 == 0)
+		return pattern.color_one;
+	return pattern.color_two;
 }

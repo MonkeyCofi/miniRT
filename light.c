@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/27 21:04:15 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/28 10:13:29 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,29 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tu
 	material = intersection->material;
 	if (material->is_patterned == true)
 	{
+		if (intersection->type == CYLINDER)
+		{
+			double min_y = ((t_cylinder *)(intersection->obj->shape))->minimum;
+			double max_y = ((t_cylinder *)(intersection->obj->shape))->maximum;
+
+			// intersection point to object space
+			t_tuple object_point = tuple_mult_fast(intersection->obj->inverse_mat, &intersection->point);
+			double y_value = object_point.y;
+
+			// if the intersection point is near the caps
+			if (fabs(y_value - min_y) < EPSILON || fabs(y_value - max_y) < EPSILON)
+			{
+				// point is near the cap
+				color = checkerboard_cap(material->pattern, object_point);
+			}
+			else
+			{
+				// point is on the cylindrical body
+				color = checkerboard_cylinder(material->pattern, intersection);
+			}
+		}
 		//color = pattern_at_point(material->pattern, point);
-		if (intersection->type == SPHERE)
+		else if (intersection->type == SPHERE)
 			color = checkerboard_sphere(material->pattern, intersection);
 		else
 			color = checkerboard(material->pattern, point);

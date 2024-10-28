@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/27 17:58:21 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/28 10:39:13 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int main(void)
 	m->to = return_tuple_pointer(0, 0, 0, POINT);
 	m->up = return_tuple_pointer(0, 1, 0, VECTOR);
 	m->cam->view_matrix = view_transform(m->to, m->from, m->up);
-	//render(&mlx, m->cam, m);
+	// render(&mlx, m->cam, m);
 	threaded_render(&mlx, m, m->cam);
 	(void)temp;
 	hooks->m = m;

@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/27 22:47:14 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/28 10:19:21 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_minirt	* init_default(t_mlx *mlx)
 	cylinder->is_closed = 1;
 	minirt->shapes[3] = create_shape(CYLINDER, cylinder);
 	minirt->shapes[3]->material->is_patterned = true;
-	minirt->shapes[3]->material->pattern = create_pattern(return_color(1, 0, 0), return_color(0, 1, 0), 2);
+	minirt->shapes[3]->material->pattern = create_pattern(return_color(1, 0, 0), return_color(0, 1, 0), 12);
 	transform_shape(minirt, 3, translate, 0, return_tuple_pointer(-3, 0.5, 0, POINT));
 	transform_shape(minirt, 3, rotate_y, DEG_RAD(80), NULL);
 	transform_shape(minirt, 3, rotate_x, -DEG_RAD(80), NULL);

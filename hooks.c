@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/27 18:30:28 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/28 10:36:49 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 	if (keycode == ESC)
 		closert(hooks->m);
 	m->cam->view_matrix = view_transform(m->to, m->from, m->up);
+	// render(hooks->mlx, m->cam, m);
 	threaded_render(hooks->mlx, m, hooks->m->cam);
 	return (0);
 }
