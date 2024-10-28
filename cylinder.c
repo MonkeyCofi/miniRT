@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/27 23:30:15 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/28 10:54:47 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,9 @@ t_bool intersect_cylinder(t_minirt *m, t_intersects *intersects, t_ray *ray, int
 	double		disc;
 	double		t[2];
 	double		y[2];
-	int			i = 0;
-
+	int			i;
+	
+	i = 0;
 	cyl = m->shapes[shape_index]->shape;
 	a = (ray->direction.x * ray->direction.x) + (ray->direction.z * ray->direction.z);
 	if (a < EPSILON)
@@ -147,7 +148,7 @@ t_bool intersect_cylinder(t_minirt *m, t_intersects *intersects, t_ray *ray, int
 		}
 	}
 	// bottom cap
-	if (ray->direction.y != 0)
+	if (ray->direction.y != 0 && cyl->is_closed)
 	{
 		double	t_bottom = (cyl->minimum - ray->origin.y) / ray->direction.y;
 		if (t_bottom >= 0)
@@ -159,7 +160,7 @@ t_bool intersect_cylinder(t_minirt *m, t_intersects *intersects, t_ray *ray, int
 		}
 	}
 	// top cap
-	if (ray->direction.y != 0)
+	if (ray->direction.y != 0 && cyl->is_closed)
 	{
 		double	t_top = (cyl->maximum - ray->origin.y) / ray->direction.y;
 		if (t_top >= 0)
@@ -170,7 +171,7 @@ t_bool intersect_cylinder(t_minirt *m, t_intersects *intersects, t_ray *ray, int
 				add_to_intersect(t_top, m->shapes[shape_index], intersects, CYLINDER, cyl);
 		}
 	}
-	cylinder_end_hit(cyl, m->shapes[shape_index], ray, intersects);
+	//cylinder_end_hit(cyl, m->shapes[shape_index], ray, intersects);
 	return (true);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shapes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 13:17:33 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/27 20:19:48 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/28 14:00:09 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ t_shape	*create_shape(t_shape_type type, void *shape_ptr)
 	shape->inverse_transpose = transpose(shape->inverse_mat);
 	shape->type = type;
 	shape->shape = shape_ptr;
+	shape->translation_mat = identity();
+	shape->rotation_mat = identity();
+	shape->scaling_mat = identity();
 	assign_normal_intersect_func(shape, type);
 	return (shape);
 }

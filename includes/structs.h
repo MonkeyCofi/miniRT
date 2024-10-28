@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/26 16:19:21 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/28 20:54:40 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,10 +170,12 @@ typedef struct s_shape
 	t_pattern		pattern;
 	t_4dmat			transform;
 	t_4dmat			*inverse_mat;
+	t_4dmat			translation_mat;
+	t_4dmat			rotation_mat;
+	t_4dmat			scaling_mat;
 	t_4dmat			*inverse_transpose;
 	t_mater			*material;
 	t_bool			patterned;
-	//t_ray			*inverse_ray;
 	t_tuple			(*normal)(struct s_shape *, t_tuple);
 	t_bool			(*intersect)(t_minirt *, t_intersects *, t_ray *, int);
 	void			*shape;
@@ -313,5 +315,26 @@ typedef struct s_hook_params
 	t_tuple		original_to;
 	t_tuple		original_up;
 }	t_hook_params;
+
+typedef struct	s_pixel
+{
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+}	t_pixel;
+
+typedef struct	s_ppm
+{
+	enum	s_ppm_type
+	{
+		P3,
+		P6,
+	}	t_ppm_type;
+	char	*filename;
+	t_pixel	*buffer;
+	int		height;
+	int		width;
+	int		intensity;
+}	t_ppm;
 
 #endif

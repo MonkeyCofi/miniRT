@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:27:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/26 16:24:28 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:02:11 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ t_mater	*create_default_material()
 	return_material->shine = 200;
 	return_material->color = return_color(1, 1, 1);
 	return_material->is_patterned = false;
+	return_material->pattern.color_one = return_color(0, 0, 0);
+	return_material->pattern.color_two = return_color(1, 1, 1);
+	return_material->pattern.pattern_scale = 3;
 	return (return_material);
 }
 

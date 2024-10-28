@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/28 10:36:49 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/28 13:34:59 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void    adjust_pitch(t_minirt *m, int i)
 int get_key_pressed(int keycode, t_hook_params *hooks)
 {
 	// I FUCKING COOKED HOLY SHIT IM SO CRAAACKKEEDDDD
-	t_minirt *m = hooks->m; 
+	t_minirt *m = hooks->m;
 	if (keycode == W) 
 	{
 		m->from->z += 0.5;

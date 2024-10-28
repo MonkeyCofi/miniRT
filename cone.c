@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/26 20:26:53 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:53:04 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ t_tuple	normal_pos_cone(t_shape *shape, t_tuple pos)
 		return (return_vector(0, 1, 0));
 	else if (distance < 1 && (pos.y < cone->minimum + EPSILON || is_equal(pos.y, cone->minimum + EPSILON)))
 		return (return_vector(0, -1, 0));
-	y = sqrt((pos.x * pos.x) + (pos.z * pos.z));
-	if (y > 0)
+	y = sqrt(distance);
+	if (pos.y > 0)
 		y = -y;
 	return (return_vector(pos.x, y, pos.z));
 }
@@ -107,7 +107,7 @@ t_bool	intersect_cone(t_minirt *m, t_intersects *intersects, t_ray *ray, int sha
 	double	b;
 	double	c;
 	double	disc;
-	double	t[3];
+	double	t[2];
 	double	y[2];
 
 	cone = m->shapes[shape_index]->shape;
@@ -128,12 +128,6 @@ t_bool	intersect_cone(t_minirt *m, t_intersects *intersects, t_ray *ray, int sha
 	b *= -1;
 	t[0] = (b - sqrt(disc)) / (a);
 	t[1] = (b + sqrt(disc)) / (a);
-	if (t[0] > t[1])
-	{
-		t[2] = t[0];
-		t[0] = t[1];
-		t[1] = t[2];
-	}
 	y[0] = ray->origin.y + t[0] * ray->direction.y;
 	if (y[0] > cone->minimum && y[0] < cone->maximum)
 	{
