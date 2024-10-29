@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/28 14:53:04 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:56:08 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@ t_cone	*create_cone()
 	if (!cone)
 		return (NULL);
 	cone->point = return_tuple(0, 0, 0, POINT);
-	cone->transform = identity();
-	if (inverse_mat(&cone->transform, &cone->inverse) == error)
-	{
-		free(cone);
-		return (NULL);
-	}
 	cone->material = create_default_material();
 	cone->type = CONE;
 	cone->minimum = -INFINITY;

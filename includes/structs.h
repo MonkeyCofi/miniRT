@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/28 20:54:40 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:56:17 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,11 +227,11 @@ typedef struct s_sphere
 	t_tuple		color;
 	t_tuple		normal;
 	t_tuple		center;
-	t_4dmat		transform;
-	t_4dmat		*current_inverse;
+	//t_4dmat		transform;
+	//t_4dmat		*current_inverse;
 	t_mater		*material;
-	t_bool		inward_normal;
-	t_hit		hit;
+	//t_bool		inward_normal;
+	//t_hit		hit;
 	double		alpha;
 	double		radius;
 	double		diameter;
@@ -242,28 +242,25 @@ typedef struct	s_plane
 	t_tuple	point;
 	t_tuple	normal;
 	t_mater	*material;
-	t_4dmat	*inverse;
-	t_4dmat	transform;
 }	t_plane;
 
 typedef struct	s_light
 {
 	t_color	intensity;
 	t_tuple	position;
+	double	brightness;
 }	t_light;
 
 typedef struct	s_cylinder
 {
-	double			radius;
 	t_tuple			orientation;
 	t_tuple			point;
 	t_tuple			normal;
 	t_mater			*material;
-	t_4dmat			transform;
-	t_4dmat			*inverse;
 	t_bool			is_closed;
 	double			minimum;
 	double			maximum;
+	double			radius;
 	t_shape_type	type;
 }	t_cylinder;
 
@@ -274,8 +271,6 @@ typedef struct	s_cone
 	double			maximum;
 	t_bool			is_closed;
 	t_tuple			point;
-	t_4dmat			transform;
-	t_4dmat			*inverse;
 	t_mater			*material;
 	t_shape_type	type;
 }	t_cone;

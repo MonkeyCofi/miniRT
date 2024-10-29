@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/26 16:55:41 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:50:01 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ t_sphere	*create_sphere(double originx, double originy, double originz, double r
 	ret->center = return_tuple(originx, originy, originz, POINT);
 	ret->color = return_tuple(0.8, 0.5, 0.3, 0);
 	ret->radius = radius;
-	ret->transform = identity();
-	ret->current_inverse = NULL;
 	ret->diameter = ret->radius * ret->radius;
 	if (material)
 		ret->material = create_material(material->color, material->diffuse, material->ambient, material->specular, material->shine);

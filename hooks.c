@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/28 13:34:59 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:30:36 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int	closert(t_minirt *m)
 
 void	adjust_yaw(t_minirt *m, int i)
 {
-	float old_x;
-	float old_z;
+	double old_x;
+	double old_z;
 
 	if(i == 0)
 	{
@@ -74,9 +74,9 @@ void	adjust_yaw(t_minirt *m, int i)
 
 void    adjust_pitch(t_minirt *m, int i)
 {
-	float	old_z;
-	float	old_y;
-    float	angle = 0.1; // easier to just yk, adjust once instead of all of em
+	double	old_z;
+	double	old_y;
+    double	angle = 0.1; // easier to just yk, adjust once instead of all of em
 
 	if (i == 0)
 	{

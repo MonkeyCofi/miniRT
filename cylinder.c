@@ -6,13 +6,14 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/28 10:54:47 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:55:59 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #define MIN_T_DIFFERENCE 0.0001
 
+// pass minirt here change everything according to paramters passed
 t_cylinder	*create_cylinder(t_tuple orientation)
 {
 	t_cylinder	*cyl;
@@ -20,10 +21,8 @@ t_cylinder	*create_cylinder(t_tuple orientation)
 	cyl = ft_calloc(1, sizeof(t_cylinder));
 	if (!cyl)
 		return (NULL);
-	cyl->transform = identity();
 	cyl->point = return_tuple(0, 0, 0, POINT);
 	cyl->radius = 1;
-	cyl->inverse = NULL;
 	cyl->material = create_default_material();
 	cyl->type = CYLINDER;
 	cyl->orientation = return_tuple(orientation.x, orientation.y, orientation.z, orientation.w);
