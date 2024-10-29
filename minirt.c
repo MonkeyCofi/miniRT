@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/28 21:49:45 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:57:01 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	print_4d_points(double points[4][4])
 	}
 }
 
-int main(void)
+int main(int ac, char **av)
 {
 	t_minirt		*m;
 	t_mlx			mlx;
@@ -45,6 +45,7 @@ int main(void)
 	m->to = return_tuple_pointer(0, 0, 0, POINT);
 	m->up = return_tuple_pointer(0, 1, 0, VECTOR);
 	m->cam->view_matrix = view_transform(m->to, m->from, m->up);
+	m->ppm = create_ppm(av[1]);
 	//render(&mlx, m->cam, m);
 	threaded_render(&mlx, m, m->cam);
 	(void)temp;
@@ -58,10 +59,13 @@ int main(void)
 	mlx_hook(mlx.win, 2, 1L << 0, get_key_pressed, hooks);
 	mlx_hook(mlx.win, 17, 1L << 2, closert, m);
 	mlx_loop(&mlx.mlx);
+	(void)ac;
 }
 
 //int main(int ac, char **av)
 //{
+//	if (ac != 2)
+//		return (1);
 //	t_ppm	*ppm = create_ppm(av[1]);
 //	write_to_ppm(ppm);
 //	(void)ac;

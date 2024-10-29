@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 19:17:23 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/28 21:34:04 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:40:49 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,39 @@ void	read_ppm_header(int fd, t_ppm *ppm)
 	free(line);
 }
 
+t_tuple	fill_color(unsigned char *buff, int index)
+{
+	t_tuple	color;
+	
+	color.r = buff[index * 3];
+	color.g = buff[index * 3 + 1];
+	color.g = buff[index * 3 + 2];
+	return (color);
+}
+
+t_tuple	**fill_ppm_buffer(t_ppm *ppm)
+{
+	int		i;
+	int		j;
+	t_tuple	**colors;
+
+	i = -1;
+	colors = ft_calloc(1, sizeof(t_tuple *) * (ppm->height + 1));
+	while (++i < ppm->height)
+	{
+		j = -1;
+		colors[i] = ft_calloc(1, sizeof(t_tuple) * (ppm->width + 1));
+		while (++j < ppm->width)
+		{
+			colors[i][j] = fill_color((unsigned char *)ppm->buffer, i * ppm->width + j);
+		}
+	}
+	return (colors);
+}
+
 t_ppm	*create_ppm(char *filename)
 {
 	t_ppm	*ppm;
-	int		r;
 	int		fd;
 
 	fd = open(filename, O_RDONLY);
@@ -69,30 +98,20 @@ t_ppm	*create_ppm(char *filename)
 		return (NULL);
 	ppm = ft_calloc(1, sizeof(t_ppm));
 	read_ppm_header(fd, ppm);
-	ppm->buffer = ft_calloc(1, sizeof(t_pixel) * ppm->height * ppm->width);
-	char	*line = ft_calloc(1, sizeof(t_pixel) * ppm->width * ppm->height);
-	r = 1;
-	while (r > 0)
-	{
-		//r = read(fd, ppm->buffer, 50);
-		r = read(fd, line, 50);
-		if (r < 0)
-		{
-			free(ppm);
-			return (NULL);
-		}
-	}
-	printf("\n");
+	ppm->buffer = ft_calloc(1, sizeof(t_pixel) * (ppm->height * ppm->width * 3));
+	ssize_t	r = read(fd, ppm->buffer, sizeof(t_pixel) * ppm->height * ppm->width);
+	(void)r;
+	ppm->colors = fill_ppm_buffer(ppm);
 	return (ppm);
 }
 
-void	write_to_ppm(t_ppm *ppm)
-{
-	int	fd;
+//void	write_to_ppm(t_ppm *ppm)
+//{
+//	int	fd;
 
-	fd = open("new.ppm", O_CREAT | O_RDWR, 0777);
-	ft_putendl_fd("P6", fd);
-	ft_putendl_fd("1024 1024", fd);
-	ft_putendl_fd("255", fd);
-	ft_putstr_fd((char *)ppm->buffer, fd);
-}
+//	fd = open("new.ppm", O_CREAT | O_RDWR, 0777);
+//	ft_putendl_fd("P6", fd);
+//	ft_putendl_fd("1024 1024", fd);
+//	ft_putendl_fd("255", fd);
+//	ft_putstr_fd((char *)ppm->buffer, fd);
+//}

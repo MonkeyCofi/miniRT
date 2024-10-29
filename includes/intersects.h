@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:02:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/26 13:50:47 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:50:06 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "structs.h"
 
-t_inter_comp	precompute_intersect(t_intersects *inter, t_intersection *intersection, t_ray *ray);
+t_inter_comp	precompute_intersect(t_minirt *minirt, t_intersects *inter, t_intersection *intersection, t_ray *ray);
 //t_intersection	intersect(double t, t_shape_type type);
 t_intersection	intersect(double t, t_shape_type type, void *shape, t_mater *material);
 

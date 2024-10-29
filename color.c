@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 11:40:22 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:54:18 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ t_tuple	color_at(t_minirt *minirt, t_ray *ray)
 	hit = best_hit(&intersections);
 	if (hit == NULL)
 		return (return_tuple(0, 0, 0, COLOR));
-	computations = precompute_intersect(&intersections, hit, ray);
+	computations = precompute_intersect(minirt, &intersections, hit, ray);
 	final_color = shade(minirt, &computations);
 	return (final_color);
 }

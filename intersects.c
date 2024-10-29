@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/28 19:32:52 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:50:36 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_intersection	*best_hit(t_intersects *intersects)
 	return (res);
 }
 
-t_inter_comp	precompute_intersect(t_intersects *inter, t_intersection *intersection, t_ray *ray)
+t_inter_comp	precompute_intersect(t_minirt *minirt, t_intersects *inter, t_intersection *intersection, t_ray *ray)
 {
 	t_inter_comp	new;
 	t_tuple			point_adjusted;
@@ -87,6 +87,7 @@ t_inter_comp	precompute_intersect(t_intersects *inter, t_intersection *intersect
 	new.point = position(ray, new.t);	// position of the object in world space
 	new.type = intersection->type;
 	new.normal_vec = normal_at(new.obj, new.point);	// takes the normal of the point 
+	new.ppm = minirt->ppm;
 	if (dot_product(&new.eye_vec, &new.normal_vec) < 0)
 	{
 		new.is_inside_object = true;

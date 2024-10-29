@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 11:56:17 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:50:20 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ typedef enum e_bool
 
 typedef enum e_trans
 {
+	none,
 	scale,
 	rotate_x,
 	rotate_y,
 	rotate_z,
 	translate,
-	none
 }	t_trans;
 
 typedef enum e_shapes
@@ -227,11 +227,7 @@ typedef struct s_sphere
 	t_tuple		color;
 	t_tuple		normal;
 	t_tuple		center;
-	//t_4dmat		transform;
-	//t_4dmat		*current_inverse;
 	t_mater		*material;
-	//t_bool		inward_normal;
-	//t_hit		hit;
 	double		alpha;
 	double		radius;
 	double		diameter;
@@ -275,42 +271,6 @@ typedef struct	s_cone
 	t_shape_type	type;
 }	t_cone;
 
-typedef struct	s_inter_comp
-{
-	t_intersects	*intersects;
-	t_shape_type	type;
-	t_tuple			normal_vec;
-	t_shape			*obj;
-	t_mater			*material;
-	t_tuple			point;
-	t_tuple			point_adjusted;
-	t_tuple			eye_vec;
-	t_bool			is_inside_object;
-	double			t;
-}	t_inter_comp;
-
-typedef struct s_minirt
-{
-	t_mlx		*mlx;
-	t_camera	*cam;
-	t_shape		**shapes;
-	t_light		**lights;
-	t_tuple		*from;
-	t_tuple		*to;
-	t_tuple		*up;
-	int			object_count;
-	int			light_count;
-}	t_minirt;
-
-typedef struct s_hook_params
-{
-	t_mlx 		*mlx;
-	t_minirt 	*m;
-	t_tuple		original_from;
-	t_tuple		original_to;
-	t_tuple		original_up;
-}	t_hook_params;
-
 typedef struct	s_pixel
 {
 	unsigned char	r;
@@ -327,9 +287,58 @@ typedef struct	s_ppm
 	}	t_ppm_type;
 	char	*filename;
 	t_pixel	*buffer;
+	t_tuple	**colors;
 	int		height;
 	int		width;
 	int		intensity;
 }	t_ppm;
+
+typedef struct	s_inter_comp
+{
+	t_intersects	*intersects;
+	t_shape_type	type;
+	t_tuple			normal_vec;
+	t_shape			*obj;
+	t_mater			*material;
+	t_tuple			point;
+	t_tuple			point_adjusted;
+	t_tuple			eye_vec;
+	t_ppm			*ppm;
+	t_bool			is_inside_object;
+	double			t;
+}	t_inter_comp;
+
+typedef struct s_minirt
+{
+	t_camera	*cam;
+	t_shape		**shapes;
+	t_light		**lights;
+	t_tuple		*from;
+	t_tuple		*to;
+	t_tuple		*up;
+	t_ppm		*ppm;
+	t_mlx		*mlx;
+	int			object_count;
+	int			light_count;
+}	t_minirt;
+
+typedef struct s_hook_params
+{
+	t_mlx 		*mlx;
+	t_minirt 	*m;
+	t_tuple		original_from;
+	t_tuple		original_to;
+	t_tuple		original_up;
+}	t_hook_params;
+
+typedef struct	s_transform
+{
+	t_trans	transformations[5];
+	t_tuple	scaling;
+	t_tuple	translation;
+	double	rotation_x;
+	double	rotation_y;
+	double	rotation_z;
+}	t_transform;
 
 #endif

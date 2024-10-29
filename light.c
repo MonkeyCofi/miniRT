@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/28 10:13:29 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/29 22:05:11 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,12 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tu
 		}
 		//color = pattern_at_point(material->pattern, point);
 		else if (intersection->type == SPHERE)
+		{
 			color = checkerboard_sphere(material->pattern, intersection);
+			//color = texture_sphere(intersection->point, intersection->ppm);
+		}
 		else
+			//color = texture_plane(intersection->point, intersection->ppm);
 			color = checkerboard(material->pattern, point);
 	}
 	else

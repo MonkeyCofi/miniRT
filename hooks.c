@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 11:30:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:17:16 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,16 @@ void	adjust_yaw(t_minirt *m, int i)
 		old_x = m->to->x - m->from->x;
 		old_z = m->to->z - m->from->z;
 
-		m->to->x = old_x * cos(0.25) - old_z * sin(0.25) + m->from->x;
-		m->to->z = old_x * sin(0.25) + old_z * cos(0.25) + m->from->z;
+		m->to->x = old_x * cos(0.5) - old_z * sin(0.5) + m->from->x;
+		m->to->z = old_x * sin(0.5) + old_z * cos(0.5) + m->from->z;
 	}
 	if(i == 1)
 	{
 		old_x = m->to->x - m->from->x;
 		old_z = m->to->z - m->from->z;
 	
-		m->to->x = old_x * cos(-0.25) - old_z * sin(-0.25) + m->from->x;
-		m->to->z = old_x * sin(-0.25) + old_z * cos(-0.25) + m->from->z;
+		m->to->x = old_x * cos(-0.5) - old_z * sin(-0.5) + m->from->x;
+		m->to->z = old_x * sin(-0.5) + old_z * cos(-0.5) + m->from->z;
 	}
 }
 
