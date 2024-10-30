@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 19:17:23 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 21:40:49 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:37:55 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ t_tuple	fill_color(unsigned char *buff, int index)
 {
 	t_tuple	color;
 	
-	color.r = buff[index * 3];
-	color.g = buff[index * 3 + 1];
-	color.g = buff[index * 3 + 2];
+	color.r = buff[index * 3] / 255;
+	color.g = buff[index * 3 + 1] / 255;
+	color.b = buff[index * 3 + 2] / 255;
 	return (color);
 }
 

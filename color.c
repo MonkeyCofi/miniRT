@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 21:54:18 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:57:49 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,32 @@ t_tuple	shade(t_minirt *minirt, t_inter_comp *intersect_comp)
 	}
 	return (final_res);
 }
+
+//t_tuple	shade(t_minirt *minirt, t_inter_comp *intersect_comp)
+//{
+//	t_tuple	res;
+//	t_tuple	*final_res;
+//	t_tuple	color;
+//	t_bool	shadow;
+//	int		i;
+
+//	i = -1;
+//	final_res = ft_calloc(minirt->light_count, sizeof(t_light));
+//	while (++i < minirt->light_count)
+//	{
+//		shadow = is_in_shadow(minirt, intersect_comp->point_adjusted, i);
+//		res = lighting(intersect_comp, minirt->lights[i], intersect_comp->point_adjusted, intersect_comp->eye_vec, intersect_comp->normal_vec, shadow);
+//		//res = lighting(intersect_comp->obj, minirt->lights[i], intersect_comp->point_adjusted, intersect_comp->eye_vec, intersect_comp->normal_vec, shadow);
+//		final_res[i] = res;
+//		scalar(&final_res[i], minirt->lights[i]->brightness);
+//	}
+//	i = -1;
+//	color = (t_tuple){0};
+//	while (++i < minirt->light_count)
+//		color = add_vectors(&color, &final_res[i]);
+//	return (color);
+//	//return (final_res);
+//}
 
 t_tuple	color_at(t_minirt *minirt, t_ray *ray)
 {

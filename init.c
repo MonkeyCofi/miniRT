@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 22:04:19 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:58:13 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ t_minirt	* init_default(t_mlx *mlx)
 	minirt = ft_calloc(1, sizeof(t_minirt));
 	if (!minirt)
 		return (NULL);
-	minirt->light_count = 2;
+	minirt->light_count = 1;
 	minirt->lights = ft_calloc(minirt->light_count, sizeof(t_light *));
 	if (!minirt->lights)
 	{
@@ -165,26 +165,29 @@ t_minirt	* init_default(t_mlx *mlx)
 	
 	/* LIGHT */
 	
+	//minirt->lights[0] = ft_calloc(1, sizeof(t_light));
+	//minirt->lights[0]->position = return_tuple(0, 1, -2, POINT);
+	//minirt->lights[0]->intensity.colors = return_tuple(1, 1, 1, COLOR);
+	//minirt->lights[0]->brightness = 0;
+	
+	//minirt->lights[1] = ft_calloc(1, sizeof(t_light));
+	//minirt->lights[1]->position = return_tuple(0, 0, 0, POINT);
+	//minirt->lights[1]->intensity.colors = return_tuple(1, 1, 1, COLOR);
+	//minirt->lights[1]->brightness = 0;
+	
 	minirt->lights[0] = ft_calloc(1, sizeof(t_light));
-	minirt->lights[0]->position = return_tuple(0, 1, -2, POINT);
+	minirt->lights[0]->position = return_tuple(0, 0, 4, POINT);
 	minirt->lights[0]->intensity.colors = return_tuple(1, 1, 1, COLOR);
 	minirt->lights[0]->brightness = 1;
 	
-	minirt->lights[1] = ft_calloc(1, sizeof(t_light));
-	minirt->lights[1]->position = return_tuple(0, -0.5, -2, POINT);
-	minirt->lights[1]->intensity.colors = return_tuple(1, 1, 1, COLOR);
-	minirt->lights[1]->brightness = 1;
-	
-	minirt->object_count = 1;
+	minirt->object_count = 2;
 	minirt->shapes = ft_calloc(minirt->object_count, sizeof(t_shape *));
 
-	//t_plane	*plane = create_plane();
-	//minirt->shapes[0] = create_shape(PLANE, plane);
-	//t_transform	params;
-	//ft_bzero(&params, sizeof(t_transform));
-	//get_transform_params_rotations(DEG_RAD(90), 0, 0, &params);
-	//get_transform_params(return_point(0, 0, -20), return_point(0, 0, 0), &params);
-	//transform_shape_new(minirt->shapes[0], &params);
+	t_plane	*plane = create_plane();
+	minirt->shapes[0] = create_shape(PLANE, plane);
+	minirt->shapes[0]->material->specular = 0;
+	transform_shape(minirt, 0, translate, 0, return_tuple_pointer(0, 0, 3, POINT));
+	transform_shape(minirt, 0, rotate_x, DEG_RAD(90), NULL);
 	
 	//t_cone	*cone = create_cone();
 	//cone->minimum = -1;
@@ -193,15 +196,16 @@ t_minirt	* init_default(t_mlx *mlx)
 	//minirt->shapes[1] = create_shape(CONE, cone);
 	//transform_shape(minirt, 1, translate, 0, return_tuple_pointer(0, 4, -3, POINT));
 	
-	t_plane	*floor = create_plane();
-	minirt->shapes[0] = create_shape(PLANE, floor);
-	minirt->shapes[0]->material->color = return_color(0.4, 0, 0);
-	minirt->shapes[0]->material->is_patterned = true;
-	
-	//t_sphere	*sphere = create_sphere(0, 0, 0, 1, create_default_material());
-	//minirt->shapes[0] = create_shape(SPHERE, sphere);
+	//t_plane	*floor = create_plane();
+	//minirt->shapes[0] = create_shape(PLANE, floor);
+	//minirt->shapes[0]->material->color = return_color(0.4, 0, 0);
 	//minirt->shapes[0]->material->is_patterned = true;
-	//minirt->shapes[0]->material->pattern.pattern_scale = 15;
+	
+	t_sphere	*sphere = create_sphere(0, 0, 0, 1, create_default_material());
+	minirt->shapes[1] = create_shape(SPHERE, sphere);
+	minirt->shapes[1]->material->color = return_color(1, 0, 0);
+	//minirt->shapes[1]->material->is_patterned = true;
+	//minirt->shapes[1]->material->pattern.pattern_scale = 1;
 	//transform_shape_new(minirt->shapes[1], &params);
 	//transform_shape(minirt, 3, translate, 0, return_tuple_pointer(0, 4, 0, POINT));
 	//transform_shape(minirt, 3, rotate_y, DEG_RAD(90), NULL);

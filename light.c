@@ -62,8 +62,8 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tu
 		//color = pattern_at_point(material->pattern, point);
 		else if (intersection->type == SPHERE)
 		{
-			color = checkerboard_sphere(material->pattern, intersection);
-			//color = texture_sphere(intersection->point, intersection->ppm);
+			//color = checkerboard_sphere(material->pattern, intersection);
+			color = texture_sphere(intersection->point, intersection->ppm);
 		}
 		else
 			//color = texture_plane(intersection->point, intersection->ppm);
