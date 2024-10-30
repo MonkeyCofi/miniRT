@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 20:38:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/02 18:12:52 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/26 11:59:13 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_bool	is_vector(t_tuple *vec)
 	return (false);
 }
 
-t_bool	is_equal(float n1, float n2)
+t_bool	is_equal(double n1, double n2)
 {
 	if (fabs(n1 - n2) < EPSILON)
 		return (true);

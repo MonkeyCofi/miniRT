@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 21:11:57 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 19:20:52 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 //# define IS_SCAL_SET(x) (x >> 1) & 1
 //# define IS_TRANS_SET(x) x & 1
 
-t_4dmat	translation_mat(float x, float y, float z)
+t_4dmat	translation_mat(double x, double y, double z)
 {
 	t_4dmat	translation_mat;
 	
@@ -29,7 +29,7 @@ t_4dmat	translation_mat(float x, float y, float z)
 	return (translation_mat);
 }
 
-t_4dmat	scaling_mat(float x, float y, float z)
+t_4dmat	scaling_mat(double x, double y, double z)
 {
 	t_4dmat	scaling_mat;
 
@@ -37,10 +37,11 @@ t_4dmat	scaling_mat(float x, float y, float z)
 	scaling_mat.m11 = x;
 	scaling_mat.m22 = y;
 	scaling_mat.m33 = z;
+	scaling_mat.m44 = 1;
 	return (scaling_mat);
 }
 
-t_4dmat	x_rotation_mat(float angle)
+t_4dmat	x_rotation_mat(double angle)
 {
 	t_4dmat	x_rot;
 
@@ -54,7 +55,7 @@ t_4dmat	x_rotation_mat(float angle)
 	return (x_rot);
 }
 
-t_4dmat	y_rotation_mat(float angle)
+t_4dmat	y_rotation_mat(double angle)
 {
 	t_4dmat	y_rot;
 
@@ -67,7 +68,7 @@ t_4dmat	y_rotation_mat(float angle)
 	y_rot.m44 = 1;
 	return (y_rot);
 }
-t_4dmat	z_rotation_mat(float angle)
+t_4dmat	z_rotation_mat(double angle)
 {
 	t_4dmat	z_rot;
 
@@ -81,7 +82,7 @@ t_4dmat	z_rotation_mat(float angle)
 	return (z_rot);
 }
 
-//t_tuple	scale_ray(t_tuple *point, t_sphere *sphere, float x, float y, float z)
+//t_tuple	scale_ray(t_tuple *point, t_sphere *sphere, double x, double y, double z)
 //{
 //	t_4dmat	scaling_matrix;
 //	t_tuple	*res;
@@ -101,7 +102,7 @@ t_4dmat	z_rotation_mat(float angle)
 //	return (ret);
 //}
 
-t_tuple	scale_ray(t_tuple *point, float x, float y, float z)
+t_tuple	scale_ray(t_tuple *point, double x, double y, double z)
 {
 	t_4dmat	scaling_matrix;
 	t_tuple	*res;
@@ -113,7 +114,7 @@ t_tuple	scale_ray(t_tuple *point, float x, float y, float z)
 	return (ret);
 }
 
-t_tuple	translate_ray(t_tuple *point, float x, float y, float z)
+t_tuple	translate_ray(t_tuple *point, double x, double y, double z)
 {
 	t_4dmat	translation_matrix;
 	t_tuple	*resultant;
@@ -147,30 +148,30 @@ t_ray	transform_ray(t_ray *old_ray, t_trans type, t_tuple transform_coords, t_sp
 }
 
 //void	transform_sphere(t_sphere *sphere, t_trans type, char rotation_type, t_tuple transform_coords)
-void	transform_sphere(t_sphere *sphere, t_trans type, t_tuple transform_coords)
-{
-	t_4dmat	trans_matrix;
-	t_4dmat	*res;
+//void	transform_sphere(t_sphere *sphere, t_trans type, t_tuple transform_coords)
+//{
+//	t_4dmat	trans_matrix;
+//	t_4dmat	*res;
 
-	if (type == translate)
-	{
-		trans_matrix = translation_mat(transform_coords.x, transform_coords.y, transform_coords.z);
-		res = mat4d_mult(&trans_matrix, &sphere->transform);
-		copy_mat(&sphere->transform, res);
-	}
-	else if (type == scale)
-	{
-		trans_matrix = scaling_mat(transform_coords.x, transform_coords.y, transform_coords.z);
-		res = mat4d_mult(&trans_matrix, &sphere->transform);
-		copy_mat(&sphere->transform, res);
-	}
-	inverse_mat(&trans_matrix, &sphere->current_inverse);
-	//else
-	//{
-	//	if (rotation_type == 'x')
-	//		trans_matrix = x_rotation_mat
-	//}
-}
+//	if (type == translate)
+//	{
+//		trans_matrix = translation_mat(transform_coords.x, transform_coords.y, transform_coords.z);
+//		res = mat4d_mult(&trans_matrix, &sphere->transform);
+//		copy_mat(&sphere->transform, res);
+//	}
+//	else if (type == scale)
+//	{
+//		trans_matrix = scaling_mat(transform_coords.x, transform_coords.y, transform_coords.z);
+//		res = mat4d_mult(&trans_matrix, &sphere->transform);
+//		copy_mat(&sphere->transform, res);
+//	}
+//	inverse_mat(&trans_matrix, &sphere->current_inverse);
+//	//else
+//	//{
+//	//	if (rotation_type == 'x')
+//	//		trans_matrix = x_rotation_mat
+//	//}
+//}
 
 t_bool	set_inverse_transpose(t_shape *shape, t_4dmat *transform_mat)
 {
@@ -192,69 +193,102 @@ t_bool	set_inverse_transpose(t_shape *shape, t_4dmat *transform_mat)
 	return (true);
 }
 
-t_bool	transform_shape(t_minirt *m, int index, t_trans type, float angle, t_tuple *transform_coords)
+t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tuple *transform_coords)
 {
-	t_4dmat	trans_matrix;
-	t_4dmat	*res;
 	t_bool	inverse_res;
+	t_4dmat	translation;
+	t_4dmat	scaling;
+	t_4dmat	rotation;
+	t_4dmat	resultant;
 
-	res = NULL;
+	scaling = identity();
+	rotation = identity();
+	translation = identity();
 	if (type == none)
 	{
 		inverse_res = inverse_mat(&m->shapes[index]->transform, &m->shapes[index]->inverse_mat);
 		return (true);
 	}
 	if (type == translate)
-		trans_matrix = translation_mat(transform_coords->x, transform_coords->y, transform_coords->z);
+		translation = translation_mat(transform_coords->x, transform_coords->y,  transform_coords->z);
 	else if (type == scale)
-		trans_matrix = scaling_mat(transform_coords->x, transform_coords->y, transform_coords->z);
+		scaling = scaling_mat(transform_coords->x, transform_coords->y,  transform_coords->z);
 	else if (type == rotate_x)
-		trans_matrix = x_rotation_mat(angle);
+		rotation = x_rotation_mat(angle);
 	else if (type == rotate_y)
-		trans_matrix = y_rotation_mat(angle);
+		rotation = y_rotation_mat(angle);
 	else if (type == rotate_z)
-		trans_matrix = z_rotation_mat(angle);
-	m->shapes[index]->transform = mat4d_mult_fast_static(&m->shapes[index]->transform, &trans_matrix);
-	if (set_inverse_transpose(m->shapes[index], &trans_matrix) == error)
+		rotation = z_rotation_mat(angle);
+	resultant = mat4d_mult_fast_static(&scaling, &rotation);
+	resultant = mat4d_mult_fast_static(&resultant, &translation);
+	m->shapes[index]->transform = mat4d_mult_fast_static(&resultant,&m->shapes[index]->transform);
+	if (set_inverse_transpose(m->shapes[index], &m->shapes[index]->transform) == error)
 		return (error);
 	return (true);
 }
 
-//t_tuple	chain_transforms(t_tuple *point, t_tuple *transformations[], t_trans type[], int transformation_count, float angles[])
-t_tuple	chain_transforms(t_transform *trans, t_tuple *point)
+void	get_transform_params_rotations(double x, double y, double z, t_transform *trans_params)
 {
-	t_tuple		result;
-	t_4dmat		resultant_mat;
-	int			i;
-
-	i = -1;
-	ft_bzero(&result, sizeof(t_tuple));
-	ft_bzero(&resultant_mat, sizeof(t_4dmat));
-	//while (++i < trans->trans_count)
-	//{
-	//	//if (IS_ROTX_SET(trans->types[i]))
-	//	if (trans->types[i] == rotate_x)
-	//		trans->transformations[i] = x_rotation_mat(trans->rot_angle_x);
-	//	//if (IS_ROTY_SET(trans->types[i]))
-	//	if (trans->types[i] == rotate_y)
-	//		trans->transformations[i] = y_rotation_mat(trans->rot_angle_y);
-	//	//if (IS_ROTZ_SET(trans->types[i]))
-	//	if (trans->types[i] == rotate_z)
-	//		trans->transformations[i] = z_rotation_mat(trans->rot_angle_z);
-	//	//if (IS_SCAL_SET(trans->types[i]))
-	//	if (trans->types[i] == scale)
-	//		trans->transformations[i] = scaling_mat(trans->points[i].x, trans->points[i].y, trans->points[i].z);
-	//	//if (IS_TRANS_SET(trans->types[i]))
-	//	if (trans->types[i] == translate)
-	//		trans->transformations[i] = translation_mat(trans->points[i].x, trans->points[i].y, trans->points[i].z);
-	//}
-	//i = -1;
-	i = trans->trans_count - 1;
-	resultant_mat = trans->transformations[i];
-	while (i >= 1)
-	{
-		resultant_mat = mat4d_mult_fast_static(&resultant_mat, &trans->transformations[i - 1]);
-		i--;
-	}
-	return (tuple_mult_fast(&resultant_mat, point));
+	trans_params->rotation_x = x;
+	trans_params->rotation_y = y;
+	trans_params->rotation_z = z;
 }
+
+void	get_transform_params(t_tuple translate, t_tuple scaling, t_transform *trans_params)
+{
+	trans_params->translation = translate;
+	trans_params->scaling = scaling;
+}
+
+//void	get_trans_order(t_transform *trans_params, )
+//{
+
+//}
+
+//t_bool	transform_shape_new(t_shape *shape, t_transform *transform_params)
+//{
+//	int	i;
+
+//	i = -1;
+//	while (++i < 5)
+//	{
+//		if (transform_params->transformations[i] == none)
+//		{
+//			printf("none\n");
+//			continue ;
+//		}
+//		else if (transform_params->transformations[i] == scale)
+//		{
+//			printf("%d scale", i);
+//			shape->scaling_mat = scaling_mat(transform_params->scaling.x, transform_params->scaling.y, transform_params->scaling.z);
+//			shape->transform = mat4d_mult_fast_static(&shape->transform, &shape->scaling_mat);
+//		}
+//		else if (transform_params->transformations[i] == translate)
+//		{
+//			printf("%i translate\n", i);
+//			shape->translation_mat = translation_mat(transform_params->translation.x, transform_params->translation.y, transform_params->translation.z);
+//			shape->transform = mat4d_mult_fast_static(&shape->transform, &shape->translation_mat);
+//		}
+//		else if (transform_params->transformations[i] == rotate_x)
+//		{
+//			printf("%d rotate x\n", i);
+//			shape->rotation_mat = x_rotation_mat(transform_params->rotation_x);
+//			shape->transform = mat4d_mult_fast_static(&shape->transform, &shape->rotation_mat);
+//		}
+//		else if (transform_params->transformations[i] == rotate_y)
+//		{
+//			printf("%d rotate y\n", i);
+//			shape->rotation_mat = y_rotation_mat(transform_params->rotation_y);
+//			shape->transform = mat4d_mult_fast_static(&shape->transform, &shape->rotation_mat);
+//		}
+//		else if (transform_params->transformations[i] == rotate_z)
+//		{
+//			printf("%d rotate z\n", i);
+//			shape->rotation_mat = z_rotation_mat(transform_params->rotation_z);
+//			shape->transform = mat4d_mult_fast_static(&shape->transform, &shape->rotation_mat);
+//		}
+//	}
+//	if (set_inverse_transpose(shape, &shape->transform) == error)
+//		return (error);
+//	return (true);
+//}

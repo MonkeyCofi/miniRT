@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 21:02:52 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:50:20 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define STRUCTS_H
 
 # include <stdlib.h>
-# include "../libft/libft.h"
+# include "../libft_notclone/libft.h"
 
 # define MAX_INTERSECTS 200
 # define VECTOR 0
@@ -33,12 +33,12 @@ typedef enum e_bool
 
 typedef enum e_trans
 {
+	none,
 	scale,
 	rotate_x,
 	rotate_y,
 	rotate_z,
 	translate,
-	none
 }	t_trans;
 
 typedef enum e_shapes
@@ -53,17 +53,17 @@ typedef union u_tuple
 {
 	struct
 	{
-		float	x;
-		float	y;
-		float	z;
-		float	w;
+		double	x;
+		double	y;
+		double	z;
+		double	w;
 	};
 	struct
 	{
-		float	r;
-		float	g;
-		float	b;
-		float	a;
+		double	r;
+		double	g;
+		double	b;
+		double	a;
 	};
 }	t_tuple;
 
@@ -71,53 +71,53 @@ typedef union u_2dmat
 {
 	struct
 	{
-		float	m11;
-		float	m12;
-		float	m21;
-		float	m22;
+		double	m11;
+		double	m12;
+		double	m21;
+		double	m22;
 	};
-	float	matrix[2][2];
+	double	matrix[2][2];
 }	t_2dmat;
 
 typedef union u_3dmat
 {
 	struct
 	{
-		float	m11;
-		float	m12;
-		float	m13;
-		float	m21;
-		float	m22;
-		float	m23;
-		float	m31;
-		float	m32;
-		float	m33;
+		double	m11;
+		double	m12;
+		double	m13;
+		double	m21;
+		double	m22;
+		double	m23;
+		double	m31;
+		double	m32;
+		double	m33;
 	};
-	float	matrix[3][3];
+	double	matrix[3][3];
 }	t_3dmat;
 
 typedef union u_4dmat
 {
 	struct
 	{
-		float	m11;
-		float	m12;
-		float	m13;
-		float	m14;
-		float	m21;
-		float	m22;
-		float	m23;
-		float	m24;
-		float	m31;
-		float	m32;
-		float	m33;
-		float	m34;
-		float	m41;
-		float	m42;
-		float	m43;
-		float	m44;
+		double	m11;
+		double	m12;
+		double	m13;
+		double	m14;
+		double	m21;
+		double	m22;
+		double	m23;
+		double	m24;
+		double	m31;
+		double	m32;
+		double	m33;
+		double	m34;
+		double	m41;
+		double	m42;
+		double	m43;
+		double	m44;
 	};
-	float	matrix[4][4];
+	double	matrix[4][4];
 }	t_4dmat;
 
 typedef struct s_color
@@ -129,14 +129,14 @@ typedef struct s_camera
 {
 	t_4dmat	*view_matrix;
 	t_4dmat	*inverse;
-	float	horizontal_canv_size;
-	float	vertical_canv_size;
-	float	pixel_size;
-	float	fov;
-	float	aspect;
-	float	half_view;
-	float	half_width;
-	float	half_height;
+	double	horizontal_canv_size;
+	double	vertical_canv_size;
+	double	pixel_size;
+	double	fov;
+	double	aspect;
+	double	half_view;
+	double	half_width;
+	double	half_height;
 }	t_camera;
 
 typedef struct s_ray
@@ -145,31 +145,45 @@ typedef struct s_ray
 	t_tuple	direction;
 }	t_ray;
 
+typedef struct	s_pattern
+{
+	t_tuple	color_one;
+	t_tuple	color_two;
+	int		pattern_scale;
+}	t_pattern;
+
 typedef struct	s_mater
 {
-	t_color	color;
-	float	ambient;
-	float	specular;
-	float	diffuse;
-	float	shine;
+	t_tuple		color;
+	t_pattern	pattern;
+	double		ambient;
+	double		specular;
+	double		diffuse;
+	double		shine;
+	t_bool		is_patterned;
 }	t_mater;
+
 
 typedef struct s_shape
 {
 	t_shape_type	type;
-	void			*shape;
-	t_ray			*inverse_ray;
+	t_pattern		pattern;
 	t_4dmat			transform;
 	t_4dmat			*inverse_mat;
+	t_4dmat			translation_mat;
+	t_4dmat			rotation_mat;
+	t_4dmat			scaling_mat;
 	t_4dmat			*inverse_transpose;
 	t_mater			*material;
-	t_tuple			*(*normal)(struct s_shape *, t_tuple);
+	t_bool			patterned;
+	t_tuple			(*normal)(struct s_shape *, t_tuple);
 	t_bool			(*intersect)(t_minirt *, t_intersects *, t_ray *, int);
+	void			*shape;
 }	t_shape;
 
 typedef struct s_intersection
 {
-	float			t;
+	double			t;
 	t_shape			*shape_ptr;
 	void			*shape;
 	t_mater			*material;
@@ -205,7 +219,7 @@ typedef struct s_hit
 	t_tuple		p;
 	t_tuple		normal;
 	t_shape		shape;
-	float		t;
+	double		t;
 }	t_hit;
 
 typedef struct s_sphere
@@ -213,14 +227,10 @@ typedef struct s_sphere
 	t_tuple		color;
 	t_tuple		normal;
 	t_tuple		center;
-	t_4dmat		transform;
-	t_4dmat		*current_inverse;
 	t_mater		*material;
-	t_bool		inward_normal;
-	t_hit		hit;
-	float		alpha;
-	float		radius;
-	float		diameter;
+	double		alpha;
+	double		radius;
+	double		diameter;
 }	t_sphere;
 
 typedef struct	s_plane
@@ -228,43 +238,60 @@ typedef struct	s_plane
 	t_tuple	point;
 	t_tuple	normal;
 	t_mater	*material;
-	t_4dmat	*inverse;
-	t_4dmat	transform;
 }	t_plane;
 
 typedef struct	s_light
 {
 	t_color	intensity;
 	t_tuple	position;
+	double	brightness;
 }	t_light;
 
 typedef struct	s_cylinder
 {
-	float			radius;
 	t_tuple			orientation;
 	t_tuple			point;
 	t_tuple			normal;
 	t_mater			*material;
-	t_4dmat			transform;
-	t_4dmat			*inverse;
 	t_bool			is_closed;
-	float			minimum;
-	float			maximum;
+	double			minimum;
+	double			maximum;
+	double			radius;
 	t_shape_type	type;
 }	t_cylinder;
 
 typedef struct	s_cone
 {
-	float			radius;
-	float			minimum;
-	float			maximum;
+	double			radius;
+	double			minimum;
+	double			maximum;
 	t_bool			is_closed;
 	t_tuple			point;
-	t_4dmat			transform;
-	t_4dmat			*inverse;
 	t_mater			*material;
 	t_shape_type	type;
 }	t_cone;
+
+typedef struct	s_pixel
+{
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+}	t_pixel;
+
+typedef struct	s_ppm
+{
+	enum	s_ppm_type
+	{
+		P3,
+		P6,
+	}	t_ppm_type;
+	char	*filename;
+	t_pixel	*buffer;
+	t_tuple	**colors;
+	int		height;
+	int		width;
+	int		intensity;
+}	t_ppm;
 
 typedef struct	s_inter_comp
 {
@@ -274,21 +301,44 @@ typedef struct	s_inter_comp
 	t_shape			*obj;
 	t_mater			*material;
 	t_tuple			point;
+	t_tuple			point_adjusted;
 	t_tuple			eye_vec;
+	t_ppm			*ppm;
 	t_bool			is_inside_object;
-	float			t;
+	double			t;
 }	t_inter_comp;
 
 typedef struct s_minirt
 {
-	t_mlx		*mlx;
 	t_camera	*cam;
-	t_sphere	**spheres;
 	t_shape		**shapes;
 	t_light		**lights;
-	t_plane		*plane;
+	t_tuple		*from;
+	t_tuple		*to;
+	t_tuple		*up;
+	t_ppm		*ppm;
+	t_mlx		*mlx;
 	int			object_count;
 	int			light_count;
 }	t_minirt;
+
+typedef struct s_hook_params
+{
+	t_mlx 		*mlx;
+	t_minirt 	*m;
+	t_tuple		original_from;
+	t_tuple		original_to;
+	t_tuple		original_up;
+}	t_hook_params;
+
+typedef struct	s_transform
+{
+	t_trans	transformations[5];
+	t_tuple	scaling;
+	t_tuple	translation;
+	double	rotation_x;
+	double	rotation_y;
+	double	rotation_z;
+}	t_transform;
 
 #endif

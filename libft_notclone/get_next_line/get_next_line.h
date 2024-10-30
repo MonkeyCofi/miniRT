@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 19:35:11 by pipolint          #+#    #+#             */
-/*   Updated: 2023/12/21 15:12:50 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/28 21:23:27 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 2048
 # endif
 
 # ifndef OPEN_NAX

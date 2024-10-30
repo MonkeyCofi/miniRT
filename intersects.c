@@ -6,11 +6,16 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 21:05:21 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:50:36 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+//void	quick_sort_intersects(t_intersects *intersects)
+//{
+
+//}
 
 void	sort_intersects(t_intersects *intersects)
 {
@@ -41,31 +46,6 @@ void	sort_intersects(t_intersects *intersects)
 	}
 }
 
-t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_index)
-{
-	t_intersection	*hit;
-	t_intersects	*intersect;
-	t_tuple			direction;
-	t_tuple			new_point;
-	t_ray			*ray;
-	float			distance;
-	
-	new_point = subtract_tuples(&minirt->lights[light_index]->position, &point);
-	distance = magnitude(&new_point);
-	direction = return_tuple(new_point.x, new_point.y, new_point.z, VECTOR);
-	normalize(&direction);
-	ray = create_ray(point, direction);
-	intersect = intersect_enivornment(minirt, ray);
-	hit = best_hit(intersect);
-	if (hit && hit->t < distance)
-	{
-		free(intersect);	
-		return (true);
-	}
-	free(intersect);
-	return (false);
-}
-
 t_intersection	*best_hit(t_intersects *intersects)
 {
 	int				i;
@@ -84,7 +64,6 @@ t_intersection	*best_hit(t_intersects *intersects)
 		if (intersects->intersections[i].t < 0)
 			continue ;
 		res = &intersects->intersections[i];
-		intersects->last_intersection = i;
 		break ;
 	}
 	if (i == count && res == 0)
@@ -92,61 +71,58 @@ t_intersection	*best_hit(t_intersects *intersects)
 	return (res);
 }
 
-t_inter_comp	*precompute_intersect(t_intersects *inter, t_intersection *intersection, t_ray *ray)
+t_inter_comp	precompute_intersect(t_minirt *minirt, t_intersects *inter, t_intersection *intersection, t_ray *ray)
 {
-	t_inter_comp	*new;
-	t_ray			*object_ray;
+	t_inter_comp	new;
+	t_tuple			point_adjusted;
 
-	new = ft_calloc(1, sizeof(t_inter_comp));
-	if (!new)
-		return (NULL);
-	new->intersects = inter;
-	new->t = intersection->t;
-	new->obj = intersection->shape_ptr;
-	new->type = intersection->type;
-	new->material = intersection->material;
-	object_ray = create_ray(tuple_mult_fast(new->obj->inverse_mat, &ray->origin), tuple_mult_fast(new->obj->inverse_mat, &ray->direction));
-	new->eye_vec = return_tuple(-object_ray->direction.x, -object_ray->direction.y, -object_ray->direction.z, VECTOR);
-	new->point = position(object_ray, new->t);
-	new->type = intersection->type;
-	new->normal_vec = normal_at(new->obj, new->point);
-	if (dot_product(&new->eye_vec, &new->normal_vec) < 0)
+	//ft_bzero(&new, sizeof(t_inter_comp));
+	new.intersects = inter;
+	new.t = intersection->t;
+	new.obj = intersection->shape_ptr;
+	new.type = intersection->type;
+	new.material = intersection->material;
+	new.eye_vec = return_tuple(-ray->direction.x, -ray->direction.y, -ray->direction.z, VECTOR);	// eye vector in world space
+	normalize(&new.eye_vec);
+	new.point = position(ray, new.t);	// position of the object in world space
+	new.type = intersection->type;
+	new.normal_vec = normal_at(new.obj, new.point);	// takes the normal of the point 
+	new.ppm = minirt->ppm;
+	if (dot_product(&new.eye_vec, &new.normal_vec) < 0)
 	{
-		new->is_inside_object = true;
-		negate(&new->normal_vec);
+		new.is_inside_object = true;
+		negate(&new.normal_vec);
 	}
 	else
-		new->is_inside_object = false;
+		new.is_inside_object = false;
+	point_adjusted = return_point(new.normal_vec.x * EPSILON, new.normal_vec.y * EPSILON, new.normal_vec.z * EPSILON);
+	new.point_adjusted = add_vectors(&new.point, &point_adjusted);
 	return (new);
 }
 
-t_intersection	intersect(float t, t_shape_type type, void *shape, t_ray *ray, t_trans trans_type, t_tuple trans_coords, t_mater *material)
+t_intersection	intersect(double t, t_shape_type type, void *shape, t_mater *material)
 {
 	t_intersection	intersection;
-	t_ray			new_ray;
 
-	if (trans_type != none)
-		transform_ray(ray, trans_type, trans_coords, NULL);
 	intersection.t = t;
 	intersection.shape = shape;
 	intersection.type = type;
 	intersection.material = material;
-	(void)new_ray;
 	return (intersection);
 }
 
-t_intersects	*intersect_enivornment(t_minirt *minirt, t_ray *ray)
+t_intersects	intersect_enivornment(t_minirt *minirt, t_ray *ray)
 {
-	t_intersects	*inter;
-	t_ray			*real_ray;
+	t_intersects	inter;
+	t_ray			real_ray;
 	int				i;
-	
-	inter = ft_calloc(1, sizeof(t_intersects));
+
 	i = -1;
+	inter.intersection_count = 0;
 	while (++i < minirt->object_count)
 	{
-		real_ray = create_ray(tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->direction));
-		if (minirt->shapes[i]->intersect(minirt, inter, real_ray, i) == false)
+		real_ray = create_ray_static(tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->direction));
+		if (minirt->shapes[i]->intersect(minirt, &inter, &real_ray, i) == false)
 			continue ;
 	}
 	return (inter);
@@ -158,7 +134,7 @@ void	print_intersects(t_intersects *inter)
 		printf("intersect[%d]: %f\n", i, inter->intersections[i].t);
 }
 
-t_tuple	position(t_ray *ray, float t)
+t_tuple	position(t_ray *ray, double t)
 {
 	t_tuple	ret;
 
@@ -169,14 +145,14 @@ t_tuple	position(t_ray *ray, float t)
 	return (ret);
 }
 
-t_bool	add_to_intersect(float t, t_shape *shape_ptr, t_intersects *intersects, t_shape_type type, void *shape, t_mater *material)
+t_bool	add_to_intersect(double t, t_shape *shape_ptr, t_intersects *intersects, t_shape_type type, void *shape)
 {
 	if (intersects->intersection_count < MAX_INTERSECTS)
 	{
 		intersects->intersections[intersects->intersection_count].t = t;
 		intersects->intersections[intersects->intersection_count].type = type;
 		intersects->intersections[intersects->intersection_count].shape = shape;
-		intersects->intersections[intersects->intersection_count].material = material;
+		intersects->intersections[intersects->intersection_count].material = shape_ptr->material;
 		intersects->intersections[intersects->intersection_count].shape_ptr = shape_ptr;
 		if (intersects->intersection_count < MAX_INTERSECTS)
 			intersects->intersection_count++;

@@ -7,6 +7,10 @@
 		"structs.h": "c",
 		"vectors.h": "c",
 		"time.h": "c",
-		"init.h": "c"
+		"init.h": "c",
+		"intersects.h": "c",
+		"__locale": "c",
+		"bitset": "c",
+		"locale": "c"
 	}
 }

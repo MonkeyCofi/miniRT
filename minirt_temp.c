@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:02:53 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/08 20:45:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define T_MIN (double)0.001
 # define T_MAX (double)10000000
 
-void	draw_pixel_float(t_mlx *mlx, float x, float y, int color)
+void	draw_pixel_double(t_mlx *mlx, double x, double y, int color)
 {
 	char	*p;
 
@@ -57,7 +57,7 @@ void	draw_background(t_mlx *mlx)
 {
 	int		i;
 	int		j;
-	float	a;
+	double	a;
 
 	i = -1;
 	while (++i < HEIGHT - 1)
@@ -167,9 +167,9 @@ int main(int argc, char **argv)
 //	int				j;
 //	int				pixel_num;
 //	int				wall_z;
-//	float			pixel_size;
+//	double			pixel_size;
 //	int				wall_size;
-//	float			half;
+//	double			half;
 //	t_intersects	*inter;
 //	t_sphere		*sphere;
 //	t_color			color;
@@ -181,7 +181,7 @@ int main(int argc, char **argv)
 //	pixel_num = 1000;
 //	origin = return_tuple(0, 0, -10, POINT);
 //	wall_z = 10;
-//	pixel_size = (float)wall_size / pixel_num;
+//	pixel_size = (double)wall_size / pixel_num;
 //	half = wall_size / 2;
 //	inter = ft_calloc(1, sizeof(t_intersects));
 //	inter->intersection_count = 0;
@@ -203,11 +203,11 @@ int main(int argc, char **argv)
 //	}
 //	while (++i < pixel_num)
 //	{
-//		float world_i = half - pixel_size * i;
+//		double world_i = half - pixel_size * i;
 //		j = -1;
 //		while (++j < pixel_num)
 //		{
-//			float world_j = half - pixel_size * j;
+//			double world_j = half - pixel_size * j;
 //			t_tuple pos = return_tuple(world_j, world_i, wall_z, 1);
 //			ray.direction = subtract_tuples(&pos, &ray.origin);	// set ray direction
 //			normalize(&ray.direction);

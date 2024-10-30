@@ -6,13 +6,13 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:54:54 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/29 14:04:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_2dmat	*create_2dmat(float points[2][2])
+t_2dmat	*create_2dmat(double points[2][2])
 {
 	t_2dmat	*new_mat;
 	int		i;
@@ -31,7 +31,7 @@ t_2dmat	*create_2dmat(float points[2][2])
 	return (new_mat);
 }
 
-t_3dmat	*create_3dmat(float points[3][3])
+t_3dmat	*create_3dmat(double points[3][3])
 {
 	t_3dmat	*new_mat;
 	int		i;
@@ -50,7 +50,7 @@ t_3dmat	*create_3dmat(float points[3][3])
 	return (new_mat);
 }
 
-t_4dmat	*create_4dmat(float points[4][4])
+t_4dmat	*create_4dmat(double points[4][4])
 {
 	t_4dmat	*new_mat;
 	int		i;

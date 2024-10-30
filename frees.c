@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:03:24 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/11 20:04:19 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/24 18:09:52 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,5 @@
 
 void	free_shapes(t_minirt *minirt)
 {
-	int	i;
-
-	i = -1;
-	while (++i < minirt->object_count)
-		free(minirt->spheres[i]);
-	free(minirt->spheres);
+	(void)minirt;
 }

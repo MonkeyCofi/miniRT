@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 13:17:33 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/21 21:13:49 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:00:09 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ t_shape	*create_shape(t_shape_type type, void *shape_ptr)
 	shape->inverse_transpose = transpose(shape->inverse_mat);
 	shape->type = type;
 	shape->shape = shape_ptr;
+	shape->translation_mat = identity();
+	shape->rotation_mat = identity();
+	shape->scaling_mat = identity();
 	assign_normal_intersect_func(shape, type);
 	return (shape);
 }
@@ -38,7 +41,7 @@ void	assign_normal_intersect_func(t_shape *shape, t_shape_type type)
 {
 	if (type == SPHERE)
 	{
-		shape->normal = normal_sphere_test;
+		shape->normal = normal_sphere;
 		shape->intersect = sphere_hit;
 	}
 	else if (type == PLANE)

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 07:29:54 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/08/25 14:00:46 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ double	str_to_double(char *str)
 	return (sum);
 }
 
-int	is_float(char *str)
+int	is_double(char *str)
 {
 	int	i;
 

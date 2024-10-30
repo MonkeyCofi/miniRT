@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:27:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/17 15:15:20 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:02:11 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,15 @@ t_mater	*create_default_material()
 	return_material->diffuse = 0.9;
 	return_material->specular = 0.9;
 	return_material->shine = 200;
-	return_material->color = return_color(1, 1, 1, 1);
+	return_material->color = return_color(1, 1, 1);
+	return_material->is_patterned = false;
+	return_material->pattern.color_one = return_color(0, 0, 0);
+	return_material->pattern.color_two = return_color(1, 1, 1);
+	return_material->pattern.pattern_scale = 3;
 	return (return_material);
 }
 
-t_mater	*create_material(t_color color, float diffuse, float ambient, float specular, float shine)
+t_mater	*create_material(t_tuple color, double diffuse, double ambient, double specular, double shine)
 {
 	t_mater	*ret_mat;
 
@@ -39,5 +43,6 @@ t_mater	*create_material(t_color color, float diffuse, float ambient, float spec
 	ret_mat->ambient = ambient;
 	ret_mat->specular = specular;
 	ret_mat->shine = shine;
+	ret_mat->is_patterned = false;
 	return (ret_mat);
 }
