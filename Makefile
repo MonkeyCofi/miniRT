@@ -7,12 +7,51 @@ INCLUDES = ./includes
 CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) -Ofast -flto
 # CFLAGS += -fsanitize=address -g3
 
-SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c \
-		vector_utils.c utils.c init.c tuple_utils.c matrix_utils.c \
-		matrix_cmp.c matrix_ops.c transformations.c intersects.c light.c \
-		sphere.c frees.c material.c cylinder.c cone.c shapes.c plane.c \
-		normal.c render.c threads.c pattern.c read_ppm.c \
-		parsing.c
+SRCSPATH	=	srcs
+MATRIX 		=	$(SRCSPATH)/matrix
+PARSING		=	$(SRCSPATH)/parsing
+RENDER		=	$(SRCSPATH)/render
+SHAPES		=	$(SRCSPATH)/shapes
+TUPLES		=	$(SRCSPATH)/tuples
+UTILS		=	$(SRCSPATH)/utils
+
+SRCS		=	$(SRCSPATH)/minirt.c \
+				$(SRCSPATH)/init.c \
+				$(MATRIX)/matrix_cmp.c \
+				$(MATRIX)/matrix_ops.c \
+				$(MATRIX)/matrix_utils.c \
+				$(PARSING)/parsing.c \
+				$(RENDER)/camera.c \
+				$(RENDER)/color.c \
+				$(RENDER)/hooks.c \
+				$(RENDER)/intersects.c \
+				$(RENDER)/light.c \
+				$(RENDER)/render.c \
+				$(RENDER)/threads.c \
+				$(SHAPES)/cone.c \
+				$(SHAPES)/cylinder.c \
+				$(SHAPES)/material.c \
+				$(SHAPES)/normal.c \
+				$(SHAPES)/pattern.c \
+				$(SHAPES)/plane.c \
+				$(SHAPES)/shapes.c \
+				$(SHAPES)/sphere.c \
+				$(SHAPES)/transformations.c \
+				$(TUPLES)/tuple_utils.c \
+				$(TUPLES)/vector_math.c \
+				$(TUPLES)/vector_ops.c \
+				$(TUPLES)/vector_utils.c \
+				$(UTILS)/frees.c \
+				$(UTILS)/read_ppm.c \
+				$(UTILS)/utils.c \
+
+
+# SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c \
+# 		vector_utils.c utils.c init.c tuple_utils.c matrix_utils.c \
+# 		matrix_cmp.c matrix_ops.c transformations.c intersects.c light.c \
+# 		sphere.c frees.c material.c cylinder.c cone.c shapes.c plane.c \
+# 		normal.c render.c threads.c pattern.c read_ppm.c \
+# 		parsing.c
 
 OBJS = $(SRCS:.c=.o)
 

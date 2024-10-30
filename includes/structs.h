@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 09:40:49 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/30 12:36:32 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,7 +326,6 @@ typedef struct s_minirt
 	t_tuple		*to;
 	t_tuple		*up;
 	t_ppm		*ppm;
-	t_mlx		*mlx;
 	int			object_count;
 	int			light_count;
 }	t_minirt;
