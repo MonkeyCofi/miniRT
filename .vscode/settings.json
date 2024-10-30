@@ -11,6 +11,7 @@
 		"intersects.h": "c",
 		"__locale": "c",
 		"bitset": "c",
-		"locale": "c"
+		"locale": "c",
+		"sstream": "c"
 	}
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 11:50:01 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 18:16:32 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_sphere	*create_sphere(double originx, double originy, double originz, double radius, t_mater *material)
+t_sphere	*create_sphere(double originx, double originy, double originz, double radius)
 {
 	t_sphere	*ret;
 
@@ -23,10 +23,10 @@ t_sphere	*create_sphere(double originx, double originy, double originz, double r
 	ret->color = return_tuple(0.8, 0.5, 0.3, 0);
 	ret->radius = radius;
 	ret->diameter = ret->radius * ret->radius;
-	if (material)
-		ret->material = create_material(material->color, material->diffuse, material->ambient, material->specular, material->shine);
-	else
-		ret->material = create_material(return_color(1, 1, 1), 0.9, 0.1, 0.9, 200);
+	// if (material)
+	// 	ret->material = create_material(*material->color, material->diffuse, material->ambient, material->specular, material->shine);
+	// else
+	// 	ret->material = create_material(return_colorf(1, 1, 1), 0.9, 0.1, 0.9, 200);
 	return (ret);
 }
 

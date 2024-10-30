@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tuple_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:02:04 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 17:48:48 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 18:02:28 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,19 @@ t_tuple	return_vector(double x, double y, double z)
 	return (ret);
 }
 
-t_tuple	return_color(double r, double g, double b)
-{
-	t_tuple	ret;
+t_tuple	*return_color(double r, double g, double b, t_tuple *ret)
+{	
+	ret->r = r;
+	ret->g = g;
+	ret->b = b;
+	ret->w = COLOR;
+	return (ret);
+}
 
+t_tuple	return_colorf(double r, double g, double b)
+{
+	t_tuple ret;
+	
 	ret.r = r;
 	ret.g = g;
 	ret.b = b;

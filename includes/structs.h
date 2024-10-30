@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 11:56:17 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/30 09:40:49 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,6 @@ typedef union u_4dmat
 	double	matrix[4][4];
 }	t_4dmat;
 
-typedef struct s_color
-{
-	t_tuple	colors;
-}	t_color;
-
 typedef struct s_camera
 {
 	t_4dmat	*view_matrix;
@@ -137,6 +132,7 @@ typedef struct s_camera
 	double	half_view;
 	double	half_width;
 	double	half_height;
+	int		flag;
 }	t_camera;
 
 typedef struct s_ray
@@ -147,14 +143,14 @@ typedef struct s_ray
 
 typedef struct	s_pattern
 {
-	t_tuple	color_one;
-	t_tuple	color_two;
+	t_tuple	*color_one;
+	t_tuple	*color_two;
 	int		pattern_scale;
 }	t_pattern;
 
 typedef struct	s_mater
 {
-	t_tuple		color;
+	t_tuple		*color;
 	t_pattern	pattern;
 	double		ambient;
 	double		specular;
@@ -168,6 +164,8 @@ typedef struct s_shape
 {
 	t_shape_type	type;
 	t_pattern		pattern;
+	t_tuple			*coords;
+	t_tuple			*orientation;
 	t_4dmat			transform;
 	t_4dmat			*inverse_mat;
 	t_4dmat			translation_mat;
@@ -178,6 +176,8 @@ typedef struct s_shape
 	t_bool			patterned;
 	t_tuple			(*normal)(struct s_shape *, t_tuple);
 	t_bool			(*intersect)(t_minirt *, t_intersects *, t_ray *, int);
+	double			r;
+	double			h;
 	void			*shape;
 }	t_shape;
 
@@ -246,8 +246,8 @@ typedef struct	s_plane
 
 typedef struct	s_light
 {
-	t_color	intensity;
-	t_tuple	position;
+	t_tuple	*intensity;
+	t_tuple	*position;
 	double	brightness;
 }	t_light;
 
@@ -289,8 +289,16 @@ typedef struct	s_inter_comp
 	double			t;
 }	t_inter_comp;
 
+typedef struct s_ambient
+{
+	double			ratio;
+	t_tuple			*color;
+	int				flag;
+}	t_ambient;
+
 typedef struct s_minirt
 {
+	t_ambient	*ambient;
 	t_mlx		*mlx;
 	t_camera	*cam;
 	t_shape		**shapes;

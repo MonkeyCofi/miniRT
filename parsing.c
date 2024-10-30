@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/10/29 11:31:06 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/30 09:51:33 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	dovector(char *string, t_tuple *calc)
 		ret = 1;
 	else
 	{
-		calc->x = str_to_double(str[0]) / 100.0;
-		calc->y = str_to_double(str[1]) / 100.0;
-		calc->z = str_to_double(str[2]) / 100.0;
+		calc->x = str_to_double(str[0]);
+		calc->y = str_to_double(str[1]);
+		calc->z = str_to_double(str[2]);
 	}
 	free_arr(str);
 	return (ret);
@@ -65,6 +65,8 @@ int	dovectoraarij(char *string, t_tuple *calc)
 	return (ret);
 }
 
+// void	orientationbe(`)
+
 int	dovectororientation(char *string, t_tuple *calc)
 {
 	char	**str;
@@ -75,10 +77,8 @@ int	dovectororientation(char *string, t_tuple *calc)
 	ret = 0;
 	str = ft_split(string, ',');
 	while (str && str[++i])
-	{
 		if (!is_double(str[i]))
 			ret = 1;
-	}
 	if (arr_len(str) != 3)
 		ret = 1;
 	else if (ret == 0)
@@ -92,6 +92,7 @@ int	dovectororientation(char *string, t_tuple *calc)
 		(calc->z > 1 || calc->z < -1))
 		ret = 1;
 	free_arr(str);
+	
 	return (ret);
 }
 
@@ -165,11 +166,13 @@ int	parse_camera(t_minirt *minirt, char *string)
 	str = ft_split(string, ' ');
 	if(arr_len(str) != 4)
 		return (1);
-	while(string && string[i++])
+	minirt->from = ft_calloc(1, sizeof(t_tuple));
+	minirt->to = ft_calloc(1, sizeof(t_tuple));
+	while(str[i] && str[i++])
 	{
-		if (i == 1 && dovector(str[i], &minirt->cam->coords))
+		if (i == 1 && dovector(str[i], minirt->from))
 			return (printf("Error\nIssue Lies in Camera Coordinates\n"), 1);
-		if (i == 2 && dovectororientation(str[i], &minirt->cam->orientation))
+		if (i == 2 && dovectororientation(str[i], minirt->to))
 			return (printf("Error\nIssue Lies in Camera Orientation\n"), 1);
 		if (i == 3 && check_ulong(str[i], &minirt->cam->fov))
 			return (printf("Error\nIssue Lies in Camera FOV\n"), 1);
@@ -209,9 +212,9 @@ int	parse_sphere(t_minirt *minirt, char *string, int *j)
 	if(arr_len(str) != 4)
 		return (1);
 	minirt->shapes[*j] = alloc_shape(minirt->shapes[*j]);
-	while (string && string[i])
+	while (str && str[i])
 	{
-		if (i == 1 && dovectoraarij(str[i], minirt->shapes[*j]->coords))
+		if (i == 1 && dovector(str[i], minirt->shapes[*j]->coords))
 			return (printf("Error\nIssue Lies in Sphere Coordinates\n"), 1);
 		if (i == 2 && check_double(str[i], &diameter))
 			return (printf("Error\nIssue Lies in Sphere Diameter\n"), 1);
@@ -237,9 +240,9 @@ int	parse_plane(t_minirt *minirt, char *string, int *j)
 	if(arr_len(str) != 4)
 		return (1);
 	minirt->shapes[*j] = alloc_shape(minirt->shapes[*j]);
-	while (string && string[i])
+	while (str && str[i])
 	{
-		if (i == 1 && dovectoraarij(str[i], minirt->shapes[*j]->coords))
+		if (i == 1 && dovector(str[i], minirt->shapes[*j]->coords))
 			return (printf("Error\nIssue Lies in Plane Coordinates\n"), 1);
 		if (i == 2 && dovectororientation(str[i], minirt->shapes[*j]->orientation))
 			return (printf("Error\nIssue Lies in Plane Orientation\n"), 1);
@@ -259,16 +262,16 @@ int	parse_cylinder(t_minirt *minirt, char *string, int *j)
 	int 	i;
 	char	**str;
 	double	diameter = 0.0;
-	double	height;
-
+	double	height = 0.0;
 	str = ft_split(string, ' ');
+	// printf("%s\n", string);
 	i = 1;
 	if(arr_len(str) != 6)
 		return (1);
 	minirt->shapes[*j] = alloc_shape(minirt->shapes[*j]);
-	while (string && string[i])
+	while (str && str[i])
 	{
-		if (i == 1 && dovectoraarij(str[i], minirt->shapes[*j]->coords))
+		if (i == 1 && dovector(str[i], minirt->shapes[*j]->coords))
 			return (printf("Error\nIssue Lies in Cylinder Coordinates\n"), 1);
 		if (i == 2 && dovectororientation(str[i], minirt->shapes[*j]->orientation))
 			return (printf("Error\nIssue Lies in Cylinder Orientation\n"), 1);
@@ -282,6 +285,7 @@ int	parse_cylinder(t_minirt *minirt, char *string, int *j)
 	}
 	free_arr(str);
 	minirt->shapes[*j]->type = CYLINDER;
+	minirt->shapes[*j]->h = height;
 	minirt->shapes[*j]->r = diameter / 2;
 	minirt->object_count += 1;
 	*j += 1;
@@ -325,13 +329,13 @@ int	parse_light(t_minirt *minirt, char *string, int *j)
 	minirt->lights[*j] = ft_calloc(1, sizeof(t_ambient));
 	minirt->lights[*j]->position = ft_calloc(1, sizeof(t_tuple));
 	minirt->lights[*j]->intensity = ft_calloc(1, sizeof(t_tuple));
-	while(string && string[i])
+	while(str && str[i])
 	{
-		if(i == 1 && dovectoraarij(str[i], &minirt->lights[*j]->position))
+		if(i == 1 && dovector(str[i], minirt->lights[*j]->position))
 			return(printf("Error\nIssue Lies in Light Coords"), 1);
 		if(i == 2 && check_double(str[i], &minirt->lights[*j]->brightness))
 			return(printf("Error\nIssue Lies in Light Brightness"), 1);
-		if(i == 3 && dovectorcolor(str[i], &minirt->lights[*j]->intensity))
+		if(i == 3 && dovectorcolor(str[i], minirt->lights[*j]->intensity))
 			return(printf("Error\nIssue Lies in Light Color"), 1);
 		i++;
 	}

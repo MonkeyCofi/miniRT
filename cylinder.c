@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 11:55:59 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:13:22 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ t_bool intersect_cylinder(t_minirt *m, t_intersects *intersects, t_ray *ray, int
 	int			i;
 	
 	i = 0;
-	cyl = m->shapes[shape_index]->shape;
+	cyl = m->shapes[shape_index]->shape; //
 	a = (ray->direction.x * ray->direction.x) + (ray->direction.z * ray->direction.z);
 	if (a < EPSILON)
 		return (cylinder_end_hit(cyl, m->shapes[shape_index], ray, intersects));

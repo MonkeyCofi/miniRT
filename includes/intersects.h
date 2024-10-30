@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersects.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:02:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/26 13:50:47 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/30 09:52:17 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void			print_intersects(t_intersects *inter);
 t_tuple			position(t_ray *ray, double t);
 t_tuple			normal_pos_cylinder(t_shape *shape, t_tuple pos);
 
+// t_cylinder		*create_cylinder(t_tuple orientation);
 t_cylinder		*create_cylinder(t_tuple orientation);
 
 t_cone			*create_cone();

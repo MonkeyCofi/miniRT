@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:31:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 21:35:22 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 18:06:59 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*render_part(void *thread)
 {
 	t_thread	*thr;
 	t_ray		ray;
-	t_color		c;
+	t_tuple		c;
 	t_tuple		color;
 	int			height;
 	int			width;
@@ -45,7 +45,7 @@ void	*render_part(void *thread)
 		{
 			ray = ray_per_pixel(thr->camera, j, i);
 			color = color_at(thr->minirt, &ray);
-			c.colors = return_color(color.x, color.y, color.z);
+			return_color(color.x, color.y, color.z, &c);
 			draw_pixel(thr->mlx, j, i, get_ray_color(&c));
 		}
 	}

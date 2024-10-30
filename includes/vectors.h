@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vectors.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 15:27:59 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 17:49:22 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 18:01:43 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	print_tuple_points(t_tuple *vec);
 
 t_tuple	return_point(double x, double y, double z);
 t_tuple	return_vector(double x, double y, double z);
-t_tuple	return_color(double r, double g, double b);
+t_tuple	*return_color(double r, double g, double b, t_tuple *ret);
+t_tuple	return_colorf(double r, double g, double b);
 
 #endif
