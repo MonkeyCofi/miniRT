@@ -15,7 +15,7 @@
 
 # include "structs.h"
 
-t_inter_comp	precompute_intersect(t_intersects *inter, t_intersection *intersection, t_ray *ray);
+t_inter_comp	precompute_intersect(t_minirt *minirt, t_intersects *inter, t_intersection *intersection, t_ray *ray);
 //t_intersection	intersect(double t, t_shape_type type);
 t_intersection	intersect(double t, t_shape_type type, void *shape, t_mater *material);
 

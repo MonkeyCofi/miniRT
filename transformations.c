@@ -196,57 +196,99 @@ t_bool	set_inverse_transpose(t_shape *shape, t_4dmat *transform_mat)
 t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tuple *transform_coords)
 {
 	t_bool	inverse_res;
+	t_4dmat	translation;
+	t_4dmat	scaling;
+	t_4dmat	rotation;
+	t_4dmat	resultant;
 
+	scaling = identity();
+	rotation = identity();
+	translation = identity();
 	if (type == none)
 	{
 		inverse_res = inverse_mat(&m->shapes[index]->transform, &m->shapes[index]->inverse_mat);
 		return (true);
 	}
 	if (type == translate)
-	{
-		m->shapes[index]->translation_mat = translation_mat(transform_coords->x, transform_coords->y,  transform_coords->z);
-		m->shapes[index]->transform = mat4d_mult_fast_static(&m->shapes[index]->translation_mat, &m->shapes[index]->transform);
-		if (set_inverse_transpose(m->shapes[index], &m->shapes[index]->transform) == error)
-			return (error);
-		return (true);
-	}
-	else if (type == scale){
-		m->shapes[index]->scaling_mat = scaling_mat(transform_coords->x, transform_coords->y,  transform_coords->z);
-		m->shapes[index]->transform = mat4d_mult_fast_static(&m->shapes[index]->scaling_mat, &m->shapes[index]->transform);
-		if (set_inverse_transpose(m->shapes[index], &m->shapes[index]->transform) == error)
-			return (error);
-		return (true);
-	}
+		translation = translation_mat(transform_coords->x, transform_coords->y,  transform_coords->z);
+	else if (type == scale)
+		scaling = scaling_mat(transform_coords->x, transform_coords->y,  transform_coords->z);
 	else if (type == rotate_x)
-	{
-		m->shapes[index]->rotation_mat = x_rotation_mat(angle);
-		m->shapes[index]->transform = mat4d_mult_fast_static(&m->shapes[index]->rotation_mat, &m->shapes[index]->transform);
-		if (set_inverse_transpose(m->shapes[index], &m->shapes[index]->transform) == error)
-			return (error);
-		return (true);
-	}
+		rotation = x_rotation_mat(angle);
 	else if (type == rotate_y)
-	{
-		m->shapes[index]->rotation_mat = y_rotation_mat(angle);
-		m->shapes[index]->transform = mat4d_mult_fast_static(&m->shapes[index]->rotation_mat, &m->shapes[index]->transform);
-		if (set_inverse_transpose(m->shapes[index], &m->shapes[index]->transform) == error)
-			return (error);
-		return (true);
-	}
-	else if (type == rotate_z){
-		m->shapes[index]->rotation_mat = z_rotation_mat(angle);
-		m->shapes[index]->transform = mat4d_mult_fast_static(&m->shapes[index]->rotation_mat, &m->shapes[index]->transform);
-		if (set_inverse_transpose(m->shapes[index], &m->shapes[index]->transform) == error)
-			return (error);
-		return (true);
-	}
-	//print_4dmatrix(&m->shapes[index]->transform);
-	//printf("\n");
-	//print_4dmatrix(&m->shapes[index]->transform);
-	//printf("\n");
-	//print_4dmatrix(&m->shapes[index]->transform);
-	//printf("\n");
-	//if (set_inverse_transpose(m->shapes[index], &m->shapes[index]->transform) == error)
-	//	return (error);
+		rotation = y_rotation_mat(angle);
+	else if (type == rotate_z)
+		rotation = z_rotation_mat(angle);
+	resultant = mat4d_mult_fast_static(&scaling, &rotation);
+	resultant = mat4d_mult_fast_static(&resultant, &translation);
+	m->shapes[index]->transform = mat4d_mult_fast_static(&resultant,&m->shapes[index]->transform);
+	if (set_inverse_transpose(m->shapes[index], &m->shapes[index]->transform) == error)
+		return (error);
 	return (true);
 }
+
+void	get_transform_params_rotations(double x, double y, double z, t_transform *trans_params)
+{
+	trans_params->rotation_x = x;
+	trans_params->rotation_y = y;
+	trans_params->rotation_z = z;
+}
+
+void	get_transform_params(t_tuple translate, t_tuple scaling, t_transform *trans_params)
+{
+	trans_params->translation = translate;
+	trans_params->scaling = scaling;
+}
+
+//void	get_trans_order(t_transform *trans_params, )
+//{
+
+//}
+
+//t_bool	transform_shape_new(t_shape *shape, t_transform *transform_params)
+//{
+//	int	i;
+
+//	i = -1;
+//	while (++i < 5)
+//	{
+//		if (transform_params->transformations[i] == none)
+//		{
+//			printf("none\n");
+//			continue ;
+//		}
+//		else if (transform_params->transformations[i] == scale)
+//		{
+//			printf("%d scale", i);
+//			shape->scaling_mat = scaling_mat(transform_params->scaling.x, transform_params->scaling.y, transform_params->scaling.z);
+//			shape->transform = mat4d_mult_fast_static(&shape->transform, &shape->scaling_mat);
+//		}
+//		else if (transform_params->transformations[i] == translate)
+//		{
+//			printf("%i translate\n", i);
+//			shape->translation_mat = translation_mat(transform_params->translation.x, transform_params->translation.y, transform_params->translation.z);
+//			shape->transform = mat4d_mult_fast_static(&shape->transform, &shape->translation_mat);
+//		}
+//		else if (transform_params->transformations[i] == rotate_x)
+//		{
+//			printf("%d rotate x\n", i);
+//			shape->rotation_mat = x_rotation_mat(transform_params->rotation_x);
+//			shape->transform = mat4d_mult_fast_static(&shape->transform, &shape->rotation_mat);
+//		}
+//		else if (transform_params->transformations[i] == rotate_y)
+//		{
+//			printf("%d rotate y\n", i);
+//			shape->rotation_mat = y_rotation_mat(transform_params->rotation_y);
+//			shape->transform = mat4d_mult_fast_static(&shape->transform, &shape->rotation_mat);
+//		}
+//		else if (transform_params->transformations[i] == rotate_z)
+//		{
+//			printf("%d rotate z\n", i);
+//			shape->rotation_mat = z_rotation_mat(transform_params->rotation_z);
+//			shape->transform = mat4d_mult_fast_static(&shape->transform, &shape->rotation_mat);
+//		}
+//	}
+//	if (set_inverse_transpose(shape, &shape->transform) == error)
+//		return (error);
+//	return (true);
+//}

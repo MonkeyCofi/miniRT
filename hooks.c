@@ -59,16 +59,16 @@ void	adjust_yaw(t_minirt *m, int i)
 		old_x = m->to->x - m->from->x;
 		old_z = m->to->z - m->from->z;
 
-		m->to->x = old_x * cos(0.25) - old_z * sin(0.25) + m->from->x;
-		m->to->z = old_x * sin(0.25) + old_z * cos(0.25) + m->from->z;
+		m->to->x = old_x * cos(0.5) - old_z * sin(0.5) + m->from->x;
+		m->to->z = old_x * sin(0.5) + old_z * cos(0.5) + m->from->z;
 	}
 	if(i == 1)
 	{
 		old_x = m->to->x - m->from->x;
 		old_z = m->to->z - m->from->z;
 	
-		m->to->x = old_x * cos(-0.25) - old_z * sin(-0.25) + m->from->x;
-		m->to->z = old_x * sin(-0.25) + old_z * cos(-0.25) + m->from->z;
+		m->to->x = old_x * cos(-0.5) - old_z * sin(-0.5) + m->from->x;
+		m->to->z = old_x * sin(-0.5) + old_z * cos(-0.5) + m->from->z;
 	}
 }
 

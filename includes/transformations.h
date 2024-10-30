@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:13:25 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:07:29 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 # include "structs.h"
 
-typedef struct	s_tranform
-{
-	t_4dmat	*transformations;
-	t_trans	*types;
-	t_tuple	*points;
-	double	rot_angle_x;
-	double	rot_angle_y;
-	double	rot_angle_z;
-	int		trans_count;
-}	t_transform;
+//typedef struct	s_transform
+//{
+//	t_4dmat	*transformations;
+//	t_trans	*types;
+//	t_tuple	*points;
+//	double	rot_angle_x;
+//	double	rot_angle_y;
+//	double	rot_angle_z;
+//	int		trans_count;
+//}	t_transform;
 
 t_4dmat	translation_mat(double x, double y, double z);
 t_4dmat	scaling_mat(double x, double y, double z);
@@ -41,5 +41,9 @@ void	transform_sphere(t_sphere *sphere, t_trans type, t_tuple transform_coords);
 t_tuple	chain_transforms(t_transform *trans, t_tuple *point);
 
 t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tuple *transform_coords);
+t_bool	transform_shape_new(t_shape *shape, t_transform *transform_params);
+
+void	get_transform_params_rotations(double x, double y, double z, t_transform *trans_params);
+void	get_transform_params(t_tuple translate, t_tuple scaling, t_transform *trans_params);
 
 #endif

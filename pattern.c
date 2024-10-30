@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:35:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 17:34:04 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/29 22:04:49 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,34 @@ t_pattern	create_pattern(t_tuple color_one, t_tuple color_two, int scale)
 	pattern.color_two = &color_two;
 	pattern.pattern_scale = scale;
 	return (pattern);
+}
+
+t_tuple	texture_sphere(t_tuple point, t_ppm *tex)
+{
+	double	*uv;
+	int		tex_x;
+	int		tex_y;
+	
+	uv = sphere_uv(point);
+	tex_x = (uv[0] * tex->width - 1);
+	tex_y = (uv[1] * tex->width - 1);
+	//printf("getting texture\n");
+	return (tex->colors[tex_y][tex_x]);
+}
+
+t_tuple	texture_plane(t_tuple point, t_ppm *tex)
+{
+	double	u;
+	double	v;
+	int		tex_x;
+	int		tex_y;
+
+	u = point.x * 10;
+	v = point.z * 10;
+	tex_x = (u * tex->width - 1);
+	tex_y = (v * tex->width - 1);
+	printf("getting texture\n");
+	return (tex->colors[tex_y][tex_x]);
 }
 
 t_tuple	pattern_at_point(t_pattern pattern, t_tuple point)
