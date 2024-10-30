@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 21:06:15 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 20:35:57 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/29 18:05:24 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 	int		i;
 	int		j;
 	t_ray	ray;
-	t_color c;
+	t_tuple c;
 	t_tuple color;
 
 	i = -1;
@@ -117,7 +117,7 @@ int	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 		{
 			ray = ray_per_pixel(camera, j, i);
 			color = color_at(minirt, &ray);
-			c.colors = return_color(color.x, color.y, color.z);
+			return_color(color.x, color.y, color.z, &c);
 			draw_pixel(mlx, j, i, get_ray_color(&c));
 		}
 	}

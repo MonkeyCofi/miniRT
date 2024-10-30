@@ -70,10 +70,10 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tu
 			color = checkerboard(material->pattern, point);
 	}
 	else
-		color = material->color;
+		color = *material->color;
 	//final_color = multiply_tuples(&light->intensity.colors, &material->color, COLOR);
-	final_color = multiply_tuples(&light->intensity.colors, &color, COLOR);
-	light_vector = subtract_tuples(&point, &light->position);
+	final_color = multiply_tuples(light->intensity, &color, COLOR);
+	light_vector = subtract_tuples(&point, light->position);
 	normalize(&light_vector);
 	ambient = return_scalar(&final_color, material->ambient);
 	light_dot = dot_product(&normal_vector, &light_vector);
@@ -90,18 +90,18 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tu
 		else
 		{
 			double fac = pow(eye_dot, material->shine);
-			specular = return_scalar(&light->intensity.colors, material->specular * fac);
+			specular = return_scalar(light->intensity, material->specular * fac);
 		}
 	}
-	return (return_color(diffuse.x + specular.x + ambient.x, diffuse.y + specular.y + ambient.y, diffuse.z + specular.z + ambient.z));
+	return (return_colorf(diffuse.x + specular.x + ambient.x, diffuse.y + specular.y + ambient.y, diffuse.z + specular.z + ambient.z));
 }
 
 t_light	create_light(t_tuple intensity, t_tuple position)
 {
 	t_light	light;
 
-	light.intensity.colors = intensity;
-	light.position = position;
+	light.intensity = &intensity;
+	light.position = &position;
 	return (light);	
 }
 

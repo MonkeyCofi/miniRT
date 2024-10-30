@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
 /*   Updated: 2024/10/30 10:57:49 by pipolint         ###   ########.fr       */
@@ -38,7 +38,7 @@ void	set_min_max(t_tuple *color)
 //	return (ret_color);
 //}
 
-uint32_t	get_ray_color(t_color	*color)
+uint32_t	get_ray_color(t_tuple	*color)
 {
 	uint32_t		res;
 	uint8_t			r;
@@ -46,11 +46,11 @@ uint32_t	get_ray_color(t_color	*color)
 	uint8_t			b;
 	uint8_t			a;
 
-	set_min_max(&color->colors);
-	r = color->colors.r * 255;
-	g = color->colors.g * 255;
-	b = color->colors.b * 255;
-	a = color->colors.a;
+	set_min_max(color);
+	r = color->r * 255;
+	g = color->g * 255;
+	b = color->b * 255;
+	a = color->a;
 	res = a << 24 | r << 16 | g << 8 | b;
 	return (res);
 }
@@ -82,7 +82,7 @@ static inline t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_ind
 	double			distance;
 	
 	new_point = (t_tuple){0};
-	new_point = subtract_tuples(&point, &minirt->lights[light_index]->position);
+	new_point = subtract_tuples(&point, minirt->lights[light_index]->position);
 	direction = return_tuple(new_point.x, new_point.y, new_point.z, VECTOR);
 	normalize(&direction);
 	distance = magnitude(&direction);

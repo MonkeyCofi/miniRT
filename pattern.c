@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   pattern.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:35:06 by pipolint          #+#    #+#             */
 /*   Updated: 2024/10/29 22:04:49 by pipolint         ###   ########.fr       */
@@ -16,8 +16,8 @@ t_pattern	create_pattern(t_tuple color_one, t_tuple color_two, int scale)
 {
 	t_pattern	pattern;
 
-	pattern.color_one = color_one;
-	pattern.color_two = color_two;
+	pattern.color_one = &color_one;
+	pattern.color_two = &color_two;
 	pattern.pattern_scale = scale;
 	return (pattern);
 }
@@ -53,8 +53,8 @@ t_tuple	texture_plane(t_tuple point, t_ppm *tex)
 t_tuple	pattern_at_point(t_pattern pattern, t_tuple point)
 {
 	if ((int)floor(point.x * pattern.pattern_scale) % 2 == 0)
-		return (pattern.color_one);
-	return (pattern.color_two);
+		return (*pattern.color_one);
+	return (*pattern.color_two);
 }
 
 t_tuple	checkerboard(t_pattern pattern, t_tuple point)
@@ -67,8 +67,8 @@ t_tuple	checkerboard(t_pattern pattern, t_tuple point)
 	y = floor(point.y * pattern.pattern_scale);
 	z = floor(point.z * pattern.pattern_scale);
 	if ((x + y + z) % 2 == 0)
-		return (pattern.color_one);
-	return (pattern.color_two);
+		return *(pattern.color_one);
+	return (*pattern.color_two);
 }
 
 double	*sphere_uv(t_tuple point)
@@ -101,8 +101,8 @@ t_tuple	checkerboard_sphere(t_pattern pattern, t_inter_comp *intersection)
 	u_scaled = floor(u * pattern.pattern_scale);
 	v_scaled = floor(v * pattern.pattern_scale);
 	if ((u_scaled + v_scaled) % 2 == 0)
-		return (pattern.color_one);
-	return (pattern.color_two);
+		return (*pattern.color_one);
+	return (*pattern.color_two);
 }
 t_tuple checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection)
 {
@@ -124,8 +124,8 @@ t_tuple checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection)
     u_scaled = floor(u * pattern.pattern_scale);
     v_scaled = floor(v * pattern.pattern_scale);
     if ((u_scaled + v_scaled) % 2 == 0)
-        return pattern.color_one;
-    return pattern.color_two;
+        return *pattern.color_one;
+    return *pattern.color_two;
 }
 
 t_tuple checkerboard_cap(t_pattern pattern, t_tuple point)
@@ -135,6 +135,6 @@ t_tuple checkerboard_cap(t_pattern pattern, t_tuple point)
 	x = floor((point.x + 1.0) * 0.2 * pattern.pattern_scale);
 	z = floor((point.z + 1.0) * 0.2 * pattern.pattern_scale); 
 	if ((x + z) % 2 == 0)
-		return pattern.color_one;
-	return pattern.color_two;
+		return *pattern.color_one;
+	return *pattern.color_two;
 }

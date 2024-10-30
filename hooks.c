@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 17:17:16 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/30 09:17:08 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,13 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 {
 	// I FUCKING COOKED HOLY SHIT IM SO CRAAACKKEEDDDD
 	t_minirt *m = hooks->m;
+				// 	printf("From:\n");
+				// print_tuple_points(m->from);
+				// printf("\nTo:\n");
+				// print_tuple_points(m->to);
+				// printf("\nUp:\n");
+				// print_tuple_points(m->up);
+				// printf("\n\n");
 	if (keycode == W) 
 	{
 		m->from->z += 0.5;
@@ -163,6 +170,6 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 		closert(hooks->m);
 	m->cam->view_matrix = view_transform(m->to, m->from, m->up);
 	// render(hooks->mlx, m->cam, m);
-	threaded_render(hooks->mlx, m, hooks->m->cam);
+	threaded_render(hooks->mlx, m, m->cam);
 	return (0);
 }
