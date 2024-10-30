@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 17:36:54 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/30 12:58:37 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@
 # include "threads.h"
 # include "pattern.h"
 # include "ppm.h"
+# include "parsing.h"
 
+# include <string.h>
 # include <math.h>
 # include <stdio.h>
 # include <fcntl.h>
@@ -113,15 +115,11 @@ typedef struct s_cameraparse
 int			escape(int keycode, void *param);
 int			destroy(void *param);
 
-// parsing stuff, will make .h file separately for dis
-int			fileopen(char *path, t_minirt *minirt);
+// utils stuff
 int			arr_len(char	*arr[]);
 double		str_to_double(char *str);
 int			is_double(char *str);
 void		free_arr(char *arr[]);
-int			dovector(char *string, t_tuple *calc);
-int			parse_camera(t_minirt *minirt, char *string);
-int			parsing(char *str, t_minirt *minirt, int *i, int *j);
 
 //t_tuple		lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector);
 t_tuple		lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow);

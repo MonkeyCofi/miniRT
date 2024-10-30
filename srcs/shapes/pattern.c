@@ -6,19 +6,17 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:35:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 22:04:49 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:41:31 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_pattern	create_pattern(t_tuple color_one, t_tuple color_two, int scale)
+t_pattern	*create_pattern(t_tuple color_one, t_tuple color_two, int scale, t_pattern *pattern)
 {
-	t_pattern	pattern;
-
-	pattern.color_one = &color_one;
-	pattern.color_two = &color_two;
-	pattern.pattern_scale = scale;
+	pattern->color_one = &color_one;
+	pattern->color_two = &color_two;
+	pattern->pattern_scale = scale;
 	return (pattern);
 }
 

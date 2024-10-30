@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 12:36:32 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/30 14:39:43 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ typedef struct	s_pattern
 typedef struct	s_mater
 {
 	t_tuple		*color;
-	t_pattern	pattern;
+	t_pattern	*pattern;
 	double		ambient;
 	double		specular;
 	double		diffuse;

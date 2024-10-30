@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 22:05:11 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:45:07 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tu
 			if (fabs(y_value - min_y) < EPSILON || fabs(y_value - max_y) < EPSILON)
 			{
 				// point is near the cap
-				color = checkerboard_cap(material->pattern, object_point);
+				color = checkerboard_cap(*material->pattern, object_point);
 			}
 			else
 			{
 				// point is on the cylindrical body
-				color = checkerboard_cylinder(material->pattern, intersection);
+				color = checkerboard_cylinder(*material->pattern, intersection);
 			}
 		}
 		//color = pattern_at_point(material->pattern, point);
@@ -67,7 +67,7 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tu
 		}
 		else
 			//color = texture_plane(intersection->point, intersection->ppm);
-			color = checkerboard(material->pattern, point);
+			color = checkerboard(*material->pattern, point);
 	}
 	else
 		color = *material->color;
