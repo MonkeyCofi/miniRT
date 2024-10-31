@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 14:39:43 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/31 10:14:42 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,15 +143,15 @@ typedef struct s_ray
 
 typedef struct	s_pattern
 {
-	t_tuple	*color_one;
-	t_tuple	*color_two;
+	t_tuple	color_one;
+	t_tuple	color_two;
 	int		pattern_scale;
 }	t_pattern;
 
 typedef struct	s_mater
 {
-	t_tuple		*color;
-	t_pattern	*pattern;
+	t_tuple		color;
+	t_pattern	pattern;
 	double		ambient;
 	double		specular;
 	double		diffuse;
@@ -164,8 +164,8 @@ typedef struct s_shape
 {
 	t_shape_type	type;
 	t_pattern		pattern;
-	t_tuple			*coords;
-	t_tuple			*orientation;
+	t_tuple			coords;
+	t_tuple			orientation;
 	t_4dmat			transform;
 	t_4dmat			*inverse_mat;
 	t_4dmat			translation_mat;
@@ -242,8 +242,8 @@ typedef struct	s_plane
 
 typedef struct	s_light
 {
-	t_tuple	*intensity;
-	t_tuple	*position;
+	t_tuple	intensity;
+	t_tuple	position;
 	double	brightness;
 }	t_light;
 
@@ -311,7 +311,7 @@ typedef struct	s_inter_comp
 typedef struct s_ambient
 {
 	double			ratio;
-	t_tuple			*color;
+	t_tuple			color;
 	int				flag;
 }	t_ambient;
 
@@ -322,9 +322,9 @@ typedef struct s_minirt
 	t_camera	*cam;
 	t_shape		**shapes;
 	t_light		**lights;
-	t_tuple		*from;
-	t_tuple		*to;
-	t_tuple		*up;
+	t_tuple		from;
+	t_tuple		to;
+	t_tuple		up;
 	t_ppm		*ppm;
 	int			object_count;
 	int			light_count;

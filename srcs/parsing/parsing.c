@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/10/30 16:39:04 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/31 10:21:55 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,30 +155,28 @@ int	dovectorcolor(char *string, t_tuple *calc)
 	return (ret);
 }
 
-int	recognizepattern(char *string, t_mater *material)
-{
-	int i;
-	int ret;
-	i = -1;
-	ret = 0;
-	char **str;
-	str = ft_split(string, '=');
-	if(arr_len(str) != 2)
-		return (1);
-	// material.pattern = ft_calloc(1, sizeof(t_pattern));
-	// material.pattern.color_two = ft_calloc(1, sizeof(t_tuple));
-	while(str && str[++i])
-	{
-		if(i == 1 && ft_strncmp(str[i], "pattern", 7) == 1)
-			return(printf("Error\nIssue Lies in Pattern Keyword\n"), 1);
-		if(i == 2 && dovectorcolor(str[i], material.pattern->color_two))
-			return(printf("Error\nIssue Lies in Pattern Color\n"), 1);
-	}
-	free_arr(str);
-	material.is_patterned = true;
-	material.pattern->color_one = material.color;
-	return (0);
-}
+// int	recognizepattern(char *string, t_mater *material)
+// {
+// 	int i;
+// 	int ret;
+// 	i = -1;
+// 	ret = 0;
+// 	char **str;
+// 	str = ft_split(string, '=');
+// 	if(arr_len(str) != 2)
+// 		return (1);
+// 	while(str && str[++i])
+// 	{
+// 		if(i == 1 && ft_strncmp(str[i], "pattern", 7) == 1)
+// 			return(printf("Error\nIssue Lies in Pattern Keyword\n"), 1);
+// 		if(i == 2 && dovectorcolor(str[i], &material->pattern->color_two))
+// 			return(printf("Error\nIssue Lies in Pattern Color\n"), 1);
+// 	}
+// 	free_arr(str);
+// 	material->is_patterned = true;
+// 	material->pattern->color_one = material->color;
+// 	return (0);
+// }
 
 int	isulong(char *str)
 {
@@ -223,13 +221,11 @@ int	parse_camera(t_minirt *minirt, char *string)
 	str = ft_split(string, ' ');
 	if(arr_len(str) != 4)
 		return (1);
-	minirt->from = ft_calloc(1, sizeof(t_tuple));
-	minirt->to = ft_calloc(1, sizeof(t_tuple));
 	while(str[i] && str[i++])
 	{
-		if (i == 1 && dovector(str[i], minirt->from))
+		if (i == 1 && dovector(str[i], &minirt->from))
 			return (printf("Error\nIssue Lies in Camera Coordinates\n"), 1);
-		if (i == 2 && dovectororientationf(str[i], minirt->to))
+		if (i == 2 && dovectororientationf(str[i], &minirt->to))
 			return (printf("Error\nIssue Lies in Camera Orientation\n"), 1);
 		if (i == 3 && check_ulong(str[i], &minirt->cam->fov))
 			return (printf("Error\nIssue Lies in Camera FOV\n"), 1);
@@ -322,7 +318,7 @@ int	getmap(int fd, t_minirt *minirt)
 		free(line);
 	}
 	close(fd);
-	if (!ret && (invalidfile(minirt) == 1))
+	if (!ret && (invalidfile(minirt) != 1))
 		return(printf("Error\nMissing Necessary Element\n"), 1);
 	return (ret);
 }

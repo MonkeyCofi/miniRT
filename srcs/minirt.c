@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 14:49:30 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/31 15:48:31 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ t_minirt *init_minirtaarij(t_minirt *m)
 	m->shapes = ft_calloc(1, (sizeof(t_shape)));
 	m->ambient = ft_calloc(1, sizeof(t_ambient));
 	m->lights = ft_calloc(1, (sizeof(t_light)));
-	m->up = return_tuple_pointer(0, 1, 0, VECTOR);
+	m->up = return_tuple(0, 1, 0, VECTOR);
 	m->ambient->flag = 0;
+	m->ambient->ratio = 0;
 	m->cam->flag = 0;
 	m->object_count = 0;
 	m->light_count = 0;
@@ -47,19 +48,17 @@ t_minirt *init_minirtaarij(t_minirt *m)
 t_minirt *init_sphere(t_minirt *m, int *i)
 {
 	t_sphere *sphere = create_sphere(0, 0, 0, m->shapes[*i]->r);
-	t_tuple *coords = m->shapes[*i]->coords;
-	t_tuple *color = m->shapes[*i]->material->color;
-	t_tuple *pattern;
-	pattern = m->shapes[*i]->material->pattern->color_two;
-	if(m->shapes[*i]->material->is_patterned == true){
-		create_pattern(*color,
-					*m->shapes[*i]->material->pattern->color_two,
-					10, m->shapes[*i]->material->pattern);
-	}
+	t_tuple coords = m->shapes[*i]->coords;
+	t_mater *material = m->shapes[*i]->material;
+	// if(m->shapes[*i]->material->is_patterned == true){
+	// 	create_pattern(material.color,
+	// 				m->shapes[*i]->material->pattern.color_two,
+	// 				10, &m->shapes[*i]->material->pattern);
+	// }
 	m->shapes[*i] = create_shape(SPHERE, sphere);
-	m->shapes[*i]->coords = coords;
-	m->shapes[*i]->material->color = color;
-	transform_shape(m, *i, translate, 0, coords);
+	m->shapes[*i]->material = material;
+	print_tuple_points(&m->shapes[*i]->material->color);
+	transform_shape(m, *i, translate, 0, &coords);
 	
 	*i += 1;
 	return (m);
@@ -68,24 +67,20 @@ t_minirt *init_sphere(t_minirt *m, int *i)
 t_minirt *init_plane(t_minirt *m, int *i)
 {
 	t_plane *plane = create_plane();
-	t_tuple *coords = m->shapes[*i]->coords;
-	t_tuple *color = m->shapes[*i]->material->color;
-	t_tuple *pattern;
-	pattern = m->shapes[*i]->material->pattern->color_two;
-	// sphere->material->is_patterned = m->shapes[*i]->material->is_patterned;
-	// if(sphere->material->is_patterned == true)
-		// sphere->material->pattern = create_pattern(m->shapes[*i]->material->pattern.color_one,
-												// m->shapes[*i]->material->pattern.color_two,
-												// m->shapes[*i]->material->pattern.pattern_scale);
+	t_tuple coords = m->shapes[*i]->coords;
+	t_mater *material = m->shapes[*i]->material;
+	t_tuple orientation = m->shapes[*i]->orientation;
+	// if(m->shapes[*i]->material->is_patterned == true){
+	// 			create_pattern(material.color,
+	// 				m->shapes[*i]->material->pattern.color_two,
+	// 				10, &m->shapes[*i]->material->pattern);
+	// }
 	m->shapes[*i] = create_shape(PLANE, plane);
-	if(m->shapes[*i]->material->is_patterned == true){
-				create_pattern(*color,
-					*m->shapes[*i]->material->pattern->color_two,
-					10, m->shapes[*i]->material->pattern);
-	}
-	else
-		m->shapes[*i]->material->color = color;
-	transform_shape(m, *i, translate, 0, coords);
+	m->shapes[*i]->material = material;
+	transform_shape(m, *i, translate, 0, &coords);
+	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
+	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
+	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
 	// transform_shape(m, *i, rotate_x, m->shapes[*i]->orientation.x, )
 	*i += 1;
 	return(m);
@@ -94,24 +89,24 @@ t_minirt *init_plane(t_minirt *m, int *i)
 t_minirt *init_cylinder(t_minirt *m, int *i)
 {
 	t_cylinder *cylinder = create_cylinder(return_point(0, 0, 0));
-	t_tuple *coords = m->shapes[*i]->coords;
-	t_tuple *color = m->shapes[*i]->material->color;
-	t_tuple *pattern;
-	pattern = m->shapes[*i]->material->pattern->color_two;
+	t_tuple coords = m->shapes[*i]->coords;
+	t_tuple orientation = m->shapes[*i]->orientation;
+	t_mater *material = m->shapes[*i]->material;
 	cylinder->maximum = m->shapes[*i]->h;
 	cylinder->minimum = 0;
 	cylinder->radius = m->shapes[*i]->r;
 	cylinder->is_closed = 1;
+	// if(m->shapes[*i]->material->is_patterned == true){
+	// 			create_pattern(m->shapes[*i]->material->color,
+	// 				m->shapes[*i]->material->pattern.color_two,
+	// 				10, &m->shapes[*i]->material->pattern);
+	// }
 	m->shapes[*i] = create_shape(CYLINDER, cylinder);
-	// m->shapes[*i]->material->color = color;
-	if(m->shapes[*i]->material->is_patterned == true){
-				create_pattern(*color,
-					*m->shapes[*i]->material->pattern->color_two,
-					10, m->shapes[*i]->material->pattern);
-	}
-	else
-		m->shapes[*i]->material->color = color;
-	transform_shape(m, *i, translate, 0, coords);
+	m->shapes[*i]->material = material;
+	transform_shape(m, *i, translate, 0, &coords);
+	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
+	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
+	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
 	*i += 1;
 	return (m);
 }
@@ -119,18 +114,18 @@ t_minirt *init_cylinder(t_minirt *m, int *i)
 t_minirt *init_cone(t_minirt *m, int *i)
 {
 	t_cone *cone = create_cone();
-	t_tuple *color = m->shapes[*i]->material->color;
-	t_tuple *coords = m->shapes[*i]->coords;
-	t_tuple *orientation = m->shapes[*i]->orientation;
+	t_tuple coords = m->shapes[*i]->coords;
+	t_tuple orientation = m->shapes[*i]->orientation;
+	t_mater *material = m->shapes[*i]->material;
 	cone->minimum = -m->shapes[*i]->h;
 	cone->maximum = m->shapes[*i]->h;
 	cone->is_closed = true;
 	m->shapes[*i] = create_shape(CONE, cone);
-	m->shapes[*i]->material->color = color;
-	transform_shape(m, *i, translate, 0, coords);
-	transform_shape(m, *i, rotate_x, DEG_RAD(orientation->x), NULL);
-	transform_shape(m, *i, rotate_y, DEG_RAD(orientation->y), NULL);
-	transform_shape(m, *i, rotate_z, DEG_RAD(orientation->z), NULL);
+	m->shapes[*i]->material = material;
+	transform_shape(m, *i, translate, 0, &coords);
+	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
+	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
+	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
 	*i += 1;
 	return (m);
 }
@@ -190,14 +185,14 @@ int	main(int ac, char **av)
 			// if(m->light_count > 0)
 			// 	m = parse_lights(m);
 			m->cam = return_camera_ptr(WIDTH, HEIGHT, DEG_RAD(m->cam->fov), NULL);
-			m->cam->view_matrix = view_transform(m->to, m->from, m->up);
+			m->cam->view_matrix = view_transform(&m->to, &m->from, &m->up);
 			threaded_render(&mlx, m, m->cam);
 			// threaded_render(&mlx, m->cam, m);
 			hooks->m = m;
 			hooks->mlx = &mlx;
-			hooks->original_from = return_point(m->from->x, m->from->y, m->from->z);
-			hooks->original_to = return_point(m->to->x, m->to->y, m->to->z);
-			hooks->original_up = return_vector(m->up->x, m->up->y, m->up->z);
+			hooks->original_from = return_point(m->from.x, m->from.y, m->from.z);
+			hooks->original_to = return_point(m->to.x, m->to.y, m->to.z);
+			hooks->original_up = return_vector(m->up.x, m->up.y, m->up.z);
 			mlx_hook(mlx.win, 2, 1L << 0, get_key_pressed, hooks);
 			mlx_hook(mlx.win, 17, 1L << 2, closert, m);
 			mlx_loop(&mlx.mlx);

@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 09:17:08 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/31 09:09:27 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,19 @@ void	adjust_yaw(t_minirt *m, int i)
 
 	if(i == 0)
 	{
-		old_x = m->to->x - m->from->x;
-		old_z = m->to->z - m->from->z;
+		old_x = m->to.x - m->from.x;
+		old_z = m->to.z - m->from.z;
 
-		m->to->x = old_x * cos(0.5) - old_z * sin(0.5) + m->from->x;
-		m->to->z = old_x * sin(0.5) + old_z * cos(0.5) + m->from->z;
+		m->to.x = old_x * cos(0.5) - old_z * sin(0.5) + m->from.x;
+		m->to.z = old_x * sin(0.5) + old_z * cos(0.5) + m->from.z;
 	}
 	if(i == 1)
 	{
-		old_x = m->to->x - m->from->x;
-		old_z = m->to->z - m->from->z;
+		old_x = m->to.x - m->from.x;
+		old_z = m->to.z - m->from.z;
 	
-		m->to->x = old_x * cos(-0.5) - old_z * sin(-0.5) + m->from->x;
-		m->to->z = old_x * sin(-0.5) + old_z * cos(-0.5) + m->from->z;
+		m->to.x = old_x * cos(-0.5) - old_z * sin(-0.5) + m->from.x;
+		m->to.z = old_x * sin(-0.5) + old_z * cos(-0.5) + m->from.z;
 	}
 }
 
@@ -80,17 +80,17 @@ void    adjust_pitch(t_minirt *m, int i)
 
 	if (i == 0)
 	{
-		old_y = m->to->y - m->from->y;
-		old_z = m->to->z - m->from->z;
-		m->to->y = old_y * cos(angle) + old_z * sin(angle) + m->from->y;
-		m->to->z = -old_y * sin(angle) + old_z * cos(angle) + m->from->z;
+		old_y = m->to.y - m->from.y;
+		old_z = m->to.z - m->from.z;
+		m->to.y = old_y * cos(angle) + old_z * sin(angle) + m->from.y;
+		m->to.z = -old_y * sin(angle) + old_z * cos(angle) + m->from.z;
 	}
 	if (i == 1)
 	{
-		old_y = m->to->y - m->from->y;
-		old_z = m->to->z - m->from->z;
-		m->to->y = old_y * cos(angle) - old_z * sin(angle) + m->from->y;
-		m->to->z = old_y * sin(angle) + old_z * cos(angle) + m->from->z;
+		old_y = m->to.y - m->from.y;
+		old_z = m->to.z - m->from.z;
+		m->to.y = old_y * cos(angle) - old_z * sin(angle) + m->from.y;
+		m->to.z = old_y * sin(angle) + old_z * cos(angle) + m->from.z;
 	}       
 }
 
@@ -107,26 +107,26 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 				// printf("\n\n");
 	if (keycode == W) 
 	{
-		m->from->z += 0.5;
-		m->to->z += 0.5;
+		m->from.z += 0.5;
+		m->to.z += 0.5;
 		printf("W\n");
 	}
 	if (keycode == S)
 	{
-		m->from->z -= 0.5;
-		m->to->z -= 0.5;
+		m->from.z -= 0.5;
+		m->to.z -= 0.5;
 		printf("S\n");
 	}
 	if (keycode == A)
 	{
-		m->from->x -= 0.5;
-		m->to->x -= 0.5;
+		m->from.x -= 0.5;
+		m->to.x -= 0.5;
 		printf("A\n");
 	}
 	if (keycode == D)
 	{
-		m->from->x += 0.5;
-		m->to->x += 0.5;
+		m->from.x += 0.5;
+		m->to.x += 0.5;
 		printf("D\n");
 	}
 	// found out rotations bymistake lmaoô
@@ -152,23 +152,23 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 	}
 	if (keycode == R)
 	{
-		m->from = return_tuple_pointer(hooks->original_from.x, hooks->original_from.y, hooks->original_from.z, hooks->original_from.w);
-		m->to = return_tuple_pointer(hooks->original_to.x, hooks->original_to.y, hooks->original_to.z, hooks->original_to.w);
-		m->up = return_tuple_pointer(hooks->original_up.x, hooks->original_up.y, hooks->original_up.z, hooks->original_up.w);
+		m->from = return_tuple(hooks->original_from.x, hooks->original_from.y, hooks->original_from.z, hooks->original_from.w);
+		m->to = return_tuple(hooks->original_to.x, hooks->original_to.y, hooks->original_to.z, hooks->original_to.w);
+		m->up = return_tuple(hooks->original_up.x, hooks->original_up.y, hooks->original_up.z, hooks->original_up.w);
 	}
 	if (keycode == E)
 	{
-		m->from->y += 0.5;
-		m->to->y += 0.5;
+		m->from.y += 0.5;
+		m->to.y += 0.5;
 	}
 	if (keycode == Q)
 	{
-		m->from->y -= 0.5;
-		m->to->y -= 0.5;
+		m->from.y -= 0.5;
+		m->to.y -= 0.5;
 	}
 	if (keycode == ESC)
 		closert(hooks->m);
-	m->cam->view_matrix = view_transform(m->to, m->from, m->up);
+	m->cam->view_matrix = view_transform(&m->to, &m->from, &m->up);
 	// render(hooks->mlx, m->cam, m);
 	threaded_render(hooks->mlx, m, m->cam);
 	return (0);

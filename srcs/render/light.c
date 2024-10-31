@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 14:45:07 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/31 09:58:07 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tu
 			if (fabs(y_value - min_y) < EPSILON || fabs(y_value - max_y) < EPSILON)
 			{
 				// point is near the cap
-				color = checkerboard_cap(*material->pattern, object_point);
+				color = checkerboard_cap(material->pattern, object_point);
 			}
 			else
 			{
 				// point is on the cylindrical body
-				color = checkerboard_cylinder(*material->pattern, intersection);
+				color = checkerboard_cylinder(material->pattern, intersection);
 			}
 		}
 		//color = pattern_at_point(material->pattern, point);
@@ -67,13 +67,13 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tu
 		}
 		else
 			//color = texture_plane(intersection->point, intersection->ppm);
-			color = checkerboard(*material->pattern, point);
+			color = checkerboard(material->pattern, point);
 	}
 	else
-		color = *material->color;
+		color = material->color;
 	//final_color = multiply_tuples(&light->intensity.colors, &material->color, COLOR);
-	final_color = multiply_tuples(light->intensity, &color, COLOR);
-	light_vector = subtract_tuples(&point, light->position);
+	final_color = multiply_tuples(&light->intensity, &color, COLOR);
+	light_vector = subtract_tuples(&point, &light->position);
 	normalize(&light_vector);
 	ambient = return_scalar(&final_color, material->ambient);
 	light_dot = dot_product(&normal_vector, &light_vector);
@@ -90,7 +90,7 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tu
 		else
 		{
 			double fac = pow(eye_dot, material->shine);
-			specular = return_scalar(light->intensity, material->specular * fac);
+			specular = return_scalar(&light->intensity, material->specular * fac);
 		}
 	}
 	return (return_colorf(diffuse.x + specular.x + ambient.x, diffuse.y + specular.y + ambient.y, diffuse.z + specular.z + ambient.z));
@@ -100,8 +100,8 @@ t_light	create_light(t_tuple intensity, t_tuple position)
 {
 	t_light	light;
 
-	light.intensity = &intensity;
-	light.position = &position;
+	light.intensity = intensity;
+	light.position = position;
 	return (light);	
 }
 

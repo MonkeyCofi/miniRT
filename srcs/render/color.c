@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 12:38:18 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/31 09:05:59 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static inline t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_ind
 	double			distance;
 	
 	new_point = (t_tuple){0};
-	new_point = subtract_tuples(&point, minirt->lights[light_index]->position);
+	new_point = subtract_tuples(&point, &minirt->lights[light_index]->position);
 	direction = return_tuple(new_point.x, new_point.y, new_point.z, VECTOR);
 	normalize(&direction);
 	distance = magnitude(&direction);

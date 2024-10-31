@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:47:27 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/10/30 14:25:07 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/31 08:50:27 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ char	*trimline(char *str);
 int		invalidfile(t_minirt *minirt);
 int		getmap(int fd, t_minirt *minirt);
 int		fileopen(char *path, t_minirt *minirt);
-int		recognizepattern(char *string, t_mater material);
+int		recognizepattern(char *string, t_mater *material);
 
 #endif

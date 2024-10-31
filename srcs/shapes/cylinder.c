@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 10:13:22 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/10/31 10:29:10 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_cylinder	*create_cylinder(t_tuple orientation)
 		return (NULL);
 	cyl->point = return_tuple(0, 0, 0, POINT);
 	cyl->radius = 1;
-	cyl->material = create_default_material();
+	// cyl->material = create_default_material();
 	cyl->type = CYLINDER;
 	cyl->orientation = return_tuple(orientation.x, orientation.y, orientation.z, orientation.w);
 	cyl->minimum = -INFINITY;
