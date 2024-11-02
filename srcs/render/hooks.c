@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/31 09:09:27 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/03 01:04:36 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,105 +49,93 @@ int	closert(t_minirt *m)
 	exit(0);
 }
 
-void	adjust_yaw(t_minirt *m, int i)
-{
-	double old_x;
-	double old_z;
+void	adjust_yaw(t_minirt *m, double angle)
+ {
+	double	old_x = m->to.x - m->from.x;
+	double	old_z = m->to.z - m->from.z;
 
-	if(i == 0)
-	{
-		old_x = m->to.x - m->from.x;
-		old_z = m->to.z - m->from.z;
-
-		m->to.x = old_x * cos(0.5) - old_z * sin(0.5) + m->from.x;
-		m->to.z = old_x * sin(0.5) + old_z * cos(0.5) + m->from.z;
-	}
-	if(i == 1)
-	{
-		old_x = m->to.x - m->from.x;
-		old_z = m->to.z - m->from.z;
-	
-		m->to.x = old_x * cos(-0.5) - old_z * sin(-0.5) + m->from.x;
-		m->to.z = old_x * sin(-0.5) + old_z * cos(-0.5) + m->from.z;
-	}
+	// Rotate `to` around the `y` (up) axis
+	m->to.x = old_x * cos(angle) - old_z * sin(angle) + m->from.x;
+	m->to.z = old_x * sin(angle) + old_z * cos(angle) + m->from.z;
 }
 
-void    adjust_pitch(t_minirt *m, int i)
+void    adjust_pitch(t_minirt *m, double angle)
 {
-	double	old_z;
-	double	old_y;
-    double	angle = 0.1; // easier to just yk, adjust once instead of all of em
+	double	old_y = m->to.y - m->from.y;
+	double	old_z = m->to.z - m->from.z;
 
-	if (i == 0)
-	{
-		old_y = m->to.y - m->from.y;
-		old_z = m->to.z - m->from.z;
-		m->to.y = old_y * cos(angle) + old_z * sin(angle) + m->from.y;
-		m->to.z = -old_y * sin(angle) + old_z * cos(angle) + m->from.z;
-	}
-	if (i == 1)
-	{
-		old_y = m->to.y - m->from.y;
-		old_z = m->to.z - m->from.z;
-		m->to.y = old_y * cos(angle) - old_z * sin(angle) + m->from.y;
-		m->to.z = old_y * sin(angle) + old_z * cos(angle) + m->from.z;
-	}       
+	// Rotate `to` around the `right` vector, affecting y and z coordinates
+	m->to.y = old_y * cos(angle) - old_z * sin(angle) + m->from.y;
+	m->to.z = old_y * sin(angle) + old_z * cos(angle) + m->from.z;
 }
+
+void move_in_direction(t_minirt *m, t_tuple direction, float distance)
+{
+	m->from.x += direction.x * distance;
+	m->from.y += direction.y * distance;
+	m->from.z += direction.z * distance;
+
+	m->to.x += direction.x * distance;
+	m->to.y += direction.y * distance;
+	m->to.z += direction.z * distance;
+}
+
 
 int get_key_pressed(int keycode, t_hook_params *hooks)
 {
-	// I FUCKING COOKED HOLY SHIT IM SO CRAAACKKEEDDDD
-	t_minirt *m = hooks->m;
-				// 	printf("From:\n");
-				// print_tuple_points(m->from);
-				// printf("\nTo:\n");
-				// print_tuple_points(m->to);
-				// printf("\nUp:\n");
-				// print_tuple_points(m->up);
-				// printf("\n\n");
+	t_minirt	*m = hooks->m;
+	float		move_distance = 0.5;
+	float		yaw_angle = 0.5;    // Adjust rotation sensitivity
+	float		pitch_angle = 0.1; 
+	t_tuple		right;
+	t_tuple		forward = { 
+	.x = m->to.x - m->from.x, 
+	.y = m->to.y - m->from.y, 
+	.z = m->to.z - m->from.z, 
+	.w = m->to.w - m->from.w 
+	};
+	normalize(&forward);
+	right = cross_product(&m->up, &forward);
+	normalize(&right);
 	if (keycode == W) 
 	{
-		m->from.z += 0.5;
-		m->to.z += 0.5;
+		move_in_direction(m, forward, move_distance);
 		printf("W\n");
 	}
 	if (keycode == S)
 	{
-		m->from.z -= 0.5;
-		m->to.z -= 0.5;
+		move_in_direction(m, forward, -move_distance);
 		printf("S\n");
 	}
 	if (keycode == A)
 	{
-		m->from.x -= 0.5;
-		m->to.x -= 0.5;
+		move_in_direction(m, right, -move_distance);
 		printf("A\n");
 	}
 	if (keycode == D)
 	{
-		m->from.x += 0.5;
-		m->to.x += 0.5;
+		move_in_direction(m, right, move_distance);
 		printf("D\n");
 	}
 	// found out rotations bymistake lmaoô
 	if (keycode == LEFT)
 	{
-		adjust_yaw(m, 0);
+		adjust_yaw(m, yaw_angle);
 		printf("LEFT\n");
 	}
 	if (keycode == RIGHT)
 	{
-		adjust_yaw(m, 1);
+		adjust_yaw(m, -yaw_angle);
 		printf("RIGHT\n");
 	}
 	if (keycode == UP)
 	{
-		adjust_pitch(m, 0);
+		adjust_pitch(m, -pitch_angle);
 		printf("UP\n");
 	}
 	if (keycode == DOWN)
 	{
-		adjust_pitch(m, 1);
+		adjust_pitch(m, pitch_angle);
 		printf("DOWN\n");
 	}
 	if (keycode == R)

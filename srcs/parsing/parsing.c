@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/10/31 10:21:55 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/03 00:43:51 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,28 +155,26 @@ int	dovectorcolor(char *string, t_tuple *calc)
 	return (ret);
 }
 
-// int	recognizepattern(char *string, t_mater *material)
-// {
-// 	int i;
-// 	int ret;
-// 	i = -1;
-// 	ret = 0;
-// 	char **str;
-// 	str = ft_split(string, '=');
-// 	if(arr_len(str) != 2)
-// 		return (1);
-// 	while(str && str[++i])
-// 	{
-// 		if(i == 1 && ft_strncmp(str[i], "pattern", 7) == 1)
-// 			return(printf("Error\nIssue Lies in Pattern Keyword\n"), 1);
-// 		if(i == 2 && dovectorcolor(str[i], &material->pattern->color_two))
-// 			return(printf("Error\nIssue Lies in Pattern Color\n"), 1);
-// 	}
-// 	free_arr(str);
-// 	material->is_patterned = true;
-// 	material->pattern->color_one = material->color;
-// 	return (0);
-// }
+int	recognizepattern(char *string, t_mater *material)
+{
+	int i;
+	i = -1;
+	char **str;
+	str = ft_split(string, '=');
+	if(arr_len(str) != 2)
+		return (1);
+	while(str && str[++i])
+	{
+		if(i == 0 && ft_strncmp(str[i], "pattern", 7) == 1)
+			return(printf("Error\nIssue Lies in Pattern Keyword\n"), 1);
+		if(i == 1 && dovectorcolor(str[i], &material->pattern.color_two))
+			return(printf("Error\nIssue Lies in Pattern Color\n"), 1);
+	}
+	free_arr(str);
+	material->is_patterned = true;
+	material->pattern.color_one = material->color;
+	return (0);
+}
 
 int	isulong(char *str)
 {

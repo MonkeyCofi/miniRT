@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/26 13:21:04 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/01 13:09:14 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ t_4dmat	*view_transform(t_tuple *to, t_tuple *from, t_tuple *up)
 	normalize(&up_normalized);
 	normalize(&forward_vec);
 	left_vec = cross_product(&forward_vec, &up_normalized);
+	normalize(&left_vec);
 	real_up = cross_product(&left_vec, &forward_vec);
 	points[0][0] = left_vec.x;
 	points[0][1] = left_vec.y;

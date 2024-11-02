@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:45:40 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/10/31 10:18:45 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/03 00:45:29 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	parse_sphere(t_minirt *minirt, char *string, int *j)
 
 	str = ft_split(string, ' ');
 	i = 1;
-	if(arr_len(str) != 4) // && arr_len(str) != 5)
+	if(arr_len(str) != 4 && arr_len(str) != 5)
 	{
 		return (1);
 	}
@@ -62,8 +62,8 @@ int	parse_sphere(t_minirt *minirt, char *string, int *j)
 			return (printf("Error\nIssue Lies in Sphere Diameter\n"), 1);
 		if (i == 3 && dovectorcolor(str[i], &minirt->shapes[*j]->material->color))
 			return (printf("Error\nIssue Lies in Sphere Color\n"), 1);
-		// if (i == 4 && recognizepattern(str[i], *minirt->shapes[*j]->material))
-		// 	return (printf("Error\nIssue Lies in Pattern\n"), 1);
+		if (i == 4 && recognizepattern(str[i], minirt->shapes[*j]->material))
+			return (printf("Error\nIssue Lies in Pattern\n"), 1);
 		i++;
 	}
 	free_arr(str);
@@ -81,7 +81,7 @@ int	parse_plane(t_minirt *minirt, char *string, int *j)
 
 	str = ft_split(string, ' ');
 	i = 1;
-	if(arr_len(str) != 4)
+	if(arr_len(str) != 4 && arr_len(str) != 5)
 		return (1);
 	minirt->shapes[*j] = alloc_shape(minirt->shapes[*j]);
 	while (str && str[i])
@@ -92,6 +92,8 @@ int	parse_plane(t_minirt *minirt, char *string, int *j)
 			return (printf("Error\nIssue Lies in Plane Orientation\n"), 1);
 		if (i == 3 && dovectorcolor(str[i], &minirt->shapes[*j]->material->color))
 			return (printf("Error\nIssue Lies in Plane Color\n"), 1);
+		if (i == 4 && recognizepattern(str[i], minirt->shapes[*j]->material))
+			return (printf("Error\nIssue Lies in Pattern\n"), 1);
 		i++;
 	}
 	free_arr(str);
@@ -110,7 +112,7 @@ int	parse_cylinder(t_minirt *minirt, char *string, int *j)
 	str = ft_split(string, ' ');
 	// printf("%s\n", string);
 	i = 1;
-	if(arr_len(str) != 6)
+	if(arr_len(str) != 6 && arr_len(str) != 7)
 		return (1);
 	minirt->shapes[*j] = alloc_shape(minirt->shapes[*j]);
 	while (str && str[i])
@@ -125,6 +127,8 @@ int	parse_cylinder(t_minirt *minirt, char *string, int *j)
 			return(printf("Error\nIssue Lies in Cylinder Height\n"), 1);
 		if (i == 5 && dovectorcolor(str[i], &minirt->shapes[*j]->material->color))
 			return (printf("Error\nIssue Lies in Cylinder Color\n"), 1);
+		if (i == 6 && recognizepattern(str[i], minirt->shapes[*j]->material))
+			return (printf("Error\nIssue Lies in Pattern\n"), 1);
 		i++;
 	}
 	free_arr(str);
@@ -167,7 +171,7 @@ int	parse_cone(t_minirt *minirt, char *string, int *j)
 	double	height = 0.0;
 	str = ft_split(string, ' ');
 	i = 1;
-	if(arr_len(str) != 5)
+	if(arr_len(str) != 5 && arr_len(str) != 6)
 		return (1);
 	minirt->shapes[*j] = alloc_shape(minirt->shapes[*j]);
 	while (str && str[i])
@@ -180,6 +184,8 @@ int	parse_cone(t_minirt *minirt, char *string, int *j)
 			return(printf("Error\nIssue Lies in Cone Height\n"), 1);
 		if (i == 4 && dovectorcolor(str[i], &minirt->shapes[*j]->material->color))
 			return (printf("Error\nIssue Lies in Cone Color\n"), 1);
+		if (i == 5 && recognizepattern(str[i], minirt->shapes[*j]->material))
+			return (printf("Error\nIssue Lies in Pattern\n"), 1);
 		i++;
 	}
 	free_arr(str);

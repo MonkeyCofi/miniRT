@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/31 15:48:31 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/03 00:47:43 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,13 @@ t_minirt *init_sphere(t_minirt *m, int *i)
 	t_sphere *sphere = create_sphere(0, 0, 0, m->shapes[*i]->r);
 	t_tuple coords = m->shapes[*i]->coords;
 	t_mater *material = m->shapes[*i]->material;
-	// if(m->shapes[*i]->material->is_patterned == true){
-	// 	create_pattern(material.color,
-	// 				m->shapes[*i]->material->pattern.color_two,
-	// 				10, &m->shapes[*i]->material->pattern);
-	// }
 	m->shapes[*i] = create_shape(SPHERE, sphere);
 	m->shapes[*i]->material = material;
-	print_tuple_points(&m->shapes[*i]->material->color);
+	if(m->shapes[*i]->material->is_patterned == true){
+		create_pattern(material->pattern.color_one,
+					m->shapes[*i]->material->pattern.color_two,
+					10, &m->shapes[*i]->material->pattern);
+	}
 	transform_shape(m, *i, translate, 0, &coords);
 	
 	*i += 1;
@@ -69,18 +68,18 @@ t_minirt *init_plane(t_minirt *m, int *i)
 	t_plane *plane = create_plane();
 	t_tuple coords = m->shapes[*i]->coords;
 	t_mater *material = m->shapes[*i]->material;
-	t_tuple orientation = m->shapes[*i]->orientation;
-	// if(m->shapes[*i]->material->is_patterned == true){
-	// 			create_pattern(material.color,
-	// 				m->shapes[*i]->material->pattern.color_two,
-	// 				10, &m->shapes[*i]->material->pattern);
-	// }
+	// t_tuple orientation = m->shapes[*i]->orientation;
 	m->shapes[*i] = create_shape(PLANE, plane);
 	m->shapes[*i]->material = material;
+	if(m->shapes[*i]->material->is_patterned == true){
+		create_pattern(material->pattern.color_one,
+					m->shapes[*i]->material->pattern.color_two,
+					10, &m->shapes[*i]->material->pattern);
+	}
 	transform_shape(m, *i, translate, 0, &coords);
-	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
-	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
-	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
+	// transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
+	// transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
+	// transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
 	// transform_shape(m, *i, rotate_x, m->shapes[*i]->orientation.x, )
 	*i += 1;
 	return(m);
@@ -90,23 +89,23 @@ t_minirt *init_cylinder(t_minirt *m, int *i)
 {
 	t_cylinder *cylinder = create_cylinder(return_point(0, 0, 0));
 	t_tuple coords = m->shapes[*i]->coords;
-	t_tuple orientation = m->shapes[*i]->orientation;
+	// t_tuple orientation = m->shapes[*i]->orientation;
 	t_mater *material = m->shapes[*i]->material;
 	cylinder->maximum = m->shapes[*i]->h;
 	cylinder->minimum = 0;
 	cylinder->radius = m->shapes[*i]->r;
 	cylinder->is_closed = 1;
-	// if(m->shapes[*i]->material->is_patterned == true){
-	// 			create_pattern(m->shapes[*i]->material->color,
-	// 				m->shapes[*i]->material->pattern.color_two,
-	// 				10, &m->shapes[*i]->material->pattern);
-	// }
 	m->shapes[*i] = create_shape(CYLINDER, cylinder);
 	m->shapes[*i]->material = material;
+	if(m->shapes[*i]->material->is_patterned == true){
+		create_pattern(material->pattern.color_one,
+					m->shapes[*i]->material->pattern.color_two,
+					10, &m->shapes[*i]->material->pattern);
+	}
 	transform_shape(m, *i, translate, 0, &coords);
-	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
-	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
-	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
+	// transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
+	// transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
+	// transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
 	*i += 1;
 	return (m);
 }
@@ -115,17 +114,22 @@ t_minirt *init_cone(t_minirt *m, int *i)
 {
 	t_cone *cone = create_cone();
 	t_tuple coords = m->shapes[*i]->coords;
-	t_tuple orientation = m->shapes[*i]->orientation;
+	// t_tuple orientation = m->shapes[*i]->orientation;
 	t_mater *material = m->shapes[*i]->material;
 	cone->minimum = -m->shapes[*i]->h;
 	cone->maximum = m->shapes[*i]->h;
 	cone->is_closed = true;
 	m->shapes[*i] = create_shape(CONE, cone);
 	m->shapes[*i]->material = material;
+	if(m->shapes[*i]->material->is_patterned == true){
+		create_pattern(material->pattern.color_one,
+					m->shapes[*i]->material->pattern.color_two,
+					10, &m->shapes[*i]->material->pattern);
+	}
 	transform_shape(m, *i, translate, 0, &coords);
-	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
-	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
-	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
+	// transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
+	// transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
+	// transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
 	*i += 1;
 	return (m);
 }

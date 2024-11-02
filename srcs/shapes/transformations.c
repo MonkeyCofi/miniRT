@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 08:45:44 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/01 12:57:32 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tup
 		inverse_res = inverse_mat(&m->shapes[index]->transform, &m->shapes[index]->inverse_mat);
 		return (true);
 	}
+	(void)inverse_res;
 	if (type == translate)
 		translation = translation_mat(transform_coords->x, transform_coords->y,  transform_coords->z);
 	else if (type == scale)
