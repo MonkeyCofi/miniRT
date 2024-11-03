@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/01 12:57:32 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/03 22:35:01 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,8 +220,10 @@ t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tup
 		rotation = y_rotation_mat(angle);
 	else if (type == rotate_z)
 		rotation = z_rotation_mat(angle);
-	resultant = mat4d_mult_fast_static(&scaling, &rotation);
-	resultant = mat4d_mult_fast_static(&resultant, &translation);
+	resultant = mat4d_mult_fast_static(&translation, &scaling);
+	resultant = mat4d_mult_fast_static(&resultant, &rotation);
+	// resultant = mat4d_mult_fast_static(&scaling, &rotation);
+	// resultant = mat4d_mult_fast_static(&resultant, &translation);
 	m->shapes[index]->transform = mat4d_mult_fast_static(&resultant,&m->shapes[index]->transform);
 	if (set_inverse_transpose(m->shapes[index], &m->shapes[index]->transform) == error)
 		return (error);
