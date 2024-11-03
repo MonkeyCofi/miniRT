@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/03 00:43:51 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/03 16:06:51 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,8 @@ int	recognizepattern(char *string, t_mater *material)
 	int i;
 	i = -1;
 	char **str;
+	if(ft_strncmp(string, "pattern=no", 10) == 0)
+		return (0);
 	str = ft_split(string, '=');
 	if(arr_len(str) != 2)
 		return (1);

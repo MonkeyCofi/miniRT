@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/03 01:04:36 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/03 16:09:11 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	adjust_yaw(t_minirt *m, double angle)
 	double	old_x = m->to.x - m->from.x;
 	double	old_z = m->to.z - m->from.z;
 
-	// Rotate `to` around the `y` (up) axis
 	m->to.x = old_x * cos(angle) - old_z * sin(angle) + m->from.x;
 	m->to.z = old_x * sin(angle) + old_z * cos(angle) + m->from.z;
 }
@@ -64,7 +63,6 @@ void    adjust_pitch(t_minirt *m, double angle)
 	double	old_y = m->to.y - m->from.y;
 	double	old_z = m->to.z - m->from.z;
 
-	// Rotate `to` around the `right` vector, affecting y and z coordinates
 	m->to.y = old_y * cos(angle) - old_z * sin(angle) + m->from.y;
 	m->to.z = old_y * sin(angle) + old_z * cos(angle) + m->from.z;
 }
@@ -85,7 +83,7 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 {
 	t_minirt	*m = hooks->m;
 	float		move_distance = 0.5;
-	float		yaw_angle = 0.5;    // Adjust rotation sensitivity
+	float		yaw_angle = 0.5;
 	float		pitch_angle = 0.1; 
 	t_tuple		right;
 	t_tuple		forward = { 
