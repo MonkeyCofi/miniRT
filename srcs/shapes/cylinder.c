@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/04 15:29:13 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:56:48 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ t_tuple	normal_pos_cylinder(t_shape *shape, t_tuple pos)
 
 	cylinder = shape->shape;
 	distance = (pos.x * pos.x) + (pos.z * pos.z);
-	if (distance < 1 && (pos.y >= cylinder->maximum - EPSILON)) // || is_equal(pos.y, cylinder->maximum - EPSILON)))
+	if (distance < cylinder->radius && (pos.y >= cylinder->maximum - EPSILON)) // || is_equal(pos.y, cylinder->maximum - EPSILON)))
 		return (return_vector(0, 1, 0));
-	else if (distance < 1 && (pos.y <= cylinder->minimum + EPSILON)) // || is_equal(pos.y, cylinder->minimum + EPSILON)))
+	else if (distance < cylinder->radius && (pos.y <= cylinder->minimum + EPSILON)) // || is_equal(pos.y, cylinder->minimum + EPSILON)))
 		return (return_vector(0, -1, 0));
 	return (return_vector(pos.x, 0, pos.z));
 }
 
-static t_bool	at_cap(t_ray *ray, double radius, double t)
+static t_bool	at_cap(t_ray *ray, double t, t_cylinder *c)
 {
 	double	x;
 	double	z;
@@ -54,11 +54,10 @@ static t_bool	at_cap(t_ray *ray, double radius, double t)
 	x = ray->origin.x + t * ray->direction.x;
 	z = ray->origin.z + t * ray->direction.z;
 	// printf("at_cap: t = %f, x = %f, z = %f, radius = %f\n", t, x, z, 1.0);
-	(void)radius;
 	// in this if condition the numbers needa be changed w the max and min pls remember this
-	 if ((x * x) + (z * z) <= 1
-	 && (ray->origin.y + t * ray->direction.y >= -1.0
-	 && ray->origin.y + t * ray->direction.y <= 2.0))
+	 if (((x * x) + (z * z) <= (c->radius * c->radius))
+	 && (ray->origin.y + t * ray->direction.y >= c->minimum
+	 && ray->origin.y + t * ray->direction.y <= c->maximum))
 		return true;
 	return (false);
 	// return ((x * x) + (z * z) <= radius * radius);
@@ -75,10 +74,10 @@ static t_bool	cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, t_ray *
 		if (ray->direction.y != 0)
 		{
 			t = (cylinder->minimum - ray->origin.y) / ray->direction.y;
-			if (t > 0 && at_cap(ray, t, cylinder->radius))
+			if (t > cylinder->minimum && at_cap(ray, t, cylinder))
 				add_to_intersect(t, shape_ptr, intersects, CYLINDER, cylinder);
 			t = (cylinder->maximum - ray->origin.y) / ray->direction.y;
-			if (t > 0 && t <= 2.0 && at_cap(ray, t, cylinder->radius))
+			if (t > cylinder->minimum && t <= cylinder->maximum && at_cap(ray, t, cylinder))
 				add_to_intersect(t, shape_ptr, intersects, CYLINDER, cylinder);
 		}
 	}
@@ -120,7 +119,7 @@ t_bool intersect_cylinder(t_minirt *m, t_intersects *intersects, t_ray *ray, int
 		return (cylinder_end_hit(cyl, m->shapes[shape_index], ray, intersects));
 
 	b = 2 * ray->origin.x * ray->direction.x + 2 * ray->origin.z * ray->direction.z;
-	c = ray->origin.x * ray->origin.x + ray->origin.z * ray->origin.z - 1;
+	c = ray->origin.x * ray->origin.x + ray->origin.z * ray->origin.z - cyl->radius;
 	disc = (b * b) - (4 * a * c);
 
 	// for intersections with the body of the cylinder
@@ -147,7 +146,7 @@ t_bool intersect_cylinder(t_minirt *m, t_intersects *intersects, t_ray *ray, int
 		{
 			double	x = ray->origin.x + t_bottom * ray->direction.x;
 			double	z = ray->origin.z + t_bottom * ray->direction.z;
-			if (x * x + z * z <= 1)// we are in the cap btw replace 1 w radius
+			if (x * x + z * z <= cyl->radius)// we are in the cap btw replace 1 w radius
 				add_to_intersect(t_bottom, m->shapes[shape_index], intersects, CYLINDER, cyl);
 		}
 	}
@@ -159,7 +158,7 @@ t_bool intersect_cylinder(t_minirt *m, t_intersects *intersects, t_ray *ray, int
 		{
 			double	x = ray->origin.x + t_top * ray->direction.x;
 			double	z = ray->origin.z + t_top * ray->direction.z;
-			if (x * x + z * z <= 1)// we are in the cap btw replace 1 w radius
+			if (x * x + z * z <= cyl->radius)// we are in the cap btw replace 1 w radius
 				add_to_intersect(t_top, m->shapes[shape_index], intersects, CYLINDER, cyl);
 		}
 	}

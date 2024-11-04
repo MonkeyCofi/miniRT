@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/04 15:17:38 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/04 17:05:17 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_minirt *init_plane(t_minirt *m, int *i)
 	transform_shape(m, *i, translate, 0, &coords);
 	(void)coords;
 	t_4dmat rot = get_axis_angle(&orientation);
-	m->shapes[*i]->transform = rot;
+	m->shapes[*i]->transform = mat4d_mult_fast_static(&rot, &m->shapes[*i]->transform);
 	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
 	//m->shapes[*i]->transform = identity();
 	//m->shapes[*i]->transform = identity();
@@ -127,7 +127,7 @@ t_minirt *init_cylinder(t_minirt *m, int *i)
 	//transform_shape(m, *i, scale, 0, return_tuple_pointer(cylinder->radius, 1, cylinder->radius, POINT));
 	transform_shape(m, *i, translate, 0, &coords);
 	t_4dmat rot = get_axis_angle(&orientation);
-	m->shapes[*i]->transform = rot;
+	m->shapes[*i]->transform = mat4d_mult_fast_static(&rot, &m->shapes[*i]->transform);
 	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
 	//m->shapes[*i]->transform = identity();
 	//m->shapes[*i]->transform = identity();

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/03 13:10:04 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:35:15 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -411,17 +411,19 @@ t_bool	inverse_mat_test(t_4dmat *mat, t_4dmat *ptr)
 t_4dmat	axis_angle(t_tuple orientation, double angle)
 {
 	t_4dmat	matrix;
+	double	cos_angle;
 
 	ft_bzero(&matrix, sizeof(t_4dmat));
-	matrix.m11 = cos(angle) + orientation.x * orientation.x * (1 - cos(angle));
-	matrix.m12 = orientation.x * orientation.y * (1 - cos(angle)) - orientation.z * sin(angle);
-	matrix.m13 = orientation.x * orientation.z * (1 - cos(angle)) + orientation.y * sin(angle);
-	matrix.m21 = orientation.y * orientation.x * (1 - cos(angle)) + orientation.z * sin(angle);
-	matrix.m22 = cos(angle) + orientation.y * orientation.y * (1 - cos(angle));
-	matrix.m23 = orientation.y * orientation.z * (1 - cos(angle)) - orientation.x * sin(angle);
-	matrix.m31 =  orientation.z * orientation.x * (1 - cos(angle)) - orientation.y * sin(angle);
-	matrix.m32 = orientation.z * orientation.y * (1 - cos(angle)) + orientation.x * sin(angle);
-	matrix.m33 = cos(angle) * orientation.z * orientation.z * (1 - cos(angle));
+	cos_angle = cos(angle);
+	matrix.m11 = cos_angle + orientation.x * orientation.x * (1 - cos_angle);
+	matrix.m12 = orientation.x * orientation.y * (1 - cos_angle) - orientation.z * sin(angle);
+	matrix.m13 = orientation.x * orientation.z * (1 - cos_angle) + orientation.y * sin(angle);
+	matrix.m21 = orientation.y * orientation.x * (1 - cos_angle) + orientation.z * sin(angle);
+	matrix.m22 = cos_angle + orientation.y * orientation.y * (1 - cos_angle);
+	matrix.m23 = orientation.y * orientation.z * (1 - cos_angle) - orientation.x * sin(angle);
+	matrix.m31 =  orientation.z * orientation.x * (1 - cos_angle) - orientation.y * sin(angle);
+	matrix.m32 = orientation.z * orientation.y * (1 - cos_angle) + orientation.x * sin(angle);
+	matrix.m33 = cos_angle * orientation.z * orientation.z * (1 - cos_angle);
 	matrix.m44 = 1;
 	return (matrix);
 }
