@@ -16,12 +16,12 @@ TUPLES		=	$(SRCSPATH)/tuples
 UTILS		=	$(SRCSPATH)/utils
 
 SRCS		=	$(SRCSPATH)/minirt.c \
-				$(SRCSPATH)/init.c \
 				$(MATRIX)/matrix_cmp.c \
 				$(MATRIX)/matrix_ops.c \
 				$(MATRIX)/matrix_utils.c \
 				$(PARSING)/parse_shapes.c \
 				$(PARSING)/parsing.c \
+				$(PARSING)/parsing_utils.c \
 				$(RENDER)/camera.c \
 				$(RENDER)/color.c \
 				$(RENDER)/hooks.c \
@@ -43,6 +43,7 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				$(TUPLES)/vector_ops.c \
 				$(TUPLES)/vector_utils.c \
 				$(UTILS)/frees.c \
+				$(UTILS)/init.c \
 				$(UTILS)/read_ppm.c \
 				$(UTILS)/utils.c \
 

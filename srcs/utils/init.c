@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 10:58:13 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/04 09:05:48 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,129 @@ int	init_mlx(t_mlx *mlx)
 		mlx_hook(mlx->win, 17, 0, destroy, mlx);
 	}
 	return (1);
+}
+
+t_minirt *init_minirtaarij(t_minirt *m)
+{
+	m->cam = ft_calloc(1, sizeof(t_camera));
+	m->shapes = ft_calloc(1, (sizeof(t_shape)));
+	m->ambient = ft_calloc(1, sizeof(t_ambient));
+	m->lights = ft_calloc(1, (sizeof(t_light)));
+	m->up = return_tuple(0, 1, 0, VECTOR);
+	m->ambient->flag = 0;
+	m->ambient->ratio = 0;
+	m->cam->flag = 0;
+	m->object_count = 0;
+	m->light_count = 0;
+	
+	return (m);
+}
+
+t_minirt *init_sphere(t_minirt *m, int *i)
+{
+	t_sphere *sphere = create_sphere(0, 0, 0, m->shapes[*i]->r);
+	t_tuple coords = m->shapes[*i]->coords;
+	t_mater *material = m->shapes[*i]->material;
+	t_tuple orientation = m->shapes[*i]->orientation;
+	m->shapes[*i] = create_shape(SPHERE, sphere);
+	m->shapes[*i]->material = material;
+	if(m->shapes[*i]->material->is_patterned == true){
+		create_pattern(material->pattern.color_one,
+					m->shapes[*i]->material->pattern.color_two,
+					10, &m->shapes[*i]->material->pattern);
+	}
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, translate, 0, &coords);
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
+	*i += 1;
+	return (m);
+}
+
+t_minirt *init_plane(t_minirt *m, int *i)
+{
+	t_plane *plane = create_plane();
+	t_tuple coords = m->shapes[*i]->coords;
+	t_mater *material = m->shapes[*i]->material;
+	t_tuple orientation = m->shapes[*i]->orientation;
+	m->shapes[*i] = create_shape(PLANE, plane);
+	m->shapes[*i]->material = material;
+	if(m->shapes[*i]->material->is_patterned == true){
+		create_pattern(material->pattern.color_one,
+					m->shapes[*i]->material->pattern.color_two,
+					10, &m->shapes[*i]->material->pattern);
+	}
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, translate, 0, &coords);
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
+	*i += 1;
+	return(m);
+}
+
+t_minirt *init_cylinder(t_minirt *m, int *i)
+{
+	t_cylinder *cylinder = create_cylinder(return_point(0, 0, 0));
+	t_tuple coords = m->shapes[*i]->coords;
+	t_tuple orientation = m->shapes[*i]->orientation;
+	t_mater *material = m->shapes[*i]->material;
+	cylinder->maximum = m->shapes[*i]->h;
+	cylinder->minimum = 0;
+	cylinder->radius = m->shapes[*i]->r;
+	cylinder->is_closed = 1;
+	m->shapes[*i] = create_shape(CYLINDER, cylinder);
+	m->shapes[*i]->material = material;
+	if(m->shapes[*i]->material->is_patterned == true){
+		create_pattern(material->pattern.color_one,
+					m->shapes[*i]->material->pattern.color_two,
+					10, &m->shapes[*i]->material->pattern);
+	}
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, translate, 0, &coords);
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
+	*i += 1;
+	return (m);
+}
+
+t_minirt *init_cone(t_minirt *m, int *i)
+{
+	t_cone *cone = create_cone();
+	t_tuple coords = m->shapes[*i]->coords;
+	t_tuple orientation = m->shapes[*i]->orientation;
+	t_mater *material = m->shapes[*i]->material;
+	cone->minimum = -m->shapes[*i]->h;
+	cone->maximum = m->shapes[*i]->h;
+	cone->is_closed = true;
+	m->shapes[*i] = create_shape(CONE, cone);
+	m->shapes[*i]->material = material;
+	if(m->shapes[*i]->material->is_patterned == true){
+		create_pattern(material->pattern.color_one,
+					m->shapes[*i]->material->pattern.color_two,
+					10, &m->shapes[*i]->material->pattern);
+	}
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, translate, 0, &coords);
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
+	m->shapes[*i]->transform = identity();
+	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
+	*i += 1;
+	return (m);
 }
 
 //t_minirt	* init_default(t_mlx *mlx)

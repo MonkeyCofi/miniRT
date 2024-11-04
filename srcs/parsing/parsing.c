@@ -6,153 +6,73 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/03 16:06:51 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/04 09:22:33 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	dovector(char *string, t_tuple *calc)
+int	recognizespecular(char *string, t_mater *material)
 {
-	char	**str;
-	int		i;
-	int		ret;
-	
+	int i;
 	i = -1;
-	ret = 0;
-	str = ft_split(string, ',');
-	while (str && str[++i])
+	char **str;
+	if(ft_strncmp(string, "specular=default", 16) == 0)
+		return (0);
+	str = ft_split(string, '=');
+	if(arr_len(str) != 2)
+		return (1);
+	while(str && str[++i])
 	{
-		if (!is_double(str[i]))
-			ret = 1;
-	}
-	if (arr_len(str) != 3)
-		ret = 1;
-	else
-	{
-		calc->x = str_to_double(str[0]);
-		calc->y = str_to_double(str[1]);
-		calc->z = str_to_double(str[2]);
+		if (i == 0 && ft_strncmp(str[i], "specular", 8) != 0)
+			return(printf("Error\nIssue Lies in Specular Keyword\n"), 1);
+		if (i == 1 && check_double(str[i], &material->specular))
+			return(printf("Error\nIssue Lies in Specular Value\n"), 1);
 	}
 	free_arr(str);
-	return (ret);
+	return (0);
 }
 
-int	dovectoraarij(char *string, t_tuple *calc)
+int	recognizediffuse(char *string, t_mater *material)
 {
-	char	**str;
-	int		i;
-	int		ret;
-	
+	int i;
 	i = -1;
-	ret = 0;
-	str = ft_split(string, ',');
-	while (str && str[++i])
+	char **str;
+	if(ft_strncmp(string, "diffuse=default", 15) == 0)
+		return (0);
+	str = ft_split(string, '=');
+	if(arr_len(str) != 2)
+		return (1);
+	while(str && str[++i])
 	{
-		if (!is_double(str[i]))
-			ret = 1;
-	}
-	if (arr_len(str) != 3)
-		ret = 1;
-	else
-	{
-		calc->x = str_to_double(str[0]) / 100.0;
-		calc->y = str_to_double(str[1]) / 100.0;
-		calc->z = str_to_double(str[2]) / 100.0;
+		if (i == 0 && ft_strncmp(str[i], "diffuse", 7) != 0)
+			return(printf("Error\nIssue Lies in Specular Keyword\n"), 1);
+		if (i == 1 && check_double(str[i], &material->diffuse))
+			return(printf("Error\nIssue Lies in Specular Value\n"), 1);
 	}
 	free_arr(str);
-	return (ret);
+	return (0);
 }
 
-void	orientationnormalize(t_tuple *calc)
+int	recognizeambient(char *string, t_mater *material)
 {
-	calc->x = ((calc->x + 1) / 2) * 360;
-	calc->y = ((calc->y + 1) / 2) * 360;
-	calc->z = ((calc->z + 1) / 2) * 360;
-}
-
-int	dovectororientation(char *string, t_tuple *calc)
-{
-	char	**str;
-	int		i;
-	int		ret;
-	
+	int i;
 	i = -1;
-	ret = 0;
-	str = ft_split(string, ',');
-	while (str && str[++i])
-		if (!is_double(str[i]))
-			ret = 1;
-	if (arr_len(str) != 3)
-		ret = 1;
-	else if (ret == 0)
+	char **str;
+	if(ft_strncmp(string, "ambient=default", 15) == 0)
+		return (0);
+	str = ft_split(string, '=');
+	if(arr_len(str) != 2)
+		return (1);
+	while(str && str[++i])
 	{
-		calc->x = str_to_double(str[0]);
-		calc->y = str_to_double(str[1]);
-		calc->z = str_to_double(str[2]);
-	}
-	if((calc->x > 1 || calc->x < -1) || 
-		(calc->y > 1 || calc->y < -1) ||
-		(calc->z > 1 || calc->z < -1))
-		ret = 1;
-	free_arr(str);
-	orientationnormalize(calc);
-	return (ret);
-}
-
-int	dovectororientationf(char *string, t_tuple *calc)
-{
-	char	**str;
-	int		i;
-	int		ret;
-	
-	i = -1;
-	ret = 0;
-	str = ft_split(string, ',');
-	while (str && str[++i])
-		if (!is_double(str[i]))
-			ret = 1;
-	if (arr_len(str) != 3)
-		ret = 1;
-	else if (ret == 0)
-	{
-		calc->x = str_to_double(str[0]);
-		calc->y = str_to_double(str[1]);
-		calc->z = str_to_double(str[2]);
-	}
-	if((calc->x > 1 || calc->x < -1) || 
-		(calc->y > 1 || calc->y < -1) ||
-		(calc->z > 1 || calc->z < -1))
-		ret = 1;
-	free_arr(str);
-	return (ret);
-}
-
-int	dovectorcolor(char *string, t_tuple *calc)
-{
-	char	**str;
-	int		i;
-	int		ret;
-	
-	i = -1;
-	ret = 0;
-	str = ft_split(string, ',');
-	(void)calc;
-	while (str && str[++i])
-	{
-		if (!is_double(str[i]))
-			ret = 1;
-	}
-	if (arr_len(str) != 3)
-		ret = 1;
-	else
-	{
-		calc->x = str_to_double(str[0]) / 255.0;
-		calc->y = str_to_double(str[1]) / 255.0;
-		calc->z = str_to_double(str[2]) / 255.0;
+		if (i == 0 && ft_strncmp(str[i], "ambient", 8) != 0)
+			return(printf("Error\nIssue Lies in Specular Keyword\n"), 1);
+		if (i == 1 && check_double(str[i], &material->ambient))
+			return(printf("Error\nIssue Lies in Ambient Value\n"), 1);
 	}
 	free_arr(str);
-	return (ret);
+	return (0);
 }
 
 int	recognizepattern(char *string, t_mater *material)
@@ -167,7 +87,7 @@ int	recognizepattern(char *string, t_mater *material)
 		return (1);
 	while(str && str[++i])
 	{
-		if(i == 0 && ft_strncmp(str[i], "pattern", 7) == 1)
+		if(i == 0 && ft_strncmp(str[i], "pattern", 7) != 0)
 			return(printf("Error\nIssue Lies in Pattern Keyword\n"), 1);
 		if(i == 1 && dovectorcolor(str[i], &material->pattern.color_two))
 			return(printf("Error\nIssue Lies in Pattern Color\n"), 1);
