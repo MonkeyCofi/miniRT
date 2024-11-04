@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/03 22:59:03 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:16:28 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,7 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 	}
 	if (keycode == ESC)
 		closert(hooks->m);
-	m->cam->view_matrix = view_transform(&m->to, &m->from, &m->up);
-	// render(hooks->mlx, m->cam, m);
-	threaded_render(hooks->mlx, m, m->cam);
+	m->cam->view_matrix = view_transform_test(&m->to, &m->from, &m->up);
+	threaded_render(hooks->mlx, m);
 	return (0);
 }

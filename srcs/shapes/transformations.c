@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transformations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/03 22:35:01 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:16:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,22 @@ t_ray	transform_ray(t_ray *old_ray, t_trans type, t_tuple transform_coords, t_sp
 //	//		trans_matrix = x_rotation_mat
 //	//}
 //}
+
+t_4dmat	get_axis_angle(t_tuple *orientation)
+{
+	t_tuple	default_forward;
+	t_tuple	axis;
+	double	rotation_angle;
+
+	normalize(orientation);
+	default_forward = return_vector(0, 1, 0);
+	axis = cross_product(&default_forward, orientation);
+	normalize(&axis);
+	printf("axis: ");
+	print_tuple_points(&axis);
+	rotation_angle = acos(dot_product(&default_forward, orientation));
+	return (axis_angle(axis, rotation_angle));
+}
 
 t_bool	set_inverse_transpose(t_shape *shape, t_4dmat *transform_mat)
 {

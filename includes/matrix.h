@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:48:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/03 21:20:43 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ double	cofactor_4d(t_4dmat *mat, int row, int column);
 
 t_4dmat	*create_4dcofactor(t_4dmat *mat);
 t_bool	inverse_mat(t_4dmat *mat, t_4dmat **ptr);
+t_bool	inverse_mat_test(t_4dmat *mat, t_4dmat *ptr);
 
 t_bool	mat2d_cmp(t_2dmat *mat_one, t_2dmat *mat_two);
 t_bool	mat3d_cmp(t_3dmat *mat_one, t_3dmat *mat_two);
@@ -49,5 +50,7 @@ t_tuple	tuple_mult_fast(t_4dmat *mat, t_tuple *tuple);
 t_tuple	*tuple_mult(t_4dmat *mat, t_tuple *tuple);
 
 void	copy_mat(t_4dmat *mat_one, t_4dmat *mat_two);
+
+t_4dmat	axis_angle(t_tuple orientation, double angle);
 
 #endif

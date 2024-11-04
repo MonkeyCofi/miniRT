@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:31:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/03 00:31:21 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:16:34 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-/* 
-	for every half of the width of the canvas
-		for every half of the height of the canvas
-			create a thread that will render that much pixels
-			
-*/
 
 void	*render_part(void *thread)
 {
@@ -52,7 +45,7 @@ void	*render_part(void *thread)
 	return (NULL);
 }
 
-int	threaded_render(t_mlx *mlx, t_minirt *minirt, t_camera *camera)
+int	threaded_render(t_mlx *mlx, t_minirt *minirt)
 {
 	pthread_t		threads[THREAD_NUM];
 	t_thread		thr[THREAD_NUM];
@@ -60,12 +53,12 @@ int	threaded_render(t_mlx *mlx, t_minirt *minirt, t_camera *camera)
 
 	i = -1;
 	ft_bzero(&thr, sizeof(t_thread));
-	if (inverse_mat(camera->view_matrix, &camera->inverse) == false)
+	if (inverse_mat_test(&minirt->cam->view_matrix, &minirt->cam->inverse) == false)
 		return (-1);
 	while (++i < THREAD_NUM)
 	{
 		thr[i].id = i;
-		thr[i].camera = camera;
+		thr[i].camera = minirt->cam;
 		thr[i].mlx = mlx;
 		thr[i].minirt = minirt;
 		pthread_create(&threads[i], NULL, render_part, &thr[i]);

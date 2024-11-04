@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 21:06:15 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 18:05:24 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/02 13:45:51 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ t_ray	ray_per_pixel(t_camera *camera, int px, int py)
 	world_x = camera->half_width - x_offset;
 	world_y = camera->half_height - y_offset;
 	temp = return_point(world_x, world_y, -1);
-	pixel = tuple_mult_fast(camera->inverse, &temp);
+	pixel = tuple_mult_fast(&camera->inverse, &temp);
 	temp = return_point(0, 0, 0);
-	origin = tuple_mult_fast(camera->inverse, &temp);
+	origin = tuple_mult_fast(&camera->inverse, &temp);
 	direction = subtract_tuples(&origin, &pixel);
 	normalize(&direction);
 	return (create_ray_static(origin, direction));
@@ -108,7 +108,7 @@ int	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 	t_tuple color;
 
 	i = -1;
-	if (inverse_mat(camera->view_matrix, &camera->inverse) == false)
+	if (inverse_mat_test(&camera->view_matrix, &camera->inverse) == false)
 		return (-1);
 	while (++i < camera->horizontal_canv_size)
 	{

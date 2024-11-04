@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 21:50:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/03 16:34:51 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ t_intersects	intersect_enivornment(t_minirt *minirt, t_ray *ray)
 
 	i = -1;
 	inter.intersection_count = 0;
+	//print_4dmatrix(&minirt->cam->view_matrix);
 	while (++i < minirt->object_count)
 	{
 		real_ray = create_ray_static(tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->direction));

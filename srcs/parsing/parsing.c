@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/04 09:22:33 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:13:27 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ int	parse_camera(t_minirt *minirt, char *string)
 			return (printf("Error\nIssue Lies in Camera Orientation\n"), 1);
 		if (i == 3 && check_ulong(str[i], &minirt->cam->fov))
 			return (printf("Error\nIssue Lies in Camera FOV\n"), 1);
+		minirt->from.w = POINT;
 	}
 	free_arr(str);
 	return (0);

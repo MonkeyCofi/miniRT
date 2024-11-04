@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/31 10:29:10 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/04 11:41:43 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static t_bool	at_cap(t_ray *ray, double radius, double t)
 	// printf("at_cap: t = %f, x = %f, z = %f, radius = %f\n", t, x, z, 1.0);
 	(void)radius;
 	// in this if condition the numbers needa be changed w the max and min pls remember this
-	 if ((x * x) + (z * z) <= 1 
+	 if ((x * x) + (z * z) <= 1
 	 && (ray->origin.y + t * ray->direction.y >= -1.0
 	 && ray->origin.y + t * ray->direction.y <= 2.0))
 		return true;
@@ -67,26 +67,19 @@ static t_bool	at_cap(t_ray *ray, double radius, double t)
 static t_bool	cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, t_ray *ray, t_intersects *intersects)
 {
 	double	t;
-	double	e = 0.01;
+
 	if (cylinder->is_closed == 0)
 		return (false);
-	// canbe epsiolon
-	if (fabs(ray->direction.y) > e)
+	if (fabs(ray->direction.y) > EPSILON)
 	{
 		if (ray->direction.y != 0)
 		{
 			t = (cylinder->minimum - ray->origin.y) / ray->direction.y;
-			//  printf("Minimum cap: t = %f\n", t);
 			if (t > 0 && at_cap(ray, t, cylinder->radius))
-			{
 				add_to_intersect(t, shape_ptr, intersects, CYLINDER, cylinder);
-			}
-			// intersections w teh max cap
 			t = (cylinder->maximum - ray->origin.y) / ray->direction.y;
-			// printf("Maximum cap: t = %f\n", t);
-			if (t > 0 && t <= 2.0 && at_cap(ray, t, cylinder->radius)) {
+			if (t > 0 && t <= 2.0 && at_cap(ray, t, cylinder->radius))
 				add_to_intersect(t, shape_ptr, intersects, CYLINDER, cylinder);
-			}
 		}
 	}
 	return	(true);

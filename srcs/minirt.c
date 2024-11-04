@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/04 09:05:09 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:10:23 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ t_minirt *parse_objects(t_minirt *m)
 
 int	main(int ac, char **av)
 {
-	t_mlx mlx;
-	t_minirt	*m;
 	t_hook_params	*hooks;
+	t_minirt		*m;
+	t_mlx 			mlx;
 	if(ac == 2)
 	{
 		hooks = ft_calloc(1, sizeof(t_hook_params));
@@ -81,12 +81,10 @@ int	main(int ac, char **av)
 			init_mlx(&mlx);
 			if (m->object_count > 0)
 				m = parse_objects(m);
-			// if(m->light_count > 0)
-			// 	m = parse_lights(m);
-			m->cam = return_camera_ptr(WIDTH, HEIGHT, DEG_RAD(m->cam->fov), NULL);
-			m->cam->view_matrix = view_transform(&m->to, &m->from, &m->up);
-			threaded_render(&mlx, m, m->cam);
-			// threaded_render(&mlx, m->cam, m);
+			m->cam = return_camera_ptr(WIDTH, HEIGHT, DEG_RAD(m->cam->fov));
+			m->cam->view_matrix = view_transform_test(&m->to, &m->from, &m->up);
+			//render(&mlx, m->cam, m);
+			threaded_render(&mlx, m);
 			hooks->m = m;
 			hooks->mlx = &mlx;
 			hooks->original_from = return_point(m->from.x, m->from.y, m->from.z);
@@ -98,12 +96,35 @@ int	main(int ac, char **av)
 		}
 	}
 }
-//int main(int ac, char **av)
+
+//int	main(void)
 //{
-//	if (ac != 2)
-//		return (1);
-//	t_ppm	*ppm = create_ppm(av[1]);
-//	write_to_ppm(ppm);
-//	(void)ac;
-//	(void)ppm;
+//	//t_hook_params	*hooks;
+//	t_minirt		*m;
+//	t_mlx 			mlx;
+
+//	init_mlx(&mlx);
+//	m = ft_calloc(1, sizeof(t_minirt));
+//	m->cam = return_camera_ptr(WIDTH, HEIGHT, DEG_RAD(90));
+//	m->mlx = &mlx;
+//	m->to = return_point(0, 0, 1);
+//	m->from = return_point(0, 0, -2);
+//	m->up = return_vector(0, 1, 0);
+//	m->cam->view_matrix = view_transform_test(&m->to, &m->from, &m->up);
+//	m->light_count = 1;
+//	m->lights = ft_calloc(m->light_count, sizeof(t_light *));
+//	m->lights[0] = ft_calloc(1, sizeof(t_light));
+//	m->lights[0]->position = return_point(1, 2, 0);
+//	m->lights[0]->intensity = return_colorf(1, 1, 1);
+//	//t_plane	*plane = create_plane();
+//	t_sphere *sphere = create_sphere(0, 0, 0, 1);
+//	m->object_count = 1;
+//	m->shapes = ft_calloc(m->object_count, sizeof(t_shape *));
+//	m->shapes[0] = create_shape(SPHERE, sphere);
+//	transform_shape(m, 0, rotate_x, 0, return_tuple_pointer(0, 0, 0, POINT));
+//	render(&mlx, m->cam, m);
+//	//threaded_render(&mlx, m);
+//	//transform_shape(m, 0, rotate_x, 0, return_tuple_pointer(0, 0, 0, POINT));
+//	//transform_shape(m, 0, translate, 0, return_tuple_pointer(0, 0, 0, POINT));
+//	mlx_loop(&mlx.mlx);
 //}

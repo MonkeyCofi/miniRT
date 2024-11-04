@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/01 13:09:14 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:13:39 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-//void	init_cam(t_minirt *minirt)
-//{
-//	minirt->cam->h_fov = 60;
-//	minirt->cam->asp = ((double)WIDTH / HEIGHT);
-//	minirt->cam->vh = HEIGHT * 2;
-//	minirt->cam->vw = WIDTH * 2;
-//	minirt->cam->focal_length = 1.0;	// the distance from te camera to the viewport
-//	//set_tuple_points(&minirt->cam->camera, 0, 0, 0);
-//	set_vector_points(&minirt->cam->v_horiz, minirt->cam->vh, 0, 0);
-//	scalar(&minirt->cam->v_horiz, minirt->cam->h_fov);
-//	set_vector_points(&minirt->cam->v_vert, 0, -minirt->cam->vw, 0);
-//	minirt->cam->delta_vh = minirt->cam->vh / HEIGHT;
-//	minirt->cam->delta_vw = minirt->cam->vw / WIDTH;
-//	minirt->cam->flag = false;
-//	// cam.fov = 45 * (PI / 180);
-//}
 
 void	get_pixel_size(t_camera *camera)
 {
@@ -51,45 +34,37 @@ void	get_pixel_size(t_camera *camera)
 t_camera	return_camera(double horiz_size, double vertic_size, double fov, t_4dmat *t)
 {
 	t_camera	cam;
-	double		iden[4][4];
+	//double		iden[4][4];
 
-	ft_bzero(iden, (4 * 4) * sizeof(double));
+	//ft_bzero(iden, (4 * 4) * sizeof(double));
 	cam.horizontal_canv_size = horiz_size;
 	cam.vertical_canv_size = vertic_size;
 	cam.fov = fov;
-	if (t)
-		cam.view_matrix = t;
-	else
-	{
-		iden[0][0] = 1;
-		iden[1][1] = 1;
-		iden[2][2] = 1;
-		iden[3][3] = 1;
-		cam.view_matrix = create_4dmat(iden);
-	}
+	//if (t)
+	//	cam.view_matrix = *t;
+	//else
+	//{
+		//iden[0][0] = 1;
+		//iden[1][1] = 1;
+		//iden[2][2] = 1;
+		//iden[3][3] = 1;
+		cam.view_matrix = identity();
+		//cam.view_matrix = create_4dmat(iden);
+	//}
+	(void)t;
 	get_pixel_size(&cam);
 	return (cam);
 }
 
-t_camera	*return_camera_ptr(double horiz_size, double vertic_size, double fov, t_4dmat *t)
+t_camera	*return_camera_ptr(double horiz_size, double vertic_size, double fov)
 {
 	t_camera	*cam;
-	double		iden[4][4];
 
 	cam = ft_calloc(1, sizeof(t_camera));
 	cam->horizontal_canv_size = horiz_size;
 	cam->vertical_canv_size = vertic_size;
 	cam->fov = fov;
-	if (t)
-		cam->view_matrix = t;
-	else
-	{
-		iden[0][0] = 1;
-		iden[1][1] = 1;
-		iden[2][2] = 1;
-		iden[3][3] = 1;
-		cam->view_matrix = create_4dmat(iden);
-	}
+	cam->view_matrix = identity();
 	get_pixel_size(cam);
 	return (cam);
 }
@@ -129,3 +104,87 @@ t_4dmat	*view_transform(t_tuple *to, t_tuple *from, t_tuple *up)
 	free(orientation);
 	return (res);
 }
+
+//t_4dmat	view_transform_test(t_tuple *to, t_tuple *from, t_tuple *up)
+//{
+//	t_tuple	forward_vec;
+//	t_tuple	left_vec;
+//	t_tuple	real_up;
+//	t_4dmat	orientation;
+//	t_4dmat	translate_scene;
+//	t_tuple	up_normalized;
+
+//	ft_bzero(&orientation, sizeof(t_4dmat));
+//	//forward_vec = add_vectors(from, to);
+//	//forward_vec = subtract_tuples(from, to);
+//	forward_vec = *to;
+//	normalize(&forward_vec);
+//	printf("Forward vector: ");
+//	print_tuple_points(&forward_vec);
+//	up_normalized = return_vector(0, 1, 0);
+//	normalize(&up_normalized);
+//	if (is_equal(forward_vec.x, 0) && is_equal(forward_vec.z, 0))
+//		left_vec = return_vector(1, 0, 0);
+//	else
+//		left_vec = cross_product(&forward_vec, &up_normalized);
+//	normalize(&left_vec);
+//	real_up = cross_product(&left_vec, &forward_vec);
+//	normalize(&real_up);
+//	orientation.matrix[0][0] = left_vec.x;
+//	orientation.matrix[0][1] = left_vec.y;
+//	orientation.matrix[0][2] = left_vec.z;
+//	orientation.matrix[1][0] = real_up.x;
+//	orientation.matrix[1][1] = real_up.y;
+//	orientation.matrix[1][2] = real_up.z;
+//	orientation.matrix[2][0] = -forward_vec.x;
+//	orientation.matrix[2][1] = -forward_vec.y;
+//	orientation.matrix[2][2] = -forward_vec.z;
+//	print_4dmatrix(&orientation);
+//	printf("\n");
+//	//orientation.matrix[0][3] = dot_product(from, &left_vec);
+//	//orientation.matrix[1][3] = dot_product(from, &real_up);
+//	//orientation.matrix[2][3] = dot_product(from, &forward_vec);
+//	orientation.matrix[3][3] = 1;
+//	//return (orientation);
+//	translate_scene = translation_mat(-from->x, -from->y, -from->z);
+//	//translate_scene = translation_mat(-dot_product(from, &left_vec), -dot_product(from, &real_up), -dot_product(from, &forward_vec));
+//	(void)up;
+//	return (mat4d_mult_fast_static(&orientation, &translate_scene));
+//}
+
+t_4dmat	view_transform_test(t_tuple *to, t_tuple *from, t_tuple *up)
+{
+	t_tuple	forward_vec;
+	t_tuple	left_vec;
+	t_tuple	real_up;
+	t_4dmat	orientation;
+	t_4dmat	translate_scene;
+	t_tuple	up_normalized;
+
+	ft_bzero(&orientation, sizeof(t_4dmat));
+	//forward_vec = subtract_tuples(from, to);
+	forward_vec = *to;
+	normalize(&forward_vec);
+	up_normalized = return_vector(0, 1, 0);
+	if (is_equal(forward_vec.x, 0) && is_equal(forward_vec.z, 0))
+		left_vec = return_vector(1, 0, 0);
+	else
+		left_vec = cross_product(&forward_vec, &up_normalized);
+	normalize(&left_vec);
+	real_up = cross_product(&left_vec, &forward_vec);
+	normalize(&real_up);
+	orientation.matrix[0][0] = left_vec.x;
+	orientation.matrix[0][1] = left_vec.y;
+	orientation.matrix[0][2] = left_vec.z;
+	orientation.matrix[1][0] = real_up.x;
+	orientation.matrix[1][1] = real_up.y;
+	orientation.matrix[1][2] = real_up.z;
+	orientation.matrix[2][0] = -forward_vec.x;
+	orientation.matrix[2][1] = -forward_vec.y;
+	orientation.matrix[2][2] = -forward_vec.z;
+	orientation.matrix[3][3] = 1;
+	translate_scene = translation_mat(-from->x, -from->y, -from->z);
+	(void)up;
+	return (mat4d_mult_fast_static(&orientation, &translate_scene));
+}
+

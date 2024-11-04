@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/04 09:30:29 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:06:02 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,10 @@ typedef union u_4dmat
 
 typedef struct s_camera
 {
-	t_4dmat	*view_matrix;
-	t_4dmat	*inverse;
+	//t_4dmat	*view_matrix;
+	t_4dmat	view_matrix;
+	//t_4dmat	*inverse;
+	t_4dmat	inverse;
 	double	horizontal_canv_size;
 	double	vertical_canv_size;
 	double	pixel_size;
@@ -326,6 +328,8 @@ typedef struct s_minirt
 	t_tuple		to;
 	t_tuple		up;
 	t_ppm		*ppm;
+	double		pitch;
+	double		yaw;
 	int			object_count;
 	int			light_count;
 }	t_minirt;

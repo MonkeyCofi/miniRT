@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:13:25 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 17:07:29 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/03 21:25:24 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,8 @@ t_bool	transform_shape_new(t_shape *shape, t_transform *transform_params);
 
 void	get_transform_params_rotations(double x, double y, double z, t_transform *trans_params);
 void	get_transform_params(t_tuple translate, t_tuple scaling, t_transform *trans_params);
+
+t_4dmat	get_axis_angle(t_tuple *orientation);
+t_bool	set_inverse_transpose(t_shape *shape, t_4dmat *transform_mat);
 
 #endif

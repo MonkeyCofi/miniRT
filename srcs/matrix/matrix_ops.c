@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/03 13:10:04 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,8 +342,8 @@ t_4dmat	*create_4dcofactor(t_4dmat *mat)
 {
 	double	res[4][4];
 	double	(*cof)(t_4dmat *, int, int);
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = -1;
 	cof = cofactor_4d;
@@ -381,6 +381,49 @@ t_bool	inverse_mat(t_4dmat *mat, t_4dmat **ptr)
 	if (!ptr)
 		return (error);
 	return (true);
+}
+
+t_bool	inverse_mat_test(t_4dmat *mat, t_4dmat *ptr)
+{
+	t_4dmat	*cofactor;
+	t_4dmat	*t;
+	double	deter;
+	int		i;
+	int		j;
+
+	deter = determinant(NULL, NULL, mat);
+	if (deter == 0)
+		return (false);
+	cofactor = create_4dcofactor(mat);
+	t = transpose(cofactor);
+	i = -1;
+	while (++i < 4)
+	{
+		j = -1;
+		while (++j < 4)
+			ptr->matrix[i][j] = t->matrix[i][j] / deter;
+	}
+	free(cofactor);
+	free(t);
+	return (true);
+}
+
+t_4dmat	axis_angle(t_tuple orientation, double angle)
+{
+	t_4dmat	matrix;
+
+	ft_bzero(&matrix, sizeof(t_4dmat));
+	matrix.m11 = cos(angle) + orientation.x * orientation.x * (1 - cos(angle));
+	matrix.m12 = orientation.x * orientation.y * (1 - cos(angle)) - orientation.z * sin(angle);
+	matrix.m13 = orientation.x * orientation.z * (1 - cos(angle)) + orientation.y * sin(angle);
+	matrix.m21 = orientation.y * orientation.x * (1 - cos(angle)) + orientation.z * sin(angle);
+	matrix.m22 = cos(angle) + orientation.y * orientation.y * (1 - cos(angle));
+	matrix.m23 = orientation.y * orientation.z * (1 - cos(angle)) - orientation.x * sin(angle);
+	matrix.m31 =  orientation.z * orientation.x * (1 - cos(angle)) - orientation.y * sin(angle);
+	matrix.m32 = orientation.z * orientation.y * (1 - cos(angle)) + orientation.x * sin(angle);
+	matrix.m33 = cos(angle) * orientation.z * orientation.z * (1 - cos(angle));
+	matrix.m44 = 1;
+	return (matrix);
 }
 
 void	copy_mat(t_4dmat *mat_one, t_4dmat *mat_two)

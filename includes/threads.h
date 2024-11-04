@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:31:22 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 10:18:23 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/02 14:09:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ typedef struct	s_thread
 
 # define THREAD_NUM 16
 
-int	threaded_render(t_mlx *mlx, t_minirt *minirt, t_camera *camera);
+int	threaded_render(t_mlx *mlx, t_minirt *minirt);
 
 #endif
