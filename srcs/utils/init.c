@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/04 09:05:48 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/04 15:17:38 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ t_minirt *init_plane(t_minirt *m, int *i)
 	t_tuple coords = m->shapes[*i]->coords;
 	t_mater *material = m->shapes[*i]->material;
 	t_tuple orientation = m->shapes[*i]->orientation;
+	printf("Orientation: ");
+	print_tuple_points(&orientation);
 	m->shapes[*i] = create_shape(PLANE, plane);
 	m->shapes[*i]->material = material;
 	if(m->shapes[*i]->material->is_patterned == true){
@@ -88,14 +90,18 @@ t_minirt *init_plane(t_minirt *m, int *i)
 					m->shapes[*i]->material->pattern.color_two,
 					10, &m->shapes[*i]->material->pattern);
 	}
-	m->shapes[*i]->transform = identity();
 	transform_shape(m, *i, translate, 0, &coords);
-	m->shapes[*i]->transform = identity();
-	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
-	m->shapes[*i]->transform = identity();
-	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
-	m->shapes[*i]->transform = identity();
-	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
+	(void)coords;
+	t_4dmat rot = get_axis_angle(&orientation);
+	m->shapes[*i]->transform = rot;
+	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
+	//m->shapes[*i]->transform = identity();
+	//m->shapes[*i]->transform = identity();
+	//transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
+	//m->shapes[*i]->transform = identity();
+	//transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
+	//m->shapes[*i]->transform = identity();
+	//transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
 	*i += 1;
 	return(m);
 }
@@ -109,6 +115,7 @@ t_minirt *init_cylinder(t_minirt *m, int *i)
 	cylinder->maximum = m->shapes[*i]->h;
 	cylinder->minimum = 0;
 	cylinder->radius = m->shapes[*i]->r;
+	printf("Cylinder radius: %f\n", m->shapes[*i]->r);
 	cylinder->is_closed = 1;
 	m->shapes[*i] = create_shape(CYLINDER, cylinder);
 	m->shapes[*i]->material = material;
@@ -117,14 +124,18 @@ t_minirt *init_cylinder(t_minirt *m, int *i)
 					m->shapes[*i]->material->pattern.color_two,
 					10, &m->shapes[*i]->material->pattern);
 	}
-	m->shapes[*i]->transform = identity();
+	//transform_shape(m, *i, scale, 0, return_tuple_pointer(cylinder->radius, 1, cylinder->radius, POINT));
 	transform_shape(m, *i, translate, 0, &coords);
-	m->shapes[*i]->transform = identity();
-	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
-	m->shapes[*i]->transform = identity();
-	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
-	m->shapes[*i]->transform = identity();
-	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
+	t_4dmat rot = get_axis_angle(&orientation);
+	m->shapes[*i]->transform = rot;
+	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
+	//m->shapes[*i]->transform = identity();
+	//m->shapes[*i]->transform = identity();
+	//transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
+	//m->shapes[*i]->transform = identity();
+	//transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
+	//m->shapes[*i]->transform = identity();
+	//transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
 	*i += 1;
 	return (m);
 }

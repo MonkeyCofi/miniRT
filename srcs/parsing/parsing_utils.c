@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 08:48:18 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/04 12:20:53 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:29:36 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	dovectororientation(char *string, t_tuple *calc)
 		(calc->z > 1 || calc->z < -1))
 		ret = 1;
 	free_arr(str);
-	orientationnormalize(calc);
+	normalize(calc);
+	//orientationnormalize(calc);
 	return (ret);
 }
 
