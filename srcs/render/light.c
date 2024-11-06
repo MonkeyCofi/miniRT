@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/03 00:34:11 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/06 11:38:04 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,9 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tu
 	}
 	else
 		color = material->color;
-	//final_color = multiply_tuples(&light->intensity.colors, &material->color, COLOR);
+	//final_color = multiply_tuples(&light->intensity, &material->color, COLOR);
 	final_color = multiply_tuples(&light->intensity, &color, COLOR);
+	final_color = return_scalar(&final_color, light->brightness);
 	light_vector = subtract_tuples(&point, &light->position);
 	normalize(&light_vector);
 	ambient = return_scalar(&final_color, material->ambient);

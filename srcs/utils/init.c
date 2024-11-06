@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/04 17:05:17 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/06 12:57:42 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_minirt *init_sphere(t_minirt *m, int *i)
 	t_sphere *sphere = create_sphere(0, 0, 0, m->shapes[*i]->r);
 	t_tuple coords = m->shapes[*i]->coords;
 	t_mater *material = m->shapes[*i]->material;
-	t_tuple orientation = m->shapes[*i]->orientation;
+	//t_tuple orientation = m->shapes[*i]->orientation;
 	m->shapes[*i] = create_shape(SPHERE, sphere);
 	m->shapes[*i]->material = material;
 	if(m->shapes[*i]->material->is_patterned == true){
@@ -65,12 +65,15 @@ t_minirt *init_sphere(t_minirt *m, int *i)
 	}
 	m->shapes[*i]->transform = identity();
 	transform_shape(m, *i, translate, 0, &coords);
-	m->shapes[*i]->transform = identity();
-	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
-	m->shapes[*i]->transform = identity();
-	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
-	m->shapes[*i]->transform = identity();
-	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
+	t_4dmat rot = get_axis_angle(return_tuple_pointer(1,0.3,0,VECTOR));
+	m->shapes[*i]->transform = mat4d_mult_fast_static(&m->shapes[*i]->transform, &rot);
+	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
+	//m->shapes[*i]->transform = identity();
+	//transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
+	//m->shapes[*i]->transform = identity();
+	//transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
+	//m->shapes[*i]->transform = identity();
+	//transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
 	*i += 1;
 	return (m);
 }
@@ -81,8 +84,6 @@ t_minirt *init_plane(t_minirt *m, int *i)
 	t_tuple coords = m->shapes[*i]->coords;
 	t_mater *material = m->shapes[*i]->material;
 	t_tuple orientation = m->shapes[*i]->orientation;
-	printf("Orientation: ");
-	print_tuple_points(&orientation);
 	m->shapes[*i] = create_shape(PLANE, plane);
 	m->shapes[*i]->material = material;
 	if(m->shapes[*i]->material->is_patterned == true){
@@ -91,17 +92,9 @@ t_minirt *init_plane(t_minirt *m, int *i)
 					10, &m->shapes[*i]->material->pattern);
 	}
 	transform_shape(m, *i, translate, 0, &coords);
-	(void)coords;
 	t_4dmat rot = get_axis_angle(&orientation);
-	m->shapes[*i]->transform = mat4d_mult_fast_static(&rot, &m->shapes[*i]->transform);
+	m->shapes[*i]->transform = mat4d_mult_fast_static(&m->shapes[*i]->transform, &rot);
 	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
-	//m->shapes[*i]->transform = identity();
-	//m->shapes[*i]->transform = identity();
-	//transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
-	//m->shapes[*i]->transform = identity();
-	//transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
-	//m->shapes[*i]->transform = identity();
-	//transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
 	*i += 1;
 	return(m);
 }

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/04 13:14:51 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:36:39 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_tuple	shade(t_minirt *minirt, t_inter_comp *intersect_comp)
 		res = lighting(intersect_comp, minirt->lights[i], intersect_comp->point_adjusted, intersect_comp->eye_vec, intersect_comp->normal_vec, shadow);
 		//res = lighting(intersect_comp->obj, minirt->lights[i], intersect_comp->point_adjusted, intersect_comp->eye_vec, intersect_comp->normal_vec, shadow);
 		final_res = add_vectors(&final_res, &res);
-		scalar(&final_res, minirt->lights[i]->brightness);
+		//scalar(&final_res, minirt->lights[i]->brightness);
 	}
 	return (final_res);
 }
