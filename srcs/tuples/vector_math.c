@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_math.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:57:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/26 12:09:29 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:41:05 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,27 @@ t_tuple	return_at(t_ray *ray, double t)
 
 	new = return_scalar(&ray->direction, t);
 	return (add_vectors(&ray->origin, &new));
+}
+
+void	matrix_cross(t_tuple *a, t_tuple *b, t_4dmat res)
+{
+	res.matrix[0][0] = a->x * b->x;
+	res.matrix[0][1] = a->x * b->y;
+	res.matrix[0][2] = a->x * b->z;
+	res.matrix[0][3] = a->x * b->w;
+
+	res.matrix[1][0] = a->y * b->x;
+	res.matrix[1][1] = a->y * b->y;
+	res.matrix[1][2] = a->y * b->z;
+	res.matrix[1][3] = a->y * b->w;
+
+	res.matrix[2][0] = a->z * b->x;
+	res.matrix[2][1] = a->z * b->y;
+	res.matrix[2][2] = a->z * b->z;
+	res.matrix[2][3] = a->z * b->w;
+
+	res.matrix[3][0] = a->w * b->x;
+	res.matrix[3][1] = a->w * b->y;
+	res.matrix[3][2] = a->w * b->z;
+	res.matrix[3][3] = a->w * b->w;
 }

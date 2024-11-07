@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_ppm.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 19:17:23 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 10:37:55 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/07 02:54:50 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ t_tuple	**fill_ppm_buffer(t_ppm *ppm)
 		colors[i] = ft_calloc(1, sizeof(t_tuple) * (ppm->width + 1));
 		while (++j < ppm->width)
 		{
+			print_tuple_points(&colors[i][j]);
 			colors[i][j] = fill_color((unsigned char *)ppm->buffer, i * ppm->width + j);
 		}
 	}

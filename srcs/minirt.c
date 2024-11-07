@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/04 13:10:23 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/07 12:03:17 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ int	main(int ac, char **av)
 			if (m->object_count > 0)
 				m = parse_objects(m);
 			m->cam = return_camera_ptr(WIDTH, HEIGHT, DEG_RAD(m->cam->fov));
-			m->cam->view_matrix = view_transform_test(&m->to, &m->from, &m->up);
+			m->cam->trans = m->from;
+			m->cam->view_matrix = view_transform_test(&m->to, &m->from, &m->up, &m->cam->trans);
 			//render(&mlx, m->cam, m);
 			threaded_render(&mlx, m);
 			hooks->m = m;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/06 13:18:45 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/07 09:17:15 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	init_mlx(t_mlx *mlx)
 t_minirt *init_minirtaarij(t_minirt *m)
 {
 	m->cam = ft_calloc(1, sizeof(t_camera));
+	m->cam->trans = return_point(0, 0, 0);
+	print_tuple_points(&m->cam->trans);
 	m->shapes = ft_calloc(1, (sizeof(t_shape)));
 	m->ambient = ft_calloc(1, sizeof(t_ambient));
 	m->lights = ft_calloc(1, (sizeof(t_light)));

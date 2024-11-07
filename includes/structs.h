@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/04 13:06:02 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/07 12:59:22 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,12 +120,27 @@ typedef union u_4dmat
 	double	matrix[4][4];
 }	t_4dmat;
 
+typedef struct s_strokes
+{
+	t_bool	w;
+	t_bool	a;
+	t_bool	s;
+	t_bool	d;
+	t_bool	left;
+	t_bool	right;
+	t_bool	up;
+	t_bool	down;
+	t_bool	inc;
+	t_bool	dec;
+}	t_strokes;
+
 typedef struct s_camera
 {
 	//t_4dmat	*view_matrix;
 	t_4dmat	view_matrix;
 	//t_4dmat	*inverse;
 	t_4dmat	inverse;
+	t_tuple	trans;
 	double	horizontal_canv_size;
 	double	vertical_canv_size;
 	double	pixel_size;
@@ -328,6 +343,7 @@ typedef struct s_minirt
 	t_tuple		to;
 	t_tuple		up;
 	t_ppm		*ppm;
+	t_strokes	stroke;
 	double		pitch;
 	double		yaw;
 	int			object_count;
