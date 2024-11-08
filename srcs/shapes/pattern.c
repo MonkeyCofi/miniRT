@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pattern.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:35:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/03 00:33:57 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/08 16:24:29 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,48 @@ t_pattern	*create_pattern(t_tuple color_one, t_tuple color_two, int scale, t_pat
 	return (pattern);
 }
 
-t_tuple	texture_sphere(t_tuple point, t_ppm *tex)
+t_tuple	texture_sphere(t_inter_comp *intersection, t_ppm *tex)
 {
-	double	*uv;
-	int		tex_x;
-	int		tex_y;
+	//double	*uv;
+	//int		tex_x;
+	//int		tex_y;
 	
-	uv = sphere_uv(point);
-	tex_x = (uv[0] * tex->width - 1);
-	tex_y = (uv[1] * tex->width - 1);
-	//printf("getting texture\n");
-	return (tex->colors[tex_y][tex_x]);
+	//uv = sphere_uv(point);
+	//tex_x = (uv[0] * tex->width - 1);
+	//tex_y = (uv[1] * tex->width - 1);
+	//printf("tex x %d tex y %d\n", tex_x, tex_y);
+	//return (tex->colors[tex_y][tex_x]);
+	t_tuple	point;
+	int		u_scaled;
+	int		v_scaled;
+	double	u;
+	double	v;
+
+	point = tuple_mult_fast(intersection->obj->inverse_mat, &intersection->point);
+	u = 0.5 + (atan2(point.z, point.x) / (2 * PI));
+	// v = 0.5 - (asin(point.y) * PI);
+	v = 0.5 - (asin(point.y) + (PI / 2)) / PI;
+	printf("u %f v %f\n", u, v);
+	//v = 0.5 - (asin(point.y) + (M_PI_2)) / M_PI;
+	u_scaled = floor(u * tex->width - 1);
+	v_scaled = floor(v * tex->width - 1);
+	printf("x %d y %d\n", u_scaled, v_scaled);
+	return (tex->colors[u_scaled][v_scaled]);
 }
 
-t_tuple	texture_plane(t_tuple point, t_ppm *tex)
+t_tuple	texture_plane(t_inter_comp *intersection, t_ppm *tex)
 {
 	double	u;
 	double	v;
 	int		tex_x;
 	int		tex_y;
 
-	u = point.x * 10;
-	v = point.z * 10;
+	u = intersection->point.x;
+	v = intersection->point.z;
+	printf("u %f v %f\n", u, v);
 	tex_x = (u * tex->width - 1);
-	tex_y = (v * tex->width - 1);
-	printf("getting texture\n");
+	tex_y = (v * tex->height - 1);
+	printf("x %d y %d\n", tex_x, tex_y);
 	return (tex->colors[tex_y][tex_x]);
 }
 

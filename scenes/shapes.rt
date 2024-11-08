@@ -6,5 +6,5 @@ A	1	255,255,255
 pl	0,-3,0	0,1,0	100,100,100 pattern=no specular=0
 pl	0,0,20	0,0,1	100,100,100 pattern=no specular=0
 pl	-9,0,0	1,0,0	100,100,100 pattern=no specular=0
-pl	9,0,0	1,0,0	100,100,100 pattern=no specular=0
-sp 	0,0,0	3		255,255,255
+pl	9,0,0	1,0,0	100,100,100 pattern=0,0,0 specular=0
+sp 	0,0,0	3		255,255,255 pattern=0,0,0

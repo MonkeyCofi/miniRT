@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/06 11:38:04 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/08 17:26:27 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tu
 		else if (intersection->type == SPHERE)
 		{
 			color = checkerboard_sphere(material->pattern, intersection);
-			// color = texture_sphere(intersection->point, intersection->ppm);
+			// color = texture_sphere(intersection, intersection->ppm);
 		}
 		else
-			//color = texture_plane(intersection->point, intersection->ppm);
+			//color = texture_plane(intersection, intersection->ppm);
 			color = checkerboard(material->pattern, point);
 	}
 	else

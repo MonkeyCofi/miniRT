@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/08 15:30:43 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/08 15:41:21 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,9 @@ int	main(int ac, char **av)
 			m->cam = return_camera_ptr(WIDTH, HEIGHT, DEG_RAD(m->cam->fov));
 			m->cam->trans = m->from;
 			m->cam->view_matrix = view_transform_test(&m->to, &m->from, &m->up, &m->cam->trans);
-			//render(&mlx, m->cam, m);
-			threaded_render(&mlx, m);
+			m->ppm = create_ppm("42_logo.ppm");
+			render(&mlx, m->cam, m);
+			//threaded_render(&mlx, m);
 			hooks->m = m;
 			hooks->mlx = &mlx;
 			hooks->original_from = return_point(m->from.x, m->from.y, m->from.z);
