@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/07 12:01:50 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/08 15:30:37 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,11 @@ void	get_pixel_size(t_camera *camera)
 t_camera	return_camera(double horiz_size, double vertic_size, double fov, t_4dmat *t)
 {
 	t_camera	cam;
-	//double		iden[4][4];
 
-	//ft_bzero(iden, (4 * 4) * sizeof(double));
 	cam.horizontal_canv_size = horiz_size;
 	cam.vertical_canv_size = vertic_size;
 	cam.fov = fov;
-	//if (t)
-	//	cam.view_matrix = *t;
-	//else
-	//{
-		//iden[0][0] = 1;
-		//iden[1][1] = 1;
-		//iden[2][2] = 1;
-		//iden[3][3] = 1;
-		cam.view_matrix = identity();
-		//cam.view_matrix = create_4dmat(iden);
-	//}
+	cam.view_matrix = identity();
 	(void)t;
 	get_pixel_size(&cam);
 	return (cam);
