@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/08 15:26:46 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/08 15:27:02 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,9 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 		m->up = return_tuple(hooks->original_up.x, hooks->original_up.y, hooks->original_up.z, hooks->original_up.w);
 	}
 	if (keycode == E)
-	{
 		m->cam->trans.y += 0.5;
-	}
 	if (keycode == Q)
-	{
 		m->cam->trans.y -= 0.5;
-	}
 	if (keycode == ESC)
 		closert(hooks->m);
 	m->cam->view_matrix = view_transform_test(&m->to, &m->from, &m->up, &m->cam->trans);
