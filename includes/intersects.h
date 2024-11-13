@@ -32,7 +32,7 @@ t_tuple			position(t_ray *ray, double t);
 t_tuple			normal_pos_cylinder(t_shape *shape, t_tuple pos);
 
 // t_cylinder		*create_cylinder(t_tuple orientation);
-t_cylinder		*create_cylinder(t_tuple orientation);
+t_cylinder		*create_cylinder(t_minirt *m);
 
 t_cone			*create_cone();
 t_tuple			normal_pos_cone(t_shape *shape, t_tuple pos);

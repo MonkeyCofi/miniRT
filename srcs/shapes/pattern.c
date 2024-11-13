@@ -37,7 +37,7 @@ t_tuple	texture_sphere(t_inter_comp *intersection, t_ppm *tex)
 	double	u;
 	double	v;
 
-	point = tuple_mult_fast(intersection->obj->inverse_mat, &intersection->point);
+	point = tuple_mult_fast(&intersection->obj->inverse_mat, &intersection->point);
 	u = 0.5 + (atan2(point.z, point.x) / (2 * PI));
 	// v = 0.5 - (asin(point.y) * PI);
 	v = 0.5 - (asin(point.y) + (PI / 2)) / PI;
@@ -108,7 +108,7 @@ t_tuple	checkerboard_sphere(t_pattern pattern, t_inter_comp *intersection)
 	int		u_scaled;
 	int		v_scaled;
 
-	point = tuple_mult_fast(intersection->obj->inverse_mat, &intersection->point);
+	point = tuple_mult_fast(&intersection->obj->inverse_mat, &intersection->point);
 	u = 0.5 + (atan2(point.z, point.x) / (2 * PI));
 	// v = 0.5 - (asin(point.y) * PI);
 	v = 0.5 - (asin(point.y) + (PI / 2)) / PI;
@@ -127,7 +127,7 @@ t_tuple checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection)
     int u_scaled;
 	int v_scaled;
     
-    point = tuple_mult_fast(intersection->obj->inverse_mat, &intersection->point);
+    point = tuple_mult_fast(&intersection->obj->inverse_mat, &intersection->point);
     u = 0.5 + (atan2(point.z, point.x) / (2 * PI)); //basedon angle aroud cylinder
 
 	// v based off height, the normalized

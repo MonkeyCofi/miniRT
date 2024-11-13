@@ -184,11 +184,11 @@ typedef struct s_shape
 	t_tuple			coords;
 	t_tuple			orientation;
 	t_4dmat			transform;
-	t_4dmat			*inverse_mat;
+	t_4dmat			inverse_mat;
 	t_4dmat			translation_mat;
 	t_4dmat			rotation_mat;
 	t_4dmat			scaling_mat;
-	t_4dmat			*inverse_transpose;
+	t_4dmat			inverse_transpose;
 	t_mater			*material;
 	t_bool			patterned;
 	t_tuple			(*normal)(struct s_shape *, t_tuple);
@@ -200,9 +200,9 @@ typedef struct s_shape
 
 typedef struct s_intersection
 {
+	void			*shape;
 	double			t;
 	t_shape			*shape_ptr;
-	void			*shape;
 	t_mater			*material;
 	t_shape_type	type;
 }	t_intersection;
@@ -333,24 +333,6 @@ typedef struct s_ambient
 	int				flag;
 }	t_ambient;
 
-typedef struct s_minirt
-{
-	t_ambient	*ambient;
-	t_mlx		*mlx;
-	t_camera	*cam;
-	t_shape		**shapes;
-	t_light		**lights;
-	t_tuple		from;
-	t_tuple		to;
-	t_tuple		up;
-	t_ppm		*ppm;
-	t_strokes	stroke;
-	double		pitch;
-	double		yaw;
-	int			object_count;
-	int			light_count;
-}	t_minirt;
-
 typedef struct s_hook_params
 {
 	t_mlx 		*mlx;
@@ -358,7 +340,27 @@ typedef struct s_hook_params
 	t_tuple		original_from;
 	t_tuple		original_to;
 	t_tuple		original_up;
+	t_shape		*shape_or_cam;
 }	t_hook_params;
+
+typedef struct s_minirt
+{
+	t_mlx			*mlx;
+	t_ambient		*ambient;
+	t_camera		*cam;
+	t_shape			**shapes;
+	t_light			**lights;
+	t_tuple			from;
+	t_tuple			to;
+	t_tuple			up;
+	t_ppm			*ppm;
+	t_strokes		stroke;
+	t_hook_params	hooks;
+	double			pitch;
+	double			yaw;
+	int				object_count;
+	int				light_count;
+}	t_minirt;
 
 typedef struct	s_transform
 {
@@ -369,5 +371,25 @@ typedef struct	s_transform
 	double	rotation_y;
 	double	rotation_z;
 }	t_transform;
+
+typedef struct s_lighting
+{
+	t_inter_comp *intersection;
+	t_tuple		final_color;
+	t_tuple		light_vector;
+	t_tuple		ambient;
+	t_tuple		specular;
+	t_tuple		diffuse;
+	t_tuple		reflect_vector;
+	t_tuple		color;
+	t_tuple		vec_to_light;
+	t_mater*	material;
+	t_light*	light;
+	t_bool 		in_shadow;
+	double		light_dot;
+	double		eye_dot;
+	double		specular_fac;
+}	t_lighting;
+
 
 #endif

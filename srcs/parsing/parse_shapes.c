@@ -12,15 +12,35 @@
 
 #include "minirt.h"
 
-t_shape *alloc_shape(t_shape *shape)
+t_shape *alloc_shape(t_minirt *m)
 {
-	shape = ft_calloc(1, sizeof(t_shape));
-	if(!shape)
-		return NULL;
+	t_shape	*shape;
+
+	shape = calloc_and_check(sizeof(t_shape), 1, m, SHP_ERR);
 	shape->material = create_default_material();
 	if(!shape->material)
 		return (NULL);
 	return (shape);
+}
+
+int	parse_bonus_specs(t_minirt *minirt, char **tokens, int *j)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i])
+	{
+		if (recognizepattern(tokens[i], minirt->shapes[*j]->material))
+			return (1);
+		if (recognizespecular(tokens[i], minirt->shapes[*j]->material))
+			return (1);
+		if (recognizediffuse(tokens[i], minirt->shapes[*j]->material))
+			return (1);
+		if (recognizeambient(tokens[i], minirt->shapes[*j]->material))
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int	parse_sphere(t_minirt *minirt, char *string, int *j)
@@ -33,7 +53,8 @@ int	parse_sphere(t_minirt *minirt, char *string, int *j)
 	i = 1;
 	if(arr_len(str) < 4 || arr_len(str) > 8)
 		return (printf("Error\nIssue Lies in Sphere Arguments\n"), 1);
-	minirt->shapes[*j] = alloc_shape(minirt->shapes[*j]);
+	minirt->shapes[*j] = alloc_shape(minirt);
+	diameter = 0;
 	while (str && str[i])
 	{
 		if (i == 1 && dovector(str[i], &minirt->shapes[*j]->coords))
@@ -69,7 +90,7 @@ int	parse_plane(t_minirt *minirt, char *string, int *j)
 	i = 1;
 	if(arr_len(str) < 4 || arr_len(str) > 8)
 		return (printf("Error\nIssue Lies in Plane Arguments\n"), 1);
-	minirt->shapes[*j] = alloc_shape(minirt->shapes[*j]);
+	minirt->shapes[*j] = alloc_shape(minirt);
 	while (str && str[i])
 	{
 		if (i == 1 && dovector(str[i], &minirt->shapes[*j]->coords))
@@ -105,7 +126,7 @@ int	parse_cylinder(t_minirt *minirt, char *string, int *j)
 	i = 1;
 	if(arr_len(str) < 6 || arr_len(str) > 10)
 		return (1);
-	minirt->shapes[*j] = alloc_shape(minirt->shapes[*j]);
+	minirt->shapes[*j] = alloc_shape(minirt);
 	while (str && str[i])
 	{
 		if (i == 1 && dovector(str[i], &minirt->shapes[*j]->coords))
@@ -170,7 +191,7 @@ int	parse_cone(t_minirt *minirt, char *string, int *j)
 	i = 1;
 	if(arr_len(str) < 5 || arr_len(str) > 9)
 		return (1);
-	minirt->shapes[*j] = alloc_shape(minirt->shapes[*j]);
+	minirt->shapes[*j] = alloc_shape(minirt);
 	while (str && str[i])
 	{
 		if (i == 1 && dovector(str[i], &minirt->shapes[*j]->coords))

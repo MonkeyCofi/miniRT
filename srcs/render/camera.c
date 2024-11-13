@@ -172,10 +172,11 @@ t_4dmat	view_transform_test(t_tuple *to, t_tuple *from, t_tuple *up, t_tuple *ca
 	orientation.matrix[2][2] = -forward_vec.z;
 	orientation.matrix[3][3] = 1;
 	(void)from;
-	print_tuple_points(cam);
+	// print_tuple_points(cam);
 	// translate_scene = translation_mat(-from->x, -from->y, -from->z);
 	translate_scene = translation_mat(-cam->x, -cam->y, -cam->z);
 	(void)up;
+	(void)cam;
 	return (mat4d_mult_fast_static(&orientation, &translate_scene));
 }
 

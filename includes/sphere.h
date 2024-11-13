@@ -15,7 +15,7 @@
 
 # include "structs.h"
 
-t_sphere	*create_sphere(double originx, double originy, double originz, double radius);
+t_sphere	*create_sphere(t_minirt *m, double radius);
 t_bool		sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, int shape_index);
 t_tuple		*normal_sphere_test(t_shape *shape, t_tuple pos);
 t_tuple		normal_sphere(t_shape *shape, t_tuple pos);

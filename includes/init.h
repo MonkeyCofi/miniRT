@@ -15,15 +15,13 @@
 
 # include "minirt.h"
 
-//t_minirt	*init_minirt(t_mlx *mlx);
-
-t_minirt	*init_minirt(t_mlx *mlx, int num_of_spheres, int num_of_lights);
 t_minirt	*init_default(t_mlx *mlx);
 int			init_mlx(t_mlx *mlx);
-t_minirt	*init_cone(t_minirt *m, int *i);
-t_minirt	*init_cylinder(t_minirt *m, int *i);
-t_minirt	*init_plane(t_minirt *m, int *i);
-t_minirt	*init_minirtaarij(t_minirt *m);
-t_minirt	*init_sphere(t_minirt *m, int *i);
+void		init_cone(t_minirt *m, int *i);
+void		init_cylinder(t_minirt *m, int *i);
+void		init_plane(t_minirt *m, int *i);
+// t_minirt	*init_minirtaarij(t_minirt *m);
+t_minirt*	init_minirt();
+void		init_sphere(t_minirt *m, int *i);
 
 #endif

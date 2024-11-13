@@ -42,6 +42,7 @@ t_tuple	chain_transforms(t_transform *trans, t_tuple *point);
 
 t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tuple *transform_coords);
 t_bool	transform_shape_new(t_shape *shape, t_transform *transform_params);
+t_bool	transform_shape_test(t_minirt *m, t_shape *shape, t_trans type, double angle, t_tuple *transform_coords);
 
 void	get_transform_params_rotations(double x, double y, double z, t_transform *trans_params);
 void	get_transform_params(t_tuple translate, t_tuple scaling, t_transform *trans_params);

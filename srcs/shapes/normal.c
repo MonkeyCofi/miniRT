@@ -18,9 +18,9 @@ t_tuple	normal_at(t_shape *shape, t_tuple point)
 	t_tuple	point_obj_space;
 	t_tuple	world_normal;
 
-	point_obj_space = tuple_mult_fast(shape->inverse_mat, &point);
+	point_obj_space = tuple_mult_fast(&shape->inverse_mat, &point);
 	local_normal = shape->normal(shape, point_obj_space);
-	world_normal = tuple_mult_fast(shape->inverse_transpose, &local_normal);
+	world_normal = tuple_mult_fast(&shape->inverse_transpose, &local_normal);
 	normalize(&world_normal);
 	world_normal.w = VECTOR;
 	return (world_normal);

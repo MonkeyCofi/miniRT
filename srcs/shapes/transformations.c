@@ -37,7 +37,6 @@ t_4dmat	scaling_mat(double x, double y, double z)
 	scaling_mat.m11 = x;
 	scaling_mat.m22 = y;
 	scaling_mat.m33 = z;
-	scaling_mat.m44 = 1;
 	return (scaling_mat);
 }
 
@@ -183,35 +182,26 @@ t_4dmat	get_axis_angle(t_tuple *orientation)
 	default_forward = return_vector(0, 1, 0);
 	axis = cross_product(&default_forward, orientation);
 	normalize(&axis);
-	printf("axis: ");
-	print_tuple_points(&axis);
+	// printf("axis: ");
+	// print_tuple_points(&axis);
 	rotation_angle = acos(dot_product(&default_forward, orientation));
 	return (axis_angle(axis, rotation_angle));
 }
 
 t_bool	set_inverse_transpose(t_shape *shape, t_4dmat *transform_mat)
 {
-	t_4dmat	*old_inverse;
+	t_4dmat	old_inverse;
 
 	old_inverse = shape->inverse_mat;
-	if (inverse_mat(transform_mat, &shape->inverse_mat) == error)
+	if (inverse_mat_test(transform_mat, &shape->inverse_mat) == error)
 		return (error);
-	shape->inverse_mat = mat4d_mult_fast(shape->inverse_mat, old_inverse);
-	if (shape->inverse_transpose)
-	{
-		free(shape->inverse_transpose);
-		shape->inverse_transpose = NULL;
-	}
-	shape->inverse_transpose = transpose(shape->inverse_mat);
-	if (!shape->inverse_transpose)
-		return (error);
-	free(old_inverse);
+	shape->inverse_mat = mat4d_mult_fast_static(&shape->inverse_mat, &old_inverse);
+	shape->inverse_transpose = transpose(&shape->inverse_mat);
 	return (true);
 }
 
 t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tuple *transform_coords)
 {
-	t_bool	inverse_res;
 	t_4dmat	translation;
 	t_4dmat	scaling;
 	t_4dmat	rotation;
@@ -221,11 +211,7 @@ t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tup
 	rotation = identity();
 	translation = identity();
 	if (type == none)
-	{
-		inverse_res = inverse_mat(&m->shapes[index]->transform, &m->shapes[index]->inverse_mat);
-		return (true);
-	}
-	(void)inverse_res;
+		return (inverse_mat_test(&m->shapes[index]->transform, &m->shapes[index]->inverse_mat));
 	if (type == translate)
 		translation = translation_mat(transform_coords->x, transform_coords->y,  transform_coords->z);
 	else if (type == scale)
@@ -236,13 +222,46 @@ t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tup
 		rotation = y_rotation_mat(angle);
 	else if (type == rotate_z)
 		rotation = z_rotation_mat(angle);
+	// if (m->shapes[index]->type == SPHERE)
+	// 	print_4dmatrix(&translation);
 	resultant = mat4d_mult_fast_static(&translation, &scaling);
 	resultant = mat4d_mult_fast_static(&resultant, &rotation);
-	// resultant = mat4d_mult_fast_static(&scaling, &rotation);
-	// resultant = mat4d_mult_fast_static(&resultant, &translation);
-	m->shapes[index]->transform = mat4d_mult_fast_static(&resultant,&m->shapes[index]->transform);
+	m->shapes[index]->transform = mat4d_mult_fast_static(&m->shapes[index]->transform, &resultant);
 	if (set_inverse_transpose(m->shapes[index], &m->shapes[index]->transform) == error)
 		return (error);
+	return (true);
+}
+
+t_bool	transform_shape_test(t_minirt *m, t_shape *shape, t_trans type, double angle, t_tuple *transform_coords)
+{
+	t_4dmat	translation;
+	t_4dmat	scaling;
+	t_4dmat	rotation;
+	t_4dmat	resultant;
+
+	scaling = identity();
+	rotation = identity();
+	translation = identity();
+	if (type == none)
+		return (inverse_mat_test(&shape->transform, &shape->inverse_mat));
+	if (type == translate)
+		translation = translation_mat(transform_coords->x, transform_coords->y,  transform_coords->z);
+	else if (type == scale)
+		scaling = scaling_mat(transform_coords->x, transform_coords->y,  transform_coords->z);
+	else if (type == rotate_x)
+		rotation = x_rotation_mat(angle);
+	else if (type == rotate_y)
+		rotation = y_rotation_mat(angle);
+	else if (type == rotate_z)
+		rotation = z_rotation_mat(angle);
+	// if (shape->type == SPHERE)
+	// 	print_4dmatrix(&translation);
+	resultant = mat4d_mult_fast_static(&translation, &scaling);
+	resultant = mat4d_mult_fast_static(&resultant, &rotation);
+	shape->transform = mat4d_mult_fast_static(&shape->transform, &resultant);
+	if (set_inverse_transpose(shape, &shape->transform) == error)
+		return (error);
+	(void)m;
 	return (true);
 }
 

@@ -31,6 +31,7 @@
 # include "pattern.h"
 # include "ppm.h"
 # include "parsing.h"
+# include "frees.h"
 
 # include <string.h>
 # include <math.h>
@@ -39,7 +40,12 @@
 
 # define PI 3.1415926535897932385
 # define EPSILON 0.00001f
-# define DEG_RAD(x) x * (PI / 180) 
+# define DEG_RAD(x) x * (PI / 180)
+# define MRT_ERR "Error! Malloc failed while trying to create main minirt struct\n"
+# define SPH_ERR "Error! Malloc failed while trying to create a sphere\n"
+# define PL_ERR "Error! Malloc failed while trying to create a plane\n"
+# define SHP_ERR "Error! Malloc failed while trying to create a shape\n"
+# define CYL_ERR "Error! Malloc failed while trying to create a cylinder\n"
 //# define MAX_INTERSECTS 200
 
 # ifdef __APPLE__
@@ -121,9 +127,8 @@ double		str_to_double(char *str);
 int			is_double(char *str);
 void		free_arr(char *arr[]);
 
-//t_tuple		lighting(t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector);
-t_tuple		lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow);
-//t_tuple		lighting(t_shape *shape, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow);
+// t_tuple		lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow);
+t_tuple		lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow);
 t_light		create_light(t_tuple intensity, t_tuple position);
 t_tuple		get_reflected_ray(t_tuple *from, t_tuple *normal);
 

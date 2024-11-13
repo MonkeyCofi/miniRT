@@ -15,7 +15,7 @@
 
 // #include "structs.h"
 
-t_shape	*alloc_shape(t_shape *shape);
+t_shape	*alloc_shape(t_minirt *m);
 int		parse_sphere(t_minirt *minirt, char *string, int *j);
 int		parse_plane(t_minirt *minirt, char *string, int *j);
 int		parse_cylinder(t_minirt *minirt, char *string, int *j);

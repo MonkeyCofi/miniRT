@@ -175,27 +175,27 @@ t_4dmat	identity()
 	return (matrix);
 }
 
-t_4dmat	*transpose(t_4dmat *matrix)
+t_4dmat	transpose(t_4dmat *matrix)
 {
-	double	res[4][4];
+	t_4dmat	matrix_transpose;
 
-	res[0][0] = matrix->m11;
-	res[0][1] = matrix->m21;
-	res[0][2] = matrix->m31;
-	res[0][3] = matrix->m41;
-	res[1][0] = matrix->m12;
-	res[1][1] = matrix->m22;
-	res[1][2] = matrix->m32;
-	res[1][3] = matrix->m42;
-	res[2][0] = matrix->m13;
-	res[2][1] = matrix->m23;
-	res[2][2] = matrix->m33;
-	res[2][3] = matrix->m43;
-	res[3][0] = matrix->m14;
-	res[3][1] = matrix->m24;
-	res[3][2] = matrix->m34;
-	res[3][3] = matrix->m44;
-	return (create_4dmat(res));
+	matrix_transpose.matrix[0][0] = matrix->m11;
+	matrix_transpose.matrix[0][1] = matrix->m21;
+	matrix_transpose.matrix[0][2] = matrix->m31;
+	matrix_transpose.matrix[0][3] = matrix->m41;
+	matrix_transpose.matrix[1][0] = matrix->m12;
+	matrix_transpose.matrix[1][1] = matrix->m22;
+	matrix_transpose.matrix[1][2] = matrix->m32;
+	matrix_transpose.matrix[1][3] = matrix->m42;
+	matrix_transpose.matrix[2][0] = matrix->m13;
+	matrix_transpose.matrix[2][1] = matrix->m23;
+	matrix_transpose.matrix[2][2] = matrix->m33;
+	matrix_transpose.matrix[2][3] = matrix->m43;
+	matrix_transpose.matrix[3][0] = matrix->m14;
+	matrix_transpose.matrix[3][1] = matrix->m24;
+	matrix_transpose.matrix[3][2] = matrix->m34;
+	matrix_transpose.matrix[3][3] = matrix->m44;
+	return (matrix_transpose);
 }
 
 double	determinant(t_2dmat *mat_2d, t_3dmat *mat_3d, t_4dmat *mat_4d)
@@ -359,7 +359,7 @@ t_4dmat	*create_4dcofactor(t_4dmat *mat)
 t_bool	inverse_mat(t_4dmat *mat, t_4dmat **ptr)
 {
 	t_4dmat	*cofactor;
-	t_4dmat	*t;
+	t_4dmat	t;
 	double	res[4][4];
 	int		i;
 	int		j;
@@ -373,10 +373,9 @@ t_bool	inverse_mat(t_4dmat *mat, t_4dmat **ptr)
 	{
 		j = -1;
 		while (++j < 4)
-			res[i][j] = t->matrix[i][j] / determinant(NULL, NULL, mat);
+			res[i][j] = t.matrix[i][j] / determinant(NULL, NULL, mat);
 	}
 	free(cofactor);
-	free(t);
 	(*ptr) = create_4dmat(res);
 	if (!ptr)
 		return (error);
@@ -386,7 +385,7 @@ t_bool	inverse_mat(t_4dmat *mat, t_4dmat **ptr)
 t_bool	inverse_mat_test(t_4dmat *mat, t_4dmat *ptr)
 {
 	t_4dmat	*cofactor;
-	t_4dmat	*t;
+	t_4dmat	t;
 	double	deter;
 	int		i;
 	int		j;
@@ -401,10 +400,9 @@ t_bool	inverse_mat_test(t_4dmat *mat, t_4dmat *ptr)
 	{
 		j = -1;
 		while (++j < 4)
-			ptr->matrix[i][j] = t->matrix[i][j] / deter;
+			ptr->matrix[i][j] = t.matrix[i][j] / deter;
 	}
 	free(cofactor);
-	free(t);
 	return (true);
 }
 

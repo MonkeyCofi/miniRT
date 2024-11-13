@@ -22,39 +22,33 @@ int	init_mlx(t_mlx *mlx)
 	if (!(mlx->img.img))
 		return (-1);
 	mlx->img.img_addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.line_length, &mlx->img.endian);
-	if (!APPLE)
-	{
-		mlx_hook(mlx->win, 2, 1L << 0, escape, mlx);
-	}
-	else
-	{
-		mlx_hook(mlx->win, 2, 0, escape, mlx);
-		mlx_hook(mlx->win, 17, 0, destroy, mlx);
-	}
 	return (1);
 }
 
-t_minirt *init_minirtaarij(t_minirt *m)
+t_minirt *init_minirt()
 {
+	t_minirt	*m;
+
+	m = calloc_and_check(sizeof(t_minirt), 1, m, MRT_ERR);
 	m->cam = ft_calloc(1, sizeof(t_camera));
 	m->cam->trans = return_point(0, 0, 0);
-	print_tuple_points(&m->cam->trans);
 	m->shapes = ft_calloc(1, (sizeof(t_shape)));
 	m->ambient = ft_calloc(1, sizeof(t_ambient));
 	m->lights = ft_calloc(1, (sizeof(t_light)));
+	m->mlx = ft_calloc(1, sizeof(t_mlx));
+	init_mlx(m->mlx);
 	m->up = return_tuple(0, 1, 0, VECTOR);
 	m->ambient->flag = 0;
 	m->ambient->ratio = 0;
 	m->cam->flag = 0;
 	m->object_count = 0;
 	m->light_count = 0;
-	
 	return (m);
 }
 
-t_minirt *init_sphere(t_minirt *m, int *i)
+void	init_sphere(t_minirt *m, int *i)
 {
-	t_sphere *sphere = create_sphere(0, 0, 0, m->shapes[*i]->r);
+	t_sphere *sphere = create_sphere(m, m->shapes[*i]->r);
 	t_tuple coords = m->shapes[*i]->coords;
 	t_mater *material = m->shapes[*i]->material;
 	//t_tuple orientation = m->shapes[*i]->orientation;
@@ -65,24 +59,22 @@ t_minirt *init_sphere(t_minirt *m, int *i)
 					m->shapes[*i]->material->pattern.color_two,
 					10, &m->shapes[*i]->material->pattern);
 	}
+	// stopped here. sphere transformation broken when commenting out line for sphere orientation. idk whatt wrong.
 	m->shapes[*i]->transform = identity();
 	transform_shape(m, *i, translate, 0, &coords);
-	t_4dmat rot = get_axis_angle(return_tuple_pointer(1,0.3,0,VECTOR));
-	m->shapes[*i]->transform = mat4d_mult_fast_static(&m->shapes[*i]->transform, &rot);
-	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
-	//m->shapes[*i]->transform = identity();
-	//transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
-	//m->shapes[*i]->transform = identity();
-	//transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
-	//m->shapes[*i]->transform = identity();
-	//transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
+	// t_4dmat rot = get_axis_angle(return_tuple_pointer(1,0.3,0,VECTOR));
+	// m->shapes[*i]->transform = mat4d_mult_fast_static(&m->shapes[*i]->transform, &rot);
+	// set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
 	*i += 1;
-	return (m);
 }
 
-t_minirt *init_plane(t_minirt *m, int *i)
+void	init_plane(t_minirt *m, int *i)
 {
-	t_plane *plane = create_plane();
+	t_plane *plane = create_plane(m);
+	if (!plane)
+	{
+		return ;
+	}
 	t_tuple coords = m->shapes[*i]->coords;
 	t_mater *material = m->shapes[*i]->material;
 	t_tuple orientation = m->shapes[*i]->orientation;
@@ -98,19 +90,17 @@ t_minirt *init_plane(t_minirt *m, int *i)
 	m->shapes[*i]->transform = mat4d_mult_fast_static(&m->shapes[*i]->transform, &rot);
 	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
 	*i += 1;
-	return(m);
 }
 
-t_minirt *init_cylinder(t_minirt *m, int *i)
+void	init_cylinder(t_minirt *m, int *i)
 {
-	t_cylinder *cylinder = create_cylinder(return_point(0, 0, 0));
+	t_cylinder *cylinder = create_cylinder(m);
 	t_tuple coords = m->shapes[*i]->coords;
 	t_tuple orientation = m->shapes[*i]->orientation;
 	t_mater *material = m->shapes[*i]->material;
 	cylinder->maximum = m->shapes[*i]->h;
 	cylinder->minimum = 0;
 	cylinder->radius = m->shapes[*i]->r;
-	printf("Cylinder radius: %f\n", m->shapes[*i]->r);
 	cylinder->is_closed = 1;
 	m->shapes[*i] = create_shape(CYLINDER, cylinder);
 	m->shapes[*i]->material = material;
@@ -119,25 +109,21 @@ t_minirt *init_cylinder(t_minirt *m, int *i)
 					m->shapes[*i]->material->pattern.color_two,
 					10, &m->shapes[*i]->material->pattern);
 	}
-	//transform_shape(m, *i, scale, 0, return_tuple_pointer(cylinder->radius, 1, cylinder->radius, POINT));
 	transform_shape(m, *i, translate, 0, &coords);
 	t_4dmat rot = get_axis_angle(&orientation);
-	m->shapes[*i]->transform = mat4d_mult_fast_static(&rot, &m->shapes[*i]->transform);
+	m->shapes[*i]->transform = mat4d_mult_fast_static(&m->shapes[*i]->transform, &rot);
 	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
-	//m->shapes[*i]->transform = identity();
-	//m->shapes[*i]->transform = identity();
-	//transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
-	//m->shapes[*i]->transform = identity();
-	//transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
-	//m->shapes[*i]->transform = identity();
-	//transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
 	*i += 1;
-	return (m);
 }
 
-t_minirt *init_cone(t_minirt *m, int *i)
+void	init_cone(t_minirt *m, int *i)
 {
 	t_cone *cone = create_cone();
+	if (!cone)
+	{
+		// function to free due to failure which will also exit
+		return ;
+	}
 	t_tuple coords = m->shapes[*i]->coords;
 	t_tuple orientation = m->shapes[*i]->orientation;
 	t_mater *material = m->shapes[*i]->material;
@@ -153,14 +139,10 @@ t_minirt *init_cone(t_minirt *m, int *i)
 	}
 	m->shapes[*i]->transform = identity();
 	transform_shape(m, *i, translate, 0, &coords);
-	m->shapes[*i]->transform = identity();
-	transform_shape(m, *i, rotate_x, DEG_RAD(orientation.x), NULL);
-	m->shapes[*i]->transform = identity();
-	transform_shape(m, *i, rotate_y, DEG_RAD(orientation.y), NULL);
-	m->shapes[*i]->transform = identity();
-	transform_shape(m, *i, rotate_z, DEG_RAD(orientation.z), NULL);
+	t_4dmat rot = get_axis_angle(&orientation);
+	m->shapes[*i]->transform = mat4d_mult_fast_static(&m->shapes[*i]->transform, &rot);
+	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
 	*i += 1;
-	return (m);
 }
 
 //t_minirt	* init_default(t_mlx *mlx)

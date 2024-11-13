@@ -12,21 +12,15 @@
 
 #include "minirt.h"
 
-t_sphere	*create_sphere(double originx, double originy, double originz, double radius)
+t_sphere	*create_sphere(t_minirt *m, double radius)
 {
 	t_sphere	*ret;
 
-	ret = ft_calloc(1, sizeof(t_sphere));
-	if (!ret)
-		return (NULL);
-	ret->center = return_tuple(originx, originy, originz, POINT);
+	ret = calloc_and_check(sizeof(t_sphere), 1, m, SPH_ERR);
+	ret->center = return_point(0, 0, 0);
 	ret->color = return_tuple(0.8, 0.5, 0.3, 0);
 	ret->radius = radius;
 	ret->diameter = ret->radius * ret->radius;
-	// if (material)
-	// 	ret->material = create_material(*material->color, material->diffuse, material->ambient, material->specular, material->shine);
-	// else
-	// 	ret->material = create_material(return_colorf(1, 1, 1), 0.9, 0.1, 0.9, 200);
 	return (ret);
 }
 
@@ -67,17 +61,3 @@ t_tuple	normal_sphere(t_shape *shape, t_tuple pos)
 	return (normal);
 }
 
-t_tuple	*normal_sphere_test(t_shape *shape, t_tuple pos)
-{
-	t_sphere	*sphere;
-	t_tuple		*res;
-
-	sphere = shape->shape;
-	res = ft_calloc(1, sizeof(t_tuple));
-	res->x = pos.x - sphere->center.x;
-	res->y = pos.y - sphere->center.y;
-	res->z = pos.z - sphere->center.z;
-	res->w = 0;
-	normalize(res);
-	return (res);
-}

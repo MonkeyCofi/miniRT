@@ -246,8 +246,8 @@ int	getmap(int fd, t_minirt *minirt)
 
 int	fileopen(char *path, t_minirt *minirt)
 {
-
 	int fd;
+
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 	{

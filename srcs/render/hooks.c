@@ -45,6 +45,8 @@ int	closert(t_minirt *m)
 	// if (m->shapes)
 		// free shapes func
 	// ill do these once we merge the parsing tree cuz theres some more things to do :)
+	printf("freeing things\n");
+	free_things(m);
 	(void)m;
 	exit(0);
 }
@@ -56,12 +58,8 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 	// float		pitch_angle = 0.1; 
 	t_tuple		right;
 	t_4dmat		rot;
-	t_tuple		forward = { 
-	.x = m->to.x - m->from.x, 
-	.y = m->to.y - m->from.y, 
-	.z = m->to.z - m->from.z, 
-	.w = m->to.w - m->from.w 
-	};
+	t_tuple		forward = {.x = m->to.x - m->from.x, .y = m->to.y - m->from.y, .z = m->to.z - m->from.z, .w = m->to.w - m->from.w};
+
 	normalize(&forward);
 	right = cross_product(&m->up, &forward);
 	normalize(&right);
@@ -109,11 +107,7 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 		printf("DOWN\n");
 	}
 	if (keycode == R)
-	{
-		m->from = return_tuple(hooks->original_from.x, hooks->original_from.y, hooks->original_from.z, hooks->original_from.w);
-		m->to = return_tuple(hooks->original_to.x, hooks->original_to.y, hooks->original_to.z, hooks->original_to.w);
-		m->up = return_tuple(hooks->original_up.x, hooks->original_up.y, hooks->original_up.z, hooks->original_up.w);
-	}
+		m->cam->trans = return_point(hooks->original_from.x, hooks->original_from.y, hooks->original_from.z);
 	if (keycode == E)
 		m->cam->trans.y += 0.5;
 	if (keycode == Q)

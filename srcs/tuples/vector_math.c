@@ -91,4 +91,5 @@ void	matrix_cross(t_tuple *a, t_tuple *b, t_4dmat res)
 	res.matrix[3][1] = a->w * b->y;
 	res.matrix[3][2] = a->w * b->z;
 	res.matrix[3][3] = a->w * b->w;
+	(void)res;
 }

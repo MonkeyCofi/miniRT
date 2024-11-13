@@ -143,7 +143,8 @@ t_ppm	*create_ppm(char *filename)
 	r = read(fd, ppm->buf, sizeof(t_pixel) * ppm->height * ppm->width);
 	if (r == -1)
 	{
-		write(2, "Error reading from ppm file\n", 28);
+		if (write(2, "Error reading from ppm file\n", 28) == -1)
+			return (NULL);
 		// general free required
 		return (NULL);
 	}

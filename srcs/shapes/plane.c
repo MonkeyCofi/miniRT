@@ -12,13 +12,11 @@
 
 #include "minirt.h"
 
-t_plane	*create_plane()
+t_plane	*create_plane(t_minirt *m)
 {
 	t_plane	*plane;
 
-	plane = ft_calloc(1, sizeof(t_plane));
-	if (plane == NULL)
-		return (NULL);
+	plane = calloc_and_check(sizeof(t_plane), 1, m, PL_ERR);
 	return (plane);
 }
 

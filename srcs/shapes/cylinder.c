@@ -13,19 +13,14 @@
 #include "minirt.h"
 #define MIN_T_DIFFERENCE 0.0001
 
-// pass minirt here change everything according to paramters passed
-t_cylinder	*create_cylinder(t_tuple orientation)
+t_cylinder	*create_cylinder(t_minirt *m)
 {
 	t_cylinder	*cyl;
 
-	cyl = ft_calloc(1, sizeof(t_cylinder));
-	if (!cyl)
-		return (NULL);
-	cyl->point = return_tuple(0, 0, 0, POINT);
+	cyl = calloc_and_check(sizeof(t_cylinder), 1, m, CYL_ERR);
+	cyl->point = return_point(0, 0, 0);
 	cyl->radius = 1;
-	// cyl->material = create_default_material();
 	cyl->type = CYLINDER;
-	cyl->orientation = return_tuple(orientation.x, orientation.y, orientation.z, orientation.w);
 	cyl->minimum = -INFINITY;
 	cyl->maximum = INFINITY;
 	cyl->is_closed = false;

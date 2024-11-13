@@ -12,39 +12,6 @@
 
 #include "init.h"
 
-t_minirt	*init_minirt(t_mlx *mlx, int num_of_spheres, int num_of_lights)
-{
-	t_minirt	*ret;
-
-	ret = ft_calloc(1, sizeof(t_minirt));
-	if (!ret)
-		return (NULL);
-	ret->cam = ft_calloc(1, sizeof(t_camera));
-	if (!ret->cam)
-	{
-		free(ret);
-		return (NULL);
-	}
-	ret->spheres = ft_calloc(num_of_spheres, sizeof(t_sphere *));
-	if (!ret->spheres)
-	{
-		free(ret->cam);
-		free(ret);
-		return (NULL);
-	}
-	ret->lights = ft_calloc(num_of_lights, sizeof(t_light *));
-	if (!ret->lights)
-	{
-		free(ret->spheres);
-		free(ret->cam);
-		free(ret);
-		return (NULL);
-	}
-	ret->mlx = mlx;
-	//init_cam(ret);
-	return (ret);
-}
-
 int	init_mlx(t_mlx *mlx)
 {
 	mlx->mlx = mlx_init();

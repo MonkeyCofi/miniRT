@@ -25,7 +25,7 @@ void	print_4dmatrix(t_4dmat *m);
 t_2dmat	*submat_3d(t_3dmat *matrix, int row, int column);
 t_3dmat	*submat_4d(t_4dmat *matrix, int row, int column);
 t_4dmat	identity();
-t_4dmat	*transpose(t_4dmat *matrix);
+t_4dmat	transpose(t_4dmat *matrix);
 
 double	determinant(t_2dmat *mat_2d, t_3dmat *mat_3d, t_4dmat *mat_4d);
 double	minor_3d(t_3dmat *mat, int row, int column);

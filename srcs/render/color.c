@@ -80,7 +80,7 @@ static inline t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_ind
 	t_tuple			new_point;
 	t_ray			ray;
 	double			distance;
-	
+
 	new_point = (t_tuple){0};
 	new_point = subtract_tuples(&point, &minirt->lights[light_index]->position);
 	direction = return_tuple(new_point.x, new_point.y, new_point.z, VECTOR);
@@ -96,17 +96,17 @@ static inline t_bool	is_in_shadow(t_minirt *minirt, t_tuple point, int light_ind
 
 t_tuple	shade(t_minirt *minirt, t_inter_comp *intersect_comp)
 {
-	t_tuple	res;
-	t_tuple	final_res;
-	t_bool	shadow;
-	int		i;
+	t_tuple		res;
+	t_tuple		final_res;
+	t_bool		shadow;
+	int			i;
 
 	i = -1;
 	final_res = (t_tuple){0};
 	while (++i < minirt->light_count)
 	{
 		shadow = is_in_shadow(minirt, intersect_comp->point_adjusted, i);
-		res = lighting(intersect_comp, minirt->lights[i], intersect_comp->point_adjusted, intersect_comp->eye_vec, intersect_comp->normal_vec, shadow);
+		res = lighting(intersect_comp, minirt->lights[i], shadow);
 		//res = lighting(intersect_comp->obj, minirt->lights[i], intersect_comp->point_adjusted, intersect_comp->eye_vec, intersect_comp->normal_vec, shadow);
 		final_res = add_vectors(&final_res, &res);
 		//scalar(&final_res, minirt->lights[i]->brightness);
