@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/08 15:41:21 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:44:23 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ int	main(int ac, char **av)
 			m = parse_objects(m);
 		m->cam = return_camera_ptr(WIDTH, HEIGHT, DEG_RAD(m->cam->fov));
 		m->cam->trans = m->from;
-		m->cam->view_matrix = view_transform_test(&m->to, &m->from, &m->up, &m->cam->trans);
+		m->forward = m->to;
+		m->cam->view_matrix = view_transform_test(&m->left, &m->from, &m->up, &m->cam->trans, &m->forward);
 		m->ppm = create_ppm("42_logo.ppm");
 		m->hooks = *hooks;
 		hooks->m = m;
@@ -89,7 +90,7 @@ int	main(int ac, char **av)
 		hooks->original_up = return_vector(m->up.x, m->up.y, m->up.z);
 		mlx_hook(m->mlx->win, 2, 1L << 0, get_key_pressed, hooks);
 		mlx_hook(m->mlx->win, 17, 1L << 2, closert, m);
-		mlx_mouse_hook(m->mlx->win, test, m);
+		// mlx_mouse_hook(m->mlx->win, test, m);
 		threaded_render(m->mlx, m);
 		mlx_loop(m->mlx->mlx);
 	}

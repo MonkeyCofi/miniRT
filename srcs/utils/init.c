@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/07 09:17:15 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/18 08:36:31 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	init_mlx(t_mlx *mlx)
 
 t_minirt *init_minirt()
 {
-	t_minirt	*m;
+	t_minirt	*m = NULL;
 
 	m = calloc_and_check(sizeof(t_minirt), 1, m, MRT_ERR);
 	m->cam = ft_calloc(1, sizeof(t_camera));

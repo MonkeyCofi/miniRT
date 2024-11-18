@@ -13,3 +13,4 @@ free every malloc
 refactor the functions to no longer make the inverse a malloc'd function
 check why lights somehow go inside a shape
 cone shadow??
+ask yourself why you're gay

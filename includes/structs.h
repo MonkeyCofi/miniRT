@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/08 15:28:38 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/18 11:14:24 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,6 +353,8 @@ typedef struct s_minirt
 	t_tuple			from;
 	t_tuple			to;
 	t_tuple			up;
+	t_tuple			forward;
+	t_tuple			left;
 	t_ppm			*ppm;
 	t_strokes		stroke;
 	t_hook_params	hooks;

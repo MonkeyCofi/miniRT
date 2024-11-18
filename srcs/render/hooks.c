@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/08 15:29:50 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:57:30 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+#define YAW_SPEED 0.5
+#define PITCH_SPEED 0.5
+#define MOVE_SPEED 0.5
 
 int	destroy(void *param)
 {
@@ -51,70 +55,114 @@ int	closert(t_minirt *m)
 	exit(0);
 }
 
+void rebuild_camera_basis(t_tuple *forward, t_tuple *up, t_tuple *left)
+{
+	normalize(forward);
+	if (is_equal(forward->x, 0) && is_equal(forward->z, 0))
+		*left = return_vector(1, 0, 0);
+	else{
+		*left = cross_product(up, forward);
+		normalize(left);
+	}
+	*up = cross_product(forward, left);
+	normalize(up);
+}
+
 int get_key_pressed(int keycode, t_hook_params *hooks)
 {
 	t_minirt	*m = hooks->m;
 	// float		yaw_angle = 0.5;
 	// float		pitch_angle = 0.1; 
-	t_tuple		right;
+	// t_tuple		right;
 	t_4dmat		rot;
-	t_tuple		forward = {.x = m->to.x - m->from.x, .y = m->to.y - m->from.y, .z = m->to.z - m->from.z, .w = m->to.w - m->from.w};
-
-	normalize(&forward);
-	right = cross_product(&m->up, &forward);
-	normalize(&right);
+	// t_tuple		forward = {.x = m->to.x - m->from.x, .y = m->to.y - m->from.y, .z = m->to.z - m->from.z, .w = m->to.w - m->from.w};
+	// printf("\n\nTuple Forward Not Minirt\n\n");
+	// print_tuple_points(&forward);
+	t_tuple up;
+	up = return_vector(0,1,0);
+	normalize(&m->forward);
+	m->left = cross_product(&m->up, &m->forward);
+	normalize(&m->left);
 	if (keycode == W) 
 	{
-		m->cam->trans = add_vectors(&forward, &m->cam->trans);
+		m->cam->trans = add_vectors(&m->forward, &m->cam->trans);
 		printf("W\n");
 	}
 	if (keycode == S)
 	{
-		m->cam->trans = subtract_tuples(&forward, &m->cam->trans);
+		m->cam->trans = subtract_tuples(&m->forward, &m->cam->trans);
 		printf("S\n");
 	}
 	if (keycode == A)
 	{
-		m->cam->trans = subtract_tuples(&right, &m->cam->trans);
+		m->cam->trans = subtract_tuples(&m->left, &m->cam->trans);
 		printf("A\n");
 	}
 	if (keycode == D)
 	{
-		m->cam->trans = add_vectors(&right, &m->cam->trans);
+		m->cam->trans = add_vectors(&m->left, &m->cam->trans);
 		printf("D\n");
 	}
-	if (keycode == LEFT)
+	if(keycode == LEFT || keycode == RIGHT || keycode == UP || keycode == DOWN)
 	{
-		rot = axis_angle(m->up, 0.5);
-		matrix_cross(&forward, &forward, rot);
-		normalize(&m->to);
-		printf("LEFT\n");
-	}
-	if (keycode == RIGHT)
-	{
-		rot = axis_angle(m->up, -0.5);
-		matrix_cross(&forward, &forward, rot);
-		printf("RIGHT\n");
-	}
-	if (keycode == UP)
-	{
-		rot = axis_angle(right, 0.5);
-		printf("UP\n");
-	}
-	if (keycode == DOWN)
-	{
-		rot = axis_angle(right, -0.5);
-		printf("DOWN\n");
+		if (keycode == LEFT)
+		{
+			rot = axis_angle(up, 0.5);
+			matrix_cross(&m->forward, &m->forward, rot);
+			matrix_cross(&m->left, &m->left, rot);
+			matrix_cross(&m->up, &m->up, rot);
+			normalize(&m->up);
+			normalize(&m->left);
+			printf("LEFT\n");
+		}
+		if (keycode == RIGHT)
+		{
+			rot = axis_angle(up, -0.5);
+			matrix_cross(&m->forward, &m->forward, rot);
+			matrix_cross(&m->left, &m->left, rot);
+			matrix_cross(&m->up, &m->up, rot);
+			normalize(&m->up);
+			normalize(&m->left);
+			printf("RIGHT\n");
+		}
+		if (keycode == UP)
+		{
+			rot = axis_angle(m->left, 0.5);
+			matrix_cross(&m->forward, &m->forward, rot);
+			matrix_cross(&m->left, &m->left, rot);
+			matrix_cross(&m->up, &m->up, rot);	
+			normalize(&m->up);
+			normalize(&m->left);
+			printf("UP\n");
+		}
+		if (keycode == DOWN)
+		{
+			rot = axis_angle(m->left, -0.5);
+			matrix_cross(&m->forward, &m->forward, rot);
+			matrix_cross(&m->left, &m->left, rot);
+			matrix_cross(&m->up, &m->up, rot);
+			normalize(&m->up);
+			normalize(&m->left);
+			printf("DOWN\n");
+		}
+		normalize(&m->forward);
 	}
 	if (keycode == R)
-		m->cam->trans = return_point(hooks->original_from.x, hooks->original_from.y, hooks->original_from.z);
+	{
+		m->cam->trans = hooks->original_from;
+		m->forward = hooks->original_to;
+		m->up = hooks->original_up;
+	}
 	if (keycode == E)
 		m->cam->trans.y += 0.5;
 	if (keycode == Q)
 		m->cam->trans.y -= 0.5;
 	if (keycode == ESC)
 		closert(hooks->m);
-	m->cam->view_matrix = view_transform_test(&m->to, &m->from, &m->up, &m->cam->trans);
+	normalize(&m->forward);
+	normalize(&m->up);
+	normalize(&m->left);
+	m->cam->view_matrix = view_transform_test(&m->left, &m->from, &m->up, &m->cam->trans, &m->forward);
 	threaded_render(hooks->mlx, m);
 	return (0);
 }
@@ -126,7 +174,7 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 // 	float		move_distance = 0.5;
 // 	float		yaw_angle = 0.5;
 // 	float		pitch_angle = 0.1; 
-// 	t_tuple		right;
+// 	t_tuple		m->left;
 // 	t_tuple		forward = { 
 // 	.x = m->to.x - m->from.x, 
 // 	.y = m->to.y - m->from.y, 
@@ -134,8 +182,8 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 // 	.w = m->to.w - m->from.w 
 // 	};
 // 	normalize(&forward);
-// 	right = cross_product(&m->up, &forward);
-// 	normalize(&right);
+// 	m->left = cross_product(&m->up, &forward);
+// 	normalize(&m->left);
 // 	if (keycode == W) 
 // 	{
 // 		move_in_direction(m, forward, move_distance);
@@ -148,12 +196,12 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 // 	}
 // 	if (keycode == A)
 // 	{
-// 		move_in_direction(m, right, -move_distance);
+// 		move_in_direction(m, m->left, -move_distance);
 // 		printf("A\n");
 // 	}
 // 	if (keycode == D)
 // 	{
-// 		move_in_direction(m, right, move_distance);
+// 		move_in_direction(m, m->left, move_distance);
 // 		printf("D\n");
 // 	}
 // 	// found out rotations bymistake lmaoô

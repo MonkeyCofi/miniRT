@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/08 15:30:37 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:09:47 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,36 +140,34 @@ t_4dmat	*view_transform(t_tuple *to, t_tuple *from, t_tuple *up)
 //	return (mat4d_mult_fast_static(&orientation, &translate_scene));
 //}
 
-t_4dmat	view_transform_test(t_tuple *to, t_tuple *from, t_tuple *up, t_tuple *cam)
+t_4dmat	view_transform_test(t_tuple *left_vec, t_tuple *from, t_tuple *up, t_tuple *cam, t_tuple *forward_vec)
 {
-	t_tuple	forward_vec;
-	t_tuple	left_vec;
+	// t_tuple	left_vec;
 	t_tuple	real_up;
 	t_4dmat	orientation;
 	t_4dmat	translate_scene;
-	t_tuple	up_normalized;
+	// t_tuple	up_normalized;
 
+	// (void)left_vect;
 	ft_bzero(&orientation, sizeof(t_4dmat));
-	//forward_vec = subtract_tuples(from, to);
-	forward_vec = *to;
-	normalize(&forward_vec);
-	up_normalized = return_vector(0, 1, 0);
-	if (is_equal(forward_vec.x, 0) && is_equal(forward_vec.z, 0))
-		left_vec = return_vector(1, 0, 0);
+	// normalize(forward_vec);
+	// up_normalized = return_vector(0, 1, 0);
+	if (is_equal(forward_vec->x, 0) && is_equal(forward_vec->z, 0))
+		*left_vec = return_vector(1, 0, 0);
 	else
-		left_vec = cross_product(&forward_vec, &up_normalized);
-	normalize(&left_vec);
-	real_up = cross_product(&left_vec, &forward_vec);
+		*left_vec = cross_product(forward_vec, up);
+	normalize(left_vec);
+	real_up = cross_product(left_vec, forward_vec);
 	normalize(&real_up);
-	orientation.matrix[0][0] = left_vec.x;
-	orientation.matrix[0][1] = left_vec.y;
-	orientation.matrix[0][2] = left_vec.z;
-	orientation.matrix[1][0] = real_up.x;
-	orientation.matrix[1][1] = real_up.y;
-	orientation.matrix[1][2] = real_up.z;
-	orientation.matrix[2][0] = -forward_vec.x;
-	orientation.matrix[2][1] = -forward_vec.y;
-	orientation.matrix[2][2] = -forward_vec.z;
+	orientation.matrix[0][0] = left_vec->x;
+	orientation.matrix[0][1] = left_vec->y;
+	orientation.matrix[0][2] = left_vec->z;
+	orientation.matrix[1][0] = up->x;
+	orientation.matrix[1][1] = up->y;
+	orientation.matrix[1][2] = up->z;
+	orientation.matrix[2][0] = -forward_vec->x;
+	orientation.matrix[2][1] = -forward_vec->y;
+	orientation.matrix[2][2] = -forward_vec->z;
 	orientation.matrix[3][3] = 1;
 	(void)from;
 	// print_tuple_points(cam);
