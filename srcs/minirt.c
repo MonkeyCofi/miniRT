@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/18 12:44:23 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/19 20:43:55 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,9 @@ int	main(int ac, char **av)
 		m->cam->trans = m->from;
 		m->forward = m->to;
 		m->cam->view_matrix = view_transform_test(&m->left, &m->from, &m->up, &m->cam->trans, &m->forward);
-		m->ppm = create_ppm("42_logo.ppm");
+		m->ppm = create_ppm("test.ppm");
+		m->xpm.img = mlx_xpm_file_to_image(m->mlx->mlx, "xpm_img.xpm", &m->xpm_width, &m->xpm_height);
+		m->xpm.img_addr = mlx_get_data_addr(&m->xpm.img, &m->xpm.bpp, &m->xpm.line_length, &m->xpm.endian);
 		m->hooks = *hooks;
 		hooks->m = m;
 		hooks->mlx = m->mlx;

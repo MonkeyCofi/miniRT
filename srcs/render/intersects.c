@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/03 16:34:51 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:44:38 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ t_inter_comp	precompute_intersect(t_minirt *minirt, t_intersects *inter, t_inter
 	else
 		new.is_inside_object = false;
 	new.ppm = minirt->ppm;
+	new.xpm = &minirt->xpm;
 	point_adjusted = return_point(new.normal_vec.x * EPSILON, new.normal_vec.y * EPSILON, new.normal_vec.z * EPSILON);
 	new.point_adjusted = add_vectors(&new.point, &point_adjusted);
 	return (new);

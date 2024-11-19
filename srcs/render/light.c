@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/08 17:26:27 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:49:04 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,11 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow)
 			// light_vars.color = texture_sphere(intersection, intersection->ppm);
 		}
 		else
-			//light_vars.color = texture_plane(intersection, intersection->ppm);
-			light_vars.color = checkerboard(light_vars.material->pattern, intersection->point);
+		{
+			light_vars.color = texture_plane(intersection, intersection->ppm);
+			//intersection->normal_vec = normal_from_sample(intersection);
+			//light_vars.color = checkerboard(light_vars.material->pattern, intersection->point);
+		}
 	}
 	else
 		light_vars.color = light_vars.material->color;

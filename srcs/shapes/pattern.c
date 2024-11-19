@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:35:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/08 16:24:29 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:47:47 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,6 @@ t_pattern	*create_pattern(t_tuple color_one, t_tuple color_two, int scale, t_pat
 
 t_tuple	texture_sphere(t_inter_comp *intersection, t_ppm *tex)
 {
-	//double	*uv;
-	//int		tex_x;
-	//int		tex_y;
-	
-	//uv = sphere_uv(point);
-	//tex_x = (uv[0] * tex->width - 1);
-	//tex_y = (uv[1] * tex->width - 1);
-	//printf("tex x %d tex y %d\n", tex_x, tex_y);
-	//return (tex->colors[tex_y][tex_x]);
 	t_tuple	point;
 	int		u_scaled;
 	int		v_scaled;
@@ -39,13 +30,10 @@ t_tuple	texture_sphere(t_inter_comp *intersection, t_ppm *tex)
 
 	point = tuple_mult_fast(&intersection->obj->inverse_mat, &intersection->point);
 	u = 0.5 + (atan2(point.z, point.x) / (2 * PI));
-	// v = 0.5 - (asin(point.y) * PI);
 	v = 0.5 - (asin(point.y) + (PI / 2)) / PI;
-	printf("u %f v %f\n", u, v);
-	//v = 0.5 - (asin(point.y) + (M_PI_2)) / M_PI;
-	u_scaled = floor(u * tex->width - 1);
-	v_scaled = floor(v * tex->width - 1);
-	printf("x %d y %d\n", u_scaled, v_scaled);
+	u_scaled = (int)fabs(u * (tex->width - 1)) % (tex->width - 1);
+	v_scaled = (int)fabs(v * (tex->height - 1)) % (tex->height - 1);
+	//printf("u %d v %d\n", u_scaled, v_scaled);
 	return (tex->colors[u_scaled][v_scaled]);
 }
 
@@ -55,14 +43,60 @@ t_tuple	texture_plane(t_inter_comp *intersection, t_ppm *tex)
 	double	v;
 	int		tex_x;
 	int		tex_y;
+	t_tuple	final_color;
 
-	u = intersection->point.x;
-	v = intersection->point.z;
-	printf("u %f v %f\n", u, v);
-	tex_x = (u * tex->width - 1);
-	tex_y = (v * tex->height - 1);
-	printf("x %d y %d\n", tex_x, tex_y);
+	u = intersection->point_adjusted.x;
+	v = intersection->point_adjusted.z;
+	tex_x = ((int)fabs(u * (tex->width - 1))) % (tex->width - 1);
+	tex_y = ((int)fabs(v * (tex->height - 1))) % (tex->height - 1);
+	final_color.x = (tex->colors[tex_y][tex_x].r / 255) - 1;
+	final_color.y = (tex->colors[tex_y][tex_x].g / 255) - 1;
+	final_color.z = (tex->colors[tex_y][tex_x].b / 255) - 1;
+	//printf("x %f y %f z %f\n", final_color.x, final_color.y, final_color.z);
+	final_color.w = VECTOR;
+	normalize(&final_color);
+	//return (final_color);
+	(void)final_color;
 	return (tex->colors[tex_y][tex_x]);
+}
+
+t_tuple	normal_from_sample(t_inter_comp *intersection)
+{
+	t_tuple	tangent;
+	t_tuple	bitangent;
+	t_tuple	n;
+	t_4dmat	matrix;
+	t_tuple	tangent_normal;
+
+	tangent = return_vector(1, 0, 0);
+	bitangent = return_vector(0, 0, 1);
+	n = return_vector(0, 1, 0);
+	matrix = identity();
+	tangent_normal = texture_plane(intersection, intersection->ppm);
+	matrix.m11 = tangent.x;
+	matrix.m21 = tangent.y;
+	matrix.m31 = tangent.z;
+	matrix.m12 = bitangent.x;
+	matrix.m22 = bitangent.y;
+	matrix.m32 = bitangent.z;
+	matrix.m13 = n.x;
+	matrix.m23 = n.y;
+	matrix.m33 = n.z;
+	return (tuple_mult_fast(&matrix, &tangent_normal));
+}
+
+t_tuple	map_sample(t_ppm *ppm, double *uv)
+{
+	t_tuple	color;
+	t_tuple	ret;
+
+	//color = ppm->colors[uv[0]][uv[]];
+	ret.x = (color.r / 127.5) - 1;
+	ret.y = (color.g / 127.5) - 1;
+	ret.z = (color.b / 127.5) - 1;
+	(void)ppm;
+	(void)uv;
+	return (ret);
 }
 
 t_tuple	pattern_at_point(t_pattern pattern, t_tuple point)

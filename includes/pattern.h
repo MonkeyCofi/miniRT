@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:58:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/08 16:17:24 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:37:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,7 @@ double		*sphere_uv(t_tuple point);
 //t_tuple		texture_sphere(t_tuple point, t_ppm *tex);
 t_tuple		texture_sphere(t_inter_comp *intersection, t_ppm *tex);
 t_tuple		texture_plane(t_inter_comp *intersection, t_ppm *tex);
+t_tuple		map_sample(t_ppm *ppm, double *uv);
+t_tuple		normal_from_sample(t_inter_comp *intersection);
 
 #endif
