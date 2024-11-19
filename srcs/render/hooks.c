@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/18 17:57:30 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/19 14:29:32 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,43 +108,32 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 		if (keycode == LEFT)
 		{
 			rot = axis_angle(up, 0.5);
-			matrix_cross(&m->forward, &m->forward, rot);
-			matrix_cross(&m->left, &m->left, rot);
-			matrix_cross(&m->up, &m->up, rot);
-			normalize(&m->up);
-			normalize(&m->left);
 			printf("LEFT\n");
 		}
 		if (keycode == RIGHT)
 		{
 			rot = axis_angle(up, -0.5);
-			matrix_cross(&m->forward, &m->forward, rot);
-			matrix_cross(&m->left, &m->left, rot);
-			matrix_cross(&m->up, &m->up, rot);
-			normalize(&m->up);
-			normalize(&m->left);
 			printf("RIGHT\n");
 		}
 		if (keycode == UP)
 		{
 			rot = axis_angle(m->left, 0.5);
-			matrix_cross(&m->forward, &m->forward, rot);
-			matrix_cross(&m->left, &m->left, rot);
-			matrix_cross(&m->up, &m->up, rot);	
-			normalize(&m->up);
-			normalize(&m->left);
 			printf("UP\n");
 		}
 		if (keycode == DOWN)
 		{
 			rot = axis_angle(m->left, -0.5);
-			matrix_cross(&m->forward, &m->forward, rot);
-			matrix_cross(&m->left, &m->left, rot);
-			matrix_cross(&m->up, &m->up, rot);
-			normalize(&m->up);
-			normalize(&m->left);
 			printf("DOWN\n");
 		}
+		print_tuple_points(&m->forward);
+		matrix_cross(&m->forward, &m->forward, rot);
+		print_tuple_points(&m->forward);
+		matrix_cross(&m->left, &m->left, rot);
+		matrix_cross(&m->up, &m->up, rot);
+    	normalize(&m->left);
+		m->left = cross_product(&m->up, &m->forward);
+		normalize(&m->up);
+    	m->up = cross_product(&m->forward, &m->left);
 		normalize(&m->forward);
 	}
 	if (keycode == R)
@@ -161,7 +150,11 @@ int get_key_pressed(int keycode, t_hook_params *hooks)
 		closert(hooks->m);
 	normalize(&m->forward);
 	normalize(&m->up);
+	// printf("First print : ");
+	// print_tuple_points(&m->left);
 	normalize(&m->left);
+	// printf("Second print : ");
+	// print_tuple_points(&m->left);
 	m->cam->view_matrix = view_transform_test(&m->left, &m->from, &m->up, &m->cam->trans, &m->forward);
 	threaded_render(hooks->mlx, m);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/04 13:13:27 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/19 09:11:08 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ int	recognizediffuse(char *string, t_mater *material)
 	while(str && str[++i])
 	{
 		if (i == 0 && ft_strncmp(str[i], "diffuse", 7) != 0)
-			return(printf("Error\nIssue Lies in Specular Keyword\n"), 1);
+			return(printf("Error\nIssue Lies in Diffuse Keyword\n"), 1);
 		if (i == 1 && check_double(str[i], &material->diffuse))
-			return(printf("Error\nIssue Lies in Specular Value\n"), 1);
+			return(printf("Error\nIssue Lies in Diffuse Value\n"), 1);
 	}
 	free_arr(str);
 	return (0);
@@ -67,7 +67,7 @@ int	recognizeambient(char *string, t_mater *material)
 	while(str && str[++i])
 	{
 		if (i == 0 && ft_strncmp(str[i], "ambient", 8) != 0)
-			return(printf("Error\nIssue Lies in Specular Keyword\n"), 1);
+			return(printf("Error\nIssue Lies in Ambient Keyword\n"), 1);
 		if (i == 1 && check_double(str[i], &material->ambient))
 			return(printf("Error\nIssue Lies in Ambient Value\n"), 1);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:31:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/04 13:16:34 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/19 12:22:05 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,16 @@ int	threaded_render(t_mlx *mlx, t_minirt *minirt)
 	while (++i < THREAD_NUM)
 		pthread_join(threads[i], NULL);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
+	char *coord = ft_itoa(minirt->cam->trans.x);
+	char *str = "Camera Coordinates - x : ";
+	str = ft_strjoin(str, coord);
+	str = ft_strjoin(str, " | y : ");
+	coord = ft_itoa(minirt->cam->trans.y);
+	str = ft_strjoin(str, coord);
+	str = ft_strjoin(str, " | z : ");
+	coord = ft_itoa(minirt->cam->trans.z);
+	str = ft_strjoin(str, coord);
+	mlx_string_put(minirt->mlx->mlx, minirt->mlx->win, 5, 10, 0x67FFFF, str);
+	free(str);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/18 14:09:47 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/19 14:27:45 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,18 +140,25 @@ t_4dmat	*view_transform(t_tuple *to, t_tuple *from, t_tuple *up)
 //	return (mat4d_mult_fast_static(&orientation, &translate_scene));
 //}
 
+void debug_orthogonality(t_tuple forward_vec, t_tuple real_up, t_tuple left_vec) {
+    printf("Dot(forward, up): %f\n", dot_product(&forward_vec, &real_up));
+    printf("Dot(forward, left): %f\n", dot_product(&forward_vec, &left_vec));
+    printf("Dot(up, left): %f\n", dot_product(&real_up, &left_vec));
+}
+
+
 t_4dmat	view_transform_test(t_tuple *left_vec, t_tuple *from, t_tuple *up, t_tuple *cam, t_tuple *forward_vec)
 {
 	// t_tuple	left_vec;
 	t_tuple	real_up;
 	t_4dmat	orientation;
 	t_4dmat	translate_scene;
-	// t_tuple	up_normalized;
+	// t_tuple	temp;
 
-	// (void)left_vect;
 	ft_bzero(&orientation, sizeof(t_4dmat));
 	// normalize(forward_vec);
-	// up_normalized = return_vector(0, 1, 0);
+	// normalize(up);
+	// temp = return_vector(1, 0, 0);
 	if (is_equal(forward_vec->x, 0) && is_equal(forward_vec->z, 0))
 		*left_vec = return_vector(1, 0, 0);
 	else
@@ -170,8 +177,7 @@ t_4dmat	view_transform_test(t_tuple *left_vec, t_tuple *from, t_tuple *up, t_tup
 	orientation.matrix[2][2] = -forward_vec->z;
 	orientation.matrix[3][3] = 1;
 	(void)from;
-	// print_tuple_points(cam);
-	// translate_scene = translation_mat(-from->x, -from->y, -from->z);
+	// debug_orthogonality(*forward_vec, real_up, *left_vec);
 	translate_scene = translation_mat(-cam->x, -cam->y, -cam->z);
 	(void)up;
 	(void)cam;

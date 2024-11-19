@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_ops.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/06 13:18:25 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/19 12:28:43 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -411,6 +411,7 @@ t_4dmat	axis_angle(t_tuple orientation, double angle)
 	t_4dmat	matrix;
 	double	cos_angle;
 
+	normalize(&orientation);
 	ft_bzero(&matrix, sizeof(t_4dmat));
 	cos_angle = cos(angle);
 	matrix.m11 = cos_angle + orientation.x * orientation.x * (1 - cos_angle);

@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:28:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 12:38:26 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/19 12:41:28 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	normalize(t_tuple *vector)
 
 	magnitude =  sqrt(((vector->x * vector->x) + (vector->y * vector->y) + \
 		(vector->z * vector->z)));
-	if (magnitude != 0)
+	if (magnitude > EPSILON)
 	{
 		vector->x /= magnitude;
 		vector->y /= magnitude;
