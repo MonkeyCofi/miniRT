@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/19 12:18:08 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/20 02:46:55 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ printf("Result: (%f, %f, %f, %f)\n", result.x, result.y, result.z, result.w);
 		m->forward = m->to;
 		print_tuple_points(&m->left);
 		m->cam->view_matrix = view_transform_test(&m->left, &m->from, &m->up, &m->cam->trans, &m->forward);
+// t_4dmat	view_transform_test(t_tuple *from, t_tuple *cam, t_minirt *m)
+		// m->cam->view_matrix = view_transform_test(&m->from, &m->cam->trans, m);
 		m->ppm = create_ppm("42_logo.ppm");
 		m->hooks = *hooks;
 		hooks->m = m;

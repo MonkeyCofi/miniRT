@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/19 14:27:45 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/20 02:47:20 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,41 @@ t_4dmat	view_transform_test(t_tuple *left_vec, t_tuple *from, t_tuple *up, t_tup
 	(void)cam;
 	return (mat4d_mult_fast_static(&orientation, &translate_scene));
 }
+
+
+// t_4dmat	view_transform_test(t_tuple *from, t_tuple *cam, t_minirt *m)
+// {
+// 	normalize(&m->up);
+// 	normalize(&m->left);
+// 	normalize(&m->forward);
+// 	// double points[4][4] = {
+// 	// 	{m->left.x, m->left.y, m->left.z, 0.0f},
+// 	// 	{m->up.x, m->up.y, m->up.z, 0.0f},
+// 	// 	{-m->forward.x, -m->forward.y, -m->forward.z, 0.0f},
+// 	// 	{0.0f, 0.0f, 0.0f, 1.0f}
+// 	// };
+// 	t_4dmat trans;
+// 	m->cam->inverse.m11 = m->left.x;
+// 	m->cam->inverse.m12 = m->left.y;
+// 	m->cam->inverse.m13 = m->left.z;
+// 	m->cam->inverse.m14 = 0.0f;
+// 	m->cam->inverse.m21 = m->up.x;
+// 	m->cam->inverse.m22 = m->up.y;
+// 	m->cam->inverse.m23 = m->up.z;
+// 	m->cam->inverse.m24 = 0.0f;
+// 	m->cam->inverse.m31 = -m->forward.x;
+// 	m->cam->inverse.m32 = -m->forward.y;
+// 	m->cam->inverse.m33 = -m->forward.z;
+// 	m->cam->inverse.m34 = 0.0f;
+// 	m->cam->inverse.m41 = 0.0f;
+// 	m->cam->inverse.m42 = 0.0f;
+// 	m->cam->inverse.m43 = 0.0f;
+// 	m->cam->inverse.m44 = 1.0f;
+// 	(void)from;
+// 	(void)cam;
+// 	trans = translation_mat(-m->cam->trans.x, -m->cam->trans.y, -m->cam->trans.z);
+// 	return(mat4d_mult_fast_static(&m->cam->inverse, &trans));
+// }
 
 
 // t_4dmat	view_transform_test(t_tuple *to, t_tuple *from, t_tuple *up)
