@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:48:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/03 21:20:43 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:03:59 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ t_tuple	*tuple_mult(t_4dmat *mat, t_tuple *tuple);
 void	copy_mat(t_4dmat *mat_one, t_4dmat *mat_two);
 
 t_4dmat	axis_angle(t_tuple orientation, double angle);
+t_4dmat mat4d_cross(t_4dmat *a, t_4dmat *b);
 
 #endif

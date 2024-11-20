@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/18 11:14:24 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/20 17:04:37 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,6 +333,23 @@ typedef struct s_ambient
 	int				flag;
 }	t_ambient;
 
+typedef struct s_movement
+{
+	t_bool	w;
+	t_bool	a;
+	t_bool	s;
+	t_bool	d;
+	t_bool	left;
+	t_bool	right;
+	t_bool	up;
+	t_bool	down;
+	t_bool	space;
+	t_bool	shift;
+	t_bool	r;
+	t_bool	esc;
+	t_bool	sprint;
+}	t_movement;
+
 typedef struct s_hook_params
 {
 	t_mlx 		*mlx;
@@ -358,8 +375,10 @@ typedef struct s_minirt
 	t_ppm			*ppm;
 	t_strokes		stroke;
 	t_hook_params	hooks;
+	t_movement		movement;
 	double			pitch;
 	double			yaw;
+	double			delta_time;
 	int				object_count;
 	int				light_count;
 }	t_minirt;

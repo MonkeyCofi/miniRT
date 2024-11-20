@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/20 02:47:20 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/20 10:40:43 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,11 @@ t_4dmat	view_transform_test(t_tuple *left_vec, t_tuple *from, t_tuple *up, t_tup
 // 	(void)from;
 // 	(void)cam;
 // 	trans = translation_mat(-m->cam->trans.x, -m->cam->trans.y, -m->cam->trans.z);
-// 	return(mat4d_mult_fast_static(&m->cam->inverse, &trans));
+// 	t_4dmat res = mat4d_mult_fast_static(&m->cam->inverse, &trans);
+// 	// t_4dmat *res_ptr = &res;
+// 	// inverse_mat(&res, &res_ptr);
+// 	return(res);
+// 	// return(mat4d_mult_fast_static(&m->cam->inverse, &trans));
 // }
 
 

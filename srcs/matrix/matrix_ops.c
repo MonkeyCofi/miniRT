@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/19 12:28:43 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/20 09:03:42 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,18 @@ t_4dmat	mat4d_mult_fast_static(t_4dmat *one, t_4dmat *two)
 	res.m44 = (one->m41 * two->m14) + (one->m42 * two->m24) + (one->m43 * two->m34) + (one->m44 * two->m44);
 
 	return (res);
+}
+
+t_4dmat mat4d_cross(t_4dmat *a, t_4dmat *b)
+{
+    t_4dmat result;
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            // Antisymmetric difference as a "cross-like" operation
+            result.matrix[i][j] = a->matrix[i][j] - b->matrix[j][i];
+        }
+    }
+    return result;
 }
 
 t_tuple	tuple_mult_fast(t_4dmat *mat, t_tuple *tuple)

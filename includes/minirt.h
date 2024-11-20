@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/19 11:50:58 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/20 16:44:14 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@
 //#  define HEIGHT 1080
 //#  define WIDTH 1920
 #  define APPLE 1
-#  define HEIGHT 800
-#  define WIDTH 1000
+#  define HEIGHT 600
+#  define WIDTH 600
 #  define W 13
 #  define A 0
 #  define S 1
@@ -140,8 +140,9 @@ int			closert(t_minirt *m);
 void		adjust_yaw(t_minirt *m, double angle);
 void		adjust_pitch(t_minirt *m, double angle);
 int			get_key_pressed(int keycode, t_hook_params *hooks);
+int			get_key_released(int keycode, t_hook_params *hooks);
 t_tuple checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection);
 t_tuple checkerboard_cap(t_pattern pattern, t_tuple point);
-int	hooker(t_hook_params *hooks);
+int	delta_time(void *param);
 
 #endif
