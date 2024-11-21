@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/20 16:44:14 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/21 17:01:55 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@
 
 # ifdef __APPLE__
 #  define APP 1
-//#  define HEIGHT 1080
-//#  define WIDTH 1920
+// #  define HEIGHT 1080
+// #  define WIDTH 1920
 #  define APPLE 1
-#  define HEIGHT 600
-#  define WIDTH 600
+#  define HEIGHT 1000
+#  define WIDTH 1000
 #  define W 13
 #  define A 0
 #  define S 1
@@ -139,10 +139,13 @@ t_mater		*create_default_material();
 int			closert(t_minirt *m);
 void		adjust_yaw(t_minirt *m, double angle);
 void		adjust_pitch(t_minirt *m, double angle);
-int			get_key_pressed(int keycode, t_hook_params *hooks);
-int			get_key_released(int keycode, t_hook_params *hooks);
-t_tuple checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection);
-t_tuple checkerboard_cap(t_pattern pattern, t_tuple point);
-int	delta_time(void *param);
+int			event_loop(t_minirt *m);
+t_tuple		checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection);
+t_tuple		checkerboard_cap(t_pattern pattern, t_tuple point);
+int			delta_time(void *param);
+int			get_key_pressed(int keycode, t_minirt *m);
+int			get_key_released(int keycode, t_minirt *m);
+void		camera_movement(t_minirt *m);
+void		change_cammove(t_minirt *m);
 
 #endif

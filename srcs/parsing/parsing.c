@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/20 09:45:48 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/21 11:32:18 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,17 @@ int	recognizepattern(char *string, t_mater *material)
 	int i;
 	i = -1;
 	char **str;
-	if(ft_strncmp(string, "pattern=no", 10) == 0)
+	if (ft_strncmp(string, "pattern=no", 10) == 0)
 		return (0);
 	str = ft_split(string, '=');
 	if(arr_len(str) != 2)
 		return (1);
 	while(str && str[++i])
 	{
-		if(i == 0 && ft_strncmp(str[i], "pattern", 7) != 0)
+		if(i == 0 && ft_strncmp(str[i], "pattern", 7) != 0){
+			printf("\n\n\nString Is : %s\n\n\n", str[i]);
 			return(printf("Error\nIssue Lies in Pattern Keyword\n"), 1);
+		}
 		if(i == 1 && dovectorcolor(str[i], &material->pattern.color_two))
 			return(printf("Error\nIssue Lies in Pattern Color\n"), 1);
 	}

@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/20 14:18:11 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/21 10:38:36 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ printf("Result: (%f, %f, %f, %f)\n", result.x, result.y, result.z, result.w);
 		hooks->original_to = return_point(m->to.x, m->to.y, m->to.z);
 		hooks->original_up = return_vector(m->up.x, m->up.y, m->up.z);
 		// mlx_hook(m->mlx->win, 2, 1L << 0, get_key_pressed, hooks);
-		mlx_hook(m->mlx->win, 2, 1L << 0, get_key_pressed, hooks);
-		mlx_hook(m->mlx->win, 3, 1L << 0, get_key_released, hooks);
+		mlx_hook(m->mlx->win, 2, 1L << 0, get_key_pressed, m);
+		mlx_hook(m->mlx->win, 3, 1L << 0, get_key_released, m);
 		mlx_hook(m->mlx->win, 17, 1L << 2, closert, m);
-		mlx_loop_hook(m->mlx->mlx, delta_time, m);
+		mlx_loop_hook(m->mlx->mlx, event_loop, m);
 		// mlx_mouse_hook(m->mlx->win, test, m);
 		// threaded_render(m->mlx, m);
 		mlx_loop(m->mlx->mlx);

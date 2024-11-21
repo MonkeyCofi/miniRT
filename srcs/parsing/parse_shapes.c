@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   parse_shapes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:45:40 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/04 13:10:45 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:03:07 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_shape *alloc_shape(t_minirt *m)
+t_shape	*alloc_shape(t_minirt *m)
 {
 	t_shape	*shape;
 
 	shape = calloc_and_check(sizeof(t_shape), 1, m, SHP_ERR);
 	shape->material = create_default_material();
-	if(!shape->material)
+	if (!shape->material)
 		return (NULL);
 	return (shape);
 }
@@ -30,18 +30,20 @@ int	parse_bonus_specs(t_minirt *minirt, char **tokens, int *j)
 	i = 0;
 	while (tokens[i])
 	{
-		if (recognizepattern(tokens[i], minirt->shapes[*j]->material))
+		if (i == 1 && recognizepattern(tokens[i], minirt->shapes[*j]->material))
 			return (1);
-		if (recognizespecular(tokens[i], minirt->shapes[*j]->material))
+		if (i == 2 && recognizespecular(tokens[i], minirt->shapes[*j]->material))
 			return (1);
-		if (recognizediffuse(tokens[i], minirt->shapes[*j]->material))
+		if (i == 3 && recognizediffuse(tokens[i], minirt->shapes[*j]->material))
 			return (1);
-		if (recognizeambient(tokens[i], minirt->shapes[*j]->material))
+		if (i == 4 && recognizeambient(tokens[i], minirt->shapes[*j]->material))
 			return (1);
 		i++;
 	}
 	return (0);
 }
+
+// texture=*.ppm
 
 int	parse_sphere(t_minirt *minirt, char *string, int *j)
 {
@@ -63,14 +65,16 @@ int	parse_sphere(t_minirt *minirt, char *string, int *j)
 			return (printf("Error\nIssue Lies in Sphere Diameter\n"), 1);
 		if (i == 3 && dovectorcolor(str[i], &minirt->shapes[*j]->material->color))
 			return (printf("Error\nIssue Lies in Sphere Color\n"), 1);
-		if (i == 4 && recognizepattern(str[i], minirt->shapes[*j]->material))
+		if (i == 4 && parse_bonus_specs(minirt, &str[i], j) == 1)
 			return (1);
-		if (i == 5 && recognizespecular(str[i], minirt->shapes[*j]->material))
-			return (1);
-		if (i == 6 && recognizediffuse(str[i], minirt->shapes[*j]->material))
-			return (1);
-		if (i == 7 && recognizeambient(str[i], minirt->shapes[*j]->material))
-			return (1);
+		// if (i == 4 && recognizepattern(str[i], minirt->shapes[*j]->material))
+		// 	return (1);
+		// if (i == 5 && recognizespecular(str[i], minirt->shapes[*j]->material))
+		// 	return (1);
+		// if (i == 6 && recognizediffuse(str[i], minirt->shapes[*j]->material))
+		// 	return (1);
+		// if (i == 7 && recognizeambient(str[i], minirt->shapes[*j]->material))
+		// 	return (1);
 		i++;
 	}
 	free_arr(str);
@@ -100,7 +104,7 @@ int	parse_plane(t_minirt *minirt, char *string, int *j)
 		if (i == 3 && dovectorcolor(str[i], &minirt->shapes[*j]->material->color))
 			return (printf("Error\nIssue Lies in Plane Color\n"), 1);
 		if (i == 4 && recognizepattern(str[i], minirt->shapes[*j]->material))
-			return (printf("Error\nIssue Lies in Pattern\n"), 1);
+			return (1);
 		if (i == 5 && recognizespecular(str[i], minirt->shapes[*j]->material))
 			return (1);
 		if (i == 6 && recognizediffuse(str[i], minirt->shapes[*j]->material))
@@ -140,7 +144,7 @@ int	parse_cylinder(t_minirt *minirt, char *string, int *j)
 		if (i == 5 && dovectorcolor(str[i], &minirt->shapes[*j]->material->color))
 			return (printf("Error\nIssue Lies in Cylinder Color\n"), 1);
 		if (i == 6 && recognizepattern(str[i], minirt->shapes[*j]->material))
-			return (printf("Error\nIssue Lies in Pattern\n"), 1);
+			return (1);
 		if (i == 7 && recognizespecular(str[i], minirt->shapes[*j]->material))
 			return (1);
 		if (i == 8 && recognizediffuse(str[i], minirt->shapes[*j]->material))
@@ -186,7 +190,9 @@ int	parse_cone(t_minirt *minirt, char *string, int *j)
 {
 	int 	i;
 	char	**str;
-	double	height = 0.0;
+	double	height;
+
+	height = 0.0;
 	str = ft_split(string, ' ');
 	i = 1;
 	if(arr_len(str) < 5 || arr_len(str) > 9)
@@ -203,7 +209,7 @@ int	parse_cone(t_minirt *minirt, char *string, int *j)
 		if (i == 4 && dovectorcolor(str[i], &minirt->shapes[*j]->material->color))
 			return (printf("Error\nIssue Lies in Cone Color\n"), 1);
 		if (i == 5 && recognizepattern(str[i], minirt->shapes[*j]->material))
-			return (printf("Error\nIssue Lies in Pattern\n"), 1);
+			return (1);
 		if (i == 6 && recognizespecular(str[i], minirt->shapes[*j]->material))
 			return (1);
 		if (i == 7 && recognizediffuse(str[i], minirt->shapes[*j]->material))
@@ -222,10 +228,10 @@ int	parse_cone(t_minirt *minirt, char *string, int *j)
 
 int	check_doubleb(char *str, double *num)
 {
-	if(!is_double(str))
+	if (!is_double(str))
 		return (1);
 	*num = str_to_double(str);
-	if(*num > 1 || *num < 0)
+	if (*num > 1 || *num < 0)
 		return (1);
 	return (0);
 }
@@ -236,16 +242,16 @@ int	parse_light(t_minirt *minirt, char *string, int *j)
 	char **str;
 	str = ft_split(string, ' ');
 	i = 1;
-	if(arr_len(str) != 4)
+	if (arr_len(str) != 4)
 		return (1);
 	minirt->lights[*j] = ft_calloc(1, sizeof(t_light));
 	while(str && str[i])
 	{
-		if(i == 1 && dovector(str[i], &minirt->lights[*j]->position))
+		if (i == 1 && dovector(str[i], &minirt->lights[*j]->position))
 			return(printf("Error\nIssue Lies in Light Coords"), 1);
-		if(i == 2 && check_doubleb(str[i], &minirt->lights[*j]->brightness))
+		if (i == 2 && check_doubleb(str[i], &minirt->lights[*j]->brightness))
 			return(printf("Error\nIssue Lies in Light Brightness"), 1);
-		if(i == 3 && dovectorcolor(str[i], &minirt->lights[*j]->intensity))
+		if (i == 3 && dovectorcolor(str[i], &minirt->lights[*j]->intensity))
 			return(printf("Error\nIssue Lies in Light Color"), 1);
 		i++;
 	}

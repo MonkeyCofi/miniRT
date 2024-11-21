@@ -25,6 +25,8 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				$(RENDER)/camera.c \
 				$(RENDER)/color.c \
 				$(RENDER)/hooks.c \
+				$(RENDER)/hooks2.c \
+				$(RENDER)/hooks3.c \
 				$(RENDER)/intersects.c \
 				$(RENDER)/light.c \
 				$(RENDER)/render.c \
