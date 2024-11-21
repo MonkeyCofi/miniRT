@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:35:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/19 18:47:47 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/21 21:12:35 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,35 @@ t_pattern	*create_pattern(t_tuple color_one, t_tuple color_two, int scale, t_pat
 	pattern->color_two = color_two;
 	pattern->pattern_scale = scale;
 	return (pattern);
+}
+
+// go through the xpm file and fill an array ofcolors
+void	fill_colors(t_minirt *m)
+{
+	int		i;
+	int		j;
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
+
+	i = -1;
+	m->tex_colors = ft_calloc(m->xpm_height, sizeof(t_tuple *));
+	while (++i < m->xpm_height)
+	{
+		j = -1;
+		m->tex_colors[i] = ft_calloc(m->xpm_width, sizeof(t_tuple));
+		while (++j < m->xpm_width)
+		{
+			unsigned int *color = (unsigned int *)m->xpm.img_addr + ((i * m->xpm.line_length) + (j * (m->xpm.bpp / 8)));
+			r = ((int)color >> 16) & 0xff;
+			g = ((int)color >> 8) & 0xff;
+			b = ((int)color) & 0xff;
+			m->tex_colors[i][j].a = 1;
+			m->tex_colors[i][j].r = r;
+			m->tex_colors[i][j].g = g;
+			m->tex_colors[i][j].b = b;
+		}
+	}
 }
 
 t_tuple	texture_sphere(t_inter_comp *intersection, t_ppm *tex)
@@ -45,19 +74,17 @@ t_tuple	texture_plane(t_inter_comp *intersection, t_ppm *tex)
 	int		tex_y;
 	t_tuple	final_color;
 
-	u = intersection->point_adjusted.x;
-	v = intersection->point_adjusted.z;
-	tex_x = ((int)fabs(u * (tex->width - 1))) % (tex->width - 1);
-	tex_y = ((int)fabs(v * (tex->height - 1))) % (tex->height - 1);
-	final_color.x = (tex->colors[tex_y][tex_x].r / 255) - 1;
-	final_color.y = (tex->colors[tex_y][tex_x].g / 255) - 1;
-	final_color.z = (tex->colors[tex_y][tex_x].b / 255) - 1;
-	//printf("x %f y %f z %f\n", final_color.x, final_color.y, final_color.z);
-	final_color.w = VECTOR;
-	normalize(&final_color);
-	//return (final_color);
-	(void)final_color;
-	return (tex->colors[tex_y][tex_x]);
+	u = intersection->point.x;
+	v = intersection->point.z;
+	tex_x = ((int)fabs(u * (intersection->m->xpm_width - 1))) % (intersection->m->xpm_width - 1);
+	tex_y = ((int)fabs(v * (intersection->m->xpm_height - 1))) % (intersection->m->xpm_height - 1);
+	final_color.x = (intersection->m->tex_colors[tex_y][tex_x].r / 128) - 1;
+	final_color.y = (intersection->m->tex_colors[tex_y][tex_x].g / 128) - 1;
+	final_color.z = (intersection->m->tex_colors[tex_y][tex_x].b / 128) - 1;
+	final_color.w = COLOR;
+	(void)tex;
+	return (final_color);
+	//return (intersection->m->tex_colors[tex_y][tex_x]);
 }
 
 t_tuple	normal_from_sample(t_inter_comp *intersection)
@@ -69,8 +96,8 @@ t_tuple	normal_from_sample(t_inter_comp *intersection)
 	t_tuple	tangent_normal;
 
 	tangent = return_vector(1, 0, 0);
-	bitangent = return_vector(0, 0, 1);
-	n = return_vector(0, 1, 0);
+	bitangent = return_vector(0, 1, 0);
+	n = intersection->normal_vec;
 	matrix = identity();
 	tangent_normal = texture_plane(intersection, intersection->ppm);
 	matrix.m11 = tangent.x;

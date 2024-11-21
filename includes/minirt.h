@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/03 00:59:45 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/20 18:13:38 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,8 @@ int			closert(t_minirt *m);
 void		adjust_yaw(t_minirt *m, double angle);
 void		adjust_pitch(t_minirt *m, double angle);
 int			get_key_pressed(int keycode, t_hook_params *hooks);
-t_tuple checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection);
-t_tuple checkerboard_cap(t_pattern pattern, t_tuple point);
+t_tuple 	checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection);
+t_tuple 	checkerboard_cap(t_pattern pattern, t_tuple point);
+void		fill_colors(t_minirt *m);
 
 #endif

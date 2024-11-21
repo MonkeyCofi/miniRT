@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/19 20:44:28 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:01:20 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,6 +324,7 @@ typedef struct	s_inter_comp
 	t_ppm			*ppm;
 	t_img			*xpm;
 	t_bool			is_inside_object;
+	t_minirt		*m;
 	double			t;
 }	t_inter_comp;
 
@@ -364,7 +365,7 @@ typedef struct s_minirt
 	int				object_count;
 	int				light_count;
 	t_img			xpm;
-	//void			*xpm;
+	t_tuple			**tex_colors;
 	int				xpm_height;
 	int				xpm_width;
 }	t_minirt;

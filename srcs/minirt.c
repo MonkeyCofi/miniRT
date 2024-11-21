@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/19 20:43:55 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/20 18:36:28 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	main(int ac, char **av)
 		m->ppm = create_ppm("test.ppm");
 		m->xpm.img = mlx_xpm_file_to_image(m->mlx->mlx, "xpm_img.xpm", &m->xpm_width, &m->xpm_height);
 		m->xpm.img_addr = mlx_get_data_addr(&m->xpm.img, &m->xpm.bpp, &m->xpm.line_length, &m->xpm.endian);
+		fill_colors(m);
 		m->hooks = *hooks;
 		hooks->m = m;
 		hooks->mlx = m->mlx;
@@ -93,6 +94,7 @@ int	main(int ac, char **av)
 		mlx_hook(m->mlx->win, 2, 1L << 0, get_key_pressed, hooks);
 		mlx_hook(m->mlx->win, 17, 1L << 2, closert, m);
 		// mlx_mouse_hook(m->mlx->win, test, m);
+		//render(m->mlx, m->cam, m);
 		threaded_render(m->mlx, m);
 		mlx_loop(m->mlx->mlx);
 	}
