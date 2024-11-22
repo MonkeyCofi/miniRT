@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/21 10:38:36 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/22 14:12:12 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,6 @@ int	main(int ac, char **av)
 	t_hook_params	*hooks;
 	t_minirt		*m;
 
-	if(ac == 1){
-t_4dmat rot = axis_angle(return_vector(0, 1, 0), M_PI / 2);
-t_tuple vec = {{1, 0, 0, 0}}; // Directional vector, w = 0
-t_tuple result;
-matrix_cross(&result, &vec, rot);
-printf("Result: (%f, %f, %f, %f)\n", result.x, result.y, result.z, result.w);
-	}
 	if(ac == 2)
 	{
 		hooks = ft_calloc(1, sizeof(t_hook_params));

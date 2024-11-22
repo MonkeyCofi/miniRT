@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:40:33 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/21 10:41:24 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/22 01:03:23 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	camera_rotation(t_minirt *m)
 		rot = axis_angle(m->left, -2 * m->delta_time);
 		changed = true;
 	}
+	// if(m->movement.r == true)
 	if (changed == true)
 		change_camrot(m, rot);
 }

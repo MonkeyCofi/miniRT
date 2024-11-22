@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/20 17:04:37 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/22 14:21:51 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,22 +266,22 @@ typedef struct	s_light
 
 typedef struct	s_cylinder
 {
+	double			minimum;
+	double			maximum;
 	t_tuple			orientation;
 	t_tuple			point;
 	t_tuple			normal;
 	t_mater			*material;
 	t_bool			is_closed;
-	double			minimum;
-	double			maximum;
 	double			radius;
 	t_shape_type	type;
 }	t_cylinder;
 
 typedef struct	s_cone
 {
-	double			radius;
 	double			minimum;
 	double			maximum;
+	double			radius;
 	t_bool			is_closed;
 	t_tuple			point;
 	t_mater			*material;

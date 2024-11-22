@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/19 12:06:12 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/22 12:58:30 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,11 @@ t_minirt *init_minirt()
 	return (m);
 }
 
-void	init_sphere(t_minirt *m, int *i)
+void init_sphere(t_minirt *m, int *i)
 {
 	t_sphere *sphere = create_sphere(m, m->shapes[*i]->r);
 	t_tuple coords = m->shapes[*i]->coords;
 	t_mater *material = m->shapes[*i]->material;
-	//t_tuple orientation = m->shapes[*i]->orientation;
 	m->shapes[*i] = create_shape(SPHERE, sphere);
 	m->shapes[*i]->material = material;
 	if(m->shapes[*i]->material->is_patterned == true){
@@ -59,12 +58,8 @@ void	init_sphere(t_minirt *m, int *i)
 					m->shapes[*i]->material->pattern.color_two,
 					10, &m->shapes[*i]->material->pattern);
 	}
-	// stopped here. sphere transformation broken when commenting out line for sphere orientation. idk whatt wrong.
 	m->shapes[*i]->transform = identity();
 	transform_shape(m, *i, translate, 0, &coords);
-	// t_4dmat rot = get_axis_angle(return_tuple_pointer(1,0.3,0,VECTOR));
-	// m->shapes[*i]->transform = mat4d_mult_fast_static(&m->shapes[*i]->transform, &rot);
-	// set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
 	*i += 1;
 }
 

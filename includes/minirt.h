@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/21 17:01:55 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/22 09:57:22 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@
 // #  define HEIGHT 1080
 // #  define WIDTH 1920
 #  define APPLE 1
-#  define HEIGHT 1000
-#  define WIDTH 1000
+#  define HEIGHT 600
+#  define WIDTH 600
 #  define W 13
 #  define A 0
 #  define S 1
@@ -147,5 +147,9 @@ int			get_key_pressed(int keycode, t_minirt *m);
 int			get_key_released(int keycode, t_minirt *m);
 void		camera_movement(t_minirt *m);
 void		change_cammove(t_minirt *m);
+int			parse_light(t_minirt *minirt, char *string, int *j);
+int			parse_cone(t_minirt *m, char *string, int *j);
+int			parse_ambient(t_minirt *minirt, char *string);
+int			parse_bonus_specs(t_mater *material, char **tokens);
 
 #endif

@@ -20,6 +20,7 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				$(MATRIX)/matrix_ops.c \
 				$(MATRIX)/matrix_utils.c \
 				$(PARSING)/parse_shapes.c \
+				$(PARSING)/parse_shapes2.c \
 				$(PARSING)/parsing.c \
 				$(PARSING)/parsing_utils.c \
 				$(RENDER)/camera.c \

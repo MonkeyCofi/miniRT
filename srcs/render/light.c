@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/08 17:26:27 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:22:32 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow)
 	light_vars.material = intersection->material;
 	if (light_vars.material->is_patterned == true)
 	{
-		if (intersection->type == CYLINDER)
+		if (intersection->type == CYLINDER || intersection->type == CONE)
 		{
 			double min_y = ((t_cylinder *)(intersection->obj->shape))->minimum;
 			double max_y = ((t_cylinder *)(intersection->obj->shape))->maximum;
