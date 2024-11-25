@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:54:54 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/23 14:55:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:42:07 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_3dmat	*create_3dmat(double points[3][3])
 	t_3dmat	*new_mat;
 	int		i;
 	int		j;
-	
+
 	new_mat = ft_calloc(1, sizeof(t_3dmat));
 	if (!new_mat)
 		return (NULL);
@@ -55,7 +55,7 @@ t_4dmat	*create_4dmat(double points[4][4])
 	t_4dmat	*new_mat;
 	int		i;
 	int		j;
-	
+
 	new_mat = ft_calloc(1, sizeof(t_4dmat));
 	if (!new_mat)
 		return (NULL);
@@ -67,14 +67,6 @@ t_4dmat	*create_4dmat(double points[4][4])
 			new_mat->matrix[i][j] = points[i][j];
 	}
 	return (new_mat);
-}
-
-void	print_2dmatrix(t_2dmat *m)
-{
-	printf("% .5f ", m->m11);
-	printf("% .5f\n", m->m12);
-	printf("% .5f ", m->m21);
-	printf("% .5f\n", m->m22);
 }
 
 void	print_3dmatrix(t_3dmat *m)
@@ -89,6 +81,7 @@ void	print_3dmatrix(t_3dmat *m)
 	printf("% .5f ", m->m32);
 	printf("% .5f\n", m->m33);
 }
+
 void	print_4dmatrix(t_4dmat *m)
 {
 	printf("% .5f ", m->m11);

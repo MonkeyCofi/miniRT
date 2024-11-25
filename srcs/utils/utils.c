@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 07:29:54 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/07 07:12:33 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/25 19:06:15 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 double	str_to_double(char *str)
 {
 	double	sum;
-	double	prec; // for afrer decimal
+	double	prec;
 	double	div;
 	double	sign;
 
@@ -46,29 +46,33 @@ int	is_double(char *str)
 	int	i;
 
 	i = 0;
-	while(str[i] && str[i])
+	while (str[i] && str[i])
 	{
-		if(ft_isdigit(str[i]) != 1 && str[i] != '-' && str[i] != '.')
+		if (ft_isdigit(str[i]) != 1 && str[i] != '-' && str[i] != '.')
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-int	arr_len(char	*arr[])
+int	arr_len(char *arr[])
 {
-	int i = 0;
-	while(arr && arr[i])
+	int	i;
+
+	i = 0;
+	while (arr && arr[i])
 		i++;
 	return (i);
 }
 
 void	free_arr(char *arr[])
 {
-	int i = 0;
-	if(arr)
+	int	i;
+
+	i = 0;
+	if (arr)
 	{
-		while(arr[i])
+		while (arr[i])
 			free(arr[i++]);
 		free(arr);
 	}

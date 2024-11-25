@@ -18,11 +18,24 @@ UTILS		=	$(SRCSPATH)/utils
 SRCS		=	$(SRCSPATH)/minirt.c \
 				$(MATRIX)/matrix_cmp.c \
 				$(MATRIX)/matrix_ops.c \
+				$(MATRIX)/matrix_ops2.c \
+				$(MATRIX)/matrix_ops3.c \
+				$(MATRIX)/matrix_ops4.c \
+				$(MATRIX)/matrix_ops5.c \
 				$(MATRIX)/matrix_utils.c \
+				\
+				\
+				\
 				$(PARSING)/parse_shapes.c \
 				$(PARSING)/parse_shapes2.c \
 				$(PARSING)/parsing.c \
+				$(PARSING)/parsing2.c \
 				$(PARSING)/parsing_utils.c \
+				$(PARSING)/parsing_utils2.c \
+				$(PARSING)/parsing_utils3.c \
+				\
+				\
+				\
 				$(RENDER)/camera.c \
 				$(RENDER)/color.c \
 				$(RENDER)/hooks.c \
@@ -32,6 +45,9 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				$(RENDER)/light.c \
 				$(RENDER)/render.c \
 				$(RENDER)/threads.c \
+				\
+				\
+				\
 				$(SHAPES)/cone.c \
 				$(SHAPES)/cylinder.c \
 				$(SHAPES)/material.c \
@@ -41,12 +57,21 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				$(SHAPES)/shapes.c \
 				$(SHAPES)/sphere.c \
 				$(SHAPES)/transformations.c \
+				\
+				\
+				\
 				$(TUPLES)/tuple_utils.c \
+				$(TUPLES)/tuple_utils2.c \
 				$(TUPLES)/vector_math.c \
+				$(TUPLES)/vector_math2.c \
 				$(TUPLES)/vector_ops.c \
 				$(TUPLES)/vector_utils.c \
+				\
+				\
+				\
 				$(UTILS)/frees.c \
 				$(UTILS)/init.c \
+				$(UTILS)/init_cone.c \
 				$(UTILS)/read_ppm.c \
 				$(UTILS)/utils.c \
 

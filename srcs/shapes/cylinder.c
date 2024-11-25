@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/04 17:18:40 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/25 18:23:14 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ t_cylinder	*create_cylinder(t_minirt *m)
 	cyl->point = return_point(0, 0, 0);
 	cyl->radius = 1;
 	cyl->type = CYLINDER;
-	cyl->minimum = -INFINITY;
+	cyl->minimum = 0;
 	cyl->maximum = INFINITY;
-	cyl->is_closed = false;
+	cyl->is_closed = true;
 	return (cyl);
 }
 

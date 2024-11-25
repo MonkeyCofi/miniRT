@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/22 09:57:22 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/25 18:42:25 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@
 # define PL_ERR "Error! Malloc failed while trying to create a plane\n"
 # define SHP_ERR "Error! Malloc failed while trying to create a shape\n"
 # define CYL_ERR "Error! Malloc failed while trying to create a cylinder\n"
+# define CON_ERR "Error! Malloc failed while trying to create a cone\n"
+# define CAM_ERR "Error! Malloc failed while trying to create a camera\n"
+# define SHP_ERR "Error! Malloc failed while trying to create a shape\n"
+# define AMB_ERR "Error! Malloc failed while trying to create an ambient\n"
+# define LGT_ERR "Error! Malloc failed while trying to create a light\n"
+# define MLX_ERR "Error! Malloc failed while trying to create mlx\n"
 //# define MAX_INTERSECTS 200
 
 # ifdef __APPLE__

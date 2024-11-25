@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:03:24 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 18:09:52 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:14:23 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	free_minirt(t_minirt *m)
 	}
 }
 
-void	*calloc_and_check(size_t memb_size, size_t nmemb, t_minirt *m, char *err_msg)
+void	*calloc_and_check(size_t memb_size, size_t nmemb, t_minirt *m,
+						char *err_msg)
 {
 	void	*ptr;
 
@@ -65,11 +66,12 @@ void	free_shapes(t_minirt *minirt)
 		free(minirt->shapes[i]);
 	}
 	free(minirt->shapes);
-	// i = -1;
-	// while (++i < minirt->light_count)
-	// 	free(minirt->lights[i]);
-	// free(minirt->lights);
 }
+// put this up
+// i = -1;
+// while (++i < minirt->light_count)
+// 	free(minirt->lights[i]);
+// free(minirt->lights);
 
 void	free_things(t_minirt *minirt)
 {

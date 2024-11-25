@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:45:40 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/22 13:10:40 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/25 15:36:29 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,6 @@ int	parse_bonus_specs(t_mater *material, char **tokens)
 			return (1);
 		i++;
 	}
-	return (0);
-}
-
-// texture=*.ppm
-
-int	check_radius(char *str, double *num)
-{
-	if (!is_double(str))
-		return (1);
-	*num = str_to_double(str);
-	if (*num / 2 < 0 || *num < 0)
-		return (1);
 	return (0);
 }
 

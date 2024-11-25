@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:55:28 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/22 13:11:23 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/25 15:13:01 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	parse_ambient(t_minirt *minirt, char *string)
 	char	**str;
 
 	if (minirt->ambient->flag != 0)
-		return (printf("Error\nIssue Lies in Number of Ambient (Should Be 1)!\n"), 1);
+		return (printf("Error\nIssue Lies in Number of \
+					Ambient (Should Be 1)!\n"), 1);
 	else
 		minirt->ambient->flag = 1;
 	str = ft_split(string, ' ');
@@ -46,7 +47,7 @@ int	parse_cone(t_minirt *m, char *string, int *j)
 	str = ft_split(string, ' ');
 	i = 0;
 	if (arr_len(str) < 5 || arr_len(str) > 9)
-		return (printf("Error\nIssue Lies in Cone Arguments!\n"),1);
+		return (printf("Error\nIssue Lies in Cone Arguments!\n"), 1);
 	m->shapes[*j] = alloc_shape(m);
 	while (str && str[i++])
 	{
