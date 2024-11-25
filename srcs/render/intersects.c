@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/20 16:32:25 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:41:09 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_inter_comp	precompute_intersect(t_minirt *minirt, t_intersects *inter, t_inter
 	new.obj = intersection->shape_ptr;
 	new.type = intersection->type;
 	new.material = intersection->material;
-	new.point = position(ray, new.t);	// position of the object in world space
+	new.point = position(ray, new.t);
 	new.type = intersection->type;
 	new.eye_vec = return_vector(-ray->direction.x, -ray->direction.y, -ray->direction.z);	// eye vector in world space
 	normalize(&new.eye_vec);
@@ -116,15 +116,15 @@ t_intersection	intersect(double t, t_shape_type type, void *shape, t_mater *mate
 t_intersects	intersect_enivornment(t_minirt *minirt, t_ray *ray)
 {
 	t_intersects	inter;
-	t_ray			real_ray;
+	t_ray			ray_world_space;
 	int				i;
 
 	i = -1;
 	inter.intersection_count = 0;
 	while (++i < minirt->object_count)
 	{
-		real_ray = create_ray_static(tuple_mult_fast(&minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(&minirt->shapes[i]->inverse_mat, &ray->direction));
-		if (minirt->shapes[i]->intersect(minirt, &inter, &real_ray, i) == false)
+		ray_world_space = create_ray_static(tuple_mult_fast(&minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(&minirt->shapes[i]->inverse_mat, &ray->direction));
+		if (minirt->shapes[i]->intersect(minirt, &inter, &ray_world_space, i) == false)
 			continue ;
 	}
 	return (inter);

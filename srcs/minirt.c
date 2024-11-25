@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/20 18:36:28 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:55:51 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,33 +69,34 @@ int	main(int ac, char **av)
 	t_hook_params	*hooks;
 	t_minirt		*m;
 
-	if(ac == 2)
+	if (ac != 2)
 	{
-		hooks = ft_calloc(1, sizeof(t_hook_params));
-		m = init_minirt();
-		if(fileopen(av[1], m) == 1)
-			return (1);
-		if (m->object_count > 0)
-			m = parse_objects(m);
-		m->cam = return_camera_ptr(WIDTH, HEIGHT, DEG_RAD(m->cam->fov));
-		m->cam->trans = m->from;
-		m->forward = m->to;
-		m->cam->view_matrix = view_transform_test(&m->left, &m->from, &m->up, &m->cam->trans, &m->forward);
-		m->ppm = create_ppm("test.ppm");
-		m->xpm.img = mlx_xpm_file_to_image(m->mlx->mlx, "xpm_img.xpm", &m->xpm_width, &m->xpm_height);
-		m->xpm.img_addr = mlx_get_data_addr(&m->xpm.img, &m->xpm.bpp, &m->xpm.line_length, &m->xpm.endian);
-		fill_colors(m);
-		m->hooks = *hooks;
-		hooks->m = m;
-		hooks->mlx = m->mlx;
-		hooks->original_from = return_point(m->from.x, m->from.y, m->from.z);
-		hooks->original_to = return_point(m->to.x, m->to.y, m->to.z);
-		hooks->original_up = return_vector(m->up.x, m->up.y, m->up.z);
-		mlx_hook(m->mlx->win, 2, 1L << 0, get_key_pressed, hooks);
-		mlx_hook(m->mlx->win, 17, 1L << 2, closert, m);
-		// mlx_mouse_hook(m->mlx->win, test, m);
-		//render(m->mlx, m->cam, m);
-		threaded_render(m->mlx, m);
-		mlx_loop(m->mlx->mlx);
+		write(2, "Usage: ./minirt [SCENE_FILE]\n", 29);
+		return (1);
 	}
+	hooks = ft_calloc(1, sizeof(t_hook_params));
+	m = init_minirt();
+	if(fileopen(av[1], m) == 1)
+		return (1);
+	if (m->object_count > 0)
+		m = parse_objects(m);
+	m->cam = return_camera_ptr(WIDTH, HEIGHT, DEG_RAD(m->cam->fov));
+	m->cam->trans = m->from;
+	m->forward = m->to;
+	m->cam->view_matrix = view_transform_test(&m->left, &m->from, &m->up, &m->cam->trans, &m->forward);
+	m->ppm = create_ppm("test.ppm");
+	m->xpm.img = mlx_xpm_file_to_image(m->mlx->mlx, "brick_normal.xpm", &m->xpm_width, &m->xpm_height);
+	m->xpm.img_addr = mlx_get_data_addr(m->xpm.img, &m->xpm.bpp, &m->xpm.line_length, &m->xpm.endian);
+	fill_colors(m);
+	m->hooks = *hooks;
+	hooks->m = m;
+	hooks->mlx = m->mlx;
+	hooks->original_from = return_point(m->from.x, m->from.y, m->from.z);
+	hooks->original_to = return_point(m->to.x, m->to.y, m->to.z);
+	hooks->original_up = return_vector(m->up.x, m->up.y, m->up.z);
+	mlx_hook(m->mlx->win, 2, 1L << 0, get_key_pressed, hooks);
+	mlx_hook(m->mlx->win, 17, 1L << 2, closert, m);
+	//render(m->mlx, m->cam, m);
+	threaded_render(m->mlx, m);
+	mlx_loop(m->mlx->mlx);
 }
