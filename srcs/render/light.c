@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/22 14:22:32 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 08:30:13 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,11 @@ t_light	create_light(t_tuple intensity, t_tuple position)
 
 	light.intensity = intensity;
 	light.position = position;
-	return (light);	
+	return (light);
 }
 
 t_tuple	get_reflected_ray(t_tuple *from, t_tuple *normal)
 {
-	// reflection formula: 𝑟=𝑑−2(𝑑⋅𝑛)𝑛
-	// from - 2 * dot_product(from, normal) * normal;
 	double	dot;
 	double	prod;
 	t_tuple	_scalar;

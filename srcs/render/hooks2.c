@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:40:33 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/22 01:03:23 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 09:03:58 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	change_camrot(t_minirt *m, t_4dmat rot)
 	m->up = cross_product(&m->forward, &m->left);
 	normalize(&m->forward);
 	m->cam->view_matrix = view_transform_test(\
-	&m->left, &m->from, &m->up, \
+	&m->left, &m->up, \
 	&m->cam->trans, &m->forward);
 	normalize(&m->forward);
 	normalize(&m->up);
@@ -73,7 +73,6 @@ void	camera_rotation(t_minirt *m)
 		rot = axis_angle(m->left, -2 * m->delta_time);
 		changed = true;
 	}
-	// if(m->movement.r == true)
 	if (changed == true)
 		change_camrot(m, rot);
 }
@@ -101,7 +100,7 @@ int	get_key_pressed(int keycode, t_minirt *m)
 	if (keycode == 257)
 		m->movement.shift = true;
 	if (keycode == R)
-		m->movement.r = true;
+		resetcam(m);
 	if (keycode == ESC)
 		closert(m);
 	return (0);
@@ -110,7 +109,7 @@ int	get_key_pressed(int keycode, t_minirt *m)
 int	event_loop(t_minirt *m)
 {
 	if (m->movement.up || m->movement.down
-		|| m->movement.right || m->movement.left || m->movement.r)
+		|| m->movement.right || m->movement.left)
 	{
 		normalize(&m->forward);
 		m->left = cross_product(&m->up, &m->forward);

@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/22 14:21:51 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 09:01:27 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,6 +376,9 @@ typedef struct s_minirt
 	t_strokes		stroke;
 	t_hook_params	hooks;
 	t_movement		movement;
+	t_tuple			original_from;
+	t_tuple			original_to;
+	t_tuple			original_up;
 	double			pitch;
 	double			yaw;
 	double			delta_time;
@@ -412,5 +415,58 @@ typedef struct s_lighting
 	double		specular_fac;
 }	t_lighting;
 
+// all norm structs here lol sorry
+
+typedef struct	s_norm_cone
+{
+	double	t[2];
+	double	y[2];
+	double	disc;
+	double	a;
+	double	b;
+	double	c;
+	int		shape_index;
+	t_cone	*cone;
+}	t_norm_cone;
+
+typedef struct	s_norm_cyl
+{
+	double	t[2];
+	double	y[2];
+	double	disc;
+	double	a;
+	double	b;
+	double	c;
+	int		shape_index;
+	t_cylinder	*cyl;
+}	t_norm_cyl;
+
+typedef struct s_thing
+{
+	t_tuple	coords;
+	int		i;
+} t_thing;
+
+typedef struct s_norm_thread
+{
+	int	i;
+	int	j;
+	int	height;
+	int	width;
+}	t_norm_thread;
+
+typedef struct s_im_sorry
+{
+	double	x_offset;
+	double	y_offset;
+	double	world_x;
+	double	world_y;
+}	t_im_sorry;
+
+typedef struct s_norm_color
+{
+	t_tuple	new_point;
+	double	distance;
+}	t_norm_color;
 
 #endif

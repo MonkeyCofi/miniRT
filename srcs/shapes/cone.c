@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/25 19:36:48 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/26 17:28:34 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,30 @@ t_cone	*create_cone(t_minirt *m)
 //	return ((x * x) + (z * z) <= (y * y));
 //}
 
-static inline t_bool	at_cap(t_ray *ray, double t, double min_max)
-{
-	double	x;
-	double	z;
+// static t_bool	at_cap(t_ray *ray, double t, t_cylinder *c)
+// {
+// 	double	x;
+// 	double	z;
 
-	if (ray->direction.y == 0)
-		return (false);
+// 	x = ray->origin.x + t * ray->direction.x;
+// 	z = ray->origin.z + t * ray->direction.z;
+// 	if (((x * x) + (z * z) <= (c->radius * c->radius))
+// 		&& (ray->origin.y + t * ray->direction.y >= c->minimum \
+// 		&& ray->origin.y + t * ray->direction.y <= c->maximum))
+// 		return (true);
+// 	return (false);
+// }
+
+static inline t_bool	at_cap(t_ray *ray, double t, t_cone *cone, double y)
+{
+	double x;
+	double z;
+	double radius;
+
 	x = ray->origin.x + t * ray->direction.x;
-	z = ray->origin.z + t * ray->direction.z;
-	return ((x * x) + (z * z) <= (min_max * min_max));
+    z = ray->origin.z + t * ray->direction.z;
+    radius = (cone->maximum - y) / (cone->maximum - cone->minimum);
+    return ((x * x) + (z * z) <= (radius * radius));
 }
 
 t_tuple	normal_pos_cone(t_shape *shape, t_tuple pos)
@@ -81,62 +95,14 @@ t_bool	cone_end_hit(t_shape *shape_ptr, t_ray *ray, t_intersects *intersects)
 	if (cone->is_closed == false || is_equal(ray->direction.y, 0))
 		return (false);
 	t = (cone->minimum - ray->origin.y) / ray->direction.y;
-	if (at_cap(ray, t, cone->minimum))
+	if (t > cone->minimum && at_cap(ray, t, cone, cone->minimum))
 	{
 		if (add_to_intersect(t, shape_ptr, intersects, CONE, cone) == false)
 			return (true);
 	}
 	t = (cone->maximum - ray->origin.y) / ray->direction.y;
-	if (at_cap(ray, t, cone->maximum))
+	if ( at_cap(ray, t, cone, cone->maximum))
 		add_to_intersect(t, shape_ptr, intersects, CONE, cone);
 	return (true);
 }
 
-
-typedef struct	s_tandy
-{
-	double	t[2];
-	double	y[2];
-	double	disc;
-}	t_andy;
-
-t_bool	intersect_cone(t_minirt *m, t_intersects *intersects,
-			t_ray *ray, int shape_index)
-{
-	t_cone	*cone;
-	t_andy	s;
-	double	a;
-	double	b;
-	double	c;
-
-
-	cone = m->shapes[shape_index]->shape;
-	a = (ray->direction.x * ray->direction.x) - (ray->direction.y * ray->direction.y) + (ray->direction.z * ray->direction.z);
-	b = (2 * ray->origin.x * ray->direction.x) - (2 * ray->origin.y * ray->direction.y) + (2 * ray->origin.z * ray->direction.z);
-	c = (ray->origin.x * ray->origin.x) - (ray->origin.y * ray->origin.y) + (ray->origin.z * ray->origin.z);
-	if (is_equal(a, 0))
-	{
-		if (is_equal(b, 0))
-			return (false);
-		if (add_to_intersect(-c / (2 * b), m->shapes[shape_index], intersects, CONE, cone) == false)
-			return (true);
-	}
-	s.disc = (b * b) - 4 * a * c;
-	if (s.disc < 0)
-		return (false);
-	a *= 2;
-	b *= -1;
-	s.t[0] = (b - sqrt(s.disc)) / (a);
-	s.t[1] = (b + sqrt(s.disc)) / (a);
-	s.y[0] = ray->origin.y + s.t[0] * ray->direction.y;
-	if (s.y[0] > cone->minimum && s.y[0] < cone->maximum)
-	{
-		if (add_to_intersect(s.t[0], m->shapes[shape_index], intersects, CONE, cone) == false)
-			return (true);
-	}
-	s.y[1] = ray->origin.y + s.t[1] * ray->direction.y;
-	if (s.y[1] > cone->minimum && s.y[1] < cone->maximum)
-		add_to_intersect(s.t[1], m->shapes[shape_index], intersects, CONE, cone);
-	cone_end_hit(m->shapes[shape_index], ray, intersects);
-	return (true);
-}

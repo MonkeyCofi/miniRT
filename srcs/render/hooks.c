@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/21 10:42:33 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 09:20:10 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,46 +38,51 @@ int	escape(int keycode, void *param)
 	return (1);
 }
 
-int	closert(t_minirt *m)
-{
-	printf("freeing things\n");
-	free_things(m);
-	(void)m;
-	exit(0);
-}
-
 void	change_cammove(t_minirt *m)
 {
 	normalize(&m->forward);
 	normalize(&m->up);
 	normalize(&m->left);
 	m->cam->view_matrix = view_transform_test(\
-	&m->left, &m->from, &m->up, \
+	&m->left, &m->up, \
 	&m->cam->trans, &m->forward);
+}
+
+t_bool	handle_w_s(t_minirt *m, t_tuple scaled_forward)
+{
+	if (m->movement.w == true)
+	{
+		m->cam->trans = add_vectors(&scaled_forward, &m->cam->trans);
+		return (true);
+	}
+	if (m->movement.s == true)
+	{
+		m->cam->trans = subtract_tuples(&scaled_forward, &m->cam->trans);
+		return (true);
+	}
+	return (false);
 }
 
 void	camera_movement(t_minirt *m)
 {
 	t_bool		changed;
+	t_tuple		scaled_left;
+	t_tuple		scaled_forward;
 
-	if (m->movement.w == true)
-	{
-		m->cam->trans = add_vectors(&m->forward, &m->cam->trans);
-		changed = true;
-	}
-	if (m->movement.s == true)
-	{
-		m->cam->trans = subtract_tuples(&m->forward, &m->cam->trans);
-		changed = true;
-	}
+	scaled_forward = m->forward;
+	scalar(&scaled_forward, 2);
+	scaled_left = m->left;
+	scalar(&scaled_left, 2);
+	if (m->movement.w == true || m->movement.s == true)
+		changed = handle_w_s(m, scaled_forward);
 	if (m->movement.a == true)
 	{
-		m->cam->trans = subtract_tuples(&m->left, &m->cam->trans);
+		m->cam->trans = subtract_tuples(&scaled_left, &m->cam->trans);
 		changed = true;
 	}
 	if (m->movement.d == true)
 	{
-		m->cam->trans = add_vectors(&m->left, &m->cam->trans);
+		m->cam->trans = add_vectors(&scaled_left, &m->cam->trans);
 		changed = true;
 	}
 	if (changed == true)

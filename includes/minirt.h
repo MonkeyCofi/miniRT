@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/25 18:42:25 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 08:52:18 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@
 // #  define HEIGHT 1080
 // #  define WIDTH 1920
 #  define APPLE 1
-#  define HEIGHT 600
-#  define WIDTH 600
+#  define HEIGHT 400
+#  define WIDTH 400
 #  define W 13
 #  define A 0
 #  define S 1
@@ -157,5 +157,8 @@ int			parse_light(t_minirt *minirt, char *string, int *j);
 int			parse_cone(t_minirt *m, char *string, int *j);
 int			parse_ambient(t_minirt *minirt, char *string);
 int			parse_bonus_specs(t_mater *material, char **tokens);
+t_bool		cone_end_hit(t_shape *shape_ptr, t_ray *ray, t_intersects *intersects);
+t_bool	cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, t_ray *ray, t_intersects *intersects);
+int	resetcam(t_minirt *m);
 
 #endif

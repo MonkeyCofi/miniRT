@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:42:00 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/21 10:42:06 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 09:19:56 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	get_key_released(int keycode, t_minirt *m)
 		m->movement.space = false;
 	if (keycode == 257)
 		m->movement.shift = false;
-	if (keycode == R)
-		m->movement.r = false;
 	return (0);
 }
 
@@ -55,4 +53,21 @@ int	delta_time(void *param)
 	previous = current;
 	threaded_render(minirt->mlx, minirt);
 	return (0);
+}
+
+int	resetcam(t_minirt *m)
+{
+	m->cam->trans = m->original_from;
+	m->forward = m->original_to;
+	m->up = m->original_up;
+	change_cammove(m);
+	return (0);
+}
+
+int	closert(t_minirt *m)
+{
+	printf("freeing things\n");
+	free_things(m);
+	(void)m;
+	exit(0);
 }

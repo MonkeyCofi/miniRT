@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transformations.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:13:25 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/03 21:25:24 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/26 09:51:41 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ t_ray	transform_ray(t_ray *old_ray, t_trans type, t_tuple transform_coords, t_sp
 void	transform_sphere(t_sphere *sphere, t_trans type, t_tuple transform_coords);
 t_tuple	chain_transforms(t_transform *trans, t_tuple *point);
 
-t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tuple *transform_coords);
+// t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tuple *transform_coords);
+t_bool	transform_shape(t_minirt *m, t_thing *s, t_trans type, double angle);
 t_bool	transform_shape_new(t_shape *shape, t_transform *transform_params);
 t_bool	transform_shape_test(t_minirt *m, t_shape *shape, t_trans type, double angle, t_tuple *transform_coords);
 

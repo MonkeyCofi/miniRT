@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/25 18:53:32 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/26 09:55:17 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ t_minirt	*init_minirt(void)
 void	init_sphere(t_minirt *m, int *i)
 {
 	t_sphere	*sphere;
-	t_tuple		coords;
 	t_mater		*material;
+	t_thing		s;
 
+	s.i = *i;
+	s.coords = m->shapes[*i]->coords;
 	material = m->shapes[*i]->material;
-	coords = m->shapes[*i]->coords;
 	sphere = create_sphere(m, m->shapes[*i]->r);
 	m->shapes[*i] = create_shape(SPHERE, sphere);
 	m->shapes[*i]->material = material;
@@ -64,7 +65,7 @@ void	init_sphere(t_minirt *m, int *i)
 			m->shapes[*i]->material->pattern.color_two,
 			10, &m->shapes[*i]->material->pattern);
 	m->shapes[*i]->transform = identity();
-	transform_shape(m, *i, translate, 0, &coords);
+	transform_shape(m, &s, translate, 0);
 	*i += 1;
 }
 
@@ -72,12 +73,13 @@ void	init_plane(t_minirt *m, int *i)
 {
 	t_4dmat	rot;
 	t_plane	*plane;
-	t_tuple	coords;
+	t_thing	s;
 	t_mater	*material;
 	t_tuple	orientation;
 
+	s.i = *i;
+	s.coords = m->shapes[*i]->coords;
 	plane = create_plane(m);
-	coords = m->shapes[*i]->coords;
 	material = m->shapes[*i]->material;
 	orientation = m->shapes[*i]->orientation;
 	m->shapes[*i] = create_shape(PLANE, plane);
@@ -86,7 +88,7 @@ void	init_plane(t_minirt *m, int *i)
 		create_pattern(material->pattern.color_one,
 			m->shapes[*i]->material->pattern.color_two,
 			10, &m->shapes[*i]->material->pattern);
-	transform_shape(m, *i, translate, 0, &coords);
+	transform_shape(m, &s, translate, 0);
 	rot = get_axis_angle(&orientation);
 	m->shapes[*i]->transform = mat4d_mult_fast_static(\
 						&m->shapes[*i]->transform, &rot);
@@ -97,13 +99,14 @@ void	init_plane(t_minirt *m, int *i)
 void	init_cylinder(t_minirt *m, int *i)
 {
 	t_cylinder	*cylinder;
-	t_tuple		coords;
+	t_thing		s;
 	t_tuple		orientation;
 	t_mater		*material;
 	t_4dmat		rot;
 
 	cylinder = create_cylinder(m);
-	coords = m->shapes[*i]->coords;
+	s.i = *i;
+	s.coords = m->shapes[*i]->coords;
 	orientation = m->shapes[*i]->orientation;
 	material = m->shapes[*i]->material;
 	cylinder->maximum = m->shapes[*i]->h;
@@ -114,7 +117,7 @@ void	init_cylinder(t_minirt *m, int *i)
 		create_pattern(material->pattern.color_one,
 			m->shapes[*i]->material->pattern.color_two,
 			10, &m->shapes[*i]->material->pattern);
-	transform_shape(m, *i, translate, 0, &coords);
+	transform_shape(m, &s, translate, 0);
 	rot = get_axis_angle(&orientation);
 	m->shapes[*i]->transform = mat4d_mult_fast_static(\
 	&m->shapes[*i]->transform, &rot);

@@ -38,6 +38,7 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				\
 				$(RENDER)/camera.c \
 				$(RENDER)/color.c \
+				$(RENDER)/color_utils.c \
 				$(RENDER)/hooks.c \
 				$(RENDER)/hooks2.c \
 				$(RENDER)/hooks3.c \
@@ -49,7 +50,9 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				\
 				\
 				$(SHAPES)/cone.c \
+				$(SHAPES)/cone2.c \
 				$(SHAPES)/cylinder.c \
+				$(SHAPES)/cylinder2.c \
 				$(SHAPES)/material.c \
 				$(SHAPES)/normal.c \
 				$(SHAPES)/pattern.c \
@@ -57,6 +60,8 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				$(SHAPES)/shapes.c \
 				$(SHAPES)/sphere.c \
 				$(SHAPES)/transformations.c \
+				$(SHAPES)/transformations2.c \
+				$(SHAPES)/transformations3.c \
 				\
 				\
 				\
