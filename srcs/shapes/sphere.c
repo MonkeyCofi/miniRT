@@ -6,31 +6,26 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 18:16:32 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/26 09:37:55 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_sphere	*create_sphere(double originx, double originy, double originz, double radius)
+t_sphere	*create_sphere(t_minirt *m, double radius)
 {
 	t_sphere	*ret;
 
-	ret = ft_calloc(1, sizeof(t_sphere));
-	if (!ret)
-		return (NULL);
-	ret->center = return_tuple(originx, originy, originz, POINT);
+	ret = calloc_and_check(sizeof(t_sphere), 1, m, SPH_ERR);
+	ret->center = return_point(0, 0, 0);
 	ret->color = return_tuple(0.8, 0.5, 0.3, 0);
 	ret->radius = radius;
 	ret->diameter = ret->radius * ret->radius;
-	// if (material)
-	// 	ret->material = create_material(*material->color, material->diffuse, material->ambient, material->specular, material->shine);
-	// else
-	// 	ret->material = create_material(return_colorf(1, 1, 1), 0.9, 0.1, 0.9, 200);
 	return (ret);
 }
 
-t_bool	sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, int shape_index)
+t_bool	sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, \
+int shape_index)
 {
 	double		vars[4];
 	t_sphere	*sphere;
@@ -47,9 +42,11 @@ t_bool	sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, int shape_i
 	vars[0] *= 2;
 	vars[1] *= -1;
 	vars[3] = sqrt(vars[3]);
-	if (add_to_intersect((vars[1] - vars[3]) / (vars[0]), minirt->shapes[shape_index], inter, SPHERE, sphere) == false)
+	if (add_to_intersect((vars[1] - vars[3]) / (vars[0]), \
+	minirt->shapes[shape_index], inter, SPHERE, sphere) == false)
 		return (true);
-	if (add_to_intersect((vars[1] + vars[3]) / (vars[0]), minirt->shapes[shape_index], inter, SPHERE, sphere) == false)
+	if (add_to_intersect((vars[1] + vars[3]) / (vars[0]), \
+	minirt->shapes[shape_index], inter, SPHERE, sphere) == false)
 		return (true);
 	(void)minirt;
 	return (true);
@@ -65,19 +62,4 @@ t_tuple	normal_sphere(t_shape *shape, t_tuple pos)
 	temp = subtract_tuples(&sphere->center, &pos);
 	normal = return_point(temp.x, temp.y, temp.z);
 	return (normal);
-}
-
-t_tuple	*normal_sphere_test(t_shape *shape, t_tuple pos)
-{
-	t_sphere	*sphere;
-	t_tuple		*res;
-
-	sphere = shape->shape;
-	res = ft_calloc(1, sizeof(t_tuple));
-	res->x = pos.x - sphere->center.x;
-	res->y = pos.y - sphere->center.y;
-	res->z = pos.z - sphere->center.z;
-	res->w = 0;
-	normalize(res);
-	return (res);
 }

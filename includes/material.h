@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   material.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:28:19 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/24 17:53:30 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/27 09:31:33 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "structs.h"
 
-t_mater	*create_default_material();
-t_mater	*create_material(t_tuple color, double diffuse, double ambient, double specular, double shine);
+t_mater	*create_default_material(void);
 
 #endif

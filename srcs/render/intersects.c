@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/29 21:50:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/03 16:34:51 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,11 @@ t_inter_comp	precompute_intersect(t_minirt *minirt, t_intersects *inter, t_inter
 	new.obj = intersection->shape_ptr;
 	new.type = intersection->type;
 	new.material = intersection->material;
-	new.eye_vec = return_tuple(-ray->direction.x, -ray->direction.y, -ray->direction.z, VECTOR);	// eye vector in world space
-	normalize(&new.eye_vec);
 	new.point = position(ray, new.t);	// position of the object in world space
 	new.type = intersection->type;
+	new.eye_vec = return_vector(-ray->direction.x, -ray->direction.y, -ray->direction.z);	// eye vector in world space
+	normalize(&new.eye_vec);
 	new.normal_vec = normal_at(new.obj, new.point);	// takes the normal of the point 
-	new.ppm = minirt->ppm;
 	if (dot_product(&new.eye_vec, &new.normal_vec) < 0)
 	{
 		new.is_inside_object = true;
@@ -95,6 +94,7 @@ t_inter_comp	precompute_intersect(t_minirt *minirt, t_intersects *inter, t_inter
 	}
 	else
 		new.is_inside_object = false;
+	new.ppm = minirt->ppm;
 	point_adjusted = return_point(new.normal_vec.x * EPSILON, new.normal_vec.y * EPSILON, new.normal_vec.z * EPSILON);
 	new.point_adjusted = add_vectors(&new.point, &point_adjusted);
 	return (new);
@@ -121,7 +121,7 @@ t_intersects	intersect_enivornment(t_minirt *minirt, t_ray *ray)
 	inter.intersection_count = 0;
 	while (++i < minirt->object_count)
 	{
-		real_ray = create_ray_static(tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(minirt->shapes[i]->inverse_mat, &ray->direction));
+		real_ray = create_ray_static(tuple_mult_fast(&minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(&minirt->shapes[i]->inverse_mat, &ray->direction));
 		if (minirt->shapes[i]->intersect(minirt, &inter, &real_ray, i) == false)
 			continue ;
 	}

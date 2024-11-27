@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_math.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:57:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/26 12:09:29 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/25 19:14:07 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,9 @@ void	scalar(t_tuple *vec, double scalar)
 t_tuple	return_scalar(t_tuple *vec, double scalar)
 {
 	t_tuple	resultant;
-	
+
 	resultant.x = vec->x * scalar;
 	resultant.y = vec->y * scalar;
 	resultant.z = vec->z * scalar;
 	return (resultant);
-}
-
-t_tuple	return_at(t_ray *ray, double t)
-{
-	t_tuple	new;
-
-	new = return_scalar(&ray->direction, t);
-	return (add_vectors(&ray->origin, &new));
 }

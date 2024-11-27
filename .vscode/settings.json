@@ -12,6 +12,8 @@
 		"__locale": "c",
 		"bitset": "c",
 		"locale": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"material.h": "c",
+		"type_traits": "c"
 	}
 }

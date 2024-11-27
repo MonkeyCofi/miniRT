@@ -11,7 +11,7 @@
 			"program": "${workspaceFolder}/minirt",
 			"args": ["scenes/simple.rt"],
 			"stopAtEntry": false,
-			"cwd": "${fileDirname}",
+			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
 			"MIMode": "lldb"

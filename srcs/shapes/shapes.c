@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shapes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 13:17:33 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/28 14:00:09 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/26 09:37:24 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,13 @@
 t_shape	*create_shape(t_shape_type type, void *shape_ptr)
 {
 	t_shape	*shape;
-	
+
 	shape = ft_calloc(1, sizeof(t_shape));
 	if (shape == NULL)
 		return (NULL);
-	shape->material = create_default_material();
 	shape->transform = identity();
-	if (inverse_mat(&shape->transform, &shape->inverse_mat) == error)
-	{
-		free(shape->material);
-		free(shape);
-		return (NULL);
-	}
-	shape->inverse_transpose = transpose(shape->inverse_mat);
+	inverse_mat_test(&shape->transform, &shape->inverse_mat);
+	shape->inverse_transpose = transpose(&shape->inverse_mat);
 	shape->type = type;
 	shape->shape = shape_ptr;
 	shape->translation_mat = identity();

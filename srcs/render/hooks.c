@@ -6,11 +6,15 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 09:17:08 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 09:20:10 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+#define YAW_SPEED 0.5
+#define PITCH_SPEED 0.5
+#define MOVE_SPEED 0.5
 
 int	destroy(void *param)
 {
@@ -34,142 +38,53 @@ int	escape(int keycode, void *param)
 	return (1);
 }
 
-
-int	closert(t_minirt *m)
+void	change_cammove(t_minirt *m)
 {
-	// int i;
-	// if(m->cam)
-		// free cam func
-	// if (m->lights)
-	// 	free lights func
-	// if (m->shapes)
-		// free shapes func
-	// ill do these once we merge the parsing tree cuz theres some more things to do :)
-	(void)m;
-	exit(0);
+	normalize(&m->forward);
+	normalize(&m->up);
+	normalize(&m->left);
+	m->cam->view_matrix = view_transform_test(\
+	&m->left, &m->up, \
+	&m->cam->trans, &m->forward);
 }
 
-void	adjust_yaw(t_minirt *m, int i)
+t_bool	handle_w_s(t_minirt *m, t_tuple scaled_forward)
 {
-	double old_x;
-	double old_z;
-
-	if(i == 0)
+	if (m->movement.w == true)
 	{
-		old_x = m->to->x - m->from->x;
-		old_z = m->to->z - m->from->z;
-
-		m->to->x = old_x * cos(0.5) - old_z * sin(0.5) + m->from->x;
-		m->to->z = old_x * sin(0.5) + old_z * cos(0.5) + m->from->z;
+		m->cam->trans = add_vectors(&scaled_forward, &m->cam->trans);
+		return (true);
 	}
-	if(i == 1)
+	if (m->movement.s == true)
 	{
-		old_x = m->to->x - m->from->x;
-		old_z = m->to->z - m->from->z;
-	
-		m->to->x = old_x * cos(-0.5) - old_z * sin(-0.5) + m->from->x;
-		m->to->z = old_x * sin(-0.5) + old_z * cos(-0.5) + m->from->z;
+		m->cam->trans = subtract_tuples(&scaled_forward, &m->cam->trans);
+		return (true);
 	}
+	return (false);
 }
 
-void    adjust_pitch(t_minirt *m, int i)
+void	camera_movement(t_minirt *m)
 {
-	double	old_z;
-	double	old_y;
-    double	angle = 0.1; // easier to just yk, adjust once instead of all of em
+	t_bool		changed;
+	t_tuple		scaled_left;
+	t_tuple		scaled_forward;
 
-	if (i == 0)
+	scaled_forward = m->forward;
+	scalar(&scaled_forward, 2);
+	scaled_left = m->left;
+	scalar(&scaled_left, 2);
+	if (m->movement.w == true || m->movement.s == true)
+		changed = handle_w_s(m, scaled_forward);
+	if (m->movement.a == true)
 	{
-		old_y = m->to->y - m->from->y;
-		old_z = m->to->z - m->from->z;
-		m->to->y = old_y * cos(angle) + old_z * sin(angle) + m->from->y;
-		m->to->z = -old_y * sin(angle) + old_z * cos(angle) + m->from->z;
+		m->cam->trans = subtract_tuples(&scaled_left, &m->cam->trans);
+		changed = true;
 	}
-	if (i == 1)
+	if (m->movement.d == true)
 	{
-		old_y = m->to->y - m->from->y;
-		old_z = m->to->z - m->from->z;
-		m->to->y = old_y * cos(angle) - old_z * sin(angle) + m->from->y;
-		m->to->z = old_y * sin(angle) + old_z * cos(angle) + m->from->z;
-	}       
-}
-
-int get_key_pressed(int keycode, t_hook_params *hooks)
-{
-	// I FUCKING COOKED HOLY SHIT IM SO CRAAACKKEEDDDD
-	t_minirt *m = hooks->m;
-				// 	printf("From:\n");
-				// print_tuple_points(m->from);
-				// printf("\nTo:\n");
-				// print_tuple_points(m->to);
-				// printf("\nUp:\n");
-				// print_tuple_points(m->up);
-				// printf("\n\n");
-	if (keycode == W) 
-	{
-		m->from->z += 0.5;
-		m->to->z += 0.5;
-		printf("W\n");
+		m->cam->trans = add_vectors(&scaled_left, &m->cam->trans);
+		changed = true;
 	}
-	if (keycode == S)
-	{
-		m->from->z -= 0.5;
-		m->to->z -= 0.5;
-		printf("S\n");
-	}
-	if (keycode == A)
-	{
-		m->from->x -= 0.5;
-		m->to->x -= 0.5;
-		printf("A\n");
-	}
-	if (keycode == D)
-	{
-		m->from->x += 0.5;
-		m->to->x += 0.5;
-		printf("D\n");
-	}
-	// found out rotations bymistake lmaoô
-	if (keycode == LEFT)
-	{
-		adjust_yaw(m, 0);
-		printf("LEFT\n");
-	}
-	if (keycode == RIGHT)
-	{
-		adjust_yaw(m, 1);
-		printf("RIGHT\n");
-	}
-	if (keycode == UP)
-	{
-		adjust_pitch(m, 0);
-		printf("UP\n");
-	}
-	if (keycode == DOWN)
-	{
-		adjust_pitch(m, 1);
-		printf("DOWN\n");
-	}
-	if (keycode == R)
-	{
-		m->from = return_tuple_pointer(hooks->original_from.x, hooks->original_from.y, hooks->original_from.z, hooks->original_from.w);
-		m->to = return_tuple_pointer(hooks->original_to.x, hooks->original_to.y, hooks->original_to.z, hooks->original_to.w);
-		m->up = return_tuple_pointer(hooks->original_up.x, hooks->original_up.y, hooks->original_up.z, hooks->original_up.w);
-	}
-	if (keycode == E)
-	{
-		m->from->y += 0.5;
-		m->to->y += 0.5;
-	}
-	if (keycode == Q)
-	{
-		m->from->y -= 0.5;
-		m->to->y -= 0.5;
-	}
-	if (keycode == ESC)
-		closert(hooks->m);
-	m->cam->view_matrix = view_transform(m->to, m->from, m->up);
-	// render(hooks->mlx, m->cam, m);
-	threaded_render(hooks->mlx, m, m->cam);
-	return (0);
+	if (changed == true)
+		change_cammove(m);
 }
