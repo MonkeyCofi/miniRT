@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/23 15:17:25 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/27 17:20:37 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	init_sphere(t_minirt *m, int *i)
 	}
 	// stopped here. sphere transformation broken when commenting out line for sphere orientation. idk whatt wrong.
 	m->shapes[*i]->transform = identity();
+	m->shapes[*i]->coords = coords;
 	transform_shape(m, *i, translate, 0, &coords);
 	// t_4dmat rot = get_axis_angle(return_tuple_pointer(1,0.3,0,VECTOR));
 	// m->shapes[*i]->transform = mat4d_mult_fast_static(&m->shapes[*i]->transform, &rot);

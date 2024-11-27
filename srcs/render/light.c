@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/25 16:06:51 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/27 21:32:14 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,13 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow)
 		if (intersection->type == CYLINDER)
 			cylinder_pattern(&light_vars, intersection);
 		else if (intersection->type == SPHERE)
-		{
 			intersection->normal_vec = normal_from_sample(intersection);
-			//light_vars.color = checkerboard_sphere(light_vars.material->pattern, intersection);
-		}
 		else
 		{
-			//light_vars.color = texture_plane(intersection, NULL);
-			intersection->normal_vec = normal_from_sample(intersection);
+			light_vars.color = texture_plane(intersection, NULL);
+			//intersection->normal_vec = normal_from_sample(intersection);
 		}
+		light_vars.color = light_vars.material->color;
 	}
 	else
 	{

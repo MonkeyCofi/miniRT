@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:58:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/25 16:07:49 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:34:43 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ t_tuple		checkerboard(t_pattern pattern, t_tuple point);
 t_tuple		checkerboard_sphere(t_pattern pattern, t_inter_comp *intersection);
 double		*sphere_uv(t_tuple point);
 //t_tuple		texture_sphere(t_tuple point, t_ppm *tex);
-t_tuple		texture_sphere(t_inter_comp *intersection);
+//t_tuple		texture_sphere(t_inter_comp *intersection);
+t_tuple	texture_sphere(t_inter_comp *intersection, double *phi, double *theta);
 t_tuple		texture_plane(t_inter_comp *intersection, t_ppm *tex);
 t_tuple		map_sample(t_ppm *ppm, double *uv);
 t_tuple		normal_from_sample(t_inter_comp *intersection);
