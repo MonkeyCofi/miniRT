@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 08:52:18 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 11:48:37 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@
 
 # define PI 3.1415926535897932385
 # define EPSILON 0.00001f
-# define DEG_RAD(x) x * (PI / 180)
-# define MRT_ERR "Error! Malloc failed while trying to create main minirt struct\n"
+# define MRT_ERR \
+"Error! Malloc failed while trying to create main minirt struct\n"
 # define SPH_ERR "Error! Malloc failed while trying to create a sphere\n"
 # define PL_ERR "Error! Malloc failed while trying to create a plane\n"
 # define SHP_ERR "Error! Malloc failed while trying to create a shape\n"
@@ -121,44 +121,71 @@ typedef struct s_cameraparse
 	t_tuple		campos;
 	int			fov;
 	int			flag;
-	t_tuple	vec;
+	t_tuple		vec;
 }	t_cameraparse;
 
 int			escape(int keycode, void *param);
+
 int			destroy(void *param);
 
 // utils stuff
 int			arr_len(char	*arr[]);
+
 double		str_to_double(char *str);
+
 int			is_double(char *str);
+
 void		free_arr(char *arr[]);
 
-// t_tuple		lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow);
-t_tuple		lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow);
+t_tuple		lighting(t_inter_comp *intersection, t_light *light, \
+												t_bool in_shadow, t_minirt *m);
+
 t_light		create_light(t_tuple intensity, t_tuple position);
+
 t_tuple		get_reflected_ray(t_tuple *from, t_tuple *normal);
 
 //int			get_key_pressed(int keycode, t_mlx *mlx, int scale);
 void		draw_pixel(t_mlx *mlx, int x, int y, int color);
-t_mater		*create_default_material();
+
+t_mater		*create_default_material(void);
 
 int			closert(t_minirt *m);
+
 void		adjust_yaw(t_minirt *m, double angle);
+
 void		adjust_pitch(t_minirt *m, double angle);
+
 int			event_loop(t_minirt *m);
-t_tuple		checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection);
+
+t_tuple		checkerboard_cylinder(t_pattern pattern, \
+									t_inter_comp *intersection);
+
 t_tuple		checkerboard_cap(t_pattern pattern, t_tuple point);
+
 int			delta_time(void *param);
+
 int			get_key_pressed(int keycode, t_minirt *m);
+
 int			get_key_released(int keycode, t_minirt *m);
+
 void		camera_movement(t_minirt *m);
+
 void		change_cammove(t_minirt *m);
+
 int			parse_light(t_minirt *minirt, char *string, int *j);
+
 int			parse_cone(t_minirt *m, char *string, int *j);
+
 int			parse_ambient(t_minirt *minirt, char *string);
+
 int			parse_bonus_specs(t_mater *material, char **tokens);
-t_bool		cone_end_hit(t_shape *shape_ptr, t_ray *ray, t_intersects *intersects);
-t_bool	cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, t_ray *ray, t_intersects *intersects);
-int	resetcam(t_minirt *m);
+
+t_bool		cone_end_hit(t_shape *shape_ptr, t_ray *ray, \
+									t_intersects *intersects);
+
+t_bool		cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, \
+										t_ray *ray, t_intersects *intersects);
+
+int			resetcam(t_minirt *m);
 
 #endif

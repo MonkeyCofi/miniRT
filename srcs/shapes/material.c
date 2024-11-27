@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:27:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/26 09:36:13 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 11:40:50 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_mater	*create_default_material(void)
 		return (NULL);
 	return_material->ambient = 0.01;
 	return_material->diffuse = 0.9;
-	return_material->specular = 0.9;
+	return_material->specular = 0;
 	return_material->shine = 200;
 	return_color(1, 1, 1, &return_material->color);
 	return_material->is_patterned = false;

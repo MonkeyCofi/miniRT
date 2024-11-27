@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:13:25 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/26 09:51:41 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 10:24:12 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,39 @@
 //}	t_transform;
 
 t_4dmat	translation_mat(double x, double y, double z);
+
 t_4dmat	scaling_mat(double x, double y, double z);
+
 t_4dmat	x_rotation_mat(double angle);
+
 t_4dmat	y_rotation_mat(double angle);
+
 t_4dmat	z_rotation_mat(double angle);
 
 t_tuple	translate_ray(t_tuple *point, double x, double y, double z);
-//t_tuple	scale_ray(t_tuple *point, t_sphere *sphere, double x, double y, double z);
+
 t_tuple	scale_ray(t_tuple *point, double x, double y, double z);
 
-t_ray	transform_ray(t_ray *old_ray, t_trans type, t_tuple transform_coords, t_sphere *sphere);
-void	transform_sphere(t_sphere *sphere, t_trans type, t_tuple transform_coords);
+t_ray	transform_ray(t_ray *old_ray, t_trans type, t_tuple transform_coords, \
+															t_sphere *sphere);
+
+void	transform_sphere(t_sphere *sphere, t_trans type, \
+										t_tuple transform_coords);
+
 t_tuple	chain_transforms(t_transform *trans, t_tuple *point);
 
-// t_bool	transform_shape(t_minirt *m, int index, t_trans type, double angle, t_tuple *transform_coords);
 t_bool	transform_shape(t_minirt *m, t_thing *s, t_trans type, double angle);
-t_bool	transform_shape_new(t_shape *shape, t_transform *transform_params);
-t_bool	transform_shape_test(t_minirt *m, t_shape *shape, t_trans type, double angle, t_tuple *transform_coords);
 
-void	get_transform_params_rotations(double x, double y, double z, t_transform *trans_params);
-void	get_transform_params(t_tuple translate, t_tuple scaling, t_transform *trans_params);
+t_bool	transform_shape_new(t_shape *shape, t_transform *transform_params);
+
+void	get_transform_params_rotations(double x, double y, double z, \
+												t_transform *trans_params);
+
+void	get_transform_params(t_tuple translate, t_tuple scaling, \
+												t_transform *trans_params);
 
 t_4dmat	get_axis_angle(t_tuple *orientation);
+
 t_bool	set_inverse_transpose(t_shape *shape, t_4dmat *transform_mat);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 08:30:13 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 15:08:47 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@
 	shine: */
 //t_tuple	lighting(t_shape *shape, t_mater *material, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow)
 // t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_tuple point, t_tuple eye_vector, t_tuple normal_vector, t_bool in_shadow)
-t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow)
+t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow, t_minirt *m)
 {
 	t_lighting	light_vars;
 	double		eye_dot;
+	(void)m;
 
 	light_vars.material = intersection->material;
 	if (light_vars.material->is_patterned == true)
@@ -87,7 +88,7 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow)
 			light_vars.specular = return_scalar(&light->intensity, light_vars.material->specular * light_vars.specular_fac);
 		}
 	}
-	return (return_colorf(light_vars.diffuse.x + light_vars.specular.x + light_vars.ambient.x, light_vars.diffuse.y + light_vars.specular.y + light_vars.ambient.y, light_vars.diffuse.z + light_vars.specular.z + light_vars.ambient.z));
+	return (return_colorf((light_vars.diffuse.x + light_vars.specular.x + light_vars.ambient.x), (light_vars.diffuse.y + light_vars.specular.y + light_vars.ambient.y), (light_vars.diffuse.z + light_vars.specular.z + light_vars.ambient.z)));
 }
 
 t_light	create_light(t_tuple intensity, t_tuple position)

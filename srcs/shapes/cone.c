@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/26 17:28:34 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 11:34:32 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,44 +26,16 @@ t_cone	*create_cone(t_minirt *m)
 	return (cone);
 }
 
-//static inline t_bool	at_cap(t_ray *ray, double t)
-//{
-//	double	x;
-//	double	y;
-//	double	z;
-
-//	if (ray->direction.y == 0)
-//		return (false);
-//	y = -(ray->origin.y / ray->direction.y);
-//	x = ray->origin.x + t * ray->direction.x;
-//	z = ray->origin.z + t * ray->direction.z;
-//	return ((x * x) + (z * z) <= (y * y));
-//}
-
-// static t_bool	at_cap(t_ray *ray, double t, t_cylinder *c)
-// {
-// 	double	x;
-// 	double	z;
-
-// 	x = ray->origin.x + t * ray->direction.x;
-// 	z = ray->origin.z + t * ray->direction.z;
-// 	if (((x * x) + (z * z) <= (c->radius * c->radius))
-// 		&& (ray->origin.y + t * ray->direction.y >= c->minimum \
-// 		&& ray->origin.y + t * ray->direction.y <= c->maximum))
-// 		return (true);
-// 	return (false);
-// }
-
 static inline t_bool	at_cap(t_ray *ray, double t, t_cone *cone, double y)
 {
-	double x;
-	double z;
-	double radius;
+	double	x;
+	double	z;
+	double	radius;
 
 	x = ray->origin.x + t * ray->direction.x;
-    z = ray->origin.z + t * ray->direction.z;
-    radius = (cone->maximum - y) / (cone->maximum - cone->minimum);
-    return ((x * x) + (z * z) <= (radius * radius));
+	z = ray->origin.z + t * ray->direction.z;
+	radius = (cone->maximum - y) / (cone->maximum - cone->minimum);
+	return ((x * x) + (z * z) <= (radius * radius));
 }
 
 t_tuple	normal_pos_cone(t_shape *shape, t_tuple pos)
@@ -101,8 +73,7 @@ t_bool	cone_end_hit(t_shape *shape_ptr, t_ray *ray, t_intersects *intersects)
 			return (true);
 	}
 	t = (cone->maximum - ray->origin.y) / ray->direction.y;
-	if ( at_cap(ray, t, cone, cone->maximum))
+	if (at_cap(ray, t, cone, cone->maximum))
 		add_to_intersect(t, shape_ptr, intersects, CONE, cone);
 	return (true);
 }
-

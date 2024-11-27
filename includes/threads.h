@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:31:22 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/21 09:41:21 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 10:22:22 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <pthread.h>
 # include "structs.h"
 
-typedef struct	s_thread
+typedef struct s_thread
 {
 	t_minirt		*minirt;
 	t_camera		*camera;

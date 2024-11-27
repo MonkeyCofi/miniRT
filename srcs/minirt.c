@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 09:22:16 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 10:27:49 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,27 @@ t_minirt	*parse_objects(t_minirt *m)
 	return (m);
 }
 
-int	test(int mouse_button, int mouse_x, int mouse_y, t_minirt *m)
-{
-	t_ray			ray;
-	t_intersects	intersect;
-	t_intersection	*i;
-	t_inter_comp	inter;
+// int	test(int mouse_button, int mouse_x, int mouse_y, t_minirt *m)
+// {
+// 	t_ray			ray;
+// 	t_intersects	intersect;
+// 	t_intersection	*i;
+// 	t_inter_comp	inter;
 
-	ray = ray_per_pixel(m->cam, mouse_x, mouse_y);
-	intersect = intersect_enivornment(m, &ray);
-	i = best_hit(&intersect);
-	inter = precompute_intersect(m, &intersect, i, &ray);
-	if (mouse_button == 1)
-		m->hooks.shape_or_cam = inter.obj;
-	(void)mouse_button;
-	(void)inter;
-	return (1);
+// 	ray = ray_per_pixel(m->cam, mouse_x, mouse_y);
+// 	intersect = intersect_enivornment(m, &ray);
+// 	i = best_hit(&intersect);
+// 	inter = precompute_intersect(m, &intersect, i, &ray);
+// 	// if (mouse_button == 1)
+// 		// m->hooks.shape_or_cam = inter.obj;
+// 	(void)mouse_button;
+// 	(void)inter;
+// 	return (1);
+// }
+
+double	deg_rad(double number)
+{
+	return (number * (PI / 180));
 }
 
 int	main(int ac, char **av)
@@ -77,7 +82,7 @@ int	main(int ac, char **av)
 			return (1);
 		if (m->object_count > 0)
 			m = parse_objects(m);
-		m->cam = return_camera_ptr(WIDTH, HEIGHT, DEG_RAD(m->cam->fov));
+		m->cam = return_camera_ptr(WIDTH, HEIGHT, deg_rad(m->cam->fov));
 		m->cam->trans = m->from;
 		m->forward = m->to;
 		print_tuple_points(&m->left);

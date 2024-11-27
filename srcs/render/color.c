@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 09:01:47 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 11:50:32 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_tuple	shade(t_minirt *minirt, t_inter_comp *intersect_comp)
 	while (++i < minirt->light_count)
 	{
 		shadow = is_in_shadow(minirt, intersect_comp->point_adjusted, i);
-		res = lighting(intersect_comp, minirt->lights[i], shadow);
+		res = lighting(intersect_comp, minirt->lights[i], shadow, minirt);
 		final_res = add_vectors(&final_res, &res);
 	}
 	return (final_res);
@@ -101,5 +101,6 @@ t_tuple	color_at(t_minirt *minirt, t_ray *ray)
 		return (return_tuple(0, 0, 0, COLOR));
 	computations = precompute_intersect(minirt, &intersections, hit, ray);
 	final_color = shade(minirt, &computations);
+	// scalar(&final_color, minirt->ambient->ratio);
 	return (final_color);
 }
