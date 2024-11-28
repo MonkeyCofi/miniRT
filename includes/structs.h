@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 10:22:20 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 14:23:16 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,7 +321,9 @@ typedef struct s_inter_comp
 	t_tuple			point_adjusted;
 	t_tuple			eye_vec;
 	t_ppm			*ppm;
+	t_img			*xpm;
 	t_bool			is_inside_object;
+	t_minirt		*m;
 	double			t;
 }	t_inter_comp;
 
@@ -372,6 +374,10 @@ typedef struct s_minirt
 	double			delta_time;
 	int				object_count;
 	int				light_count;
+	t_img			xpm;
+	t_tuple			**tex_colors;
+	int				xpm_height;
+	int				xpm_width;
 }	t_minirt;
 
 typedef struct s_transform

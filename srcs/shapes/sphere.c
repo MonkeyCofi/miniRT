@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/26 09:37:55 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 14:31:19 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,16 @@ int shape_index)
 		return (true);
 	(void)minirt;
 	return (true);
+}
+
+double	*uv_sphere(t_tuple point)
+{
+	double	*uv;
+	
+	uv = ft_calloc(2, sizeof(double));
+	uv[0] = 0.5 + (atan2(point.z, point.x) / (2 * PI));
+	uv[1] = 0.5 - (asin(point.y) / PI);
+	return (uv);
 }
 
 t_tuple	normal_sphere(t_shape *shape, t_tuple pos)

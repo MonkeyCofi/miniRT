@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 10:42:05 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 14:27:55 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,11 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow, t
 		}
 		//light_vars.color = pattern_at_point(light_vars.material->pattern, point);
 		else if (intersection->type == SPHERE)
+			intersection->normal_vec = normal_from_sample(intersection);
+		else
 		{
-			light_vars.color = checkerboard_sphere(light_vars.material->pattern, intersection);
-			// light_vars.color = texture_sphere(intersection, intersection->ppm);
+			light_vars.color = texture_plane(intersection, NULL);
+			//intersection->normal_vec = normal_from_sample(intersection);
 		}
 		else{
             t_tuple object_point = tuple_mult_fast(&intersection->obj->inverse_mat, &intersection->point);
@@ -66,7 +68,9 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow, t
         }
 	}
 	else
+	{
 		light_vars.color = light_vars.material->color;
+	}
 	//light_vars.final_color = multiply_tuples(&light->intensity, &light_vars.material->light_vars.color, COLOR);
 	light_vars.final_color = multiply_tuples(&light->intensity, &light_vars.color, COLOR);
 	light_vars.final_color = return_scalar(&light_vars.final_color, light->brightness);

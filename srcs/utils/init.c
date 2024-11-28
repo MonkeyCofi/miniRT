@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 03:13:38 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 14:32:43 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	init_sphere(t_minirt *m, int *i)
 			m->shapes[*i]->material->pattern.color_two,
 			10, &m->shapes[*i]->material->pattern);
 	m->shapes[*i]->transform = identity();
+	m->shapes[*i]->coords = s.coords;
 	transform_shape(m, &s, translate, 0);
 	*i += 1;
 }

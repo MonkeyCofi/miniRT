@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_ppm.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 19:17:23 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/25 19:08:47 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 14:32:57 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ t_tuple	fill_color(char *buffer)
 {
 	t_tuple	color;
 
-	color.r = *buffer * 3;
-	color.g = *buffer * 3 + 1;
-	color.b = *buffer * 3 + 2;
+	color.r = *buffer;
+	color.g = *buffer + 1;
+	color.b = *buffer + 2;
 	color.a = 1;
 	return (color);
 }

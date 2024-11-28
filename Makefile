@@ -4,7 +4,7 @@ CC = cc
 
 INCLUDES = ./includes
 
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) -Ofast -flto
+CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) #-Ofast -flto -g3
 # CFLAGS += -fsanitize=address -g3
 
 SRCSPATH	=	srcs

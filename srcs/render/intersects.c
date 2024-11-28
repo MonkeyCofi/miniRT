@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersects.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 10:14:46 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 14:26:55 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_intersection *intersection, t_ray *ray)
 	new.obj = intersection->shape_ptr;
 	new.type = intersection->type;
 	new.material = intersection->material;
-	new.point = position(ray, new.t);	// position of the object in world space
+	new.point = position(ray, new.t);
 	new.type = intersection->type;
 	new.eye_vec = return_vector(-ray->direction.x, \
 	-ray->direction.y, -ray->direction.z);	// eye vector in world space
@@ -96,6 +96,8 @@ t_intersection *intersection, t_ray *ray)
 	else
 		new.is_inside_object = false;
 	new.ppm = minirt->ppm;
+	new.xpm = &minirt->xpm;
+	new.m = minirt;
 	point_adjusted = return_point(new.normal_vec.x * EPSILON, new.normal_vec.y * EPSILON, new.normal_vec.z * EPSILON);
 	new.point_adjusted = add_vectors(&new.point, &point_adjusted);
 	return (new);
@@ -115,15 +117,15 @@ t_intersection	intersect(double t, t_shape_type type, void *shape, t_mater *mate
 t_intersects	intersect_enivornment(t_minirt *minirt, t_ray *ray)
 {
 	t_intersects	inter;
-	t_ray			real_ray;
+	t_ray			ray_world_space;
 	int				i;
 
 	i = -1;
 	inter.intersection_count = 0;
 	while (++i < minirt->object_count)
 	{
-		real_ray = create_ray_static(tuple_mult_fast(&minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(&minirt->shapes[i]->inverse_mat, &ray->direction));
-		if (minirt->shapes[i]->intersect(minirt, &inter, &real_ray, i) == false)
+		ray_world_space = create_ray_static(tuple_mult_fast(&minirt->shapes[i]->inverse_mat, &ray->origin), tuple_mult_fast(&minirt->shapes[i]->inverse_mat, &ray->direction));
+		if (minirt->shapes[i]->intersect(minirt, &inter, &ray_world_space, i) == false)
 			continue ;
 	}
 	return (inter);

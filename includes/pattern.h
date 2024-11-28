@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pattern.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:58:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 10:22:44 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 14:22:57 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@ double		*sphere_uv(t_tuple point);
 t_tuple		texture_sphere(t_inter_comp *intersection, t_ppm *tex);
 
 t_tuple		texture_plane(t_inter_comp *intersection, t_ppm *tex);
+t_tuple		map_sample(t_ppm *ppm, double *uv);
+t_tuple		normal_from_sample(t_inter_comp *intersection);
 
 #endif
