@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:58:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 09:35:34 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 10:22:44 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_pattern	*create_pattern(t_tuple color_one, t_tuple color_two, \
 
 t_tuple		pattern_at_point(t_pattern pattern, t_tuple point);
 
-t_tuple		checkerboard(t_pattern pattern, t_tuple point);
+t_tuple		checkerboard(t_pattern pattern, t_tuple point, \
+											t_tuple plane_normal);
 
 t_tuple		checkerboard_sphere(t_pattern pattern, t_inter_comp *intersection);
 

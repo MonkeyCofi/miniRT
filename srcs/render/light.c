@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 15:08:47 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 10:42:05 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow, t
 {
 	t_lighting	light_vars;
 	double		eye_dot;
-	(void)m;
-
+    (void)m;
 	light_vars.material = intersection->material;
 	if (light_vars.material->is_patterned == true)
 	{
@@ -59,9 +58,12 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow, t
 			light_vars.color = checkerboard_sphere(light_vars.material->pattern, intersection);
 			// light_vars.color = texture_sphere(intersection, intersection->ppm);
 		}
-		else
-			//light_vars.color = texture_plane(intersection, intersection->ppm);
-			light_vars.color = checkerboard(light_vars.material->pattern, intersection->point);
+		else{
+            t_tuple object_point = tuple_mult_fast(&intersection->obj->inverse_mat, &intersection->point);
+            t_tuple normal = intersection->obj->normal(intersection->obj->shape, object_point);
+            normalize(&normal);
+            light_vars.color = checkerboard(light_vars.material->pattern, object_point, normal);
+        }
 	}
 	else
 		light_vars.color = light_vars.material->color;
@@ -71,6 +73,7 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow, t
 	light_vars.light_vector = subtract_tuples(&intersection->point_adjusted, &light->position);
 	normalize(&light_vars.light_vector);
 	light_vars.ambient = return_scalar(&light_vars.final_color, light_vars.material->ambient);
+
 	light_vars.light_dot = dot_product(&intersection->normal_vec, &light_vars.light_vector);
 	if (in_shadow || light_vars.light_dot < 0)
 		return (light_vars.ambient);
@@ -88,8 +91,9 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, t_bool in_shadow, t
 			light_vars.specular = return_scalar(&light->intensity, light_vars.material->specular * light_vars.specular_fac);
 		}
 	}
-	return (return_colorf((light_vars.diffuse.x + light_vars.specular.x + light_vars.ambient.x), (light_vars.diffuse.y + light_vars.specular.y + light_vars.ambient.y), (light_vars.diffuse.z + light_vars.specular.z + light_vars.ambient.z)));
+	return (return_colorf(light_vars.diffuse.x + light_vars.specular.x + light_vars.ambient.x, light_vars.diffuse.y + light_vars.specular.y + light_vars.ambient.y, light_vars.diffuse.z + light_vars.specular.z + light_vars.ambient.z));
 }
+
 
 t_light	create_light(t_tuple intensity, t_tuple position)
 {

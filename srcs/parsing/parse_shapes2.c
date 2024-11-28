@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:55:28 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/25 15:13:01 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 08:40:40 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	parse_ambient(t_minirt *minirt, char *string)
 		i++;
 	}
 	free_arr(str);
+	scalar(&minirt->ambient->color, minirt->ambient->ratio);
 	return (0);
 }
 

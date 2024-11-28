@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 09:29:27 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/26 09:34:30 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 10:23:27 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ void	top(t_minirt *m, t_intersects *intersects, t_ray *ray, t_norm_cyl *s)
 			x = ray->origin.x + t_top * ray->direction.x;
 			z = ray->origin.z + t_top * ray->direction.z;
 			if (x * x + z * z <= s->cyl->radius)
+			{
 				add_to_intersect(t_top, m->shapes[shape_index], \
 				intersects, CYLINDER, s->cyl);
+			}
 		}
 	}
 }
@@ -75,8 +77,10 @@ void	body(t_minirt *m, t_intersects *intersects, t_ray *ray, t_norm_cyl *s)
 		{
 			s->y[i] = ray->origin.y + s->t[i] * ray->direction.y;
 			if (s->cyl->minimum < s->y[i] && s->y[i] < s->cyl->maximum)
+			{
 				add_to_intersect(s->t[i], m->shapes[shape_index], \
 				intersects, CYLINDER, s->cyl);
+			}
 			i++;
 		}
 	}
@@ -88,6 +92,7 @@ int shape_index)
 	t_norm_cyl	s;
 
 	s.cyl = m->shapes[shape_index]->shape;
+	s.shape_index = shape_index;
 	s.a = (ray->direction.x * ray->direction.x) + (ray->direction.z * \
 													ray->direction.z);
 	if (s.a < EPSILON)
