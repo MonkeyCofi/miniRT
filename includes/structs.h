@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 10:19:02 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 10:22:20 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -455,5 +455,13 @@ typedef struct s_norm_color
 	t_tuple	new_point;
 	double	distance;
 }	t_norm_color;
+
+typedef struct s_checkerboard
+{
+	double	u;
+	double	v;
+	double	u_scaled;
+	double	v_scaled;
+}	t_checkerboard;
 
 #endif

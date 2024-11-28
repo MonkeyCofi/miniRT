@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 10:27:49 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 10:24:27 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,8 @@ int	main(int ac, char **av)
 		m->cam = return_camera_ptr(WIDTH, HEIGHT, deg_rad(m->cam->fov));
 		m->cam->trans = m->from;
 		m->forward = m->to;
-		print_tuple_points(&m->left);
 		m->cam->view_matrix = view_transform_test(&m->left, &m->up, \
 		&m->cam->trans, &m->forward);
-		// m->ppm = create_ppm("42_logo.ppm");
 		m->original_from = return_point(m->from.x, m->from.y, m->from.z);
 		m->original_to = return_point(m->to.x, m->to.y, m->to.z);
 		m->original_up = return_vector(m->up.x, m->up.y, m->up.z);
