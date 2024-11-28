@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/19 15:27:51 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:31:19 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ t_sphere	*create_sphere(t_minirt *m, double radius)
 	return (ret);
 }
 
-t_bool	sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, int shape_index)
+t_bool	sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, \
+int shape_index)
 {
 	double		vars[4];
 	t_sphere	*sphere;
@@ -41,9 +42,11 @@ t_bool	sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, int shape_i
 	vars[0] *= 2;
 	vars[1] *= -1;
 	vars[3] = sqrt(vars[3]);
-	if (add_to_intersect((vars[1] - vars[3]) / (vars[0]), minirt->shapes[shape_index], inter, SPHERE, sphere) == false)
+	if (add_to_intersect((vars[1] - vars[3]) / (vars[0]), \
+	minirt->shapes[shape_index], inter, SPHERE, sphere) == false)
 		return (true);
-	if (add_to_intersect((vars[1] + vars[3]) / (vars[0]), minirt->shapes[shape_index], inter, SPHERE, sphere) == false)
+	if (add_to_intersect((vars[1] + vars[3]) / (vars[0]), \
+	minirt->shapes[shape_index], inter, SPHERE, sphere) == false)
 		return (true);
 	(void)minirt;
 	return (true);
@@ -70,4 +73,3 @@ t_tuple	normal_sphere(t_shape *shape, t_tuple pos)
 	normal = return_point(temp.x, temp.y, temp.z);
 	return (normal);
 }
-

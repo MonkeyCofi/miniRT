@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 21:06:15 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/06 11:36:27 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:54:48 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	draw_pixel(t_mlx *mlx, int x, int y, int color)
 //	t_tuple	*origin;
 //	t_tuple	direction;
 //	t_tuple	temp;
-	
 //	x_offset = (px + 0.5) * camera->pixel_size;
 //	y_offset = (py + 0.5) * camera->pixel_size;
 //	world_x = camera->half_width - x_offset;
@@ -51,20 +50,17 @@ void	draw_pixel(t_mlx *mlx, int x, int y, int color)
 
 t_ray	ray_per_pixel(t_camera *camera, int px, int py)
 {
-	double	x_offset;
-	double	y_offset;
-	double	world_x;
-	double	world_y;
-	t_tuple	pixel;
-	t_tuple	origin;
-	t_tuple	direction;
-	t_tuple	temp;
-	
-	x_offset = (px + 0.5) * camera->pixel_size;
-	y_offset = (py + 0.5) * camera->pixel_size;
-	world_x = camera->half_width - x_offset;
-	world_y = camera->half_height - y_offset;
-	temp = return_point(world_x, world_y, -1);
+	t_im_sorry	s;
+	t_tuple		pixel;
+	t_tuple		origin;
+	t_tuple		direction;
+	t_tuple		temp;
+
+	s.x_offset = (px + 0.5) * camera->pixel_size;
+	s.y_offset = (py + 0.5) * camera->pixel_size;
+	s.world_x = camera->half_width - s.x_offset;
+	s.world_y = camera->half_height - s.y_offset;
+	temp = return_point(s.world_x, s.world_y, -1);
 	pixel = tuple_mult_fast(&camera->inverse, &temp);
 	temp = return_point(0, 0, 0);
 	origin = tuple_mult_fast(&camera->inverse, &temp);
@@ -104,8 +100,8 @@ int	render(t_mlx *mlx, t_camera *camera, t_minirt *minirt)
 	int		i;
 	int		j;
 	t_ray	ray;
-	t_tuple c;
-	t_tuple color;
+	t_tuple	c;
+	t_tuple	color;
 
 	i = -1;
 	if (inverse_mat_test(&camera->view_matrix, &camera->inverse) == false)

@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shapes.h                                           :+:      :+:    :+:   */
+/*   color_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 18:57:12 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 09:36:34 by ahaarij          ###   ########.fr       */
+/*   Created: 2024/11/27 08:58:29 by ahaarij           #+#    #+#             */
+/*   Updated: 2024/11/27 08:58:38 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHAPES_H
-# define SHAPES_H
+#include "minirt.h"
 
-# include "structs.h"
-
-t_shape	*create_shape(t_shape_type type, void *shape_ptr);
-
-void	assign_normal_intersect_func(t_shape *shape, t_shape_type type);
-
-t_plane	*create_plane(t_minirt *m);
-
-t_bool	intersect_plane(t_minirt *m, t_intersects *intersects, \
-										t_ray *ray, int shape_index);
-
-t_tuple	normal_pos_plane(t_shape *object, t_tuple point);
-
-#endif
+void	set_min_max(t_tuple *color)
+{
+	if (color->r < 0)
+		color->r = 0;
+	else if (color->r > 1)
+		color->r = 1;
+	if (color->g < 0)
+		color->g = 0;
+	else if (color->g > 1)
+		color->g = 1;
+	if (color->b < 0)
+		color->b = 0;
+	else if (color->b > 1)
+		color->b = 1;
+}

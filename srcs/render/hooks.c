@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/18 17:57:30 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/27 09:20:10 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,212 +38,53 @@ int	escape(int keycode, void *param)
 	return (1);
 }
 
-
-int	closert(t_minirt *m)
+void	change_cammove(t_minirt *m)
 {
-	// int i;
-	// if(m->cam)
-		// free cam func
-	// if (m->lights)
-	// 	free lights func
-	// if (m->shapes)
-		// free shapes func
-	// ill do these once we merge the parsing tree cuz theres some more things to do :)
-	printf("freeing things\n");
-	free_things(m);
-	(void)m;
-	exit(0);
-}
-
-void rebuild_camera_basis(t_tuple *forward, t_tuple *up, t_tuple *left)
-{
-	normalize(forward);
-	if (is_equal(forward->x, 0) && is_equal(forward->z, 0))
-		*left = return_vector(1, 0, 0);
-	else{
-		*left = cross_product(up, forward);
-		normalize(left);
-	}
-	*up = cross_product(forward, left);
-	normalize(up);
-}
-
-int get_key_pressed(int keycode, t_hook_params *hooks)
-{
-	t_minirt	*m = hooks->m;
-	// float		yaw_angle = 0.5;
-	// float		pitch_angle = 0.1; 
-	// t_tuple		right;
-	t_4dmat		rot;
-	// t_tuple		forward = {.x = m->to.x - m->from.x, .y = m->to.y - m->from.y, .z = m->to.z - m->from.z, .w = m->to.w - m->from.w};
-	// printf("\n\nTuple Forward Not Minirt\n\n");
-	// print_tuple_points(&forward);
-	t_tuple up;
-	up = return_vector(0,1,0);
-	normalize(&m->forward);
-	m->left = cross_product(&m->up, &m->forward);
-	normalize(&m->left);
-	if (keycode == W) 
-	{
-		m->cam->trans = add_vectors(&m->forward, &m->cam->trans);
-		printf("W\n");
-	}
-	if (keycode == S)
-	{
-		m->cam->trans = subtract_tuples(&m->forward, &m->cam->trans);
-		printf("S\n");
-	}
-	if (keycode == A)
-	{
-		m->cam->trans = subtract_tuples(&m->left, &m->cam->trans);
-		printf("A\n");
-	}
-	if (keycode == D)
-	{
-		m->cam->trans = add_vectors(&m->left, &m->cam->trans);
-		printf("D\n");
-	}
-	if(keycode == LEFT || keycode == RIGHT || keycode == UP || keycode == DOWN)
-	{
-		if (keycode == LEFT)
-		{
-			rot = axis_angle(up, 0.5);
-			matrix_cross(&m->forward, &m->forward, rot);
-			matrix_cross(&m->left, &m->left, rot);
-			matrix_cross(&m->up, &m->up, rot);
-			normalize(&m->up);
-			normalize(&m->left);
-			printf("LEFT\n");
-		}
-		if (keycode == RIGHT)
-		{
-			rot = axis_angle(up, -0.5);
-			matrix_cross(&m->forward, &m->forward, rot);
-			matrix_cross(&m->left, &m->left, rot);
-			matrix_cross(&m->up, &m->up, rot);
-			normalize(&m->up);
-			normalize(&m->left);
-			printf("RIGHT\n");
-		}
-		if (keycode == UP)
-		{
-			rot = axis_angle(m->left, 0.5);
-			matrix_cross(&m->forward, &m->forward, rot);
-			matrix_cross(&m->left, &m->left, rot);
-			matrix_cross(&m->up, &m->up, rot);	
-			normalize(&m->up);
-			normalize(&m->left);
-			printf("UP\n");
-		}
-		if (keycode == DOWN)
-		{
-			rot = axis_angle(m->left, -0.5);
-			matrix_cross(&m->forward, &m->forward, rot);
-			matrix_cross(&m->left, &m->left, rot);
-			matrix_cross(&m->up, &m->up, rot);
-			normalize(&m->up);
-			normalize(&m->left);
-			printf("DOWN\n");
-		}
-		normalize(&m->forward);
-	}
-	if (keycode == R)
-	{
-		m->cam->trans = hooks->original_from;
-		m->forward = hooks->original_to;
-		m->up = hooks->original_up;
-	}
-	if (keycode == E)
-		m->cam->trans.y += 0.5;
-	if (keycode == Q)
-		m->cam->trans.y -= 0.5;
-	if (keycode == ESC)
-		closert(hooks->m);
 	normalize(&m->forward);
 	normalize(&m->up);
 	normalize(&m->left);
-	m->cam->view_matrix = view_transform_test(&m->left, &m->from, &m->up, &m->cam->trans, &m->forward);
-	threaded_render(hooks->mlx, m);
-	return (0);
+	m->cam->view_matrix = view_transform_test(\
+	&m->left, &m->up, \
+	&m->cam->trans, &m->forward);
 }
 
+t_bool	handle_w_s(t_minirt *m, t_tuple scaled_forward)
+{
+	if (m->movement.w == true)
+	{
+		m->cam->trans = add_vectors(&scaled_forward, &m->cam->trans);
+		return (true);
+	}
+	if (m->movement.s == true)
+	{
+		m->cam->trans = subtract_tuples(&scaled_forward, &m->cam->trans);
+		return (true);
+	}
+	return (false);
+}
 
-// int get_key_pressed(int keycode, t_hook_params *hooks)
-// {
-// 	t_minirt	*m = hooks->m;
-// 	float		move_distance = 0.5;
-// 	float		yaw_angle = 0.5;
-// 	float		pitch_angle = 0.1; 
-// 	t_tuple		m->left;
-// 	t_tuple		forward = { 
-// 	.x = m->to.x - m->from.x, 
-// 	.y = m->to.y - m->from.y, 
-// 	.z = m->to.z - m->from.z, 
-// 	.w = m->to.w - m->from.w 
-// 	};
-// 	normalize(&forward);
-// 	m->left = cross_product(&m->up, &forward);
-// 	normalize(&m->left);
-// 	if (keycode == W) 
-// 	{
-// 		move_in_direction(m, forward, move_distance);
-// 		printf("W\n");
-// 	}
-// 	if (keycode == S)
-// 	{
-// 		move_in_direction(m, forward, -move_distance);
-// 		printf("S\n");
-// 	}
-// 	if (keycode == A)
-// 	{
-// 		move_in_direction(m, m->left, -move_distance);
-// 		printf("A\n");
-// 	}
-// 	if (keycode == D)
-// 	{
-// 		move_in_direction(m, m->left, move_distance);
-// 		printf("D\n");
-// 	}
-// 	// found out rotations bymistake lmaoô
-// 	if (keycode == LEFT)
-// 	{
-// 		adjust_yaw(m, yaw_angle);
-// 		printf("LEFT\n");
-// 	}
-// 	if (keycode == RIGHT)
-// 	{
-// 		adjust_yaw(m, -yaw_angle);
-// 		printf("RIGHT\n");
-// 	}
-// 	if (keycode == UP)
-// 	{
-// 		adjust_pitch(m, -pitch_angle);
-// 		printf("UP\n");
-// 	}
-// 	if (keycode == DOWN)
-// 	{
-// 		adjust_pitch(m, pitch_angle);
-// 		printf("DOWN\n");
-// 	}
-// 	if (keycode == R)
-// 	{
-// 		m->from = return_tuple(hooks->original_from.x, hooks->original_from.y, hooks->original_from.z, hooks->original_from.w);
-// 		m->to = return_tuple(hooks->original_to.x, hooks->original_to.y, hooks->original_to.z, hooks->original_to.w);
-// 		m->up = return_tuple(hooks->original_up.x, hooks->original_up.y, hooks->original_up.z, hooks->original_up.w);
-// 	}
-// 	if (keycode == E)
-// 	{
-// 		m->from.y += 0.5;
-// 		m->to.y += 0.5;
-// 	}
-// 	if (keycode == Q)
-// 	{
-// 		m->from.y -= 0.5;
-// 		m->to.y -= 0.5;
-// 	}
-// 	if (keycode == ESC)
-// 		closert(hooks->m);
-// 	m->cam->view_matrix = view_transform_test(&m->to, &m->from, &m->up);
-// 	threaded_render(hooks->mlx, m);
-// 	return (0);
-// }
+void	camera_movement(t_minirt *m)
+{
+	t_bool		changed;
+	t_tuple		scaled_left;
+	t_tuple		scaled_forward;
+
+	scaled_forward = m->forward;
+	scalar(&scaled_forward, 2);
+	scaled_left = m->left;
+	scalar(&scaled_left, 2);
+	if (m->movement.w == true || m->movement.s == true)
+		changed = handle_w_s(m, scaled_forward);
+	if (m->movement.a == true)
+	{
+		m->cam->trans = subtract_tuples(&scaled_left, &m->cam->trans);
+		changed = true;
+	}
+	if (m->movement.d == true)
+	{
+		m->cam->trans = add_vectors(&scaled_left, &m->cam->trans);
+		changed = true;
+	}
+	if (changed == true)
+		change_cammove(m);
+}

@@ -6,21 +6,11 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:28:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/10/30 12:38:26 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/25 19:15:41 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-/*
-	** if a vector and a vector are added, the resultant tuple is still a vector
-	** if a vector and a point are added, the resultant tuple is a point; the new point from point along the vector
-	** adding two points doesn't make sense
-	** similarly, if a vector was subtracted from a vector, the resultant tuple is still a vector
-	** subtracting a vector(w = 0) from a point(w = 1) gives you a new point; the point from original point moved backwards by the vector
-	** subtracting two points, p1 and p2, gives you the vector pointing from p2 to p1
-	** subtracting a point(w=1) from a vector(w=0) doesn't make sense
-*/
 
 double	dot_product(t_tuple *vec1, t_tuple *vec2)
 {
@@ -46,9 +36,9 @@ void	normalize(t_tuple *vector)
 {
 	double	magnitude;
 
-	magnitude =  sqrt(((vector->x * vector->x) + (vector->y * vector->y) + \
+	magnitude = sqrt(((vector->x * vector->x) + (vector->y * vector->y) + \
 		(vector->z * vector->z)));
-	if (magnitude != 0)
+	if (magnitude > EPSILON)
 	{
 		vector->x /= magnitude;
 		vector->y /= magnitude;
@@ -79,5 +69,4 @@ void	negate(t_tuple *to_negate)
 	to_negate->x = -(to_negate->x);
 	to_negate->y = -(to_negate->y);
 	to_negate->z = -(to_negate->z);
-	//to_negate->w = -(to_negate->w);
 }

@@ -18,19 +18,41 @@ UTILS		=	$(SRCSPATH)/utils
 SRCS		=	$(SRCSPATH)/minirt.c \
 				$(MATRIX)/matrix_cmp.c \
 				$(MATRIX)/matrix_ops.c \
+				$(MATRIX)/matrix_ops2.c \
+				$(MATRIX)/matrix_ops3.c \
+				$(MATRIX)/matrix_ops4.c \
+				$(MATRIX)/matrix_ops5.c \
 				$(MATRIX)/matrix_utils.c \
+				\
+				\
+				\
 				$(PARSING)/parse_shapes.c \
+				$(PARSING)/parse_shapes2.c \
 				$(PARSING)/parsing.c \
+				$(PARSING)/parsing2.c \
 				$(PARSING)/parsing_utils.c \
+				$(PARSING)/parsing_utils2.c \
+				$(PARSING)/parsing_utils3.c \
+				\
+				\
+				\
 				$(RENDER)/camera.c \
 				$(RENDER)/color.c \
+				$(RENDER)/color_utils.c \
 				$(RENDER)/hooks.c \
+				$(RENDER)/hooks2.c \
+				$(RENDER)/hooks3.c \
 				$(RENDER)/intersects.c \
 				$(RENDER)/light.c \
 				$(RENDER)/render.c \
 				$(RENDER)/threads.c \
+				\
+				\
+				\
 				$(SHAPES)/cone.c \
+				$(SHAPES)/cone2.c \
 				$(SHAPES)/cylinder.c \
+				$(SHAPES)/cylinder2.c \
 				$(SHAPES)/material.c \
 				$(SHAPES)/normal.c \
 				$(SHAPES)/pattern.c \
@@ -38,12 +60,23 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				$(SHAPES)/shapes.c \
 				$(SHAPES)/sphere.c \
 				$(SHAPES)/transformations.c \
+				$(SHAPES)/transformations2.c \
+				$(SHAPES)/transformations3.c \
+				\
+				\
+				\
 				$(TUPLES)/tuple_utils.c \
+				$(TUPLES)/tuple_utils2.c \
 				$(TUPLES)/vector_math.c \
+				$(TUPLES)/vector_math2.c \
 				$(TUPLES)/vector_ops.c \
 				$(TUPLES)/vector_utils.c \
+				\
+				\
+				\
 				$(UTILS)/frees.c \
 				$(UTILS)/init.c \
+				$(UTILS)/init_cone.c \
 				$(UTILS)/read_ppm.c \
 				$(UTILS)/utils.c \
 
@@ -77,12 +110,12 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	make -C $(MLXOS) -j2
 	make -C $(LIBFT_DIR) -j2
-	$(CC) $(OBJS) -fsanitize=address $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
-#	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+#	$(CC) $(OBJS) -fsanitize=address $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -g3 -c $< -o $@
-#	$(CC) $(CFLAGS) -c $< -o $@
+#	$(CC) $(CFLAGS) -g3 -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 run: re
 	./$(NAME)

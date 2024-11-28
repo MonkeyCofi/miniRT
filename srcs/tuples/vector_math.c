@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:57:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/18 12:50:42 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/25 19:14:07 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,9 @@ void	scalar(t_tuple *vec, double scalar)
 t_tuple	return_scalar(t_tuple *vec, double scalar)
 {
 	t_tuple	resultant;
-	
+
 	resultant.x = vec->x * scalar;
 	resultant.y = vec->y * scalar;
 	resultant.z = vec->z * scalar;
 	return (resultant);
-}
-
-t_tuple	return_at(t_ray *ray, double t)
-{
-	t_tuple	new;
-
-	new = return_scalar(&ray->direction, t);
-	return (add_vectors(&ray->origin, &new));
-}
-
-// this works diff than u expect it to sorry bout dat, matrix res into b is = a;
-
-void	matrix_cross(t_tuple *a, t_tuple *b, t_4dmat res)
-{
-	a->x = b->x * res.matrix[0][0] + b->y * res.matrix[1][0] + b->z * res.matrix[2][0] + b->w * res.matrix[3][0];
-	a->y = b->x * res.matrix[0][1] + b->y * res.matrix[1][1] + b->z * res.matrix[2][1] + b->w * res.matrix[3][1];
-	a->z = b->x * res.matrix[0][2] + b->y * res.matrix[1][2] + b->z * res.matrix[2][2] + b->w * res.matrix[3][2];
-	a->w = b->x * res.matrix[0][3] + b->y * res.matrix[1][3] + b->z * res.matrix[2][3] + b->w * res.matrix[3][3];
 }

@@ -6,13 +6,14 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:35:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 21:32:23 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:31:01 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_pattern	*create_pattern(t_tuple color_one, t_tuple color_two, int scale, t_pattern *pattern)
+t_pattern	*create_pattern(t_tuple color_one, t_tuple color_two, \
+int scale, t_pattern *pattern)
 {
 	pattern->color_one = color_one;
 	pattern->color_two = color_two;
@@ -161,19 +162,34 @@ t_tuple	pattern_at_point(t_pattern pattern, t_tuple point)
 	return (pattern.color_two);
 }
 
-t_tuple	checkerboard(t_pattern pattern, t_tuple point)
+t_tuple	checkerboard(t_pattern pattern, t_tuple point, t_tuple plane_normal)
 {
-	int	x;
-	int	y;
-	int	z;
+	t_checkerboard s;
 
-	x = floor(point.x * pattern.pattern_scale);
-	y = floor(point.y * pattern.pattern_scale);
-	z = floor(point.z * pattern.pattern_scale);
-	if ((x + y + z) % 2 == 0)
+	s.u = 0;
+	s.v = 0;
+	if (fabs(plane_normal.y) == 1) // Horizontal plane
+	{
+		s.u = modf(point.x, &s.u_scaled);
+		s.v = modf(point.z, &s.v_scaled);
+	}
+	else if (fabs(plane_normal.x) == 1) // Vertical plane, X-oriented
+	{
+		s.u = modf(point.y, &s.u_scaled);
+		s.v = modf(point.z, &s.v_scaled);
+	}
+	else if (fabs(plane_normal.z) == 1) // Vertical plane, Z-oriented
+	{
+		s.u = modf(point.x, &s.u_scaled);
+		s.v = modf(point.y, &s.v_scaled);
+	}
+	s.u_scaled = floor(s.u * pattern.pattern_scale);
+	s.v_scaled = floor(s.v * pattern.pattern_scale);
+	if (((int)s.u_scaled + (int)s.v_scaled) % 2 == 0)
 		return (pattern.color_one);
 	return (pattern.color_two);
 }
+
 
 double	*sphere_uv(t_tuple point)
 {
@@ -189,6 +205,11 @@ double	*sphere_uv(t_tuple point)
 	return (uv);
 }
 
+double vect_length(t_tuple *s)
+{
+    return sqrt(s->x * s->x + s->y * s->y + s->z * s->z);
+}
+
 t_tuple	checkerboard_sphere(t_pattern pattern, t_inter_comp *intersection)
 {
 	t_tuple	point;
@@ -196,49 +217,55 @@ t_tuple	checkerboard_sphere(t_pattern pattern, t_inter_comp *intersection)
 	double	v;
 	int		u_scaled;
 	int		v_scaled;
+	double	radius;
+	double	phi;
 
-	point = tuple_mult_fast(&intersection->obj->inverse_mat, &intersection->point);
-	u = 0.5 + (atan2(point.z, point.x) / (2 * PI));
-	// v = 0.5 - (asin(point.y) * PI);
-	v = 0.5 - (asin(point.y) + (PI / 2)) / PI;
-	//v = 0.5 - (asin(point.y) + (M_PI_2)) / M_PI;
+	point = tuple_mult_fast(&intersection->obj->inverse_mat, \
+	&intersection->point);
+	u = 0.5 + (atan2(point.z, point.x) / (2 * M_PI));
+	radius = vect_length(&point);
+	phi = acos(point.y / radius);
+	v = 1 - (phi / M_PI);
 	u_scaled = floor(u * pattern.pattern_scale);
 	v_scaled = floor(v * pattern.pattern_scale);
 	if ((u_scaled + v_scaled) % 2 == 0)
 		return (pattern.color_one);
 	return (pattern.color_two);
 }
-t_tuple checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection)
-{
-    t_tuple point;
-    double u;
-	double v;
-    int u_scaled;
-	int v_scaled;
-    
-    point = tuple_mult_fast(&intersection->obj->inverse_mat, &intersection->point);
-    u = 0.5 + (atan2(point.z, point.x) / (2 * PI)); //basedon angle aroud cylinder
 
-	// v based off height, the normalized
-    double min_y = ((t_cylinder *)(intersection->obj->shape))->minimum;
-    double max_y = ((t_cylinder *)(intersection->obj->shape))->maximum;
-    double height = max_y - min_y;
-	// v to fit 0,1
-    v = (point.y - min_y) / height;
-    u_scaled = floor(u * pattern.pattern_scale);
-    v_scaled = floor(v * pattern.pattern_scale);
-    if ((u_scaled + v_scaled) % 2 == 0)
-        return pattern.color_one;
-    return pattern.color_two;
+t_tuple	checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection)
+{
+	t_tuple	point;
+	double	u;
+	double	v;
+	int		u_scaled;
+	int		v_scaled;
+	double	min_y;
+	double	max_y;
+	double	height;
+
+	point = tuple_mult_fast(&intersection->obj->inverse_mat, \
+	&intersection->point);
+	u = 0.5 + (atan2(point.z, point.x) / (2 * M_PI));
+	min_y = ((t_cylinder *)(intersection->obj->shape))->minimum;
+	max_y = ((t_cylinder *)(intersection->obj->shape))->maximum;
+	height = max_y - min_y;
+	v = (point.y - min_y) / height;
+	u_scaled = floor(u * pattern.pattern_scale);
+	v_scaled = floor(v * pattern.pattern_scale);
+	if ((u_scaled + v_scaled) % 2 == 0)
+		return (pattern.color_one);
+	return (pattern.color_two);
 }
 
-t_tuple checkerboard_cap(t_pattern pattern, t_tuple point)
+t_tuple	checkerboard_cap(t_pattern pattern, t_tuple point)
 {
-	int x;
-	int z;
+	int	x;
+	int	z;
+
 	x = floor((point.x + 1.0) * 0.2 * pattern.pattern_scale);
-	z = floor((point.z + 1.0) * 0.2 * pattern.pattern_scale); 
+	z = floor((point.z + 1.0) * 0.2 * pattern.pattern_scale);
 	if ((x + z) % 2 == 0)
-		return pattern.color_one;
-	return pattern.color_two;
+		return (pattern.color_one);
+	return (pattern.color_two);
 }

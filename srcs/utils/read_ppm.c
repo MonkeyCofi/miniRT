@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 19:17:23 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/19 18:50:43 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:32:57 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	read_ppm_header(int fd, t_ppm *ppm)
 //t_tuple	fill_color(unsigned char *buff, int index)
 //{
 //	t_tuple	color;
-	
 //	color.r = buff[index * 3] / 255;
 //	color.g = buff[index * 3 + 1] / 255;
 //	color.b = buff[index * 3 + 2] / 255;
@@ -80,7 +79,8 @@ void	read_ppm_header(int fd, t_ppm *ppm)
 //		colors[i] = ft_calloc(1, sizeof(t_tuple) * (ppm->width + 1));
 //		while (++j < ppm->width)
 //		{
-//			colors[i][j] = fill_color((unsigned char *)ppm->buffer, i * ppm->width + j);
+//			colors[i][j] = fill_color((unsigned char *)ppm->buffer, i * 
+//														ppm->width + j);
 //		}
 //	}
 //	return (colors);
@@ -113,11 +113,6 @@ t_tuple	**fill_ppm_buffer(t_ppm *ppm)
 		colors[i] = ft_calloc(1, sizeof(t_tuple) * ppm->width);
 		while (++j < ppm->width)
 		{
-			/*
-				values  are stored in three-byte intervals
-				each byte representing a color channel; r g b
-				store the values in a 2d array of tuples: 
-			*/
 			colors[i][j] = fill_color(ptr);
 			ptr += 3;
 		}
@@ -139,13 +134,11 @@ t_ppm	*create_ppm(char *filename)
 	ppm = ft_calloc(1, sizeof(t_ppm));
 	read_ppm_header(fd, ppm);
 	ppm->buf = ft_calloc(1, sizeof(t_pixel) * (ppm->height * ppm->width * 3));
-	//r = read(fd, ppm->buffer, sizeof(t_pixel) * ppm->height * ppm->width);
 	r = read(fd, ppm->buf, sizeof(t_pixel) * ppm->height * ppm->width);
 	if (r == -1)
 	{
 		if (write(2, "Error reading from ppm file\n", 28) == -1)
 			return (NULL);
-		// general free required
 		return (NULL);
 	}
 	ppm->colors = fill_ppm_buffer(ppm);

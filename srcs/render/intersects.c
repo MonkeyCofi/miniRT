@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/23 20:41:09 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:26:55 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ t_intersection	*best_hit(t_intersects *intersects)
 	return (res);
 }
 
-t_inter_comp	precompute_intersect(t_minirt *minirt, t_intersects *inter, t_intersection *intersection, t_ray *ray)
+t_inter_comp	precompute_intersect(t_minirt *minirt, t_intersects *inter, \
+t_intersection *intersection, t_ray *ray)
 {
 	t_inter_comp	new;
 	t_tuple			point_adjusted;
 
-	//ft_bzero(&new, sizeof(t_inter_comp));
 	new.intersects = inter;
 	new.t = intersection->t;
 	new.obj = intersection->shape_ptr;
@@ -84,7 +84,8 @@ t_inter_comp	precompute_intersect(t_minirt *minirt, t_intersects *inter, t_inter
 	new.material = intersection->material;
 	new.point = position(ray, new.t);
 	new.type = intersection->type;
-	new.eye_vec = return_vector(-ray->direction.x, -ray->direction.y, -ray->direction.z);	// eye vector in world space
+	new.eye_vec = return_vector(-ray->direction.x, \
+	-ray->direction.y, -ray->direction.z);	// eye vector in world space
 	normalize(&new.eye_vec);
 	new.normal_vec = normal_at(new.obj, new.point);	// takes the normal of the point 
 	if (dot_product(&new.eye_vec, &new.normal_vec) < 0)

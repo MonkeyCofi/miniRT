@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:47:27 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/04 09:02:11 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/22 13:03:47 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int		parsing(char *str, t_minirt *minirt, int *i, int *j);
 int		rt_file(char *str);
 char	*trimline(char *str);
 int		invalidfile(t_minirt *minirt);
-int		getmap(int fd, t_minirt *minirt);
+int		getmap(int fd, t_minirt *minirt, int i, int j);
+int		check_radius(char *str, double *num);
 int		fileopen(char *path, t_minirt *minirt);
 int		recognizepattern(char *string, t_mater *material);
 int		recognizeambient(char *string, t_mater *material);

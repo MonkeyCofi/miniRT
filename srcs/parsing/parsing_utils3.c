@@ -1,36 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   threads.h                                          :+:      :+:    :+:   */
+/*   parsing_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 19:31:22 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 10:22:22 by ahaarij          ###   ########.fr       */
+/*   Created: 2024/11/25 15:35:15 by ahaarij           #+#    #+#             */
+/*   Updated: 2024/11/25 15:36:35 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef THREADS_H
-# define THREADS_H
+#include "minirt.h"
 
-# include <pthread.h>
-# include "structs.h"
-
-typedef struct s_thread
+int	check_radius(char *str, double *num)
 {
-	t_minirt		*minirt;
-	t_camera		*camera;
-	t_mlx			*mlx;
-	int				id;
-	int				start_x;
-	int				end_x;
-	int				start_y;
-	int				end_y;
-	t_bool			ready;
-}	t_thread;
+	if (!is_double(str))
+		return (1);
+	*num = str_to_double(str);
+	if (*num / 2 < 0 || *num < 0)
+		return (1);
+	return (0);
+}
 
-# define THREAD_NUM 16
+char	*trimline(char *str)
+{
+	int		i;
+	char	*temp;
 
-int	threaded_render(t_mlx *mlx, t_minirt *minirt);
-
-#endif
+	i = -1;
+	temp = str;
+	while (temp && temp[++i])
+	{
+		if (temp[i] == '\t' || temp[i] == '\n')
+			temp[i] = ' ';
+	}
+	str = ft_strtrim(temp, " ");
+	free(temp);
+	return (str);
+}
