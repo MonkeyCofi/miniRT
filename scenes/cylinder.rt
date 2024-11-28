@@ -1,0 +1,13 @@
+C	1,2,-5	0,0,1	60
+L	0,10,0	1	255,255,255
+L	0,0,-10	1	255,255,255
+A	1	255,255,255
+
+sp	0,0,0	1	150,50,150 pattern=no specular=1
+sp	0,2,0	1	150,50,150 pattern=50,50,50 specular=1
+sp	2,0,0	1	150,50,150 pattern=no specular=1
+sp	2,2,0	1	150,50,150 pattern=50,50,50 specular=1
+#cy	0,0,0	0,1,0	1	1	150,50,150 pattern=no specular=1
+#cy	0,2,0	0,1,0	1	1	150,50,150 pattern=no specular=1
+#cy	2,2,0	0,1,0	1	1	150,50,150 pattern=no specular=1
+pl	0,-1,0	0,1,0	255,255,255

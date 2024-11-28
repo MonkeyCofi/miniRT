@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:45:40 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/28 14:26:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/28 20:40:13 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,40 @@ t_shape	*alloc_shape(t_minirt *m)
 	return (shape);
 }
 
-int	parse_bonus_specs(t_mater *material, char **tokens)
-{
-	int	i;
+//int	parse_bonus_specs(t_minirt *m, t_mater *material, char **tokens)
+//{
+//	int		i;
+//	char	**keys;
 
-	i = 0;
-	while (tokens[i])
+//	i = -1;
+//	while (tokens[++i])
+//	{
+//		keys = ft_split(tokens[i], '=');
+//		if (!keys)
+//			free_minirt(m);
+//		if (i == 0 && tokens[i] && recognizepattern(tokens[i], material))
+//			return (1);
+//		if (i == 1 && tokens[i] && recognizespecular(tokens[i], material))
+//			return (1);
+//		if (i == 2 && tokens[i] && recognizediffuse(tokens[i], material))
+//			return (1);
+//		if (i == 3 && tokens[i] && recognizeambient(tokens[i], material))
+//			return (1);
+//		if (i == 4 && tokens[i] && recognizetexture(m, tokens[i], material))
+//			return (1);
+//	}
+//	return (0);
+//}
+
+int	parse_bonus_specs(t_minirt *m, t_mater *material, char **tokens)
+{
+	int		i;
+	//char	*key;
+
+	i = -1;
+	while (tokens[++i])
 	{
+		//key = ft_substr(tokens[i], )
 		if (i == 0 && tokens[i] && recognizepattern(tokens[i], material))
 			return (1);
 		if (i == 1 && tokens[i] && recognizespecular(tokens[i], material))
@@ -38,7 +65,8 @@ int	parse_bonus_specs(t_mater *material, char **tokens)
 			return (1);
 		if (i == 3 && tokens[i] && recognizeambient(tokens[i], material))
 			return (1);
-		i++;
+		if (i == 4 && tokens[i] && recognizetexture(m, tokens[i], material))
+			return (1);
 	}
 	return (0);
 }
@@ -51,7 +79,7 @@ int	parse_sphere(t_minirt *m, char *string, int *j)
 
 	str = ft_split(string, ' ');
 	i = 1;
-	if (arr_len(str) < 4 || arr_len(str) > 8)
+	if (arr_len(str) < 4 || arr_len(str) > 9)
 		return (printf("Error\nIssue Lies in Sphere Arguments\n"), 1);
 	m->shapes[*j] = alloc_shape(m);
 	while (str && str[i])
@@ -62,7 +90,7 @@ int	parse_sphere(t_minirt *m, char *string, int *j)
 			return (printf("Error\nIssue Lies in Sphere Diameter\n"), 1);
 		if (i == 3 && dovectorcolor(str[i], &m->shapes[*j]->material->color))
 			return (printf("Error\nIssue Lies in Sphere Color\n"), 1);
-		if (i == 4 && parse_bonus_specs(m->shapes[*j]->material, &str[i]) == 1)
+		if (i == 4 && parse_bonus_specs(m, m->shapes[*j]->material, &str[i]) == 1)
 			return (1);
 		i++;
 	}
@@ -90,7 +118,7 @@ int	parse_plane(t_minirt *m, char *string, int *j)
 			return (printf("Error\nIssue Lies in Plane Orientation\n"), 1);
 		if (i == 3 && dovectorcolor(str[i], &m->shapes[*j]->material->color))
 			return (printf("Error\nIssue Lies in Plane Color\n"), 1);
-		if (i == 4 && parse_bonus_specs(m->shapes[*j]->material, &str[i]) == 1)
+		if (i == 4 && parse_bonus_specs(m, m->shapes[*j]->material, &str[i]) == 1)
 			return (1);
 		i++;
 	}
@@ -123,7 +151,7 @@ int	parse_cylinder(t_minirt *m, char *string, int *j)
 			return (printf("Error\nIssue Lies in Cylinder Height\n"), 1);
 		if (i == 5 && dovectorcolor(str[i], &m->shapes[*j]->material->color))
 			return (printf("Error\nIssue Lies in Cylinder Color\n"), 1);
-		if (i == 6 && parse_bonus_specs(m->shapes[*j]->material, &str[i]) == 1)
+		if (i == 6 && parse_bonus_specs(m, m->shapes[*j]->material, &str[i]) == 1)
 			return (1);
 	}
 	free_arr(str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:03:24 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/25 18:14:23 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 17:54:05 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	free_minirt(t_minirt *m)
 		free(m);
 		exit(EXIT_FAILURE);
 	}
+	exit(EXIT_FAILURE);
 }
 
 void	*calloc_and_check(size_t memb_size, size_t nmemb, t_minirt *m,

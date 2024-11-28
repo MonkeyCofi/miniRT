@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:35:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 14:31:01 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:43:19 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,37 +19,6 @@ int scale, t_pattern *pattern)
 	pattern->color_two = color_two;
 	pattern->pattern_scale = scale;
 	return (pattern);
-}
-
-// go through the xpm file and fill an array ofcolors
-void	fill_colors(t_minirt *m)
-{
-	int		i;
-	int		j;
-	char	*pixel;
-	int		r;
-	int		g;
-	int		b;
-
-	i = -1;
-	m->tex_colors = ft_calloc(m->xpm_height, sizeof(t_tuple *));
-	while (++i < m->xpm_height)
-	{
-		j = -1;
-		m->tex_colors[i] = ft_calloc(m->xpm_width, sizeof(t_tuple));
-		while (++j < m->xpm_width)
-		{
-			pixel = m->xpm.img_addr + (i * m->xpm.line_length) + (j * (m->xpm.bpp / 8));
-			r = pixel[0] >> 16 & 0xff;
-			g = pixel[1] >> 8 & 0xff;
-			b = pixel[2] & 0xff;
-			m->tex_colors[i][j].a = 1.0;
-			m->tex_colors[i][j].r = (double)r / 255;
-			m->tex_colors[i][j].g = (double)g / 255;
-			m->tex_colors[i][j].b = (double)b / 255;
-			//printf("red %f green %f blue %f\n", m->tex_colors[i][j].r, m->tex_colors[i][j].g, m->tex_colors[i][j].b);
-		}
-	}
 }
 
 t_tuple	texture_sphere(t_inter_comp *intersection, double *phi, double *theta)
@@ -70,9 +39,9 @@ t_tuple	texture_sphere(t_inter_comp *intersection, double *phi, double *theta)
 	*theta = acos(point.y / sphere->radius);
 	u = ((-(*phi) + PI) / (2.0 * PI));
 	v = (*theta / PI);
-	tex_u = floor((int)(u * intersection->m->xpm_width) % intersection->m->xpm_width);
-	tex_v = floor((int)(v * intersection->m->xpm_height) % intersection->m->xpm_height);
-	pixel = intersection->m->xpm.img_addr + (tex_v * intersection->m->xpm.line_length) + (tex_u * (intersection->m->xpm.bpp / 8));
+	tex_u = floor((int)(u * intersection->material->texture->img_width) % intersection->material->texture->img_width);
+	tex_v = floor((int)(v * intersection->material->texture->img_height) % intersection->material->texture->img_height);
+	pixel = intersection->material->texture->img_addr + (tex_v * intersection->material->texture->line_length) + (tex_u * (intersection->material->texture->bpp / 8));
 	color = *(uint32_t *)pixel;
 	final_res.a = 1.0;
 	final_res.r = color >> 16 & 0xFF;
@@ -84,32 +53,37 @@ t_tuple	texture_sphere(t_inter_comp *intersection, double *phi, double *theta)
 
 t_tuple	texture_plane(t_inter_comp *intersection, t_ppm *tex)
 {
-	double		u;
-	double		v;
-	int			tex_x;
-	int			tex_y;
-	t_tuple		final_color;
-	char		*pixel;
-	uint32_t	color;
-
-	u = fmod(intersection->point.x, 1);
-	v = fmod(intersection->point.z, 1);
-	if (u < 0)
-		u += 1.0;
-	if (v < 0)
-		v += 1.0;
-	tex_x = floor((int)(u * (intersection->m->xpm_width)) % intersection->m->xpm_width);
-	tex_y = floor((int)(v * (intersection->m->xpm_height)) % intersection->m->xpm_height);
-	pixel = intersection->m->xpm.img_addr + (tex_y * intersection->m->xpm.line_length) + (tex_x * (intersection->m->xpm.bpp / 8));
-	color = *(uint32_t *)pixel;
-	final_color.r = color >> 16 & 0xFF;
-	final_color.g = color >> 8 & 0xFF;
-	final_color.b = color & 0xFF;
-	final_color.a = 1;
-	normalize(&final_color);
+	(void)intersection;
 	(void)tex;
-	return (final_color);
+	return (return_vector(0, 0, 0));
 }
+//{
+//	double		u;
+//	double		v;
+//	int			tex_x;
+//	int			tex_y;
+//	t_tuple		final_color;
+//	char		*pixel;
+//	uint32_t	color;
+
+//	u = fmod(intersection->point.x, 1);
+//	v = fmod(intersection->point.z, 1);
+//	if (u < 0)
+//		u += 1.0;
+//	if (v < 0)
+//		v += 1.0;
+//	tex_x = floor((int)(u * (intersection->m->xpm_width)) % intersection->m->xpm_width);
+//	tex_y = floor((int)(v * (intersection->m->xpm_height)) % intersection->m->xpm_height);
+//	pixel = intersection->m->xpm.img_addr + (tex_y * intersection->m->xpm.line_length) + (tex_x * (intersection->m->xpm.bpp / 8));
+//	color = *(uint32_t *)pixel;
+//	final_color.r = color >> 16 & 0xFF;
+//	final_color.g = color >> 8 & 0xFF;
+//	final_color.b = color & 0xFF;
+//	final_color.a = 1;
+//	normalize(&final_color);
+//	(void)tex;
+//	return (final_color);
+//}
 
 t_tuple	normal_from_sample(t_inter_comp *intersection)
 {

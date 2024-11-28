@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 14:23:16 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:39:11 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,17 @@ typedef struct s_pattern
 	int		pattern_scale;
 }	t_pattern;
 
+typedef struct s_img
+{
+	void	*img;
+	char	*img_addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
+	int		img_height;
+	int		img_width;
+}	t_img;
+
 typedef struct s_mater
 {
 	t_tuple		color;
@@ -172,6 +183,7 @@ typedef struct s_mater
 	double		diffuse;
 	double		shine;
 	t_bool		is_patterned;
+	t_img		*texture;
 }	t_mater;
 
 typedef struct s_shape
@@ -210,15 +222,6 @@ typedef struct s_intersects
 	int				last_intersection;
 	t_intersection	intersections[MAX_INTERSECTS];
 }	t_intersects;
-
-typedef struct s_img
-{
-	void	*img;
-	char	*img_addr;
-	int		bpp;
-	int		line_length;
-	int		endian;
-}	t_img;
 
 typedef struct s_mlx
 {
@@ -374,10 +377,6 @@ typedef struct s_minirt
 	double			delta_time;
 	int				object_count;
 	int				light_count;
-	t_img			xpm;
-	t_tuple			**tex_colors;
-	int				xpm_height;
-	int				xpm_width;
 }	t_minirt;
 
 typedef struct s_transform

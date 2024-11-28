@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 14:21:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/28 21:20:38 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@
 # define AMB_ERR "Error! Malloc failed while trying to create an ambient\n"
 # define LGT_ERR "Error! Malloc failed while trying to create a light\n"
 # define MLX_ERR "Error! Malloc failed while trying to create mlx\n"
+# define IMG_ERR "Error! Malloc failed while trying to create an image\n"
 //# define MAX_INTERSECTS 200
 
 # ifdef __APPLE__
@@ -142,8 +143,6 @@ t_tuple		lighting(t_inter_comp *intersection, t_light *light, \
 
 t_light		create_light(t_tuple intensity, t_tuple position);
 
-t_tuple		get_reflected_ray(t_tuple *from, t_tuple *normal);
-
 //int			get_key_pressed(int keycode, t_mlx *mlx, int scale);
 void		draw_pixel(t_mlx *mlx, int x, int y, int color);
 
@@ -178,7 +177,7 @@ int			parse_cone(t_minirt *m, char *string, int *j);
 
 int			parse_ambient(t_minirt *minirt, char *string);
 
-int			parse_bonus_specs(t_mater *material, char **tokens);
+int			parse_bonus_specs(t_minirt *m, t_mater *material, char **tokens);
 
 t_bool		cone_end_hit(t_shape *shape_ptr, t_ray *ray, \
 									t_intersects *intersects);
@@ -187,5 +186,7 @@ t_bool		cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, \
 										t_ray *ray, t_intersects *intersects);
 
 int			resetcam(t_minirt *m);
+
+void		write_err(char *err, char need_newline);
 
 #endif

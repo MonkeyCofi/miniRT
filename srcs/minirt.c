@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 14:26:31 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:15:31 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,33 +48,33 @@ t_minirt	*parse_objects(t_minirt *m)
 	return (m);
 }
 
-// int	test(int mouse_button, int mouse_x, int mouse_y, t_minirt *m)
-// {
-// 	t_ray			ray;
-// 	t_intersects	intersect;
-// 	t_intersection	*i;
-// 	t_inter_comp	inter;
-
-// 	ray = ray_per_pixel(m->cam, mouse_x, mouse_y);
-// 	intersect = intersect_enivornment(m, &ray);
-// 	i = best_hit(&intersect);
-// 	inter = precompute_intersect(m, &intersect, i, &ray);
-// 	// if (mouse_button == 1)
-// 		// m->hooks.shape_or_cam = inter.obj;
-// 	(void)mouse_button;
-// 	(void)inter;
-// 	return (1);
-// }
-
 double	deg_rad(double number)
 {
 	return (number * (PI / 180));
+}
+
+static void	valid_dimensions(void)
+{
+	int	write_res;
+
+	if (HEIGHT <= 0)
+	{
+		write_res = write(2, "Height cannot be lesser than or equal to zero!\n", 47);
+		exit(1);
+	}
+	if (WIDTH <= 0)
+	{
+		write_res = write(2, "Height cannot be lesser than or equal to zero!\n", 46);
+		exit(1);
+	}
+	(void)write_res;
 }
 
 int	main(int ac, char **av)
 {
 	t_minirt		*m;
 
+	valid_dimensions();
 	if (ac == 2)
 	{
 		m = init_minirt();

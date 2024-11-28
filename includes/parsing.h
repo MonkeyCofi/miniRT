@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:47:27 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/22 13:03:47 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 17:23:58 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ int		recognizepattern(char *string, t_mater *material);
 int		recognizeambient(char *string, t_mater *material);
 int		recognizediffuse(char *string, t_mater *material);
 int		recognizespecular(char *string, t_mater *material);
+int		recognizetexture(t_minirt *m, char *string, t_mater *material);
 
 #endif

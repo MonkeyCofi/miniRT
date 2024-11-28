@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 14:32:43 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:16:20 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	init_mlx(t_mlx *mlx)
 		return (-1);
 	mlx->img.img_addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, \
 	&mlx->img.line_length, &mlx->img.endian);
+	mlx->img.img_height = HEIGHT;
+	mlx->img.img_width = WIDTH;
 	return (1);
 }
 

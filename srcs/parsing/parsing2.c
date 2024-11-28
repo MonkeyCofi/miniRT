@@ -3,14 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:22:45 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/25 15:29:31 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 19:38:23 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+int	recognizetexture(t_minirt *m, char *string, t_mater *material)
+{
+	char	**params;
+	t_img	*img;
+	char	*filename;
+	int		i;
+
+	params = ft_split(string, '=');
+	if (!params)
+	{
+		write_err("Error: Unable to allocate memory for params", 'y');
+		free_minirt(m);
+	}
+	i = -1;
+	while (params[++i])
+	{
+		if (i == 0 && ft_strncmp(params[i], "texture", ft_strlen("texture")) != 0)
+		{
+			write_err("Error: Invalid keyword: ", 0);
+			write_err(params[i], 'y');
+			free_arr(params);
+			free_minirt(m);
+		}
+		if (i == 1)
+		{
+			filename = ft_strtrim(params[i], "\"");
+			material->texture = calloc_and_check(sizeof(t_img), 1, m, IMG_ERR);
+			img = material->texture;
+			img->img = mlx_xpm_file_to_image(m->mlx->mlx, filename, &img->img_width, &img->img_height);
+			if (!img->img)
+			{
+				write_err(IMG_ERR, 0);
+				write_err("Error string: ", 0);
+				write_err(string, 'y');
+				free_arr(params);
+				free(filename);
+				free_minirt(m);
+			}
+			img->img_addr = mlx_get_data_addr(img->img, &img->bpp, \
+				&img->line_length, &img->endian);
+			if (!img->img_addr)
+			{
+				write_err("Error: Could not fetch texture data", 'y');
+				write_err("Error string: ", 0);
+				write_err(string, 'y');
+				free_arr(params);
+				free(filename);
+				free_minirt(m);
+			}
+		}
+	}
+	free_arr(params);
+	free(filename);
+	return (0);
+}
 
 int	recognizespecular(char *string, t_mater *material)
 {
@@ -26,9 +82,15 @@ int	recognizespecular(char *string, t_mater *material)
 	while (str && str[++i])
 	{
 		if (i == 0 && ft_strncmp(str[i], "specular", 8) != 0)
+		{
+			free_arr(str);
 			return (printf("Error\nIssue Lies in Specular Keyword\n"), 1);
+		}
 		if (i == 1 && check_double(str[i], &material->specular))
+		{
+			free_arr(str);
 			return (printf("Error\nIssue Lies in Specular Value\n"), 1);
+		}
 	}
 	free_arr(str);
 	return (0);

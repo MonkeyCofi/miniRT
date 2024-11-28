@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_shapes2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:55:28 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/28 08:40:40 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/28 17:47:15 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	parse_cone(t_minirt *m, char *string, int *j)
 			return (printf("Error\nIssue Lies in Cone Height\n"), 1);
 		if (i == 4 && dovectorcolor(str[i], &m->shapes[*j]->material->color))
 			return (printf("Error\nIssue Lies in Cone Color\n"), 1);
-		if (i == 5 && parse_bonus_specs(m->shapes[*j]->material, &str[i]) == 1)
+		if (i == 5 && parse_bonus_specs(m, m->shapes[*j]->material, &str[i]) == 1)
 			return (1);
 	}
 	free_arr(str);
