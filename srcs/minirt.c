@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 15:15:31 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/29 21:31:51 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,14 @@ static void	valid_dimensions(void)
 
 	if (HEIGHT <= 0)
 	{
-		write_res = write(2, "Height cannot be lesser than or equal to zero!\n", 47);
+		write_res = write(2, \
+			"Height cannot be lesser than or equal to zero!\n", 47);
 		exit(1);
 	}
 	if (WIDTH <= 0)
 	{
-		write_res = write(2, "Height cannot be lesser than or equal to zero!\n", 46);
+		write_res = write(2, \
+			"Width cannot be lesser than or equal to zero!\n", 46);
 		exit(1);
 	}
 	(void)write_res;
@@ -78,6 +80,7 @@ int	main(int ac, char **av)
 	if (ac == 2)
 	{
 		m = init_minirt();
+		init_mlx(m);
 		if (fileopen(av[1], m) == 1)
 			return (1);
 		if (m->object_count > 0)

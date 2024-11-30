@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 14:31:19 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/30 11:18:42 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,42 +24,27 @@ t_sphere	*create_sphere(t_minirt *m, double radius)
 	return (ret);
 }
 
-t_bool	sphere_hit(t_minirt *minirt, t_intersects *inter, t_ray *ray, \
-int shape_index)
+t_bool	sphere_hit(t_intersects *inter, t_ray *ray, t_shape *shape)
 {
-	double		vars[4];
+	t_disc		disc;
 	t_sphere	*sphere;
-	t_tuple		sphere_dist;
 
-	sphere = minirt->shapes[shape_index]->shape;
-	sphere_dist = subtract_tuples(&sphere->center, &ray->origin);
-	vars[0] = dot_product(&ray->direction, &ray->direction);
-	vars[1] = 2 * dot_product(&sphere_dist, &ray->direction);
-	vars[2] = dot_product(&sphere_dist, &sphere_dist) - (sphere->diameter);
-	vars[3] = (vars[1] * vars[1]) - (4 * vars[0] * vars[2]);
-	if (vars[3] < 0)
+	sphere = shape->shape;
+	disc.shape = sphere;
+	disc.a = dot_product(&ray->direction, &ray->direction);
+	disc.b = 2 * dot_product(&ray->origin, &ray->direction);
+	disc.c = dot_product(&ray->origin, &ray->origin) - (sphere->diameter);
+	disc.disc = (disc.b * disc.b) - (4 * disc.a * disc.c);
+	if (disc.disc < 0)
 		return (false);
-	vars[0] *= 2;
-	vars[1] *= -1;
-	vars[3] = sqrt(vars[3]);
-	if (add_to_intersect((vars[1] - vars[3]) / (vars[0]), \
-	minirt->shapes[shape_index], inter, SPHERE, sphere) == false)
+	disc.a *= 2;
+	disc.b *= -1;
+	disc.disc = sqrt(disc.disc);
+	if (add_to_intersect((disc.b - disc.disc) / (disc.a), shape, inter) == false)
 		return (true);
-	if (add_to_intersect((vars[1] + vars[3]) / (vars[0]), \
-	minirt->shapes[shape_index], inter, SPHERE, sphere) == false)
+	if (add_to_intersect((disc.b + disc.disc) / (disc.a), shape, inter) == false)
 		return (true);
-	(void)minirt;
 	return (true);
-}
-
-double	*uv_sphere(t_tuple point)
-{
-	double	*uv;
-	
-	uv = ft_calloc(2, sizeof(double));
-	uv[0] = 0.5 + (atan2(point.z, point.x) / (2 * PI));
-	uv[1] = 0.5 - (asin(point.y) / PI);
-	return (uv);
 }
 
 t_tuple	normal_sphere(t_shape *shape, t_tuple pos)

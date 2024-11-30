@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:03:24 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 17:54:05 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/29 20:52:36 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	free_minirt(t_minirt *m)
 			free_lights(m);
 		if (m->mlx)
 			free(m->mlx);
+		if (m->cam)
+			free(m->cam);
 		free(m);
 		exit(EXIT_FAILURE);
 	}

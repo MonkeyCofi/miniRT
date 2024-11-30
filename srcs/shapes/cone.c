@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 14:30:37 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/30 11:17:24 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ t_bool	cone_end_hit(t_shape *shape_ptr, t_ray *ray, t_intersects *intersects)
 	t = (cone->minimum - ray->origin.y) / ray->direction.y;
 	if (t > cone->minimum && at_cap(ray, t, cone, cone->minimum))
 	{
-		if (add_to_intersect(t, shape_ptr, intersects, CONE, cone) == false)
+		if (add_to_intersect(t, shape_ptr, intersects) == false)
 			return (true);
 	}
 	t = (cone->maximum - ray->origin.y) / ray->direction.y;
 	if (at_cap(ray, t, cone, cone->maximum))
-		add_to_intersect(t, shape_ptr, intersects, CONE, cone);
+		add_to_intersect(t, shape_ptr, intersects);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:40:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 14:31:13 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/30 11:18:25 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@ t_plane	*create_plane(t_minirt *m)
 	return (plane);
 }
 
-t_bool	intersect_plane(t_minirt *m, t_intersects *intersects, t_ray *ray, \
-int shape_index)
+t_bool	intersect_plane(t_intersects *intersects, t_ray *ray, t_shape *shape)
 {
 	if (fabs(ray->direction.y) < EPSILON)
 		return (false);
-	add_to_intersect(-ray->origin.y / ray->direction.y, \
-	m->shapes[shape_index], intersects, PLANE, m->shapes[shape_index]->shape);
+	add_to_intersect(-ray->origin.y / ray->direction.y, shape, intersects);
 	return (true);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:22:45 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/28 19:38:23 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:55:31 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ int	recognizetexture(t_minirt *m, char *string, t_mater *material)
 		}
 		if (i == 1)
 		{
+			if (ft_strncmp(params[i], "none", ft_strlen(params[i])) == 0)
+			{
+				free_arr(params);
+				return (0);
+			}
 			filename = ft_strtrim(params[i], "\"");
 			material->texture = calloc_and_check(sizeof(t_img), 1, m, IMG_ERR);
 			img = material->texture;

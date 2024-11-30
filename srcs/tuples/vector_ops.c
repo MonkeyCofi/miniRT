@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_ops.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:28:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/25 19:15:41 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/29 12:11:34 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,8 @@ void	normalize(t_tuple *vector)
 
 double	magnitude(t_tuple *vector)
 {
-	double	a;
-	double	b;
-	double	c;
-
-	a = vector->x * vector->x;
-	b = vector->y * vector->y;
-	c = vector->z * vector->z;
-	return (sqrt((a + b + c)));
+	return (sqrt((vector->x * vector->x) + (vector->y * vector->y) + \
+		(vector->z * vector->z)));
 }
 
 void	negate(t_tuple *to_negate)

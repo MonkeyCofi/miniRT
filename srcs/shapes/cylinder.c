@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 01:02:32 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/30 11:18:00 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ t_ray *ray, t_intersects *intersects)
 		{
 			t = (cylinder->minimum - ray->origin.y) / ray->direction.y;
 			if (t > cylinder->minimum && at_cap(ray, t, cylinder))
-				add_to_intersect(t, shape_ptr, intersects, CYLINDER, cylinder);
+				add_to_intersect(t, shape_ptr, intersects);
 			t = (cylinder->maximum - ray->origin.y) / ray->direction.y;
 			if (t > cylinder->minimum && t <= cylinder->maximum && at_cap(\
 			ray, t, cylinder))
-				add_to_intersect(t, shape_ptr, intersects, CYLINDER, cylinder);
+				add_to_intersect(t, shape_ptr, intersects);
 		}
 	}
 	return (true);

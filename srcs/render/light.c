@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 21:41:17 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/29 21:30:57 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,16 @@ static void	cylinder_cone_pattern(t_inter_comp *inter, t_lighting *light)
 	double	min_y;
 	double	max_y;
 
-	min_y = ((t_cylinder *)(inter->obj->shape))->minimum;
-	max_y = ((t_cylinder *)(inter->obj->shape))->maximum;
+	if (inter->type == CYLINDER)
+	{
+		min_y = ((t_cylinder *)(inter->obj->shape))->minimum;
+		max_y = ((t_cylinder *)(inter->obj->shape))->maximum;
+	}
+	else
+	{
+		min_y = ((t_cone *)(inter->obj->shape))->minimum;
+		max_y = ((t_cone *)(inter->obj->shape))->maximum;
+	}
 	obj_point = tuple_mult_fast(&inter->obj->inverse_mat, \
 		&inter->point_adjusted);
 	y_value = obj_point.y;
@@ -44,8 +52,6 @@ static void	check_shape_pattern(t_inter_comp *inter, t_lighting *vars)
 				inter);
 		else
 			vars->color = vars->material->color;
-		if (vars->material->texture)
-			inter->normal_vec = normal_from_sample(inter);
 	}
 	else
 	{
@@ -105,6 +111,8 @@ t_tuple	lighting(t_inter_comp *intersection, t_light *light, \
 	t_lighting	vars;
 
 	vars.material = intersection->material;
+	if (vars.material->texture)
+		intersection->normal_vec = normal_from_sample(intersection);
 	if (vars.material->is_patterned == true)
 		check_shape_pattern(intersection, &vars);
 	else

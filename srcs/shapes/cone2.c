@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   cone2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 09:04:16 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/27 11:32:32 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/30 11:17:52 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_bool	pt2(t_norm_cone *s, t_minirt *m, t_intersects *intersects, t_ray *ray)
+t_bool	pt2(t_disc *s, t_intersects *intersects, t_ray *ray, t_shape *shape)
 {
-	int	shape_index;
+	t_cone	*cone;
 
-	shape_index = s->shape_index;
+	cone = s->shape;
 	s->disc = (s->b * s->b) - 4 * s->a * s->c;
 	if (s->disc < 0)
 		return (false);
@@ -25,26 +25,22 @@ t_bool	pt2(t_norm_cone *s, t_minirt *m, t_intersects *intersects, t_ray *ray)
 	s->t[0] = (s->b - sqrt(s->disc)) / (s->a);
 	s->t[1] = (s->b + sqrt(s->disc)) / (s->a);
 	s->y[0] = ray->origin.y + s->t[0] * ray->direction.y;
-	if (s->y[0] > s->cone->minimum && s->y[0] < s->cone->maximum)
+	if (s->y[0] > cone->minimum && s->y[0] < cone->maximum)
 	{
-		if (add_to_intersect(s->t[0], m->shapes[shape_index], intersects, \
-		CONE, s->cone) == false)
+		if (add_to_intersect(s->t[0], shape, intersects) == false)
 			return (true);
 	}
 	s->y[1] = ray->origin.y + s->t[1] * ray->direction.y;
-	if (s->y[1] > s->cone->minimum && s->y[1] < s->cone->maximum)
-		add_to_intersect(s->t[1], m->shapes[shape_index], intersects, \
-		CONE, s->cone);
+	if (s->y[1] > cone->minimum && s->y[1] < cone->maximum)
+		add_to_intersect(s->t[1], shape, intersects);
 	return (true);
 }
 
-t_bool	intersect_cone(t_minirt *m, t_intersects *intersects, t_ray *ray, \
-int shape_index)
+t_bool	intersect_cone(t_intersects *intersects, t_ray *ray, t_shape *shape)
 {
-	t_norm_cone	s;
+	t_disc	s;
 
-	s.shape_index = shape_index;
-	s.cone = m->shapes[shape_index]->shape;
+	s.shape = shape->shape;
 	s.a = (ray->direction.x * ray->direction.x) - (ray->direction.y * \
 	ray->direction.y) + (ray->direction.z * ray->direction.z);
 	s.b = (2 * ray->origin.x * ray->direction.x) - (2 * ray->origin.y * \
@@ -55,11 +51,10 @@ int shape_index)
 	{
 		if (is_equal(s.b, 0))
 			return (false);
-		if (add_to_intersect(-s.c / (2 * s.b), m->shapes[shape_index], \
-		intersects, CONE, s.cone) == false)
+		if (add_to_intersect(-s.c / (2 * s.b), shape, intersects) == false)
 			return (true);
 	}
-	if (pt2(&s, m, intersects, ray) == false)
+	if (pt2(&s, intersects, ray, shape) == false)
 		return (false);
 	return (true);
 }

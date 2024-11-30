@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 19:39:11 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/29 16:54:49 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ typedef struct s_shape
 	t_mater			*material;
 	t_bool			patterned;
 	t_tuple			(*normal)(struct s_shape *, t_tuple);
-	t_bool			(*intersect)(t_minirt *, t_intersects *, t_ray *, int);
+	t_bool			(*intersect)(t_intersects *, t_ray *, struct s_shape *);
 	double			r;
 	double			h;
 	void			*shape;
@@ -408,8 +408,7 @@ typedef struct s_lighting
 	double			specular_fac;
 }	t_lighting;
 
-//norm structs vvvvv
-typedef struct s_norm_cone
+typedef struct s_disc
 {
 	double	t[2];
 	double	y[2];
@@ -418,20 +417,8 @@ typedef struct s_norm_cone
 	double	b;
 	double	c;
 	int		shape_index;
-	t_cone	*cone;
-}	t_norm_cone;
-
-typedef struct s_norm_cyl
-{
-	double		t[2];
-	double		y[2];
-	double		disc;
-	double		a;
-	double		b;
-	double		c;
-	int			shape_index;
-	t_cylinder	*cyl;
-}	t_norm_cyl;
+	void	*shape;
+}	t_disc;
 
 typedef struct s_thing
 {
@@ -447,13 +434,13 @@ typedef struct s_norm_thread
 	int	width;
 }	t_norm_thread;
 
-typedef struct s_im_sorry
+typedef struct s_cam_specs
 {
 	double	x_offset;
 	double	y_offset;
 	double	world_x;
 	double	world_y;
-}	t_im_sorry;
+}	t_cam_specs;
 
 typedef struct s_norm_color
 {

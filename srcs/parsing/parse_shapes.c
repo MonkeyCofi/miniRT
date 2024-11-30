@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:45:40 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/28 20:40:13 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/29 20:47:53 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,25 @@ int	parse_sphere(t_minirt *m, char *string, int *j)
 	while (str && str[i])
 	{
 		if (i == 1 && dovector(str[i], &m->shapes[*j]->coords))
+		{
+			free_arr(str);
 			return (printf("Error\nIssue Lies in Sphere Coordinates\n"), 1);
+		}
 		if (i == 2 && check_radius(str[i], &diameter))
+		{
+			free_arr(str);
 			return (printf("Error\nIssue Lies in Sphere Diameter\n"), 1);
+		}
 		if (i == 3 && dovectorcolor(str[i], &m->shapes[*j]->material->color))
+		{
+			free_arr(str);
 			return (printf("Error\nIssue Lies in Sphere Color\n"), 1);
+		}
 		if (i == 4 && parse_bonus_specs(m, m->shapes[*j]->material, &str[i]) == 1)
+		{
+			free_arr(str);
 			return (1);
+		}
 		i++;
 	}
 	free_arr(str);

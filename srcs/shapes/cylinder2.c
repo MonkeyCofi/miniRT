@@ -3,69 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 09:29:27 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/28 10:23:27 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/30 11:18:16 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	bottom(t_minirt *m, t_intersects *intersects, \
-t_ray *ray, t_norm_cyl *s)
+void	bottom(t_intersects *intersects, t_ray *ray, t_disc *s, t_shape *shape)
 {
-	int		shape_index;
-	double	t_bottom;
-	double	x;
-	double	z;
+	t_cylinder	*cyl;
+	double		t_bottom;
+	double		x;
+	double		z;
 
-	shape_index = s->shape_index;
-	if (ray->direction.y != 0 && s->cyl->is_closed)
+	cyl = s->shape;
+	if (ray->direction.y != 0 && cyl->is_closed)
 	{
-		t_bottom = (s->cyl->minimum - ray->origin.y) / ray->direction.y;
+		t_bottom = (cyl->minimum - ray->origin.y) / ray->direction.y;
 		if (t_bottom >= 0)
 		{
 			x = ray->origin.x + t_bottom * ray->direction.x;
 			z = ray->origin.z + t_bottom * ray->direction.z;
-			if (x * x + z * z <= s->cyl->radius)
-				add_to_intersect(t_bottom, m->shapes[shape_index], \
-				intersects, CYLINDER, s->cyl);
+			if (x * x + z * z <= cyl->radius)
+				add_to_intersect(t_bottom, shape, intersects);
 		}
 	}
 }
 
-void	top(t_minirt *m, t_intersects *intersects, t_ray *ray, t_norm_cyl *s)
+void	top(t_intersects *intersects, t_ray *ray, t_disc *s, t_shape *shape)
 {
-	int		shape_index;
-	double	t_top;
-	double	x;
-	double	z;
+	t_cylinder	*cyl;
+	double		t_top;
+	double		x;
+	double		z;
 
-	shape_index = s->shape_index;
-	if (ray->direction.y != 0 && s->cyl->is_closed)
+	cyl = s->shape;
+	if (ray->direction.y != 0 && cyl->is_closed)
 	{
-		t_top = (s->cyl->maximum - ray->origin.y) / ray->direction.y;
+		t_top = (cyl->maximum - ray->origin.y) / ray->direction.y;
 		if (t_top >= 0)
 		{
 			x = ray->origin.x + t_top * ray->direction.x;
 			z = ray->origin.z + t_top * ray->direction.z;
-			if (x * x + z * z <= s->cyl->radius)
-			{
-				add_to_intersect(t_top, m->shapes[shape_index], \
-				intersects, CYLINDER, s->cyl);
-			}
+			if (x * x + z * z <= cyl->radius)
+				add_to_intersect(t_top, shape, intersects);
 		}
 	}
 }
 
-void	body(t_minirt *m, t_intersects *intersects, t_ray *ray, t_norm_cyl *s)
+void	body(t_intersects *intersects, t_ray *ray, t_disc *s, t_shape *shape)
 {
-	int	i;
-	int	shape_index;
+	int			i;
+	t_cylinder	*cyl;
 
 	i = 0;
-	shape_index = s->shape_index;
+	cyl = s->shape;
 	if (s->disc >= 0)
 	{
 		s->a *= 2;
@@ -76,35 +71,31 @@ void	body(t_minirt *m, t_intersects *intersects, t_ray *ray, t_norm_cyl *s)
 		while (i < 2)
 		{
 			s->y[i] = ray->origin.y + s->t[i] * ray->direction.y;
-			if (s->cyl->minimum < s->y[i] && s->y[i] < s->cyl->maximum)
-			{
-				add_to_intersect(s->t[i], m->shapes[shape_index], \
-				intersects, CYLINDER, s->cyl);
-			}
+			if (cyl->minimum < s->y[i] && s->y[i] < cyl->maximum)
+				add_to_intersect(s->t[i], shape, intersects);
 			i++;
 		}
 	}
 }
 
-t_bool	intersect_cylinder(t_minirt *m, t_intersects *intersects, t_ray *ray, \
-int shape_index)
+t_bool	intersect_cylinder(t_intersects *intersects, t_ray *ray, t_shape *shape)
 {
-	t_norm_cyl	s;
+	t_disc		s;
+	t_cylinder	*cyl;
 
-	s.cyl = m->shapes[shape_index]->shape;
-	s.shape_index = shape_index;
+	s.shape = shape->shape;
+	cyl = shape->shape;
 	s.a = (ray->direction.x * ray->direction.x) + (ray->direction.z * \
 													ray->direction.z);
 	if (s.a < EPSILON)
-		return (cylinder_end_hit(s.cyl, m->shapes[shape_index], \
-		ray, intersects));
+		return (cylinder_end_hit(cyl, shape, ray, intersects));
 	s.b = 2 * ray->origin.x * ray->direction.x + 2 * ray->origin.z * \
 	ray->direction.z;
 	s.c = ray->origin.x * ray->origin.x + ray->origin.z * ray->origin.z \
-	- s.cyl->radius;
+		- cyl->radius;
 	s.disc = (s.b * s.b) - (4 * s.a * s.c);
-	body(m, intersects, ray, &s);
-	bottom(m, intersects, ray, &s);
-	top(m, intersects, ray, &s);
+	body(intersects, ray, &s, shape);
+	bottom(intersects, ray, &s, shape);
+	top(intersects, ray, &s, shape);
 	return (true);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transformations2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 09:38:57 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/28 00:12:41 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/29 14:48:33 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,24 @@ t_bool	set_inverse_transpose(t_shape *shape, t_4dmat *transform_mat)
 	return (true);
 }
 
-t_bool	check_rotation(t_4dmat rotation, double angle, t_trans type)
+t_bool	check_rotation(t_4dmat *rotation, double angle, t_trans type)
 {
 	t_bool	changed;
 
 	changed = false;
 	if (type == rotate_x)
 	{
-		rotation = x_rotation_mat(angle);
+		*rotation = x_rotation_mat(angle);
 		changed = true;
 	}
 	else if (type == rotate_y)
 	{
-		rotation = y_rotation_mat(angle);
+		*rotation = y_rotation_mat(angle);
 		changed = true;
 	}
 	else if (type == rotate_z)
 	{
-		rotation = z_rotation_mat(angle);
+		*rotation = z_rotation_mat(angle);
 		changed = true;
 	}
 	return (changed);
@@ -66,7 +66,7 @@ t_bool	transform_shape(t_minirt *m, t_thing *s, t_trans type, double angle)
 	else if (type == scale)
 		scaling = scaling_mat(s->coords.x, s->coords.y, s->coords.z);
 	else
-		check_rotation(rotation, angle, type);
+		check_rotation(&rotation, angle, type);
 	resultant = mat4d_mult_fast_static(&translation, &scaling);
 	resultant = mat4d_mult_fast_static(&resultant, &rotation);
 	m->shapes[s->i]->transform = mat4d_mult_fast_static(\

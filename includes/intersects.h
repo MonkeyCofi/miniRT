@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersects.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:02:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 09:30:00 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/11/30 11:17:12 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,13 @@ t_cone			*create_cone(t_minirt *m);
 
 t_tuple			normal_pos_cone(t_shape *shape, t_tuple pos);
 
-t_bool			add_to_intersect(double t, t_shape *shape_ptr, \
-					t_intersects *intersects, t_shape_type type, void *shape);
+t_bool			add_to_intersect(double t, t_shape *shape, t_intersects *intersects);
 
-t_bool			intersect_plane(t_minirt *m, t_intersects *intersects, \
-												t_ray *ray, int shape_index);
+t_bool			intersect_plane(t_intersects *intersects, t_ray *ray, t_shape *shape);
 
-t_bool			intersect_cylinder(t_minirt *m, t_intersects *intersects, \
-												t_ray *ray, int shape_index);
+t_bool			intersect_cylinder(t_intersects *intersects, t_ray *ray, t_shape *shape);
 
-t_bool			intersect_cone(t_minirt *m, t_intersects *intersects, \
-												t_ray *ray, int shape_index);
+t_bool			intersect_cone(t_intersects *intersects, t_ray *ray, t_shape *shape);
 
 t_tuple			normal_at(t_shape *shape, t_tuple point);
 
