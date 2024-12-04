@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cone2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 09:04:16 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/04 10:32:11 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 15:02:00 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_bool	pt2(t_disc *s, t_intersects *intersects, t_ray *ray, t_shape *shape)
+static t_bool	pt2(t_disc *s, t_intersects *intersects, t_ray *ray, \
+t_shape *shape)
 {
 	t_cone	*cone;
 

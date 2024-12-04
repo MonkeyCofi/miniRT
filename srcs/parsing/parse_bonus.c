@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:22:45 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/03 20:25:18 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:02:44 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,8 @@ int	recognizepattern(t_minirt *m, char *str, t_mater *material, int *clones)
 	{
 		if (i == 0 && ft_strncmp(strs[i], "pattern", 7) != 0)
 			parse_error(m, "Error: Pattern: Invalid keyword", str, strs);
-		if (i == 1 && dovectorcolor(strs[i], &material->pattern.color_two) == false)
+		if (i == 1 && dovectorcolor(strs[i], &material->pattern.color_two) \
+		== false)
 			parse_error(m, "Error: Pattern: Invalid color", str, strs);
 	}
 	free_arr(strs);

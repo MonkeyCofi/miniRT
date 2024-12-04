@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transformations2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 09:38:57 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/29 14:48:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 15:15:44 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_bool	check_rotation(t_4dmat *rotation, double angle, t_trans type)
 	return (changed);
 }
 
-t_bool	transform_shape(t_minirt *m, t_thing *s, t_trans type, double angle)
+t_bool	transform_shape(t_shape *s, t_trans type, double angle)
 {
 	t_4dmat	translation;
 	t_4dmat	scaling;
@@ -59,8 +59,8 @@ t_bool	transform_shape(t_minirt *m, t_thing *s, t_trans type, double angle)
 	rotation = identity();
 	translation = identity();
 	if (type == none)
-		return (inverse_mat_test(&m->shapes[s->i]->transform, \
-		&m->shapes[s->i]->inverse_mat));
+		return (inverse_mat_test(&s->transform, \
+		&s->inverse_mat));
 	if (type == translate)
 		translation = translation_mat(s->coords.x, s->coords.y, s->coords.z);
 	else if (type == scale)
@@ -69,10 +69,9 @@ t_bool	transform_shape(t_minirt *m, t_thing *s, t_trans type, double angle)
 		check_rotation(&rotation, angle, type);
 	resultant = mat4d_mult_fast_static(&translation, &scaling);
 	resultant = mat4d_mult_fast_static(&resultant, &rotation);
-	m->shapes[s->i]->transform = mat4d_mult_fast_static(\
-	&m->shapes[s->i]->transform, &resultant);
-	if (set_inverse_transpose(m->shapes[s->i], \
-	&m->shapes[s->i]->transform) == error)
+	s->transform = mat4d_mult_fast_static(\
+	&s->transform, &resultant);
+	if (set_inverse_transpose(s, &s->transform) == error)
 		return (error);
 	return (true);
 }

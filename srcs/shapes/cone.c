@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 10:56:45 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:22:53 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,26 +81,22 @@ t_bool	cone_end_hit(t_shape *shape_ptr, t_ray *ray, t_intersects *intersects)
 void	init_cone(t_minirt *m, int *i)
 {
 	t_cone	*cone;
-	t_tuple	orientation;
-	t_thing	s;
-	t_mater	*material;
+	t_shape	*parsed;
 	t_4dmat	rot;
 
 	cone = create_cone(m);
-	s.i = *i;
-	material = m->shapes[*i]->material;
-	s.coords = m->shapes[*i]->coords;
-	orientation = m->shapes[*i]->orientation;
+	parsed = m->shapes[*i];
 	cone->minimum = -(m->shapes[*i]->h / 2);
 	cone->maximum = (m->shapes[*i]->h / 2);
 	m->shapes[*i] = create_shape(m, CONE, cone);
-	m->shapes[*i]->material = material;
+	m->shapes[*i]->material = parsed->material;
 	if (m->shapes[*i]->material->is_patterned == true)
-		create_pattern(material->pattern.color_one, m->shapes \
-	[*i]->material->pattern.color_two, 10, &m->shapes[*i]->material->pattern);
+		create_pattern(parsed->material->pattern.color_one, \
+		parsed->material->pattern.color_two, 10, &parsed->material->pattern);
 	m->shapes[*i]->transform = identity();
-	transform_shape(m, &s, translate, 0);
-	rot = get_axis_angle(&orientation);
+	m->shapes[*i]->coords = parsed->coords;
+	transform_shape(m->shapes[*i], translate, 0);
+	rot = get_axis_angle(&parsed->orientation);
 	m->shapes[*i]->transform = mat4d_mult_fast_static(\
 	&m->shapes[*i]->transform, &rot);
 	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);

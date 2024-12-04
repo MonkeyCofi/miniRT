@@ -6,14 +6,13 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:35:15 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/04 10:51:02 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 14:49:38 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	write_two_errs(t_minirt *m, char *str1, int need_newline, char *str2, \
-	int need_newline_end)
+void	write_two_errs(t_minirt *m, char *str1, int need_newline, char *str2)
 {
 	if (str1 && write(2, str1, ft_strlen(str1)) == -1)
 		free_minirt(m);
@@ -24,11 +23,6 @@ void	write_two_errs(t_minirt *m, char *str1, int need_newline, char *str2, \
 	}
 	if (str2 && write(2, str2, ft_strlen(str2)) == -1)
 		free_minirt(m);
-	if (need_newline_end)
-	{
-		if (write(2, "\n", 1) == -1)
-			free_minirt(m);
-	}
 }
 
 t_bool	open_image(t_minirt *m, t_mater *material, char *filename)
@@ -68,7 +62,7 @@ void	parse_error(t_minirt *m, char *err, char *line, char **parse_arr)
 		free_arr(parse_arr);
 		free_minirt(m);
 	}
-	write_two_errs(m, err, 1, "Line number: ", 0);
+	write_two_errs(m, err, 1, "Line number: ");
 	write(2, line_no, ft_strlen(line_no));
 	write(2, "\n", 1);
 	write(2, "Line: ", 6);
@@ -90,7 +84,7 @@ int	check_radius(t_shape *shape, char *str, double *num)
 	{
 		res = str_to_double(str);
 		if (res / 2 < 0 || res < 0)
-			return (1);	
+			return (1);
 		shape->r = res / 2;
 		printf("shape radius is %f\n", shape->r);
 		return (0);

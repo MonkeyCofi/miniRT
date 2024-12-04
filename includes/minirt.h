@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 10:53:16 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 14:20:28 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@
 # define LGT_ERR "Error! Malloc failed while trying to create a light\n"
 # define MLX_ERR "Error! Malloc failed while trying to create mlx\n"
 # define IMG_ERR "Error! Malloc failed while trying to create an image\n"
+# define CAM_AMT_ERR "Error: Camera: You can only have one camera"
+# define CAM_ARG_ERR "Error: Camera: Invalid number of arguments"
+# define CAM_COORD_ERR "Error: Camera: Invalid coordinates"
+# define CAM_ORIENT_ERR "Error: Camera: Invalid orientation"
 //# define MAX_INTERSECTS 200
 
 # ifdef __APPLE__

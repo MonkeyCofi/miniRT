@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:40:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/02 18:52:29 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 15:23:18 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,19 @@ void	init_plane(t_minirt *m, int *i)
 {
 	t_4dmat	rot;
 	t_plane	*plane;
-	t_thing	s;
-	t_mater	*material;
-	t_tuple	orientation;
-
-	s.i = *i;
-	s.coords = m->shapes[*i]->coords;
+	t_shape	*parsed;
+	
 	plane = create_plane(m);
-	material = m->shapes[*i]->material;
-	orientation = m->shapes[*i]->orientation;
-	free(m->shapes[*i]);
+	parsed = m->shapes[*i];
 	m->shapes[*i] = create_shape(m, PLANE, plane);
-	m->shapes[*i]->material = material;
+	m->shapes[*i]->material = parsed->material;
 	if (m->shapes[*i]->material->is_patterned == true)
-		create_pattern(material->pattern.color_one,
-			m->shapes[*i]->material->pattern.color_two,
-			10, &m->shapes[*i]->material->pattern);
-	transform_shape(m, &s, translate, 0);
-	rot = get_axis_angle(&orientation);
+		create_pattern(parsed->material->pattern.color_one,
+			parsed->material->pattern.color_two,
+			10, &parsed->material->pattern);
+	m->shapes[*i]->coords = parsed->coords;
+	transform_shape(m->shapes[*i], translate, 0);
+	rot = get_axis_angle(&parsed->orientation);
 	m->shapes[*i]->transform = mat4d_mult_fast_static(\
 						&m->shapes[*i]->transform, &rot);
 	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);

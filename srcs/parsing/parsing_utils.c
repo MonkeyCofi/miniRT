@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 08:48:18 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/02 18:11:12 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:45:34 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,11 @@ t_bool	dovectorcolor(char *string, t_tuple *calc)
 	return (is_in_bounds(calc));
 }
 
-static t_bool	get_filename_and_open_texture(t_minirt *m, t_mater *material, char *name)
+static t_bool	get_filename_and_open_texture(t_minirt *m, \
+t_mater *material, char *name)
 {
 	char	*filename;
-	
+
 	filename = ft_strtrim(name, "\"");
 	if (!filename)
 	{
@@ -101,9 +102,12 @@ t_bool	open_texture(t_minirt *m, t_mater *material, char **params)
 	i = -1;
 	while (params[++i])
 	{
-		if (i == 0 && ft_strncmp(params[i], "texture", ft_strlen("texture")) != 0)
+		if (i == 0 && ft_strncmp(params[i], "texture", \
+		ft_strlen("texture")) != 0)
 		{
-			write_two_errs(m, "Error: Texture: Invalid keyword", 0, params[i], '\n');
+			write_two_errs(m, \
+			"Error: Texture: Invalid keyword", 0, params[i]);
+			write(2, "\n", 1);
 			free_arr(params);
 			free_minirt(m);
 		}

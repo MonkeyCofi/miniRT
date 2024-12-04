@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/03 21:32:37 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 15:18:42 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ t_bool	sphere_hit(t_intersects *inter, t_ray *ray, t_shape *shape)
 	disc.a *= 2;
 	disc.b *= -1;
 	disc.disc = sqrt(disc.disc);
-	if (add_to_intersect((disc.b - disc.disc) / (disc.a), shape, inter) == false)
+	if (add_to_intersect((disc.b - disc.disc) / \
+		(disc.a), shape, inter) == false)
 		return (true);
-	if (add_to_intersect((disc.b + disc.disc) / (disc.a), shape, inter) == false)
+	if (add_to_intersect((disc.b + disc.disc) / \
+		(disc.a), shape, inter) == false)
 		return (true);
 	return (true);
 }
@@ -62,22 +64,18 @@ t_tuple	normal_sphere(t_shape *shape, t_tuple pos)
 void	init_sphere(t_minirt *m, int *i)
 {
 	t_sphere	*sphere;
-	t_mater		*material;
-	t_thing		s;
+	t_shape		*parsed;
 
-	s.i = *i;
-	s.coords = m->shapes[*i]->coords;
-	material = m->shapes[*i]->material;
 	sphere = create_sphere(m, m->shapes[*i]->r);
-	free(m->shapes[*i]);
+	parsed = m->shapes[*i];
 	m->shapes[*i] = create_shape(m, SPHERE, sphere);
-	m->shapes[*i]->material = material;
+	m->shapes[*i]->material = parsed->material;
 	if (m->shapes[*i]->material->is_patterned == true)
-		create_pattern(material->pattern.color_one,
-			m->shapes[*i]->material->pattern.color_two,
-			10, &m->shapes[*i]->material->pattern);
+		create_pattern(parsed->material->pattern.color_one,
+			parsed->material->pattern.color_two,
+			10, &parsed->material->pattern);
 	m->shapes[*i]->transform = identity();
-	m->shapes[*i]->coords = s.coords;
-		transform_shape(m, &s, translate, 0);
+	m->shapes[*i]->coords = parsed->coords;
+		transform_shape(m->shapes[*i], translate, 0);
 	*i += 1;
 }

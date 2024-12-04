@@ -33,6 +33,7 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				$(PARSING)/parsing_utils.c \
 				$(PARSING)/parsing_utils2.c \
 				$(PARSING)/parsing_utils3.c \
+				$(PARSING)/read_file.c \
 				\
 				\
 				\
@@ -43,6 +44,7 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				$(RENDER)/hooks2.c \
 				$(RENDER)/hooks3.c \
 				$(RENDER)/intersects.c \
+				$(RENDER)/intersects2.c \
 				$(RENDER)/light.c \
 				$(RENDER)/render.c \
 				$(RENDER)/threads.c \

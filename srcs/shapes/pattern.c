@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pattern.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:35:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/03 21:17:22 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:01:54 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,17 +149,17 @@ t_tuple	checkerboard(t_pattern pattern, t_tuple point, t_tuple plane_normal)
 
 	s.u = 0;
 	s.v = 0;
-	if (fabs(plane_normal.y) == 1) // Horizontal plane
+	if (fabs(plane_normal.y) == 1)
 	{
-		s.u = modf(point.x, &s.u_scaled);
+		s.u = modf(point.x,  &s.u_scaled);
 		s.v = modf(point.z, &s.v_scaled);
 	}
-	else if (fabs(plane_normal.x) == 1) // Vertical plane, X-oriented
+	else if (fabs(plane_normal.x) == 1)
 	{
 		s.u = modf(point.y, &s.u_scaled);
 		s.v = modf(point.z, &s.v_scaled);
 	}
-	else if (fabs(plane_normal.z) == 1) // Vertical plane, Z-oriented
+	else if (fabs(plane_normal.z) == 1)
 	{
 		s.u = modf(point.x, &s.u_scaled);
 		s.v = modf(point.y, &s.v_scaled);
@@ -174,22 +174,19 @@ t_tuple	checkerboard(t_pattern pattern, t_tuple point, t_tuple plane_normal)
 t_tuple	checkerboard_sphere(t_pattern pattern, t_inter_comp *intersection)
 {
 	t_tuple	point;
-	double	u;
-	double	v;
-	int		u_scaled;
-	int		v_scaled;
+	t_checkerboard s;
 	double	radius;
 	double	phi;
 
 	point = tuple_mult_fast(&intersection->obj->inverse_mat, \
 	&intersection->point);
-	u = 0.5 + (atan2(point.z, point.x) / (2 * M_PI));
+	s.u = 0.5 + (atan2(point.z, point.x) / (2 * M_PI));
 	radius = magnitude(&point);
 	phi = acos(point.y / radius);
-	v = 1 - (phi / M_PI);
-	u_scaled = floor(u * pattern.pattern_scale);
-	v_scaled = floor(v * pattern.pattern_scale);
-	if ((u_scaled + v_scaled) % 2 == 0)
+	s.v = 1 - (phi / M_PI);
+	s.u_scaled = floor(s.u * pattern.pattern_scale);
+	s.v_scaled = floor(s.v * pattern.pattern_scale);
+	if ((int)(s.u_scaled + s.v_scaled) % 2 == 0)
 		return (pattern.color_one);
 	return (pattern.color_two);
 }
@@ -197,24 +194,21 @@ t_tuple	checkerboard_sphere(t_pattern pattern, t_inter_comp *intersection)
 t_tuple	checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection)
 {
 	t_tuple	point;
-	double	u;
-	double	v;
-	int		u_scaled;
-	int		v_scaled;
+	t_checkerboard	s;
 	double	min_y;
 	double	max_y;
 	double	height;
 
 	point = tuple_mult_fast(&intersection->obj->inverse_mat, \
 	&intersection->point);
-	u = 0.5 + (atan2(point.z, point.x) / (2 * M_PI));
+	s.u = 0.5 + (atan2(point.z, point.x) / (2 * M_PI));
 	min_y = ((t_cylinder *)(intersection->obj->shape))->minimum;
 	max_y = ((t_cylinder *)(intersection->obj->shape))->maximum;
 	height = max_y - min_y;
-	v = (point.y - min_y) / height;
-	u_scaled = floor(u * pattern.pattern_scale);
-	v_scaled = floor(v * pattern.pattern_scale);
-	if ((u_scaled + v_scaled) % 2 == 0)
+	s.v = (point.y - min_y) / height;
+	s.u_scaled = floor(s.u * pattern.pattern_scale);
+	s.v_scaled = floor(s.v * pattern.pattern_scale);
+	if ((int)(s.u_scaled + s.v_scaled) % 2 == 0)
 		return (pattern.color_one);
 	return (pattern.color_two);
 }

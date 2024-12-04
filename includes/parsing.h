@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:47:27 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/04 10:52:22 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 14:44:52 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define PARSING_H
 
 void	parse_error(t_minirt *m, char *err, char *line, char **parse_arr);
-void	write_two_errs(t_minirt *m, char *str1, int need_newline, char *str2, \
-	int need_newline_end);
+void	write_two_errs(t_minirt *m, char *str1, int need_newline, char *str2);
 t_bool	open_image(t_minirt *m, t_mater *material, char *filename);
 t_bool	open_texture(t_minirt *m, t_mater *material, char **params);
 

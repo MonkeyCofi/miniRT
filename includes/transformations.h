@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:13:25 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 10:24:12 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:16:14 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	transform_sphere(t_sphere *sphere, t_trans type, \
 
 t_tuple	chain_transforms(t_transform *trans, t_tuple *point);
 
-t_bool	transform_shape(t_minirt *m, t_thing *s, t_trans type, double angle);
+t_bool	transform_shape(t_shape *s, t_trans type, double angle);
 
 t_bool	transform_shape_new(t_shape *shape, t_transform *transform_params);
 

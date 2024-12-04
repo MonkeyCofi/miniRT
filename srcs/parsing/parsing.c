@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/03 20:08:42 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:45:16 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ int	parse_camera(t_minirt *minirt, char *string)
 
 	i = 0;
 	if (minirt->cam->flag != 0)
-		parse_error(minirt, "Error: Camera: You can only have one camera", string, NULL);
+		parse_error(minirt, CAM_AMT_ERR, string, NULL);
 	else
 		minirt->cam->flag = 1;
 	str = ft_split(string, ' ');
 	if (arr_len(str) != 4)
-		parse_error(minirt, "Error: Camera: Invalid number of arguments", string, str);
+		parse_error(minirt, CAM_ARG_ERR, string, str);
 	while (str[i] && str[i++])
 	{
 		if (i == 1 && dovector(str[i], &minirt->from, false) == false)
-			parse_error(minirt, "Error: Camera: Invalid coordinates", string, str);
+			parse_error(minirt, CAM_COORD_ERR, string, str);
 		if (i == 2 && dovector(str[i], &minirt->to, true) == false)
-			parse_error(minirt, "Error: Camera: Invalid orientation", string, str);
+			parse_error(minirt, CAM_ORIENT_ERR, string, str);
 		if (i == 3 && check_ulong(str[i], &minirt->cam->fov))
 			parse_error(minirt, "Error: Camera: Invalid FOV", string, str);
 		minirt->from.w = POINT;
@@ -52,15 +52,16 @@ static inline int	parse_elements(char *str, t_minirt *m, int *j)
 		return (parse_light(m, str, j));
 	else
 	{
-		write_two_errs(m, "Error: Invalid element", 1, "Line number: ", 0);
+		write_two_errs(m, "Error: Invalid element", 1, "Line number: ");
 		line = ft_itoa(m->line);
 		if (!line)
 		{
 			parse_error(m, "Error: itoa: Couldn't allocate memory for string", \
 				NULL, NULL);
 		}
-		write_two_errs(m, line, 1, NULL, 0);
-		write_two_errs(m, "Line: ", 0, str, 1);
+		write_two_errs(m, line, 1, NULL);
+		write_two_errs(m, "Line: ", 0, str);
+		write(2, "\n", 1);
 		free(line);
 		return (1);
 	}
@@ -144,32 +145,4 @@ int	getmap(int fd, t_minirt *minirt, int i, int j)
 	if (!ret && (invalidfile(minirt) != 1))
 		parse_error(minirt, "Error: Missing elements", NULL, NULL);
 	return (ret);
-}
-
-int	fileopen(char *path, t_minirt *minirt)
-{
-	int	fd;
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-	{
-		printf("Error\nFailed to open file!\n");
-		return (close(fd), 1);
-	}
-	if (!rt_file(path))
-	{
-		printf("Error\nNot a rt file!\n");
-		return (close(fd), 1);
-	}
-	if (getmap(fd, minirt, i, j) == 1)
-	{
-		close(fd);
-		return (1);
-	}
-	close(fd);
-	return (0);
 }

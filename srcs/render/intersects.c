@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersects.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/30 11:30:59 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:52:46 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,12 @@ t_intersection *intersection, t_ray *ray)
 		-ray->direction.y, -ray->direction.z);
 	normalize(&new.eye_vec);
 	new.normal_vec = normal_at(new.obj, new.point);
+	new.is_inside_object = false;
 	if (dot_product(&new.eye_vec, &new.normal_vec) < 0)
 	{
 		new.is_inside_object = true;
 		negate(&new.normal_vec);
 	}
-	else
-		new.is_inside_object = false;
 	new.m = minirt;
 	point_adjusted = return_point(new.normal_vec.x * EPSILON, \
 		new.normal_vec.y * EPSILON, new.normal_vec.z * EPSILON);
@@ -132,32 +131,4 @@ t_intersects	intersect_enivornment(t_minirt *minirt, t_ray *ray)
 			continue ;
 	}
 	return (inter);
-}
-
-t_tuple	position(t_ray *ray, double t)
-{
-	t_tuple	ret;
-
-	set_point_points(&ret, \
-		(ray->direction.x * t) + ray->origin.x, \
-		(ray->direction.y * t) + ray->origin.y, \
-		(ray->direction.z * t) + ray->origin.z);
-	return (ret);
-}
-
-t_bool	add_to_intersect(double t, t_shape *shape, t_intersects *intersects)
-{
-	if (intersects->intersection_count < MAX_INTERSECTS)
-	{
-		intersects->intersections[intersects->intersection_count].t = t;
-		intersects->intersections[intersects->intersection_count].type = shape->type;
-		intersects->intersections[intersects->intersection_count].shape = shape->shape;
-		intersects->intersections[intersects->intersection_count].material = shape->material;
-		intersects->intersections[intersects->intersection_count].shape_ptr = shape;
-		if (intersects->intersection_count < MAX_INTERSECTS)
-			intersects->intersection_count++;
-		else
-			return (false);
-	}
-	return (true);
 }
