@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transformations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:06:40 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/26 09:41:18 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 18:47:26 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,18 @@ t_4dmat	y_rotation_mat(double angle)
 	y_rot.m33 = cos(angle);
 	y_rot.m44 = 1;
 	return (y_rot);
+}
+
+t_4dmat	z_rotation_mat(double angle)
+{
+	t_4dmat	z_rot;
+
+	ft_bzero(&z_rot, sizeof(t_4dmat));
+	z_rot.m33 = 1;
+	z_rot.m11 = cos(angle);
+	z_rot.m12 = -sin(angle);
+	z_rot.m21 = sin(angle);
+	z_rot.m22 = cos(angle);
+	z_rot.m44 = 1;
+	return (z_rot);
 }

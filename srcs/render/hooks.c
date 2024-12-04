@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 09:20:10 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 21:44:35 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	camera_movement(t_minirt *m)
 	scalar(&scaled_forward, 2);
 	scaled_left = m->left;
 	scalar(&scaled_left, 2);
+	changed = false;
 	if (m->movement.w == true || m->movement.s == true)
 		changed = handle_w_s(m, scaled_forward);
 	if (m->movement.a == true)

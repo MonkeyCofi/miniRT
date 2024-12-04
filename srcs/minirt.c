@@ -6,28 +6,13 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/03 21:04:09 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 21:41:41 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 void	free_shapes(t_minirt *minirt);
-
-void	print_4d_points(double points[4][4])
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (++i < 4)
-	{
-		j = -1;
-		while (++j < 4)
-			printf("%.3f ", points[i][j]);
-		printf("\n");
-	}
-}
 
 t_minirt	*parse_objects(t_minirt *m)
 {
@@ -55,21 +40,18 @@ double	deg_rad(double number)
 
 static void	valid_dimensions(void)
 {
-	int	write_res;
-
 	if (HEIGHT <= 0)
 	{
-		write_res = write(2, \
-			"Height cannot be lesser than or equal to zero!\n", 47);
-		exit(1);
+		if (write(2, "Height cannot be lesser than or equal to zero!\n", 47) == -1)
+			exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	if (WIDTH <= 0)
 	{
-		write_res = write(2, \
-			"Width cannot be lesser than or equal to zero!\n", 46);
-		exit(1);
+		if (write(2, "Width cannot be lesser than or equal to zero!\n", 46) == -1)
+			exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
-	(void)write_res;
 }
 
 int	main(int ac, char **av)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 15:22:53 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 21:19:27 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_cone	*create_cone(t_minirt *m)
 
 	cone = calloc_and_check(sizeof(t_cone), 1, m, CON_ERR);
 	cone->point = return_tuple(0, 0, 0, POINT);
-	cone->material = create_default_material();
 	cone->type = CONE;
 	cone->minimum = -INFINITY;
 	cone->maximum = INFINITY;
@@ -95,10 +94,11 @@ void	init_cone(t_minirt *m, int *i)
 		parsed->material->pattern.color_two, 10, &parsed->material->pattern);
 	m->shapes[*i]->transform = identity();
 	m->shapes[*i]->coords = parsed->coords;
-	transform_shape(m->shapes[*i], translate, 0);
+	translate_shape(m->shapes[*i]);
 	rot = get_axis_angle(&parsed->orientation);
-	m->shapes[*i]->transform = mat4d_mult_fast_static(\
-	&m->shapes[*i]->transform, &rot);
+	m->shapes[*i]->transform = mat4d_mult_fast_static \
+		(&m->shapes[*i]->transform, &rot);
 	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
+	free(parsed);
 	*i += 1;
 }

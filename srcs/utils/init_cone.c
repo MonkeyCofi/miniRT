@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:53:36 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/02 17:02:57 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 20:48:10 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	init_cone(t_minirt *m, int *i)
 		create_pattern(material->pattern.color_one, m->shapes \
 	[*i]->material->pattern.color_two, 10, &m->shapes[*i]->material->pattern);
 	m->shapes[*i]->transform = identity();
-	transform_shape(m, &s, translate, 0);
+	//transform_shape(m, &s, translate, 0);
+	translate_shape(m->shapes[*i]);
 	rot = get_axis_angle(&orientation);
 	m->shapes[*i]->transform = mat4d_mult_fast_static(\
 	&m->shapes[*i]->transform, &rot);

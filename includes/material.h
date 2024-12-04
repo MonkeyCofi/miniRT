@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   material.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:28:19 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 09:31:33 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 20:46:07 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "structs.h"
 
-t_mater	*create_default_material(void);
+t_mater	*create_default_material(t_minirt *m);
 
 #endif

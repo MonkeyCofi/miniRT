@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:03:24 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/29 20:52:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 20:47:02 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,12 @@ void	free_shapes(t_minirt *minirt)
 	while (++i < minirt->object_count)
 	{
 		free(minirt->shapes[i]->shape);
-		free(minirt->shapes[i]->material);
+		if (minirt->shapes[i]->material)
+		{
+			if (minirt->shapes[i]->material->texture)
+				free(minirt->shapes[i]->material->texture);
+			free(minirt->shapes[i]->material);
+		}
 		free(minirt->shapes[i]);
 	}
 	free(minirt->shapes);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transformations.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:13:25 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 15:16:14 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 18:50:13 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ t_tuple	chain_transforms(t_transform *trans, t_tuple *point);
 
 t_bool	transform_shape(t_shape *s, t_trans type, double angle);
 
-t_bool	transform_shape_new(t_shape *shape, t_transform *transform_params);
+t_bool	translate_shape(t_shape *s);
+
+//t_bool	transform_shape_new(t_shape *shape, t_transform *transform_params);
 
 void	get_transform_params_rotations(double x, double y, double z, \
 												t_transform *trans_params);

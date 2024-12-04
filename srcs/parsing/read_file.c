@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:05 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/04 14:49:42 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 19:55:30 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,40 @@ int	fileopen(char *path, t_minirt *minirt)
 	}
 	close(fd);
 	return (0);
+}
+
+static void	test_file(t_minirt *m, char *filename)
+{
+	int	file_fd;
+
+	file_fd = open(filename, O_RDONLY);
+	if (file_fd == -1)
+		parse_error(m, "Error: Failed to open texture file", NULL, NULL);
+	close(file_fd);
+}
+
+t_bool	open_image(t_minirt *m, t_mater *material, char *filename)
+{
+	t_img	*img;
+
+	test_file(m, filename);
+	img = material->texture;
+	img->img = mlx_xpm_file_to_image(m->mlx->mlx, filename, &img->img_width, \
+		&img->img_height);
+	if (!img->img)
+	{
+		write_err("Error: Img: ", 0);
+		write_err(IMG_ERR, 0);
+		write_err("Error string: ", 0);
+		return (error);
+	}
+	img->img_addr = mlx_get_data_addr(img->img, &img->bpp, \
+		&img->line_length, &img->endian);
+	if (!img->img_addr)
+	{
+		write_err("Error: Image: Could not fetch texture data", '\n');
+		write_err("Error string: ", 0);
+		return (error);
+	}
+	return (true);
 }

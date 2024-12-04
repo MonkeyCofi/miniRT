@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 13:53:58 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 21:39:53 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,30 +288,12 @@ typedef struct s_cone
 	t_shape_type	type;
 }	t_cone;
 
-typedef struct s_pixel
-{
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
-}	t_pixel;
-
-typedef enum s_ppm_type
-{
-	P3,
-	P6
-}	t_ppm_type;
-
-typedef struct s_ppm
-{
-	t_ppm_type	t_ppm_type;
-	char		*filename;
-	char		*buf;
-	t_pixel		*buffer;
-	t_tuple		**colors;
-	int			height;
-	int			width;
-	int			intensity;
-}	t_ppm;
+//typedef struct s_pixel
+//{
+//	unsigned char	r;
+//	unsigned char	g;
+//	unsigned char	b;
+//}	t_pixel;
 
 typedef struct s_inter_comp
 {
@@ -323,7 +305,6 @@ typedef struct s_inter_comp
 	t_tuple			point;
 	t_tuple			point_adjusted;
 	t_tuple			eye_vec;
-	t_ppm			*ppm;
 	t_img			*xpm;
 	t_bool			is_inside_object;
 	t_minirt		*m;
@@ -366,7 +347,6 @@ typedef struct s_minirt
 	t_tuple			up;
 	t_tuple			forward;
 	t_tuple			left;
-	t_ppm			*ppm;
 	t_strokes		stroke;
 	t_movement		movement;
 	t_tuple			original_from;

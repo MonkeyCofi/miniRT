@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:40:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 15:23:18 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 21:26:37 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	init_plane(t_minirt *m, int *i)
 	t_4dmat	rot;
 	t_plane	*plane;
 	t_shape	*parsed;
-	
+
 	plane = create_plane(m);
 	parsed = m->shapes[*i];
 	m->shapes[*i] = create_shape(m, PLANE, plane);
@@ -50,10 +50,12 @@ void	init_plane(t_minirt *m, int *i)
 			parsed->material->pattern.color_two,
 			10, &parsed->material->pattern);
 	m->shapes[*i]->coords = parsed->coords;
-	transform_shape(m->shapes[*i], translate, 0);
+	//transform_shape(m->shapes[*i], translate, 0);
+	translate_shape(m->shapes[*i]);
 	rot = get_axis_angle(&parsed->orientation);
 	m->shapes[*i]->transform = mat4d_mult_fast_static(\
 						&m->shapes[*i]->transform, &rot);
 	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
+	free(parsed);
 	*i += 1;
 }

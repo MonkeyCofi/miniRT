@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:47:27 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/04 14:44:52 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 22:02:31 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,21 @@ int		check_height(t_shape *shape, char *str, double *num);
 int		check_radius(t_shape *shape, char *str, double *num);
 int		fileopen(char *path, t_minirt *minirt);
 
-int		recognizepattern(t_minirt *m, char *string, t_mater *material, int *clones);
-int		recognizeambient(t_minirt *m, char *string, t_mater *material, int *clones);
-int		recognizediffuse(t_minirt *m, char *string, t_mater *material, int *clones);
-int		recognizespecular(t_minirt *m, char *string, t_mater *material, int *clones);
-int		recognizetexture(t_minirt *m, char *string, t_mater *material, int *clones);
+int		recognizepattern(t_minirt *m, char *string, \
+						t_mater *material, int *clones);
+
+int		recognizeambient(t_minirt *m, char *string, \
+						t_mater *material, int *clones);
+
+int		recognizediffuse(t_minirt *m, char *string, \
+						t_mater *material, int *clones);
+
+int		recognizespecular(t_minirt *m, char *string, \
+						t_mater *material, int *clones);
+
+int		recognizetexture(t_minirt *m, char *string, \
+						t_mater *material, int *clones);
+						
+int		set_sphere_only(int *clones, t_bool is_sphere);
 
 #endif

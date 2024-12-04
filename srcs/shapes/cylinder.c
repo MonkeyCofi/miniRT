@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 15:23:11 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 21:53:23 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-#define MIN_T_DIFFERENCE 0.0001
 
 t_cylinder	*create_cylinder(t_minirt *m)
 {
@@ -60,10 +59,48 @@ void	init_cylinder(t_minirt *m, int *i)
 			parsed->material->pattern.color_two,
 			10, &parsed->material->pattern);
 	m->shapes[*i]->coords = parsed->coords;
-	transform_shape(m->shapes[*i], translate, 0);
+	translate_shape(m->shapes[*i]);
 	rot = get_axis_angle(&parsed->orientation);
 	m->shapes[*i]->transform = mat4d_mult_fast_static(\
 		&m->shapes[*i]->transform, &rot);
 	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
+	free(parsed);
 	*i += 1;
+}
+
+static t_bool	at_cap(t_ray *ray, double t, t_cylinder *c)
+{
+	double	x;
+	double	z;
+
+	x = ray->origin.x + t * ray->direction.x;
+	z = ray->origin.z + t * ray->direction.z;
+	if (((x * x) + (z * z) <= (c->radius * c->radius))
+		&& (ray->origin.y + t * ray->direction.y >= c->minimum \
+		&& ray->origin.y + t * ray->direction.y <= c->maximum))
+		return (true);
+	return (false);
+}
+
+t_bool	cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, \
+	t_ray *ray, t_intersects *intersects)
+{
+	double	t;
+
+	if (cylinder->is_closed == 0)
+		return (false);
+	if (fabs(ray->direction.y) > EPSILON)
+	{
+		if (ray->direction.y != 0)
+		{
+			t = (cylinder->minimum - ray->origin.y) / ray->direction.y;
+			if (t > cylinder->minimum && at_cap(ray, t, cylinder))
+				add_to_intersect(t, shape_ptr, intersects);
+			t = (cylinder->maximum - ray->origin.y) / ray->direction.y;
+			if (t > cylinder->minimum && t <= cylinder->maximum && at_cap(\
+			ray, t, cylinder))
+				add_to_intersect(t, shape_ptr, intersects);
+		}
+	}
+	return (true);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transformations2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 09:38:57 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/04 15:15:44 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 21:48:31 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,29 @@ t_bool	transform_shape(t_shape *s, t_trans type, double angle)
 	return (true);
 }
 
-void	get_transform_params_rotations(double x, double y, \
-double z, t_transform *trans_params)
+t_bool	translate_shape(t_shape *s)
 {
-	trans_params->rotation_x = x;
-	trans_params->rotation_y = y;
-	trans_params->rotation_z = z;
+	t_4dmat	translation;
+	t_4dmat	resultant;
+
+	translation = translation_mat(s->coords.x, s->coords.y, s->coords.z);
+	resultant = mat4d_mult_fast_static(&s->transform, &translation);
+	s->transform = resultant;
+	if (set_inverse_transpose(s, &s->transform) == error)
+		return (error);
+	return (true);
 }
 
-void	get_transform_params(t_tuple translate, t_tuple scaling, \
-t_transform *trans_params)
+t_4dmat	get_axis_angle(t_tuple *orientation)
 {
-	trans_params->translation = translate;
-	trans_params->scaling = scaling;
+	t_tuple	default_forward;
+	t_tuple	axis;
+	double	rotation_angle;
+
+	normalize(orientation);
+	default_forward = return_vector(0, 1, 0);
+	axis = cross_product(&default_forward, orientation);
+	normalize(&axis);
+	rotation_angle = acos(dot_product(&default_forward, orientation));
+	return (axis_angle(axis, rotation_angle));
 }

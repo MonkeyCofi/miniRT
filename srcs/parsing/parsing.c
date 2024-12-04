@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/04 14:45:16 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 21:38:31 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static inline int	parse_elements(char *str, t_minirt *m, int *j)
 		}
 		write_two_errs(m, line, 1, NULL);
 		write_two_errs(m, "Line: ", 0, str);
-		write(2, "\n", 1);
+		write_check(m, "\n");
 		free(line);
 		return (1);
 	}

@@ -6,13 +6,14 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/03 13:05:25 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 19:33:28 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-char	**ft_split_and_check(t_minirt *m, char *str, char delim, t_bool should_exit)
+char	**ft_split_and_check(t_minirt *m, char *str, char delim, \
+	t_bool should_exit)
 {
 	char	**arr;
 
@@ -20,7 +21,8 @@ char	**ft_split_and_check(t_minirt *m, char *str, char delim, t_bool should_exit
 	if (arr == NULL)
 	{
 		if (should_exit)
-			parse_error(m, "Error: ft_split: couldn't split string", NULL, NULL);
+			parse_error(m, "Error: ft_split: couldn't split string", \
+				NULL, NULL);
 		else
 		{
 			write_err("Error: ft_split: couldn't split string", '\n');

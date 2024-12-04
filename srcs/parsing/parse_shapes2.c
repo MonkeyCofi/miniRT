@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_shapes2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:55:28 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/04 14:13:04 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 21:52:11 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	parse_cone(t_minirt *m, char *str, int *j)
 			parse_error(m, "Error: Invalid cone height", str, strs);
 		if (i == 4 && !dovectorcolor(strs[i], &m->shapes[*j]->material->color))
 			parse_error(m, "Error: Invalid cone color", str, strs);
-		if (i == 5 && parse_bonus_specs(m, m->shapes[*j]->material, &strs[i]))
+		if (i == 5 && parse_bonus_specs(m, m->shapes[*j]->material, &strs[i], 0))
 			return (1);
 	}
 	free_arr(strs);

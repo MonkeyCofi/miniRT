@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 08:48:18 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/04 14:45:34 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 21:35:30 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_bool	dovector(char *string, t_tuple *calc, t_bool should_norm)
 		normalize(calc);
 		return (is_in_bounds(calc));
 	}
+	free_arr(str);
 	return (true);
 }
 
@@ -102,14 +103,10 @@ t_bool	open_texture(t_minirt *m, t_mater *material, char **params)
 	i = -1;
 	while (params[++i])
 	{
-		if (i == 0 && ft_strncmp(params[i], "texture", \
-		ft_strlen("texture")) != 0)
+		if (i == 0 && ft_strncmp(params[i], "texture", 7) != 0)
 		{
-			write_two_errs(m, \
-			"Error: Texture: Invalid keyword", 0, params[i]);
-			write(2, "\n", 1);
-			free_arr(params);
-			free_minirt(m);
+			write_check(m, "Error: Texture: Invalid keyword: ");
+			parse_error(m, params[i], NULL, params);
 		}
 		if (i == 1)
 		{

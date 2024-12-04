@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 14:20:28 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 21:39:45 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 # include "render.h"
 # include "threads.h"
 # include "pattern.h"
-# include "ppm.h"
 # include "parsing.h"
 # include "frees.h"
 
@@ -140,7 +139,7 @@ t_tuple		lighting(t_inter_comp *intersection, t_light *light, \
 //int			get_key_pressed(int keycode, t_mlx *mlx, int scale);
 void		draw_pixel(t_mlx *mlx, int x, int y, int color);
 
-t_mater		*create_default_material(void);
+t_mater		*create_default_material(t_minirt *m);
 
 int			closert(t_minirt *m);
 
@@ -161,17 +160,12 @@ void		camera_movement(t_minirt *m);
 
 void		change_cammove(t_minirt *m);
 
-int			parse_bonus_specs(t_minirt *m, t_mater *material, char **tokens);
-
-// t_bool		cone_end_hit(t_shape *shape_ptr, t_ray *ray, \
-// 									t_intersects *intersects);
-
-// t_bool		cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, \
-// 										t_ray *ray, t_intersects *intersects);
+int			parse_bonus_specs(t_minirt *m, t_mater *material, char **tokens, t_bool is_sphere);
 
 int			resetcam(t_minirt *m);
 
 void		write_err(char *err, char need_newline);
 
+void		write_check(t_minirt *m, char *str);
 
 #endif

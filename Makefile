@@ -52,9 +52,9 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				\
 				\
 				$(SHAPES)/cone.c \
-				$(SHAPES)/cone2.c \
+				$(SHAPES)/cone_hit.c \
 				$(SHAPES)/cylinder.c \
-				$(SHAPES)/cylinder2.c \
+				$(SHAPES)/cylinder_hit.c \
 				$(SHAPES)/material.c \
 				$(SHAPES)/normal.c \
 				$(SHAPES)/pattern.c \
@@ -63,7 +63,7 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				$(SHAPES)/sphere.c \
 				$(SHAPES)/transformations.c \
 				$(SHAPES)/transformations2.c \
-				$(SHAPES)/transformations3.c \
+				$(SHAPES)/textures.c \
 				\
 				\
 				\
@@ -78,7 +78,8 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				\
 				$(UTILS)/frees.c \
 				$(UTILS)/init.c \
-				$(UTILS)/utils.c
+				$(UTILS)/utils.c \
+				$(UTILS)/err.c
 
 
 # SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c \
@@ -110,8 +111,8 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	make -C $(MLXOS) -j2
 	make -C $(LIBFT_DIR) -j2
-	$(CC) $(OBJS) -fsanitize=address $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
-#	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+#	$(CC) $(OBJS) -fsanitize=address $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -g3 -c $< -o $@

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:22:45 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/04 14:02:44 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 22:06:37 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ int	recognizetexture(t_minirt *m, char *string, t_mater *material, int *clones)
 {
 	char	**params;
 
+	if (clones[5])
+		parse_error(m, "Error: Texture: Only spheres can have textures", \
+			NULL, NULL);
 	if (clones[4])
 		parse_error(m, "Error: Texture: Texture already exists", string, NULL);
 	params = ft_split(string, '=');
@@ -25,9 +28,7 @@ int	recognizetexture(t_minirt *m, char *string, t_mater *material, int *clones)
 		free_minirt(m);
 	}
 	if (open_texture(m, material, params) == false)
-	{
 		free_arr(params);
-	}
 	clones[4] = 1;
 	free_arr(params);
 	return (0);
