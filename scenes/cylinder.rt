@@ -7,7 +7,7 @@ A	0	0,50,100
 #sp	0,2,0	1	150,50,150 pattern=50,50,50 specular=1
 #sp	2,0,0	1	150,50,150 pattern=no specular=1
 #sp	0,0,0	3	150,50,150 specular=0.1 texture=brick_normal.xpm
-cy	0,0,0	0,0,1	2	50	150,50,150
+cy	0,0,0	0,0,1	100	1	150,0,0
 #cy	0,2,0	0,1,0	1	1	150,50,150 pattern=no specular=1
 #cy	2,2,0	0,1,0	1	1	150,50,150 pattern=no specular=1
 #pl	0,-1,0	0,1,0	255,255,255

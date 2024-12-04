@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 09:29:27 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/03 22:35:01 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:57:27 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	bottom(t_intersects *intersects, t_ray *ray, t_disc *s, t_shape *shape)
+static void	bottom(t_intersects *intersects, t_ray *ray, t_disc *s, t_shape *shape)
 {
 	t_cylinder	*cyl;
 	double		t_bottom;
@@ -33,7 +33,7 @@ void	bottom(t_intersects *intersects, t_ray *ray, t_disc *s, t_shape *shape)
 	}
 }
 
-void	top(t_intersects *intersects, t_ray *ray, t_disc *s, t_shape *shape)
+static void	top(t_intersects *intersects, t_ray *ray, t_disc *s, t_shape *shape)
 {
 	t_cylinder	*cyl;
 	double		t_top;
@@ -54,7 +54,7 @@ void	top(t_intersects *intersects, t_ray *ray, t_disc *s, t_shape *shape)
 	}
 }
 
-void	body(t_intersects *intersects, t_ray *ray, t_disc *s, t_shape *shape)
+static void	body(t_intersects *intersects, t_ray *ray, t_disc *s, t_shape *shape)
 {
 	int			i;
 	t_cylinder	*cyl;
@@ -76,6 +76,43 @@ void	body(t_intersects *intersects, t_ray *ray, t_disc *s, t_shape *shape)
 			i++;
 		}
 	}
+}
+
+static t_bool	at_cap(t_ray *ray, double t, t_cylinder *c)
+{
+	double	x;
+	double	z;
+
+	x = ray->origin.x + t * ray->direction.x;
+	z = ray->origin.z + t * ray->direction.z;
+	if (((x * x) + (z * z) <= (c->radius * c->radius))
+		&& (ray->origin.y + t * ray->direction.y >= c->minimum \
+		&& ray->origin.y + t * ray->direction.y <= c->maximum))
+		return (true);
+	return (false);
+}
+
+static t_bool	cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, \
+t_ray *ray, t_intersects *intersects)
+{
+	double	t;
+
+	if (cylinder->is_closed == 0)
+		return (false);
+	if (fabs(ray->direction.y) > EPSILON)
+	{
+		if (ray->direction.y != 0)
+		{
+			t = (cylinder->minimum - ray->origin.y) / ray->direction.y;
+			if (t > cylinder->minimum && at_cap(ray, t, cylinder))
+				add_to_intersect(t, shape_ptr, intersects);
+			t = (cylinder->maximum - ray->origin.y) / ray->direction.y;
+			if (t > cylinder->minimum && t <= cylinder->maximum && at_cap(\
+			ray, t, cylinder))
+				add_to_intersect(t, shape_ptr, intersects);
+		}
+	}
+	return (true);
 }
 
 t_bool	intersect_cylinder(t_intersects *intersects, t_ray *ray, t_shape *shape)

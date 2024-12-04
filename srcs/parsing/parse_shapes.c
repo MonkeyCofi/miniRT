@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_shapes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:45:40 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/03 21:29:44 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:43:39 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,13 +127,14 @@ int	parse_cylinder(t_minirt *m, char *str, int *j)
 			parse_error(m, "Error: Cyl: Invalid orientation", str, strs);
 		if (i == 3 && printf("radius: %s\n", strs[i]) && check_radius(m->shapes[*j], strs[i], &m->shapes[*j]->r))
 			parse_error(m, "Error: Cyl: Invalid diameter", str, strs);
-		if (i == 4 && printf("radius: %s\n", strs[i]) && check_radius(m->shapes[*j], strs[i], &m->shapes[*j]->h))
+		if (i == 4 && printf("radius: %s\n", strs[i]) && check_height(m->shapes[*j], strs[i], &m->shapes[*j]->h))
 			parse_error(m, "Error: Cyl: Invalid height", str, strs);
 		if (i == 5 && !dovectorcolor(strs[i], &m->shapes[*j]->material->color))
 			parse_error(m, "Error: Cyl: Invalid color", str, strs);
 		if (i == 6 && parse_bonus_specs(m, m->shapes[*j]->material, &strs[i]))
 			return (1);
 	}
+	// printf("%f\n", m->shapes[*j]->r);
 	free_arr(strs);
 	return (0);
 }

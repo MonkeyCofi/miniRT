@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_shapes2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:55:28 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/03 20:25:44 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:51:47 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,24 @@ int	parse_cone(t_minirt *m, char *str, int *j)
 	return (0);
 }
 
-int	check_doubleb(char *str, double *num)
+int	check_height(t_shape *shape, char *str, double *num)
 {
+	double	res;
+
 	if (!is_double(str))
 		return (1);
+	if (!num)
+	{
+		res = str_to_double(str);
+		if (res / 2 < 0 || res < 0)
+			return (1);	
+		shape->h = res / 2;
+		return (0);
+	}
 	*num = str_to_double(str);
-	if (*num > 1 || *num < 0)
+	if (*num / 2 < 0 || *num < 0)
 		return (1);
+	shape->h = (*num) / 2;
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/02 18:43:10 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:56:45 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_cone	*create_cone(t_minirt *m)
 	return (cone);
 }
 
-static inline t_bool	at_cap(t_ray *ray, double t, t_cone *cone, double y)
+static t_bool	at_cap(t_ray *ray, double t, t_cone *cone, double y)
 {
 	double	x;
 	double	z;

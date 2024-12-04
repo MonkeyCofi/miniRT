@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:49:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/03 21:31:18 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:57:20 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,42 +42,7 @@ t_tuple	normal_pos_cylinder(t_shape *shape, t_tuple pos)
 	return (return_vector(pos.x, 0, pos.z));
 }
 
-static t_bool	at_cap(t_ray *ray, double t, t_cylinder *c)
-{
-	double	x;
-	double	z;
 
-	x = ray->origin.x + t * ray->direction.x;
-	z = ray->origin.z + t * ray->direction.z;
-	if (((x * x) + (z * z) <= (c->radius * c->radius))
-		&& (ray->origin.y + t * ray->direction.y >= c->minimum \
-		&& ray->origin.y + t * ray->direction.y <= c->maximum))
-		return (true);
-	return (false);
-}
-
-t_bool	cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, \
-t_ray *ray, t_intersects *intersects)
-{
-	double	t;
-
-	if (cylinder->is_closed == 0)
-		return (false);
-	if (fabs(ray->direction.y) > EPSILON)
-	{
-		if (ray->direction.y != 0)
-		{
-			t = (cylinder->minimum - ray->origin.y) / ray->direction.y;
-			if (t > cylinder->minimum && at_cap(ray, t, cylinder))
-				add_to_intersect(t, shape_ptr, intersects);
-			t = (cylinder->maximum - ray->origin.y) / ray->direction.y;
-			if (t > cylinder->minimum && t <= cylinder->maximum && at_cap(\
-			ray, t, cylinder))
-				add_to_intersect(t, shape_ptr, intersects);
-		}
-	}
-	return (true);
-}
 
 void	init_cylinder(t_minirt *m, int *i)
 {

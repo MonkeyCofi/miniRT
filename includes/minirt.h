@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/02 17:41:07 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:53:16 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,14 +117,6 @@
 //#  define ESC 65307
 //# endif
 
-typedef struct s_cameraparse
-{
-	t_tuple		campos;
-	int			fov;
-	int			flag;
-	t_tuple		vec;
-}	t_cameraparse;
-
 int			escape(int keycode, void *param);
 
 int			destroy(void *param);
@@ -141,18 +133,12 @@ int			free_arr(char *arr[]);
 t_tuple		lighting(t_inter_comp *intersection, t_light *light, \
 												t_bool in_shadow, t_minirt *m);
 
-t_light		create_light(t_tuple intensity, t_tuple position);
-
 //int			get_key_pressed(int keycode, t_mlx *mlx, int scale);
 void		draw_pixel(t_mlx *mlx, int x, int y, int color);
 
 t_mater		*create_default_material(void);
 
 int			closert(t_minirt *m);
-
-void		adjust_yaw(t_minirt *m, double angle);
-
-void		adjust_pitch(t_minirt *m, double angle);
 
 int			event_loop(t_minirt *m);
 
@@ -171,22 +157,17 @@ void		camera_movement(t_minirt *m);
 
 void		change_cammove(t_minirt *m);
 
-//int			parse_light(t_minirt *minirt, char *string, int *j);
-
-//int			parse_cone(t_minirt *m, char *string, int *j);
-
-//int			parse_ambient(t_minirt *minirt, char *string);
-
 int			parse_bonus_specs(t_minirt *m, t_mater *material, char **tokens);
 
-t_bool		cone_end_hit(t_shape *shape_ptr, t_ray *ray, \
-									t_intersects *intersects);
+// t_bool		cone_end_hit(t_shape *shape_ptr, t_ray *ray, \
+// 									t_intersects *intersects);
 
-t_bool		cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, \
-										t_ray *ray, t_intersects *intersects);
+// t_bool		cylinder_end_hit(t_cylinder *cylinder, t_shape *shape_ptr, \
+// 										t_ray *ray, t_intersects *intersects);
 
 int			resetcam(t_minirt *m);
 
 void		write_err(char *err, char need_newline);
+
 
 #endif
