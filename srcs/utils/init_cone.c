@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cone.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:53:36 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/28 00:16:56 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/02 17:02:57 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	init_cone(t_minirt *m, int *i)
 	orientation = m->shapes[*i]->orientation;
 	cone->minimum = -(m->shapes[*i]->h / 2);
 	cone->maximum = (m->shapes[*i]->h / 2);
-	m->shapes[*i] = create_shape(CONE, cone);
+	m->shapes[*i] = create_shape(m, CONE, cone);
 	m->shapes[*i]->material = material;
 	if (m->shapes[*i]->material->is_patterned == true)
 		create_pattern(material->pattern.color_one, m->shapes \

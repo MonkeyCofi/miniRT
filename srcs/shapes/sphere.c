@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/30 11:18:42 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/03 21:32:37 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,27 @@ t_tuple	normal_sphere(t_shape *shape, t_tuple pos)
 	temp = subtract_tuples(&sphere->center, &pos);
 	normal = return_point(temp.x, temp.y, temp.z);
 	return (normal);
+}
+
+void	init_sphere(t_minirt *m, int *i)
+{
+	t_sphere	*sphere;
+	t_mater		*material;
+	t_thing		s;
+
+	s.i = *i;
+	s.coords = m->shapes[*i]->coords;
+	material = m->shapes[*i]->material;
+	sphere = create_sphere(m, m->shapes[*i]->r);
+	free(m->shapes[*i]);
+	m->shapes[*i] = create_shape(m, SPHERE, sphere);
+	m->shapes[*i]->material = material;
+	if (m->shapes[*i]->material->is_patterned == true)
+		create_pattern(material->pattern.color_one,
+			m->shapes[*i]->material->pattern.color_two,
+			10, &m->shapes[*i]->material->pattern);
+	m->shapes[*i]->transform = identity();
+	m->shapes[*i]->coords = s.coords;
+		transform_shape(m, &s, translate, 0);
+	*i += 1;
 }

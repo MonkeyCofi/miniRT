@@ -4,7 +4,7 @@ CC = cc
 
 INCLUDES = ./includes
 
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) #-Ofast -flto -g3
+CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) -Ofast -flto
 # CFLAGS += -fsanitize=address -g3
 
 SRCSPATH	=	srcs
@@ -29,7 +29,7 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				$(PARSING)/parse_shapes.c \
 				$(PARSING)/parse_shapes2.c \
 				$(PARSING)/parsing.c \
-				$(PARSING)/parsing2.c \
+				$(PARSING)/parse_bonus.c \
 				$(PARSING)/parsing_utils.c \
 				$(PARSING)/parsing_utils2.c \
 				$(PARSING)/parsing_utils3.c \
@@ -76,9 +76,7 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				\
 				$(UTILS)/frees.c \
 				$(UTILS)/init.c \
-				$(UTILS)/init_cone.c \
-				$(UTILS)/read_ppm.c \
-				$(UTILS)/utils.c \
+				$(UTILS)/utils.c
 
 
 # SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c \

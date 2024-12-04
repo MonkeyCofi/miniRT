@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:35:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/29 16:36:22 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/03 21:17:22 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	*get_uv_sphere(t_inter_comp *inter, double *phi, double *theta)
 	tex_uv = ft_calloc(sizeof(int), 2);
 	if (!tex_uv)
 		free_minirt(inter->m);
-	tex_uv[0] = floor((int)(((-(*phi) + PI) / (2.0 * PI)) * \
+	tex_uv[0] = ((int)(((-(*phi) + PI) / (2.0 * PI)) * \
 		mat->texture->img_width) % mat->texture->img_width);
-	tex_uv[1] = floor((int)((*theta / PI) * \
+	tex_uv[1] = ((int)((*theta / PI) * \
 		mat->texture->img_height) % mat->texture->img_height);
 	return (tex_uv);
 }
@@ -123,14 +123,13 @@ static t_4dmat	construct_tbn(t_inter_comp *inter, \
 
 t_tuple	normal_from_sample(t_inter_comp *intersection)
 {
-	t_tuple				tangent_normal;
-	t_tuple				res;
-	t_4dmat				matrix;
-	double				theta;
-	double				phi;
+	t_tuple	tangent_normal;
+	t_tuple	res;
+	t_4dmat	matrix;
+	double	theta;
+	double	phi;
 
-
-		tangent_normal = texture_sphere(intersection, &phi, &theta);
+	tangent_normal = texture_sphere(intersection, &phi, &theta);
 	matrix = construct_tbn(intersection, &phi, &theta);
 	res = tuple_mult_fast(&matrix, &tangent_normal);
 	normalize(&res);

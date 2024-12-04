@@ -6,11 +6,29 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/29 21:11:43 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/03 13:05:25 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+char	**ft_split_and_check(t_minirt *m, char *str, char delim, t_bool should_exit)
+{
+	char	**arr;
+
+	arr = ft_split(str, delim);
+	if (arr == NULL)
+	{
+		if (should_exit)
+			parse_error(m, "Error: ft_split: couldn't split string", NULL, NULL);
+		else
+		{
+			write_err("Error: ft_split: couldn't split string", '\n');
+			return (NULL);
+		}
+	}
+	return (arr);
+}
 
 void	init_mlx(t_minirt *m)
 {
@@ -31,7 +49,6 @@ void	init_mlx(t_minirt *m)
 	&m->mlx->img.line_length, &m->mlx->img.endian);
 	m->mlx->img.img_height = HEIGHT;
 	m->mlx->img.img_width = WIDTH;
-	//return (1);
 }
 
 t_minirt	*init_minirt(void)
@@ -51,88 +68,4 @@ t_minirt	*init_minirt(void)
 	m->object_count = 0;
 	m->light_count = 0;
 	return (m);
-}
-
-void	init_sphere(t_minirt *m, int *i)
-{
-	t_sphere	*sphere;
-	t_mater		*material;
-	t_thing		s;
-
-	s.i = *i;
-	s.coords = m->shapes[*i]->coords;
-	material = m->shapes[*i]->material;
-	sphere = create_sphere(m, m->shapes[*i]->r);
-	//m->shapes[*i]->shape = sphere;
-	free(m->shapes[*i]);
-	m->shapes[*i] = create_shape(SPHERE, sphere);
-	m->shapes[*i]->material = material;
-	if (m->shapes[*i]->material->is_patterned == true)
-		create_pattern(material->pattern.color_one,
-			m->shapes[*i]->material->pattern.color_two,
-			10, &m->shapes[*i]->material->pattern);
-	m->shapes[*i]->transform = identity();
-	m->shapes[*i]->coords = s.coords;
-	transform_shape(m, &s, translate, 0);
-	*i += 1;
-}
-
-void	init_plane(t_minirt *m, int *i)
-{
-	t_4dmat	rot;
-	t_plane	*plane;
-	t_thing	s;
-	t_mater	*material;
-	t_tuple	orientation;
-
-	s.i = *i;
-	s.coords = m->shapes[*i]->coords;
-	plane = create_plane(m);
-	material = m->shapes[*i]->material;
-	orientation = m->shapes[*i]->orientation;
-	//m->shapes[*i]->shape = plane;
-	free(m->shapes[*i]);
-	m->shapes[*i] = create_shape(PLANE, plane);
-	m->shapes[*i]->material = material;
-	if (m->shapes[*i]->material->is_patterned == true)
-		create_pattern(material->pattern.color_one,
-			m->shapes[*i]->material->pattern.color_two,
-			10, &m->shapes[*i]->material->pattern);
-	transform_shape(m, &s, translate, 0);
-	rot = get_axis_angle(&orientation);
-	m->shapes[*i]->transform = mat4d_mult_fast_static(\
-						&m->shapes[*i]->transform, &rot);
-	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
-	*i += 1;
-}
-
-void	init_cylinder(t_minirt *m, int *i)
-{
-	t_cylinder	*cylinder;
-	t_thing		s;
-	t_tuple		orientation;
-	t_mater		*material;
-	t_4dmat		rot;
-
-	cylinder = create_cylinder(m);
-	s.i = *i;
-	s.coords = m->shapes[*i]->coords;
-	orientation = m->shapes[*i]->orientation;
-	material = m->shapes[*i]->material;
-	cylinder->maximum = m->shapes[*i]->h;
-	cylinder->radius = m->shapes[*i]->r;
-	//m->shapes[*i]->shape = cylinder;
-	free(m->shapes[*i]);
-	m->shapes[*i] = create_shape(CYLINDER, cylinder);
-	m->shapes[*i]->material = material;
-	if (m->shapes[*i]->material->is_patterned == true)
-		create_pattern(material->pattern.color_one,
-			m->shapes[*i]->material->pattern.color_two,
-			10, &m->shapes[*i]->material->pattern);
-	transform_shape(m, &s, translate, 0);
-	rot = get_axis_angle(&orientation);
-	m->shapes[*i]->transform = mat4d_mult_fast_static(\
-	&m->shapes[*i]->transform, &rot);
-	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
-	*i += 1;
 }

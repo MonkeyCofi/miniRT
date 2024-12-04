@@ -6,13 +6,13 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 09:04:16 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/30 11:17:52 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:32:11 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_bool	pt2(t_disc *s, t_intersects *intersects, t_ray *ray, t_shape *shape)
+static t_bool	pt2(t_disc *s, t_intersects *intersects, t_ray *ray, t_shape *shape)
 {
 	t_cone	*cone;
 

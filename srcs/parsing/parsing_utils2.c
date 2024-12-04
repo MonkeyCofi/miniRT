@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:30:08 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/25 15:32:18 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/03 20:24:31 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,16 @@ int	check_ulong(char *str, double *num)
 	return (0);
 }
 
-int	check_double(char *str, double *num)
+int	check_double(char *str, double *num, t_bool check_boundary)
 {
 	if (!is_double(str))
 		return (1);
 	*num = str_to_double(str);
+	if (check_boundary == true)
+	{
+		if (*num > 1 || *num < 0)
+			return (1);
+	}
 	return (0);
 }
 

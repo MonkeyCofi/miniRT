@@ -6,30 +6,69 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/29 21:05:21 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:08:42 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	parse_rest(char *str, t_minirt *m, int *j)
+int	parse_camera(t_minirt *minirt, char *string)
 {
-	if (strncmp(str, "A", 1) == 0)
+	char	**str;
+	int		i;
+
+	i = 0;
+	if (minirt->cam->flag != 0)
+		parse_error(minirt, "Error: Camera: You can only have one camera", string, NULL);
+	else
+		minirt->cam->flag = 1;
+	str = ft_split(string, ' ');
+	if (arr_len(str) != 4)
+		parse_error(minirt, "Error: Camera: Invalid number of arguments", string, str);
+	while (str[i] && str[i++])
+	{
+		if (i == 1 && dovector(str[i], &minirt->from, false) == false)
+			parse_error(minirt, "Error: Camera: Invalid coordinates", string, str);
+		if (i == 2 && dovector(str[i], &minirt->to, true) == false)
+			parse_error(minirt, "Error: Camera: Invalid orientation", string, str);
+		if (i == 3 && check_ulong(str[i], &minirt->cam->fov))
+			parse_error(minirt, "Error: Camera: Invalid FOV", string, str);
+		minirt->from.w = POINT;
+	}
+	free_arr(str);
+	return (0);
+}
+
+static inline int	parse_elements(char *str, t_minirt *m, int *j)
+{
+	char	*line;
+
+	line = NULL;
+	if (ft_strncmp(str, "A", 1) == 0)
 		return (parse_ambient(m, str));
-	if (strncmp(str, "C", 1) == 0)
+	if (ft_strncmp(str, "C", 1) == 0)
 		return (parse_camera(m, str));
-	if (strncmp(str, "L", 1) == 0)
+	if (ft_strncmp(str, "L", 1) == 0)
 		return (parse_light(m, str, j));
 	else
 	{
-		printf("Error At Line :\n%s\n", str);
+		write_two_errs(m, "Error: Invalid element", 1, "Line number: ", 0);
+		line = ft_itoa(m->line);
+		if (!line)
+		{
+			parse_error(m, "Error: itoa: Couldn't allocate memory for string", \
+				NULL, NULL);
+		}
+		write_two_errs(m, line, 1, NULL, 0);
+		write_two_errs(m, "Line: ", 0, str, 1);
+		free(line);
 		return (1);
 	}
 }
 
-int	parsing_norminette(char *str, t_minirt *m, int *i)
+static inline int	parsing_sp_co(char *str, t_minirt *m, int *i)
 {
-	if (strncmp(str, "sp", 2) == 0)
+	if (ft_strncmp(str, "sp", 2) == 0)
 	{
 		if (parse_sphere(m, str, i) == 0)
 		{
@@ -40,7 +79,7 @@ int	parsing_norminette(char *str, t_minirt *m, int *i)
 		else
 			return (1);
 	}
-	if (strncmp(str, "co", 2) == 0)
+	if (ft_strncmp(str, "co", 2) == 0)
 	{
 		if (parse_cone(m, str, i) == 0)
 		{
@@ -57,11 +96,11 @@ int	parsing_norminette(char *str, t_minirt *m, int *i)
 
 int	parsing(char *str, t_minirt *minirt, int *i, int *j)
 {
-	if (strncmp(str, "#", 1) == 0)
+	if (ft_strncmp(str, "#", 1) == 0)
 		return (0);
-	if (strncmp(str, "pl", 2) == 0)
+	if (ft_strncmp(str, "pl", 2) == 0)
 		return (parse_plane(minirt, str, i));
-	if (strncmp(str, "cy", 2) == 0)
+	if (ft_strncmp(str, "cy", 2) == 0)
 	{
 		if (parse_cylinder(minirt, str, i) == 0)
 		{
@@ -73,9 +112,9 @@ int	parsing(char *str, t_minirt *minirt, int *i, int *j)
 		else
 			return (1);
 	}
-	if (parsing_norminette(str, minirt, i) == 0)
+	if (parsing_sp_co(str, minirt, i) == 0)
 		return (0);
-	return (parse_rest(str, minirt, j));
+	return (parse_elements(str, minirt, j));
 }
 
 int	getmap(int fd, t_minirt *minirt, int i, int j)
@@ -84,12 +123,14 @@ int	getmap(int fd, t_minirt *minirt, int i, int j)
 	char	*line;
 
 	ret = 0;
+	minirt->line = 0;
 	while (ret != 1)
 	{
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		if (strncmp(line, "\n", 1) == 0)
+		minirt->line++;
+		if (ft_strncmp(line, "\n", 1) == 0)
 		{
 			free(line);
 			continue ;
@@ -101,7 +142,7 @@ int	getmap(int fd, t_minirt *minirt, int i, int j)
 	}
 	close(fd);
 	if (!ret && (invalidfile(minirt) != 1))
-		return (printf("Error\nMissing Necessary Element\n"), 1);
+		parse_error(minirt, "Error: Missing elements", NULL, NULL);
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:45:40 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/29 20:47:53 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/03 21:29:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,49 +23,29 @@ t_shape	*alloc_shape(t_minirt *m)
 	return (shape);
 }
 
-//int	parse_bonus_specs(t_minirt *m, t_mater *material, char **tokens)
-//{
-//	int		i;
-//	char	**keys;
-
-//	i = -1;
-//	while (tokens[++i])
-//	{
-//		keys = ft_split(tokens[i], '=');
-//		if (!keys)
-//			free_minirt(m);
-//		if (i == 0 && tokens[i] && recognizepattern(tokens[i], material))
-//			return (1);
-//		if (i == 1 && tokens[i] && recognizespecular(tokens[i], material))
-//			return (1);
-//		if (i == 2 && tokens[i] && recognizediffuse(tokens[i], material))
-//			return (1);
-//		if (i == 3 && tokens[i] && recognizeambient(tokens[i], material))
-//			return (1);
-//		if (i == 4 && tokens[i] && recognizetexture(m, tokens[i], material))
-//			return (1);
-//	}
-//	return (0);
-//}
-
 int	parse_bonus_specs(t_minirt *m, t_mater *material, char **tokens)
 {
 	int		i;
-	//char	*key;
+	int		clones[5];
 
 	i = -1;
+	ft_bzero(&clones, sizeof(int) * 5);
 	while (tokens[++i])
 	{
-		//key = ft_substr(tokens[i], )
-		if (i == 0 && tokens[i] && recognizepattern(tokens[i], material))
+		if (tokens[i] && ft_strncmp(tokens[i], "pattern", 7) == 0 && \
+			recognizepattern(m, tokens[i], material, clones))
 			return (1);
-		if (i == 1 && tokens[i] && recognizespecular(tokens[i], material))
+		if (tokens[i] && ft_strncmp(tokens[i], "specular", 8) == 0 && \
+			recognizespecular(m, tokens[i], material, clones))
 			return (1);
-		if (i == 2 && tokens[i] && recognizediffuse(tokens[i], material))
+		if (tokens[i] && ft_strncmp(tokens[i], "diffuse", 7) == 0 && \
+			recognizediffuse(m, tokens[i], material, clones))
 			return (1);
-		if (i == 3 && tokens[i] && recognizeambient(tokens[i], material))
+		if (tokens[i] && ft_strncmp(tokens[i], "ambient", 7) == 0 && \
+			recognizeambient(m, tokens[i], material, clones))
 			return (1);
-		if (i == 4 && tokens[i] && recognizetexture(m, tokens[i], material))
+		if (tokens[i] && ft_strncmp(tokens[i], "texture", 7) == 0 && \
+			recognizetexture(m, tokens[i], material, clones))
 			return (1);
 	}
 	return (0);
@@ -75,97 +55,85 @@ int	parse_sphere(t_minirt *m, char *string, int *j)
 {
 	int		i;
 	char	**str;
-	double	diameter;
 
-	str = ft_split(string, ' ');
+	str = ft_split_and_check(m, string, ' ', true);
 	i = 1;
 	if (arr_len(str) < 4 || arr_len(str) > 9)
-		return (printf("Error\nIssue Lies in Sphere Arguments\n"), 1);
+		parse_error(m, "Error: Invalid number of arguments", string, str);
 	m->shapes[*j] = alloc_shape(m);
 	while (str && str[i])
 	{
-		if (i == 1 && dovector(str[i], &m->shapes[*j]->coords))
-		{
-			free_arr(str);
-			return (printf("Error\nIssue Lies in Sphere Coordinates\n"), 1);
-		}
-		if (i == 2 && check_radius(str[i], &diameter))
-		{
-			free_arr(str);
-			return (printf("Error\nIssue Lies in Sphere Diameter\n"), 1);
-		}
-		if (i == 3 && dovectorcolor(str[i], &m->shapes[*j]->material->color))
-		{
-			free_arr(str);
-			return (printf("Error\nIssue Lies in Sphere Color\n"), 1);
-		}
-		if (i == 4 && parse_bonus_specs(m, m->shapes[*j]->material, &str[i]) == 1)
-		{
-			free_arr(str);
+		if (i == 1 && dovector(str[i], &m->shapes[*j]->coords, false) == false)
+			parse_error(m, "Error: Sphere: Invalid coordinates", string, str);
+		if (i == 2 && check_radius(m->shapes[*j], str[i], NULL))
+			parse_error(m, "Error: Sphere: Invalid diameter", string, str);
+		if (i == 3 && dovectorcolor(str[i], \
+			&m->shapes[*j]->material->color) == false)
+			parse_error(m, "Error: Sphere: Invalid color", string, str);
+		if (i == 4 && parse_bonus_specs(m, \
+			m->shapes[*j]->material, &str[i]) == 1)
 			return (1);
-		}
 		i++;
 	}
 	free_arr(str);
 	m->shapes[*j]->type = SPHERE;
-	m->shapes[*j]->r = diameter / 2;
 	return (0);
 }
 
-int	parse_plane(t_minirt *m, char *string, int *j)
+int	parse_plane(t_minirt *m, char *str, int *j)
 {
 	int		i;
-	char	**str;
+	char	**strs;
 
-	str = ft_split(string, ' ');
+	strs = ft_split_and_check(m, str, ' ', true);
 	i = 1;
-	if (arr_len(str) < 4 || arr_len(str) > 8)
-		return (printf("Error\nIssue Lies in Plane Arguments\n"), 1);
+	if (arr_len(strs) < 4 || arr_len(strs) > 8)
+		parse_error(m, "Error: Plane: Invalid number of arguments", str, strs);
 	m->shapes[*j] = alloc_shape(m);
-	while (str && str[i])
+	while (strs && strs[i])
 	{
-		if (i == 1 && dovector(str[i], &m->shapes[*j]->coords))
-			return (printf("Error\nIssue Lies in Plane Coordinates\n"), 1);
-		if (i == 2 && dovectororientation(str[i], &m->shapes[*j]->orientation))
-			return (printf("Error\nIssue Lies in Plane Orientation\n"), 1);
-		if (i == 3 && dovectorcolor(str[i], &m->shapes[*j]->material->color))
-			return (printf("Error\nIssue Lies in Plane Color\n"), 1);
-		if (i == 4 && parse_bonus_specs(m, m->shapes[*j]->material, &str[i]) == 1)
+		if (i == 1 && !dovector(strs[i], &m->shapes[*j]->coords, false))
+			parse_error(m, "Error: Plane: Invalid coordinates", str, strs);
+		if (i == 2 && !dovector(strs[i], &m->shapes[*j]->orientation, true))
+			parse_error(m, "Error: Plane: Invalid orientation", str, strs);
+		if (i == 3 && !dovectorcolor(strs[i], &m->shapes[*j]->material->color))
+			parse_error(m, "Error: Plane: Invalid color", str, strs);
+		if (i == 4 && parse_bonus_specs(m, m->shapes[*j]->material, &strs[i]))
 			return (1);
 		i++;
 	}
-	free_arr(str);
+	free_arr(strs);
 	m->shapes[*j]->type = PLANE;
 	m->object_count += 1;
 	*j += 1;
 	return (0);
 }
 
-int	parse_cylinder(t_minirt *m, char *string, int *j)
+int	parse_cylinder(t_minirt *m, char *str, int *j)
 {
 	int		i;
-	char	**str;
+	char	**strs;
 
-	str = ft_split(string, ' ');
+	strs = ft_split_and_check(m, str, ' ', true);
 	i = 0;
-	if (arr_len(str) < 6 || arr_len(str) > 10)
-		return (printf("Error\nIssue Lies in Cylinder Arguments\n"), 1);
+	if (arr_len(strs) < 6 || arr_len(strs) > 10)
+		parse_error(m, "Error: Cyl: Incorrect number of arguments", str, strs);
 	m->shapes[*j] = alloc_shape(m);
-	while (str && str[i++])
+	while (strs && strs[i++])
 	{
-		if (i == 1 && dovector(str[i], &m->shapes[*j]->coords))
-			return (printf("Error\nIssue Lies in Cylinder Coordinates\n"), 1);
-		if (i == 2 && dovectororientation(str[i], &m->shapes[*j]->orientation))
-			return (printf("Error\nIssue Lies in Cylinder Orientation\n"), 1);
-		if (i == 3 && check_radius(str[i], &m->shapes[*j]->r))
-			return (printf("Error\nIssue Lies in Cylinder Diameter\n"), 1);
-		if (i == 4 && check_radius(str[i], &m->shapes[*j]->h))
-			return (printf("Error\nIssue Lies in Cylinder Height\n"), 1);
-		if (i == 5 && dovectorcolor(str[i], &m->shapes[*j]->material->color))
-			return (printf("Error\nIssue Lies in Cylinder Color\n"), 1);
-		if (i == 6 && parse_bonus_specs(m, m->shapes[*j]->material, &str[i]) == 1)
+		if (i == 1 && !dovector(strs[i], &m->shapes[*j]->coords, false))
+			parse_error(m, "Error: Cyl: Invalid coordinates", str, strs);
+		if (i == 2 && !dovector(strs[i], &m->shapes[*j]->orientation, true))
+			parse_error(m, "Error: Cyl: Invalid orientation", str, strs);
+		if (i == 3 && printf("radius: %s\n", strs[i]) && check_radius(m->shapes[*j], strs[i], &m->shapes[*j]->r))
+			parse_error(m, "Error: Cyl: Invalid diameter", str, strs);
+		if (i == 4 && printf("radius: %s\n", strs[i]) && check_radius(m->shapes[*j], strs[i], &m->shapes[*j]->h))
+			parse_error(m, "Error: Cyl: Invalid height", str, strs);
+		if (i == 5 && !dovectorcolor(strs[i], &m->shapes[*j]->material->color))
+			parse_error(m, "Error: Cyl: Invalid color", str, strs);
+		if (i == 6 && parse_bonus_specs(m, m->shapes[*j]->material, &strs[i]))
 			return (1);
 	}
-	free_arr(str);
+	free_arr(strs);
 	return (0);
 }

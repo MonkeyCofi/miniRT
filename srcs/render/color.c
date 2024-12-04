@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/29 21:24:50 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/03 21:10:51 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int light_index)
 
 	s.new_point = (t_tuple){0};
 	s.new_point = subtract_tuples(&point, \
-	&minirt->lights[light_index]->position);
+		&minirt->lights[light_index]->position);
 	direction = return_tuple(s.new_point.x, \
 	s.new_point.y, s.new_point.z, VECTOR);
 	normalize(&direction);

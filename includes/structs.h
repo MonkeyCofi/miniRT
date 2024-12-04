@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/29 16:54:49 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/11/30 13:51:09 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -375,6 +375,7 @@ typedef struct s_minirt
 	double			pitch;
 	double			yaw;
 	double			delta_time;
+	int				line;
 	int				object_count;
 	int				light_count;
 }	t_minirt;

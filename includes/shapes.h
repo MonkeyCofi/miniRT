@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:57:12 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/29 16:15:34 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:02:51 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "structs.h"
 
-t_shape	*create_shape(t_shape_type type, void *shape_ptr);
+t_shape	*create_shape(t_minirt *m, t_shape_type type, void *shape_ptr);
 
 void	assign_normal_intersect_func(t_shape *shape, t_shape_type type);
 

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/28 21:20:38 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:41:07 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ double		str_to_double(char *str);
 
 int			is_double(char *str);
 
-void		free_arr(char *arr[]);
+int			free_arr(char *arr[]);
 
 t_tuple		lighting(t_inter_comp *intersection, t_light *light, \
 												t_bool in_shadow, t_minirt *m);
@@ -171,11 +171,11 @@ void		camera_movement(t_minirt *m);
 
 void		change_cammove(t_minirt *m);
 
-int			parse_light(t_minirt *minirt, char *string, int *j);
+//int			parse_light(t_minirt *minirt, char *string, int *j);
 
-int			parse_cone(t_minirt *m, char *string, int *j);
+//int			parse_cone(t_minirt *m, char *string, int *j);
 
-int			parse_ambient(t_minirt *minirt, char *string);
+//int			parse_ambient(t_minirt *minirt, char *string);
 
 int			parse_bonus_specs(t_minirt *m, t_mater *material, char **tokens);
 

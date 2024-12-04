@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 07:29:54 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/28 19:34:25 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:40:34 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	arr_len(char *arr[])
 	return (i);
 }
 
-void	free_arr(char *arr[])
+int	free_arr(char *arr[])
 {
 	int	i;
 
@@ -87,4 +87,5 @@ void	free_arr(char *arr[])
 			free(arr[i++]);
 		free(arr);
 	}
+	return (1);
 }

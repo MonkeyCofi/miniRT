@@ -6,64 +6,64 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:55:28 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/28 17:47:15 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:25:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	parse_ambient(t_minirt *minirt, char *string)
+int	parse_ambient(t_minirt *m, char *str)
 {
 	int		i;
-	char	**str;
+	char	**strs;
 
-	if (minirt->ambient->flag != 0)
-		return (printf("Error\nIssue Lies in Number of \
-					Ambient (Should Be 1)!\n"), 1);
+	if (m->ambient->flag != 0)
+		parse_error(m, "Error: Ambient: You can only have one", str, NULL);
 	else
-		minirt->ambient->flag = 1;
-	str = ft_split(string, ' ');
+		m->ambient->flag = 1;
+	strs = ft_split_and_check(m, str, ' ', true);
 	i = 1;
-	if (arr_len(str) != 3)
-		return (printf("Error\nIssue Lies in Ambient Arguments!\n"), 1);
-	while (string && string[i])
+	if (arr_len(strs) != 3)
+		parse_error(m, "Error: Ambient: Invalid number of arguments", \
+			str, strs);
+	while (str && str[i])
 	{
-		if (i == 1 && check_double(str[i], &minirt->ambient->ratio))
-			return (printf("Error\nIssue Lies in Ambient Ratio\n"), 1);
-		if (i == 2 && dovectorcolor(str[i], &minirt->ambient->color))
-			return (printf("Error\nIssue Lies in Ambient Color\n"), 1);
+		if (i == 1 && check_double(strs[i], &m->ambient->ratio, false))
+			parse_error(m, "Error: Ambient: Invalid ambient ratio", str, strs);
+		if (i == 2 && dovectorcolor(strs[i], &m->ambient->color) == false)
+			parse_error(m, "Error: Ambient: Invalid ambient color", str, strs);
 		i++;
 	}
-	free_arr(str);
-	scalar(&minirt->ambient->color, minirt->ambient->ratio);
+	free_arr(strs);
+	scalar(&m->ambient->color, m->ambient->ratio);
 	return (0);
 }
 
-int	parse_cone(t_minirt *m, char *string, int *j)
+int	parse_cone(t_minirt *m, char *str, int *j)
 {
 	int		i;
-	char	**str;
+	char	**strs;
 	double	height;
 
-	str = ft_split(string, ' ');
+	strs = ft_split_and_check(m, str, ' ', true);
 	i = 0;
-	if (arr_len(str) < 5 || arr_len(str) > 9)
-		return (printf("Error\nIssue Lies in Cone Arguments!\n"), 1);
+	if (arr_len(strs) < 5 || arr_len(strs) > 9)
+		parse_error(m, "Error: Cone: Invalid number of arguments", str, strs);
 	m->shapes[*j] = alloc_shape(m);
-	while (str && str[i++])
+	while (strs && strs[i++])
 	{
-		if (i == 1 && dovector(str[i], &m->shapes[*j]->coords))
-			return (printf("Error\nIssue Lies in Cone Coordinates\n"), 1);
-		if (i == 2 && dovectororientation(str[i], &m->shapes[*j]->orientation))
-			return (printf("Error\nIssue Lies in Cone Orientation\n"), 1);
-		if (i == 3 && check_radius(str[i], &height))
-			return (printf("Error\nIssue Lies in Cone Height\n"), 1);
-		if (i == 4 && dovectorcolor(str[i], &m->shapes[*j]->material->color))
-			return (printf("Error\nIssue Lies in Cone Color\n"), 1);
-		if (i == 5 && parse_bonus_specs(m, m->shapes[*j]->material, &str[i]) == 1)
+		if (i == 1 && !dovector(strs[i], &m->shapes[*j]->coords, false))
+			parse_error(m, "Error: Invalid cone coordinates", str, strs);
+		if (i == 2 && !dovector(strs[i], &m->shapes[*j]->orientation, true))
+			parse_error(m, "Error: Invalid cone orientation", str, strs);
+		if (i == 3 && check_radius(m->shapes[*j], strs[i], &height))
+			parse_error(m, "Error: Invalid cone height", str, strs);
+		if (i == 4 && !dovectorcolor(strs[i], &m->shapes[*j]->material->color))
+			parse_error(m, "Error: Invalid cone color", str, strs);
+		if (i == 5 && parse_bonus_specs(m, m->shapes[*j]->material, &strs[i]))
 			return (1);
 	}
-	free_arr(str);
+	free_arr(strs);
 	m->shapes[*j]->h = height;
 	return (0);
 }
@@ -78,28 +78,30 @@ int	check_doubleb(char *str, double *num)
 	return (0);
 }
 
-int	parse_light(t_minirt *minirt, char *string, int *j)
+int	parse_light(t_minirt *m, char *string, int *j)
 {
 	int		i;
 	char	**str;
 
-	str = ft_split(string, ' ');
+	str = ft_split_and_check(m, string, ' ', true);
 	i = 1;
 	if (arr_len(str) != 4)
-		return (printf("Error\nIssue Lies in Light Arguments!\n"), 1);
-	minirt->lights[*j] = ft_calloc(1, sizeof(t_light));
+		parse_error(m, "Error: Light: Invalid number of arguments", \
+			string, str);
+	m->lights[*j] = ft_calloc(1, sizeof(t_light));
 	while (str && str[i])
 	{
-		if (i == 1 && dovector(str[i], &minirt->lights[*j]->position))
-			return (printf("Error\nIssue Lies in Light Coords"), 1);
-		if (i == 2 && check_doubleb(str[i], &minirt->lights[*j]->brightness))
-			return (printf("Error\nIssue Lies in Light Brightness"), 1);
-		if (i == 3 && dovectorcolor(str[i], &minirt->lights[*j]->intensity))
-			return (printf("Error\nIssue Lies in Light Color"), 1);
+		if (i == 1 && !dovector(str[i], &m->lights[*j]->position, false))
+			parse_error(m, "Error: Light: Invalid coordinates", string, str);
+		if (i == 2 && check_double(str[i], &m->lights[*j]->brightness, true))
+			parse_error(m, "Error: Light: Invalid brightness ratio", \
+				string, str);
+		if (i == 3 && !dovectorcolor(str[i], &m->lights[*j]->intensity))
+			parse_error(m, "Error: Light: Invalid color", string, str);
 		i++;
 	}
 	free_arr(str);
-	minirt->light_count++;
+	m->light_count++;
 	*j += 1;
 	return (0);
 }
