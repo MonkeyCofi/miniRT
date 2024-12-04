@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:55:28 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/04 10:51:47 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/04 12:38:54 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,15 @@ int	check_height(t_shape *shape, char *str, double *num)
 	if (!num)
 	{
 		res = str_to_double(str);
-		if (res / 2 < 0 || res < 0)
+		if (res < 0 || res < 0)
 			return (1);	
-		shape->h = res / 2;
+		shape->h = res;
 		return (0);
 	}
 	*num = str_to_double(str);
-	if (*num / 2 < 0 || *num < 0)
+	if (*num < 0 || *num < 0)
 		return (1);
-	shape->h = (*num) / 2;
+	shape->h = (*num);
 	return (0);
 }
 
