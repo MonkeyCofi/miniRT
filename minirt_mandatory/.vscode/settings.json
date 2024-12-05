@@ -1,0 +1,19 @@
+{
+	"files.associations": {
+		"minirt.h": "c",
+		"shapes.h": "c",
+		"math.h": "c",
+		"libft.h": "c",
+		"structs.h": "c",
+		"vectors.h": "c",
+		"time.h": "c",
+		"init.h": "c",
+		"intersects.h": "c",
+		"__locale": "c",
+		"bitset": "c",
+		"locale": "c",
+		"sstream": "c",
+		"material.h": "c",
+		"type_traits": "c"
+	}
+}

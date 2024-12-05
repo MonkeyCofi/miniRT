@@ -1,0 +1,12 @@
+for sure:
+	- change all error messages to print "Error\n" first
+
+maybe:
+	split up the mandatory and bonus parts
+	requirements:
+		- remove cone
+		- remove parse bonus specs
+		- change lighting function and struct
+		- remove key hooks
+		- change to non-threaded render
+		- make it so that you can only have one light and that light cannot have colors

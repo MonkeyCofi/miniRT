@@ -1,0 +1,7 @@
+maybe:
+	split up the mandatory and bonus parts
+	requirements:
+		- remove parse bonus specs
+		- change lighting function and struct
+		- remove key hooks
+		- change to non-threaded render

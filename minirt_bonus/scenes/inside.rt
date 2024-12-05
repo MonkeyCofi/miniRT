@@ -1,0 +1,10 @@
+C 0,0,0		0.0,0.0,1.0	60
+A 0			255,0,255
+# L 0,0,-3	1	255,255,255
+L 0,0,0		1	255,255,255
+L 0,10,0	1	255,255,255
+
+sp	0,0,0	10	255,255,255 pattern=0,0,0 specular=default diffuse=default
+sp	-0.2,0,0	1	255,255,255 pattern=190,30,20 specular=default diffuse=default
+sp	1,0,0	1	255,255,255 pattern=0,0,0 specular=default diffuse=default
+pl	0,-1,0	0,1,0	255,255,255
