@@ -6,16 +6,11 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 17:42:45 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:22:46 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-//void	quick_sort_intersects(t_intersects *intersects)
-//{
-
-//}
 
 void	sort_intersects(t_intersects *intersects)
 {

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:47:27 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/09 16:41:32 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:01:27 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		parse_cone(t_minirt *minirt, char *string, int *j);
 int		parse_ambient(t_minirt *minirt, char *string);
 int		parse_light(t_minirt *minirt, char *string, int *j);
 int		parse_camera(t_minirt *minirt, char *string);
-t_bool	dovector(char *string, t_tuple *calc, t_bool should_norm);
+t_bool	dovector(t_minirt *m, char *string, t_tuple *calc, t_bool should_norm);
 t_bool	dovectorcolor(char *string, t_tuple *calc);
 int		isulong(char *str);
 int		check_ulong(char *str, double *num);

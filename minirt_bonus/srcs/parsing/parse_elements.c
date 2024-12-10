@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:55:28 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/09 17:44:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:14:25 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	parse_camera(t_minirt *minirt, char *string)
 		parse_error(minirt, CAM_ARG_ERR, str, 1);
 	while (str[i] && str[i++])
 	{
-		if (i == 1 && dovector(str[i], &minirt->from, false) == false)
+		if (i == 1 && dovector(minirt, str[i], &minirt->from, false) == false)
 			parse_error(minirt, CAM_COORD_ERR, str, 1);
-		if (i == 2 && dovector(str[i], &minirt->to, true) == false)
+		if (i == 2 && dovector(minirt, str[i], &minirt->to, true) == false)
 			parse_error(minirt, CAM_ORIENT_ERR, str, 1);
 		if (i == 3 && check_ulong(str[i], &minirt->cam->fov))
 			parse_error(minirt, "Error\nCamera: Invalid FOV", str, 1);
@@ -54,8 +54,10 @@ int	parse_ambient(t_minirt *m, char *str)
 		parse_error(m, "Ambient: Invalid number of arguments", strs, 1);
 	while (str && str[i])
 	{
-		if (i == 1 && check_double(strs[i], &m->ambient->ratio, false))
+		if (i == 1 && check_double(strs[i], &m->ambient->ratio, true))
+		{
 			parse_error(m, "Ambient: Invalid ambient ratio", strs, 1);
+		}
 		if (i == 2 && dovectorcolor(strs[i], &m->ambient->color) == false)
 			parse_error(m, "Ambient: Invalid ambient color", strs, 1);
 		i++;
@@ -77,7 +79,7 @@ int	parse_light(t_minirt *m, char *string, int *j)
 	m->lights[*j] = ft_calloc(1, sizeof(t_light));
 	while (str && str[i])
 	{
-		if (i == 1 && !dovector(str[i], &m->lights[*j]->position, false))
+		if (i == 1 && !dovector(m, str[i], &m->lights[*j]->position, false))
 			parse_error(m, "Light: Invalid coordinates", str, 1);
 		if (i == 2 && check_double(str[i], &m->lights[*j]->brightness, true))
 			parse_error(m, "Light: Invalid brightness ratio", str, 1);

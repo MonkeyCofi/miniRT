@@ -4,7 +4,7 @@ CC = cc
 
 INCLUDES = ./includes
 
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) -pthread #-Ofast -flto
+CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) -pthread -Ofast -flto
 # CFLAGS += -fsanitize=address -g3
 
 SRCSPATH	=	srcs
@@ -97,7 +97,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 ifeq ($(shell uname), Linux)
 MLXOS = minilibx-linux
-MLXFLAGS = -Lminilibx -lmlx -L/usr/lib -Iminilibx -lXext -lX11 -lm -lbsd
+MLXFLAGS = -Lminilibx-linux -lmlx -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm -lbsd
 MLXOBJ =  -Wall -Wextra -Werror -I/usr/include -Iminilibx-linux -O3 -c
 
 else
@@ -115,8 +115,8 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -g3 -c $< -o $@
-#	$(CC) $(CFLAGS) -c $< -o $@
+#	$(CC) $(CFLAGS) -g3 -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 run: re
 	./$(NAME)

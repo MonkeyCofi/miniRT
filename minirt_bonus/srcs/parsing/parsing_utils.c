@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 08:48:18 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/09 20:44:52 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:17:04 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,27 @@ t_bool	is_in_bounds(t_tuple *vector, t_bool for_color)
 	return (true);
 }
 
-t_bool	dovector(char *string, t_tuple *calc, t_bool should_norm)
+t_bool	dovector(t_minirt *m, char *string, t_tuple *calc, t_bool should_norm)
 {
 	char	**str;
 	int		i;
 
 	i = -1;
-	str = ft_split(string, ',');
+	str = ft_split_and_check(m, string, ',', 1);
 	while (str && str[++i])
 	{
 		if (!is_double(str[i]) && free_arr(str))
 			return (false);
 	}
 	if (arr_len(str) != 3 && free_arr(str))
-	{
-		printf("returning false\n");
 		return (false);
-	}
 	else
 	{
 		calc->x = str_to_double(str[0]);
 		calc->y = str_to_double(str[1]);
 		calc->z = str_to_double(str[2]);
 	}
-	if (should_norm == true && free_arr(str))
+	if (should_norm && free_arr(str) && check_magnitude(m, calc, string))
 	{
 		normalize(calc);
 		return (is_in_bounds(calc, false));

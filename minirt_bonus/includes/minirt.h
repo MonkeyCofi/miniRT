@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/09 22:10:51 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:33:51 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINIRT_H
 
 # include "../libft_notclone/libft.h"
-# include "../mlx/mlx.h"
 # include "vectors.h"
 # include "matrix.h"
 # include "camera.h"
@@ -56,12 +55,15 @@
 # define CAM_ARG_ERR "Error: Camera: Invalid number of arguments"
 # define CAM_COORD_ERR "Error: Camera: Invalid coordinates"
 # define CAM_ORIENT_ERR "Error: Camera: Invalid orientation"
+# define ERR_SPH_PARAM "Error\nInvalid sphere parameters\n"
+# define ERR_CYL_PARAM "Error\nInvalid cylinder parameters\n"
 //# define MAX_INTERSECTS 200
 
 # ifdef __APPLE__
 #  define APP 1
 // #  define HEIGHT 1080
 // #  define WIDTH 1920
+#  include "../mlx/mlx.h"
 #  define APPLE 1
 #  define HEIGHT 400
 #  define WIDTH 400
@@ -84,6 +86,7 @@
 #  define MINUS 27
 #  define ESC 53
 # else
+#  include "../minilibx-linux/mlx.h"
 #  define APPLE 0
 #  define HEIGHT 720
 #  define WIDTH 1080
@@ -160,7 +163,7 @@ void		camera_movement(t_minirt *m);
 
 void		change_cammove(t_minirt *m);
 
-int			parse_bonus_specs(t_minirt *m, t_mater *material, char **tokens, t_bool is_sphere);
+int			parse_bon_sp(t_minirt *m, t_shape *shape, char **tokens, t_bool is_sphere);
 
 int			resetcam(t_minirt *m);
 

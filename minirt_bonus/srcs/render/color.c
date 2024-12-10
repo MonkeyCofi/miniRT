@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:19:36 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 17:35:09 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:20:23 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int light_index)
 	t_ray			ray;
 	t_norm_color	s;
 
-	s.new_point = subtract_tuples(&point, &minirt->lights[light_index]->position);
+	s.new_point = subtract_tuples(&point, \
+		&minirt->lights[light_index]->position);
 	direction = return_vector(s.new_point.x, s.new_point.y, s.new_point.z);
 	normalize(&direction);
 	s.distance = magnitude(&s.new_point);

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:05 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/10 11:08:24 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:56:22 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,9 @@ int	fileopen(char *path, t_minirt *minirt)
 		close(minirt->file_fd);
 		parse_error(minirt, "Error\nInvalid rt file", NULL, 0);
 	}
-	if (getmap(minirt->file_fd, minirt, i, j) == 1)
-	{
+	getmap(minirt->file_fd, minirt, i, j);
+	if (minirt->file_fd != -1)
 		close(minirt->file_fd);
-		return (1);
-	}
-	close(minirt->file_fd);
 	return (0);
 }
 

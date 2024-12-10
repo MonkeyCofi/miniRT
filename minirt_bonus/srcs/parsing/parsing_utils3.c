@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:35:15 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/05 19:34:45 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:01:23 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_shape	*alloc_shape(t_minirt *m)
 	shape->material = create_default_material(m);
 	if (!shape->material)
 		return (NULL);
+	m->object_count++;
 	return (shape);
 }
 

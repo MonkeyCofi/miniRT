@@ -6,11 +6,12 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 18:38:30 by pipolint          #+#    #+#             */
-/*   Updated: 2023/11/10 19:36:58 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:49:43 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 static int	is_set(char *set, int c)
 {
@@ -31,9 +32,11 @@ static int	get_malloc_size(char *s, char *set)
 
 	i = 0;
 	end = ft_strlen(s);
-	while (is_set((char *)set, s[i]) && s[i])
+	while (s[i] && is_set(set, s[i]))
 		i++;
-	while (is_set((char *)set, s[end - 1]))
+	if (i == end)
+		return (0);
+	while (is_set(set, s[end - 1]))
 		end--;
 	mal_size = end - i;
 	if (mal_size < 0)
@@ -51,6 +54,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (!s1 || !set)
 		return (NULL);
 	mal_size = get_malloc_size((char *)s1, (char *)set);
+	if (mal_size == 0)
+		return (ft_strdup(""));
 	new_str = malloc(sizeof(char) * (mal_size + 1));
 	if (!new_str)
 		return (NULL);

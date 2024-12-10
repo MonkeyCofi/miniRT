@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:27:27 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 11:30:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:04:00 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	write_and_return(t_minirt *m, char *str, int return_num)
 	return (return_num);
 }
 
-void	write_error(t_minirt *m, char *error_line, char *line_number, int should_exit)
+void	write_error(t_minirt *m, char *error_line, \
+	char *line_number, int should_exit)
 {
 	write_check(m, "Error\n");
 	write_check(m, error_line);
@@ -40,15 +41,13 @@ void	write_error(t_minirt *m, char *error_line, char *line_number, int should_ex
 		free_minirt(m, EXIT_FAILURE);
 }
 
-// should print the error message alongside the line and the line number
-void	parse_error(t_minirt *m, char *err, char **parse_arr, int print_line_num)
+void	parse_error(t_minirt *m, char *err, \
+	char **parse_arr, int print_line_num)
 {
 	char	*line_no;
 
 	free_arr(parse_arr);
 	line_no = NULL;
-	//if (m->file_fd != -1)
-	//	close(m->file_fd);
 	if (print_line_num)
 	{
 		line_no = ft_itoa(m->line);

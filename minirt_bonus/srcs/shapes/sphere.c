@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 13:22:55 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:03:29 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	init_sphere(t_minirt *m, int *i)
 			10, &parsed->material->pattern);
 	m->shapes[*i]->transform = identity();
 	m->shapes[*i]->coords = parsed->coords;
-	//transform_shape(m->shapes[*i], translate, 0);
 	translate_shape(m->shapes[*i]);
 	free(parsed);
 	*i += 1;

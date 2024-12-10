@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 10:44:31 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:07:54 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,30 @@ void	init_mlx(t_minirt *m)
 	m->mlx->img.img_width = WIDTH;
 }
 
+int	trim_line_and_comp(char **line, int *lights, int *shapes)
+{
+	*line = trimline(*line);
+	if (!(*line))
+		return (1);
+	if (!ft_strncmp(*line, "#", 1))
+	{
+		free(*line);
+		return (1);
+	}
+	if (!ft_strncmp(*line, "cy ", 3) || !ft_strncmp(*line, "co ", 3) || \
+		!ft_strncmp(*line, "sp ", 3) || !ft_strncmp(*line, "pl ", 3))
+		(*shapes)++;
+	else if (!ft_strncmp(*line, "L ", 2))
+		(*lights)++;
+	free(*line);
+	return (0);
+}
+
 void	count_shapes_lights(char *file, int *lights, int *shapes)
 {
 	int		fd;
 	char	*line;
-	
+
 	*lights = 0;
 	*shapes = 0;
 	fd = open(file, O_RDONLY);
@@ -72,18 +91,8 @@ void	count_shapes_lights(char *file, int *lights, int *shapes)
 			free(line);
 			continue ;
 		}
-		line = trimline(line);
-		if (!ft_strncmp(line, "#", 1))
-		{
-			free(line);
+		if (trim_line_and_comp(&line, lights, shapes) == 1)
 			continue ;
-		}
-		if (!ft_strncmp(line, "cy", 2) || !ft_strncmp(line, "co", 2) || !ft_strncmp(line, "sp", 2)
-			|| !ft_strncmp(line, "pl", 2))
-			(*shapes)++;
-		if (!ft_strncmp(line, "L", 1))
-			(*lights)++;
-		free(line);
 	}
 	close(fd);
 }
@@ -103,6 +112,7 @@ t_minirt	*init_minirt(char *file)
 	m->lights = calloc_and_check(sizeof(t_light *), lights, m, LGT_ERR);
 	m->up = return_tuple(0, 1, 0, VECTOR);
 	m->ambient->flag = 0;
+	m->line = 0;
 	m->ambient->ratio = 0;
 	m->cam->flag = 0;
 	m->file_fd = -1;

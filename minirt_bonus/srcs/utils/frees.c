@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:03:24 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 11:30:03 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:13:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	free_minirt(t_minirt *m, int exit_code)
 {
 	if (m)
 	{
-		//printf("object %d lights %d\n", m->object_count, m->light_count);
 		if (m->ambient)
 			free(m->ambient);
 		if (m->shapes)
@@ -69,7 +68,8 @@ void	free_shapes(t_minirt *minirt)
 	i = -1;
 	while (++i < minirt->object_count)
 	{
-		free(minirt->shapes[i]->shape);
+		if (minirt->shapes[i]->shape)
+			free(minirt->shapes[i]->shape);
 		if (minirt->shapes[i]->material)
 		{
 			if (minirt->shapes[i]->material->texture)

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/09 21:12:34 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:08:46 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,13 +288,6 @@ typedef struct s_cone
 	t_shape_type	type;
 }	t_cone;
 
-//typedef struct s_pixel
-//{
-//	unsigned char	r;
-//	unsigned char	g;
-//	unsigned char	b;
-//}	t_pixel;
-
 typedef struct s_inter_comp
 {
 	t_intersects	*intersects;
@@ -360,16 +353,6 @@ typedef struct s_minirt
 	int				object_count;
 	int				light_count;
 }	t_minirt;
-
-typedef struct s_transform
-{
-	t_trans	transformations[5];
-	t_tuple	scaling;
-	t_tuple	translation;
-	double	rotation_x;
-	double	rotation_y;
-	double	rotation_z;
-}	t_transform;
 
 typedef struct s_lighting
 {
