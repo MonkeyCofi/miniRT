@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/09 15:06:54 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:01:31 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define EPSILON 0.00001f
 //# define MAX_INTERSECTS 200
 
+# define STRJOIN_ERR "strjoin: Couldn't allocate memory for string"
 # ifdef __APPLE__
 #  define APP 1
 // #  define HEIGHT 1080

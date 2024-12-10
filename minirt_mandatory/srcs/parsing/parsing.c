@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/09 15:00:26 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:02:54 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ static inline int	parse_elements(char *str, t_minirt *m)
 	line = NULL;
 	if (ft_strncmp(str, "A ", 2) == 0)
 		return (parse_ambient(m, str));
-	if (ft_strncmp(str, "C ", 2) == 0)
+	else if (ft_strncmp(str, "C ", 2) == 0)
 		return (parse_camera(m, str));
-	if (ft_strncmp(str, "L ", 2) == 0)
+	else if (ft_strncmp(str, "L ", 2) == 0)
 		return (parse_light(m, str));
+	else if (ft_strncmp(str, "", 1) == 0)
+		return (0);
 	else
 	{
 		line = ft_itoa(m->line);
@@ -59,8 +61,7 @@ static inline int	parse_elements(char *str, t_minirt *m)
 				NULL, 1);
 		tmp = ft_strjoin("Invalid element: ", str);
 		if (!tmp)
-			parse_error(m, "strjoin: Couldn't allocate memory for string", \
-				NULL, 1);
+			parse_error(m, STRJOIN_ERR, NULL, 1);
 		write_error(m, tmp, line, 0);
 		free(tmp);
 		return (1);
@@ -112,7 +113,6 @@ int	getmap(int fd, t_minirt *minirt, int i)
 	char	*line;
 
 	ret = 0;
-	minirt->line = 0;
 	while (ret != 1)
 	{
 		line = get_next_line(fd);
@@ -129,7 +129,8 @@ int	getmap(int fd, t_minirt *minirt, int i)
 			ret = 1;
 		free(line);
 	}
-	close(fd);
+	if (ret == 1)
+		free_minirt(minirt, EXIT_FAILURE);
 	if (!ret && (invalidfile(minirt) != 1))
 		parse_error(minirt, "Missing elements", NULL, 0);
 	return (ret);

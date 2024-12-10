@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:01:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 19:19:44 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:03:52 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	init_sphere(t_minirt *m, int *i)
 	m->shapes[*i]->material = parsed->material;
 	m->shapes[*i]->transform = identity();
 	m->shapes[*i]->coords = parsed->coords;
-	//transform_shape(m->shapes[*i], translate, 0);
 	translate_shape(m->shapes[*i]);
+	free(parsed);
 	*i += 1;
 }

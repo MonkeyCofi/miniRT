@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 08:48:18 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/09 19:40:35 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:46:35 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,8 @@ t_bool	dovectorcolor(char *string, t_tuple *calc)
 {
 	char	**str;
 	int		i;
-	int		ret;
 
 	i = -1;
-	ret = 0;
 	str = ft_split(string, ',');
 	while (str && str[++i])
 	{

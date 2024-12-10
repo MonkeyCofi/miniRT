@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 20:07:30 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:51:57 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,15 @@ static void	valid_dimensions(void)
 {
 	if (HEIGHT <= 0)
 	{
-		if (write(2, "Height cannot be lesser than or equal to zero!\n", 47) == -1)
+		if (write(2, \
+		"Height cannot be lesser than or equal to zero!\n", 47) == -1)
 			exit(EXIT_FAILURE);
 		exit(EXIT_FAILURE);
 	}
 	if (WIDTH <= 0)
 	{
-		if (write(2, "Width cannot be lesser than or equal to zero!\n", 46) == -1)
+		if (write(2, \
+		"Width cannot be lesser than or equal to zero!\n", 46) == -1)
 			exit(EXIT_FAILURE);
 		exit(EXIT_FAILURE);
 	}
@@ -67,7 +69,7 @@ int	main(int ac, char **av)
 		m = init_minirt(av[1]);
 		init_mlx(m);
 		if (fileopen(av[1], m) == 1)
-			free_minirt(m, 1);
+			return (1);
 		if (m->object_count > 0)
 			m = parse_objects(m);
 		m->cam = return_camera_ptr(WIDTH, HEIGHT, deg_rad(m->cam->fov));
