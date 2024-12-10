@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 17:08:46 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:36:39 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,20 +384,6 @@ typedef struct s_disc
 	int		shape_index;
 	void	*shape;
 }	t_disc;
-
-typedef struct s_thing
-{
-	t_tuple	coords;
-	int		i;
-}	t_thing;
-
-typedef struct s_norm_thread
-{
-	int	i;
-	int	j;
-	int	height;
-	int	width;
-}	t_norm_thread;
 
 typedef struct s_cam_specs
 {

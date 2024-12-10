@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:31:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/26 10:51:48 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 17:34:50 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	set_threadhw(t_norm_thread *s)
+void	set_threadhw(t_thread *s)
 {
 	s->height = HEIGHT / THREAD_NUM;
 	s->width = WIDTH;
@@ -24,24 +24,23 @@ void	*render_part(void *thread)
 	t_ray			ray;
 	t_tuple			c;
 	t_tuple			color;
-	t_norm_thread	s;
 
 	thr = thread;
-	set_threadhw(&s);
-	thr->start_y = s.height * thr->id;
-	thr->end_y = (thr->start_y + s.height);
+	set_threadhw(thr);
+	thr->start_y = thr->height * thr->id;
+	thr->end_y = (thr->start_y + thr->height);
 	thr->start_x = 0;
-	thr->end_x = s.width;
-	s.i = thr->start_y - 1;
-	while (++s.i < thr->end_y)
+	thr->end_x = thr->width;
+	thr->i = thr->start_y - 1;
+	while (++thr->i < thr->end_y)
 	{
-		s.j = thr->start_x - 1;
-		while (++s.j < thr->end_x)
+		thr->j = thr->start_x - 1;
+		while (++thr->j < thr->end_x)
 		{
-			ray = ray_per_pixel(thr->camera, s.j, s.i);
+			ray = ray_per_pixel(thr->camera, thr->j, thr->i);
 			color = color_at(thr->minirt, &ray);
 			return_color(color.x, color.y, color.z, &c);
-			draw_pixel(thr->mlx, s.j, s.i, get_ray_color(&c));
+			draw_pixel(thr->mlx, thr->j, thr->i, get_ray_color(&c));
 		}
 	}
 	return (NULL);

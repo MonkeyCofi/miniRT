@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:31:22 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 10:22:22 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 17:32:34 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,17 @@ typedef struct s_thread
 {
 	t_minirt		*minirt;
 	t_camera		*camera;
+	t_bool			ready;
 	t_mlx			*mlx;
 	int				id;
 	int				start_x;
 	int				end_x;
 	int				start_y;
 	int				end_y;
-	t_bool			ready;
+	int				i;
+	int				j;
+	int				height;
+	int				width;
 }	t_thread;
 
 # define THREAD_NUM 16
