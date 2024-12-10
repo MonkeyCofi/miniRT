@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:35:15 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/05 19:58:49 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:00:34 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,16 @@ char	*trimline(char *str)
 	str = ft_strtrim(temp, " ");
 	free(temp);
 	return (str);
+}
+
+int	check_magnitude(t_minirt *m, t_tuple *vector, char *line)
+{
+	if (is_equal(magnitude(vector), 1) == false)
+	{
+		write_check(m, "Line: ");
+		write_check(m, line);
+		write_check(m, " is not normalized\n");
+		write_check(m, "Normalizing vector\n");
+	}
+	return (1);
 }

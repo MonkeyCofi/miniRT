@@ -6,22 +6,11 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 07:29:54 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/02 17:40:34 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:07:00 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-void	write_err(char *err, char need_newline)
-{
-	if (write(2, err, ft_strlen(err)) == -1)
-		return ;
-	if (need_newline != '\0')
-	{
-		if (write(2, "\n", 1) == -1)
-			return ;
-	}
-}
 
 double	str_to_double(char *str)
 {

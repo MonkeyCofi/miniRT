@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/05 20:23:43 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:00:26 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	parse_camera(t_minirt *minirt, char *string)
 		parse_error(minirt, CAM_ARG_ERR, str, 1);
 	while (str[i] && str[i++])
 	{
-		if (i == 1 && dovector(str[i], &minirt->from, false) == false)
+		if (i == 1 && !dovector(minirt, str[i], &minirt->from, false))
 			parse_error(minirt, CAM_COORD_ERR, str, 1);
-		if (i == 2 && dovector(str[i], &minirt->to, true) == false)
+		if (i == 2 && !dovector(minirt, str[i], &minirt->to, true))
 			parse_error(minirt, CAM_ORIENT_ERR, str, 1);
 		if (i == 3 && check_ulong(str[i], &minirt->cam->fov))
 			parse_error(minirt, "Camera: Invalid FOV", str, 1);
@@ -55,10 +55,12 @@ static inline int	parse_elements(char *str, t_minirt *m)
 	{
 		line = ft_itoa(m->line);
 		if (!line)
-			parse_error(m, "itoa: Couldn't allocate memory for string", NULL, 1);
+			parse_error(m, "itoa: Couldn't allocate memory for string", \
+				NULL, 1);
 		tmp = ft_strjoin("Invalid element: ", str);
 		if (!tmp)
-			parse_error(m, "strjoin: Couldn't allocate memory for string", NULL, 1);
+			parse_error(m, "strjoin: Couldn't allocate memory for string", \
+				NULL, 1);
 		write_error(m, tmp, line, 0);
 		free(tmp);
 		return (1);
@@ -129,6 +131,6 @@ int	getmap(int fd, t_minirt *minirt, int i)
 	}
 	close(fd);
 	if (!ret && (invalidfile(minirt) != 1))
-		parse_error(minirt, "Missing elements", NULL, 1);
+		parse_error(minirt, "Missing elements", NULL, 0);
 	return (ret);
 }

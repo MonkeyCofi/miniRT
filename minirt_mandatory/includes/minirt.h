@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 20:22:11 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:06:54 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "camera.h"
 # include "structs.h"
 # include "transformations.h"
+# include "errors.h"
 # include "sphere.h"
 # include "intersects.h"
 # include "color.h"
@@ -37,23 +38,6 @@
 
 # define PI 3.1415926535897932385
 # define EPSILON 0.00001f
-# define MRT_ERR \
-"Error! Malloc failed while trying to create main minirt struct\n"
-# define SPH_ERR "Error! Malloc failed while trying to create a sphere\n"
-# define PL_ERR "Error! Malloc failed while trying to create a plane\n"
-# define SHP_ERR "Error! Malloc failed while trying to create a shape\n"
-# define CYL_ERR "Error! Malloc failed while trying to create a cylinder\n"
-# define CON_ERR "Error! Malloc failed while trying to create a cone\n"
-# define CAM_ERR "Error! Malloc failed while trying to create a camera\n"
-# define SHP_ERR "Error! Malloc failed while trying to create a shape\n"
-# define AMB_ERR "Error! Malloc failed while trying to create an ambient\n"
-# define LGT_ERR "Error! Malloc failed while trying to create a light\n"
-# define MLX_ERR "Error! Malloc failed while trying to create mlx\n"
-# define IMG_ERR "Error! Malloc failed while trying to create an image\n"
-# define CAM_AMT_ERR "Error: Camera: You can only have one camera"
-# define CAM_ARG_ERR "Error: Camera: Invalid number of arguments"
-# define CAM_COORD_ERR "Error: Camera: Invalid coordinates"
-# define CAM_ORIENT_ERR "Error: Camera: Invalid orientation"
 //# define MAX_INTERSECTS 200
 
 # ifdef __APPLE__
@@ -137,8 +121,6 @@ t_mater		*create_default_material(t_minirt *m);
 int			closert(t_minirt *m);
 
 void		write_error(t_minirt *m, char *error_line, char *line_number, int should_exit);
-
-void		write_err(char *err, char need_newline);
 
 void		write_check(t_minirt *m, char *str);
 

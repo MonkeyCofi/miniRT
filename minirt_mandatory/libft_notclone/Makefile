@@ -1,7 +1,10 @@
 NAME	= 	libft.a
 
-# printf
-PRINTF	=   ft_printf/libftprintf.a
+# printf_dir
+PRINTF_DIR = ft_printf
+
+# printf archive file
+PRINTF	=   $(PRINTF_DIR)/libftprintf.a
 
 # get_next_line
 GNL_DIR =	get_next_line/
@@ -44,7 +47,9 @@ re: fclean all
 
 clean:
 	@echo "\033[91mWhy are you using wildcards?????? \033[0m"
-	rm -f *.o */*.o
+	make -C $(PRINTF_DIR) clean
+	rm -rf $(OBJS)
+	rm -rf $(GNL_OBJ)
 
 fclean: clean
 	rm -f $(NAME)

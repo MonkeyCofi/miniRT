@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_shapes2.c                                    :+:      :+:    :+:   */
+/*   parse_elements.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:55:28 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/05 20:07:46 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:49:19 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	parse_light(t_minirt *m, char *string)
 		parse_error(m, "Light: Invalid number of arguments", str, 1);
 	while (str && str[i])
 	{
-		if (i == 1 && !dovector(str[i], &m->light->position, false))
+		if (i == 1 && !dovector(m, str[i], &m->light->position, false))
 			parse_error(m, "Light: Invalid coordinates", str, 1);
 		if (i == 2 && check_double(str[i], &m->light->brightness, true))
 			parse_error(m, "Light: Invalid brightness ratio", str, 1);

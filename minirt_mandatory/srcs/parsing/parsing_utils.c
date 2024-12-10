@@ -6,14 +6,24 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 08:48:18 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/05 19:58:39 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:40:35 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_bool	is_in_bounds(t_tuple *vector)
+t_bool	is_in_bounds(t_tuple *vector, t_bool for_color)
 {
+	if (for_color)
+	{
+		if (vector->x > 1 || vector->x < 0)
+			return (false);
+		if (vector->y > 1 || vector->y < 0)
+			return (false);
+		if (vector->z > 1 || vector->z < 0)
+			return (false);
+		return (true);
+	}
 	if (vector->x > 1 || vector->x < -1)
 		return (false);
 	if (vector->y > 1 || vector->y < -1)
@@ -23,7 +33,7 @@ t_bool	is_in_bounds(t_tuple *vector)
 	return (true);
 }
 
-t_bool	dovector(char *string, t_tuple *calc, t_bool should_norm)
+t_bool	dovector(t_minirt *m, char *string, t_tuple *vec, t_bool should_norm)
 {
 	char	**str;
 	int		i;
@@ -39,14 +49,14 @@ t_bool	dovector(char *string, t_tuple *calc, t_bool should_norm)
 		return (false);
 	else
 	{
-		calc->x = str_to_double(str[0]);
-		calc->y = str_to_double(str[1]);
-		calc->z = str_to_double(str[2]);
+		vec->x = str_to_double(str[0]);
+		vec->y = str_to_double(str[1]);
+		vec->z = str_to_double(str[2]);
 	}
-	if (should_norm == true && free_arr(str))
+	if (should_norm == true && check_magnitude(m, vec, string) && free_arr(str))
 	{
-		normalize(calc);
-		return (is_in_bounds(calc));
+		normalize(vec);
+		return (is_in_bounds(vec, false));
 	}
 	free_arr(str);
 	return (true);
@@ -62,18 +72,20 @@ t_bool	dovectorcolor(char *string, t_tuple *calc)
 	ret = 0;
 	str = ft_split(string, ',');
 	while (str && str[++i])
-		if (!is_double(str[i]))
-			ret = 1;
-	if (arr_len(str) != 3)
-		ret = 1;
-	else if (ret != 1)
 	{
-		calc->x = str_to_double(str[0]) / 255.0;
-		calc->y = str_to_double(str[1]) / 255.0;
-		calc->z = str_to_double(str[2]) / 255.0;
+		if (!is_double(str[i]))
+		{
+			free_arr(str);
+			return (false);
+		}
 	}
+	if (arr_len(str) != 3 && free_arr(str))
+		return (false);
+	calc->x = str_to_double(str[0]) / 255.0;
+	calc->y = str_to_double(str[1]) / 255.0;
+	calc->z = str_to_double(str[2]) / 255.0;
 	free_arr(str);
-	return (is_in_bounds(calc));
+	return (is_in_bounds(calc, true));
 }
 
 int	check_ulong(char *str, double *num)

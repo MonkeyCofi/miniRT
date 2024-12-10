@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 20:12:10 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:06:44 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ char	**ft_split_and_check(t_minirt *m, char *str, char delim, \
 	if (arr == NULL)
 	{
 		if (should_exit)
-			parse_error(m, "Error: ft_split: couldn't split string", \
+			parse_error(m, "Error\nft_split: couldn't split string", \
 				NULL, 1);
 		else
 		{
-			write_err("Error: ft_split: couldn't split string", '\n');
+			write_check(m, "Error\nft_spit: Couldn't split string\n");
 			return (NULL);
 		}
 	}
@@ -38,8 +38,7 @@ void	init_mlx(t_minirt *m)
 	m->mlx->mlx = mlx_init();
 	if (!m->mlx->mlx)
 	{
-		write_err("Couldn't initialize mlx", '\n');
-		free_minirt(m, 1);
+		parse_error(m, "Couldn't initialize mlx", NULL, 0);
 	}
 	m->mlx->win = mlx_new_window(m->mlx->mlx, WIDTH, HEIGHT, "miniRT");
 	if (!m->mlx->win)

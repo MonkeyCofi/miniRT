@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:27:27 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 20:32:20 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:05:53 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,5 @@ void	parse_error(t_minirt *m, char *err, char **parse_arr, int print_line_num)
 		}
 	}
 	write_error(m, err, line_no, 1);
+	free_minirt(m, 1);
 }
