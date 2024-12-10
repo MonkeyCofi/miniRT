@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 14:45:52 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 16:03:44 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,9 @@ static t_tuple	get_diffuse_specular(t_inter_comp *inter, t_lighting *vars, \
 		vars->reflect_vector = get_reflected_ray(&vars->vec_to_light, \
 			&inter->normal_vec);
 	}
-	return (return_colorf(vars->diffuse.x  + vars->ambient.x, vars->diffuse.y  + vars->ambient.y, vars->diffuse.z + vars->ambient.z));
+	return (return_colorf(vars->diffuse.x + \
+	vars->ambient.x, vars->diffuse.y + vars->ambient.y, vars->diffuse.z \
+	+ vars->ambient.z));
 }
 
 t_tuple	lighting(t_inter_comp *intersection, t_light *light, \

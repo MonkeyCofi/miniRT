@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 15:49:10 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 15:51:57 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,15 @@ static void	valid_dimensions(void)
 {
 	if (HEIGHT <= 0)
 	{
-		if (write(2, "Height cannot be lesser than or equal to zero!\n", 47) == -1)
+		if (write(2, \
+		"Height cannot be lesser than or equal to zero!\n", 47) == -1)
 			exit(EXIT_FAILURE);
 		exit(EXIT_FAILURE);
 	}
 	if (WIDTH <= 0)
 	{
-		if (write(2, "Width cannot be lesser than or equal to zero!\n", 46) == -1)
+		if (write(2, \
+		"Width cannot be lesser than or equal to zero!\n", 46) == -1)
 			exit(EXIT_FAILURE);
 		exit(EXIT_FAILURE);
 	}
@@ -73,7 +75,7 @@ int	main(int ac, char **av)
 		m->cam = return_camera_ptr(WIDTH, HEIGHT, deg_rad(m->cam->fov));
 		m->cam->trans = m->from;
 		m->forward = m->to;
-		m->cam->view_matrix = view_transform_test(&m->left, &m->up,
+		m->cam->view_matrix = view_transform_test(&m->left, &m->up, \
 		&m->cam->trans, &m->forward);
 		m->original_from = return_point(m->from.x, m->from.y, m->from.z);
 		m->original_to = return_point(m->to.x, m->to.y, m->to.z);

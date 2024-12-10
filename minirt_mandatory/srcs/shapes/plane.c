@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:40:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 19:19:29 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:52:36 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	init_plane(t_minirt *m, int *i)
 	m->shapes[*i] = create_shape(m, PLANE, plane);
 	m->shapes[*i]->material = parsed->material;
 	m->shapes[*i]->coords = parsed->coords;
-	//transform_shape(m->shapes[*i], translate, 0);
 	translate_shape(m->shapes[*i]);
 	rot = get_axis_angle(&parsed->orientation);
 	m->shapes[*i]->transform = mat4d_mult_fast_static(\

@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:45:40 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/10 15:30:58 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 16:00:08 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ int	parse_plane(t_minirt *m, char *str, int *j)
 	char	**spl;
 
 	spl = ft_split_and_check(m, str, ' ', true);
-	i = 1;
+	i = 0;
 	if (arr_len(spl) != 4)
 	{
 		free(str);
 		parse_error(m, "Plane: Invalid number of arguments", spl, 1);
 	}
 	m->shapes[*j] = alloc_shape(m);
-	while (spl && spl[i])
+	while (spl && spl[i++])
 	{
 		if (i == 1 && !dovector(m, spl[i], &m->shapes[*j]->coords, false))
 			parse_error(m, "Plane: Invalid coordinates", spl, 1);
@@ -62,7 +62,6 @@ int	parse_plane(t_minirt *m, char *str, int *j)
 			parse_error(m, "Plane: Invalid orientation", spl, 1);
 		if (i == 3 && !dovectorcolor(spl[i], &m->shapes[*j]->material->color))
 			parse_error(m, "Plane: Invalid color", spl, 1);
-		i++;
 	}
 	free_arr(spl);
 	m->shapes[*j]->type = PLANE;
@@ -97,6 +96,5 @@ int	parse_cylinder(t_minirt *m, char *str, int *j)
 		if (i == 5 && !dovectorcolor(spl[i], &m->shapes[*j]->material->color))
 			parse_error(m, "Cylinder: Invalid color", spl, 1);
 	}
-	free_arr(spl);
-	return (0);
+	return (free_arr(spl), 0);
 }

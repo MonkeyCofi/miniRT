@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:03:24 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 15:19:40 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 16:04:38 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_minirt(t_minirt *m, int exit_code)
 			free(m->mlx);
 		if (m->cam)
 			free(m->cam);
-		if(m->file_fd != -1)
+		if (m->file_fd != -1)
 			close(m->file_fd);
 		free(m);
 		exit(exit_code);
@@ -62,14 +62,9 @@ void	free_shapes(t_minirt *minirt)
 	while (++i < minirt->object_count)
 	{
 		free(minirt->shapes[i]->shape);
-		if(minirt->shapes[i]->material)
+		if (minirt->shapes[i]->material)
 			free(minirt->shapes[i]->material);
 		free(minirt->shapes[i]);
 	}
 	free(minirt->shapes);
 }
-// put this up
-// i = -1;
-// while (++i < minirt->light_count)
-// 	free(minirt->lights[i]);
-// free(minirt->lights);

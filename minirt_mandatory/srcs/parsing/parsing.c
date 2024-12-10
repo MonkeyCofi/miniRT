@@ -6,7 +6,7 @@
 /*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/10 15:46:57 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 16:02:54 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ static inline int	parse_elements(char *str, t_minirt *m)
 				NULL, 1);
 		tmp = ft_strjoin("Invalid element: ", str);
 		if (!tmp)
-			parse_error(m, "strjoin: Couldn't allocate memory for string", \
-				NULL, 1);
+			parse_error(m, STRJOIN_ERR, NULL, 1);
 		write_error(m, tmp, line, 0);
 		free(tmp);
 		return (1);
@@ -114,7 +113,6 @@ int	getmap(int fd, t_minirt *minirt, int i)
 	char	*line;
 
 	ret = 0;
-	minirt->line = 0;
 	while (ret != 1)
 	{
 		line = get_next_line(fd);
@@ -133,7 +131,6 @@ int	getmap(int fd, t_minirt *minirt, int i)
 	}
 	if (ret == 1)
 		free_minirt(minirt, EXIT_FAILURE);
-	close(fd);
 	if (!ret && (invalidfile(minirt) != 1))
 		parse_error(minirt, "Missing elements", NULL, 0);
 	return (ret);
