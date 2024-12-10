@@ -87,7 +87,7 @@ LIBFT_DIR = libft_notclone
 LIBFT = $(LIBFT_DIR)/libft.a
 
 ifeq ($(shell uname), Linux)
-MLXOS = minilibx-linux
+MLXOS = ./minilibx-linux
 MLXFLAGS = -Lminilibx-linux -lmlx -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm
 MLXOBJ =  -Wall -Wextra -Werror -I/usr/include -Iminilibx-linux -O3 -c
 
@@ -102,8 +102,8 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	make -C $(MLXOS) -j2
 	make -C $(LIBFT_DIR) -j2
-	$(CC) $(OBJS) -fsanitize=address $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
-#	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+#	$(CC) $(OBJS) -fsanitize=address $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -g3 -c $< -o $@

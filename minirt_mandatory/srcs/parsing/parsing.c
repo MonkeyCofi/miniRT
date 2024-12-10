@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/09 15:00:26 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:46:57 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ static inline int	parse_elements(char *str, t_minirt *m)
 	line = NULL;
 	if (ft_strncmp(str, "A ", 2) == 0)
 		return (parse_ambient(m, str));
-	if (ft_strncmp(str, "C ", 2) == 0)
+	else if (ft_strncmp(str, "C ", 2) == 0)
 		return (parse_camera(m, str));
-	if (ft_strncmp(str, "L ", 2) == 0)
+	else if (ft_strncmp(str, "L ", 2) == 0)
 		return (parse_light(m, str));
+	else if (ft_strncmp(str, "", 1) == 0)
+		return (0);
 	else
 	{
 		line = ft_itoa(m->line);
@@ -129,6 +131,8 @@ int	getmap(int fd, t_minirt *minirt, int i)
 			ret = 1;
 		free(line);
 	}
+	if (ret == 1)
+		free_minirt(minirt, EXIT_FAILURE);
 	close(fd);
 	if (!ret && (invalidfile(minirt) != 1))
 		parse_error(minirt, "Missing elements", NULL, 0);

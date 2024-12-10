@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:05 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/05 20:03:30 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:24:22 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,25 @@
 
 int	fileopen(char *path, t_minirt *minirt)
 {
-	int	fd;
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
+	minirt->file_fd = open(path, O_RDONLY);
+	if (minirt->file_fd == -1)
 	{
 		write_check(minirt, "Error\nCouldn't open rt file\n");
-		return (close(fd), 1);
+		return (1);
 	}
 	if (!rt_file(path))
 	{
 		write_check(minirt, "Error\nIncorrect file format\n");
-		return (close(fd), 1);
+		return (close(minirt->file_fd), 1);
 	}
-	if (getmap(fd, minirt, i) == 1)
+	if (getmap(minirt->file_fd, minirt, i) == 1)
 	{
-		close(fd);
+		close(minirt->file_fd);
 		return (1);
 	}
-	close(fd);
+	close(minirt->file_fd);
 	return (0);
 }

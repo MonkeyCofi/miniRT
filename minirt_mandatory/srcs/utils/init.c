@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/09 15:06:44 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:28:13 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,17 @@ void	init_mlx(t_minirt *m)
 	m->mlx->img.img_width = WIDTH;
 }
 
-static int	count_shapes(char *file)
+static int	count_shapes(t_minirt *m, char *file)
 {
 	int		fd;
 	char	*line;
 	int		shapes;
 
 	fd = open(file, O_RDONLY);
-	if (!fd)
+	if (fd == -1)
 	{
 		write_check(NULL, "Error\nCouldn't open rt file\n");
-		exit(EXIT_FAILURE);
+		free_minirt(m, EXIT_FAILURE);
 	}
 	shapes = 0;
 	while (1)
@@ -97,7 +97,7 @@ t_minirt	*init_minirt(char *file)
 	m = calloc_and_check(sizeof(t_minirt), 1, NULL, MRT_ERR);
 	m->cam = calloc_and_check(sizeof(t_camera), 1, m, CAM_ERR);
 	m->cam->trans = return_point(0, 0, 0);
-	m->shapes = calloc_and_check(sizeof(t_shape *), count_shapes(file), m, SHP_ERR);
+	m->shapes = calloc_and_check(sizeof(t_shape *), count_shapes(m, file), m, SHP_ERR);
 	m->ambient = calloc_and_check(sizeof(t_ambient), 1, m, AMB_ERR);
 	m->light = calloc_and_check(sizeof(t_light), 1 , m, LGT_ERR);
 	m->up = return_tuple(0, 1, 0, VECTOR);
@@ -105,5 +105,6 @@ t_minirt	*init_minirt(char *file)
 	m->ambient->ratio = 0;
 	m->cam->flag = 0;
 	m->object_count = 0;
+	m->file_fd = -1;
 	return (m);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:03:24 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 20:22:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:19:40 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	free_minirt(t_minirt *m, int exit_code)
 			free(m->mlx);
 		if (m->cam)
 			free(m->cam);
+		if(m->file_fd != -1)
+			close(m->file_fd);
 		free(m);
 		exit(exit_code);
-		//exit(EXIT_FAILURE);
 	}
 	exit(exit_code);
-	//exit(EXIT_FAILURE);
 }
 
 void	*calloc_and_check(size_t memb_size, size_t nmemb, t_minirt *m,
@@ -62,6 +62,8 @@ void	free_shapes(t_minirt *minirt)
 	while (++i < minirt->object_count)
 	{
 		free(minirt->shapes[i]->shape);
+		if(minirt->shapes[i]->material)
+			free(minirt->shapes[i]->material);
 		free(minirt->shapes[i]);
 	}
 	free(minirt->shapes);

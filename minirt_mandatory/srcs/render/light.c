@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 16:28:16 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:45:52 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 //		min_y = ((t_cone *)(inter->obj->shape))->minimum;
 //		max_y = ((t_cone *)(inter->obj->shape))->maximum;
 //	}
-//	obj_point = tuple_mult_fast(&inter->obj->inverse_mat, \
+//	obj_point = tuple_mult_fast(&inter->obj->inverse_mat,
 //		&inter->point_adjusted);
 //	y_value = obj_point.y;
 //	if (fabs(y_value - min_y) < EPSILON || fabs(y_value - max_y) < EPSILON)
@@ -48,7 +48,7 @@
 //	else if (inter->type == SPHERE)
 //	{
 //		if (vars->material->is_patterned)
-//			vars->color = checkerboard_sphere(vars->material->pattern, \
+//			vars->color = checkerboard_sphere(vars->material->pattern,
 //				inter);
 //		else
 //			vars->color = vars->material->color;
@@ -58,7 +58,7 @@
 //		object_point = tuple_mult_fast(&inter->obj->inverse_mat, &inter->point);
 //		normal = inter->obj->normal(inter->obj->shape, object_point);
 //		normalize(&normal);
-//		vars->color = checkerboard(vars->material->pattern, \
+//		vars->color = checkerboard(vars->material->pattern,
 //			object_point, normal);
 //	}
 //}

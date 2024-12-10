@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   err.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:27:27 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/09 15:05:53 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:29:32 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	write_error(t_minirt *m, char *error_line, char *line_number, int should_ex
 		free(line_number);
 	}
 	if (should_exit)
-		exit(EXIT_FAILURE);
+		free_minirt(m, EXIT_FAILURE);
 }
 
 void	write_two_errs(t_minirt *m, char *str1, int need_newline, char *str2)
@@ -61,5 +61,4 @@ void	parse_error(t_minirt *m, char *err, char **parse_arr, int print_line_num)
 		}
 	}
 	write_error(m, err, line_no, 1);
-	free_minirt(m, 1);
 }

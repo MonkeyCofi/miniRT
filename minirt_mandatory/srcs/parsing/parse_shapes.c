@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_shapes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:45:40 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/09 14:52:39 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:30:58 by ahaarij          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ int	parse_sphere(t_minirt *m, char *string, int *j)
 	str = ft_split_and_check(m, string, ' ', true);
 	i = 1;
 	if (arr_len(str) != 4)
+	{
+		free(string);
 		parse_error(m, "Sphere: Invalid number of arguments", str, 1);
+	}
 	m->shapes[*j] = alloc_shape(m);
 	while (str && str[i])
 	{
@@ -46,7 +49,10 @@ int	parse_plane(t_minirt *m, char *str, int *j)
 	spl = ft_split_and_check(m, str, ' ', true);
 	i = 1;
 	if (arr_len(spl) != 4)
+	{
+		free(str);
 		parse_error(m, "Plane: Invalid number of arguments", spl, 1);
+	}
 	m->shapes[*j] = alloc_shape(m);
 	while (spl && spl[i])
 	{
@@ -73,7 +79,10 @@ int	parse_cylinder(t_minirt *m, char *str, int *j)
 	spl = ft_split_and_check(m, str, ' ', true);
 	i = 0;
 	if (arr_len(spl) != 6)
+	{
+		free(str);
 		parse_error(m, "Cylinder: Incorrect number of arguments", spl, 1);
+	}
 	m->shapes[*j] = alloc_shape(m);
 	while (spl && spl[i++])
 	{
