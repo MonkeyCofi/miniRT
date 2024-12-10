@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:27:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 20:45:50 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:18:03 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ t_mater	*create_default_material(t_minirt *m)
 
 	return_material = calloc_and_check(sizeof(t_mater), 1, m, "Error: Material: \
 		Cannot allocate memory for material");
-	//return_material = ft_calloc(1, sizeof(t_mater));
-	//if (!return_material)
-	//	return (NULL);
 	return_material->ambient = 0.01;
 	return_material->diffuse = 0.9;
 	return_material->specular = 0;

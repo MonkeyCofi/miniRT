@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 13:11:40 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/09 21:12:34 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,6 +352,7 @@ typedef struct s_minirt
 	t_tuple			original_from;
 	t_tuple			original_to;
 	t_tuple			original_up;
+	int				file_fd;
 	double			pitch;
 	double			yaw;
 	double			delta_time;

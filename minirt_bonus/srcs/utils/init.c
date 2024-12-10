@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 13:16:45 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 10:44:31 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ char	**ft_split_and_check(t_minirt *m, char *str, char delim, \
 	if (arr == NULL)
 	{
 		if (should_exit)
-			parse_error(m, "Error: ft_split: couldn't split string", \
-				NULL, NULL);
+			parse_error(m, "ft_split: couldn't split string", NULL, 0);
 		else
 		{
-			write_err("Error: ft_split: couldn't split string", '\n');
+			write_check(m, "Error\nft_split: couldn't split string");
 			return (NULL);
 		}
 	}
@@ -37,16 +36,13 @@ void	init_mlx(t_minirt *m)
 	m->mlx = calloc_and_check(sizeof(t_mlx), 1, m, MLX_ERR);
 	m->mlx->mlx = mlx_init();
 	if (!m->mlx->mlx)
-	{
-		write_err("Couldn't initialize mlx", '\n');
-		free_minirt(m);
-	}
+		parse_error(m, "Couldn't initialize mlx", NULL, 0);
 	m->mlx->win = mlx_new_window(m->mlx->mlx, WIDTH, HEIGHT, "miniRT");
 	if (!m->mlx->win)
-		free_minirt(m);
+		free_minirt(m, EXIT_FAILURE);
 	m->mlx->img.img = mlx_new_image(m->mlx->mlx, WIDTH, HEIGHT);
 	if (!(m->mlx->img.img))
-		free_minirt(m);
+		free_minirt(m, EXIT_FAILURE);
 	m->mlx->img.img_addr = mlx_get_data_addr(m->mlx->img.img, &m->mlx->img.bpp, \
 	&m->mlx->img.line_length, &m->mlx->img.endian);
 	m->mlx->img.img_height = HEIGHT;
@@ -109,7 +105,6 @@ t_minirt	*init_minirt(char *file)
 	m->ambient->flag = 0;
 	m->ambient->ratio = 0;
 	m->cam->flag = 0;
-	m->object_count = 0;
-	m->light_count = 0;
+	m->file_fd = -1;
 	return (m);
 }

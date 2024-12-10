@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:42:00 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/27 09:19:56 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/09 17:34:48 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ int	resetcam(t_minirt *m)
 
 int	closert(t_minirt *m)
 {
-	printf("freeing things\n");
-	free_things(m);
-	(void)m;
-	exit(0);
+	free_minirt(m, EXIT_SUCCESS);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:05 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/04 19:55:30 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:08:24 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,28 @@
 
 int	fileopen(char *path, t_minirt *minirt)
 {
-	int	fd;
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
+	minirt->file_fd = open(path, O_RDONLY);
+	if (minirt->file_fd == -1)
 	{
-		printf("Error\nFailed to open file!\n");
-		return (close(fd), 1);
+		close(minirt->file_fd);
+		parse_error(minirt, "Error\nCouldn't open rt file", NULL, 0);
 	}
 	if (!rt_file(path))
 	{
-		printf("Error\nNot a rt file!\n");
-		return (close(fd), 1);
+		close(minirt->file_fd);
+		parse_error(minirt, "Error\nInvalid rt file", NULL, 0);
 	}
-	if (getmap(fd, minirt, i, j) == 1)
+	if (getmap(minirt->file_fd, minirt, i, j) == 1)
 	{
-		close(fd);
+		close(minirt->file_fd);
 		return (1);
 	}
-	close(fd);
+	close(minirt->file_fd);
 	return (0);
 }
 
@@ -46,7 +45,7 @@ static void	test_file(t_minirt *m, char *filename)
 
 	file_fd = open(filename, O_RDONLY);
 	if (file_fd == -1)
-		parse_error(m, "Error: Failed to open texture file", NULL, NULL);
+		parse_error(m, "Failed to open texture file", NULL, 1);
 	close(file_fd);
 }
 
@@ -60,17 +59,14 @@ t_bool	open_image(t_minirt *m, t_mater *material, char *filename)
 		&img->img_height);
 	if (!img->img)
 	{
-		write_err("Error: Img: ", 0);
-		write_err(IMG_ERR, 0);
-		write_err("Error string: ", 0);
+		write_check(m, "Error\nFailed to convert xpm to image\n");
 		return (error);
 	}
 	img->img_addr = mlx_get_data_addr(img->img, &img->bpp, \
 		&img->line_length, &img->endian);
 	if (!img->img_addr)
 	{
-		write_err("Error: Image: Could not fetch texture data", '\n');
-		write_err("Error string: ", 0);
+		write_check(m, "Error\nFailed to fetch image data");
 		return (error);
 	}
 	return (true);

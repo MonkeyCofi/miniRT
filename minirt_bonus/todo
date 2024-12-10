@@ -5,3 +5,7 @@ maybe:
 		- change lighting function and struct
 		- remove key hooks
 		- change to non-threaded render
+
+leaks:
+	when sphere has invalid bonus keyword
+	when sphere has invalid color

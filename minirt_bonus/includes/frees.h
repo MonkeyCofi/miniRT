@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 09:27:56 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/27 09:27:57 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/09 15:10:07 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 void	free_shapes(t_minirt *minirt);
 void	free_things(t_minirt *minirt);
-void	free_minirt(t_minirt *m);
+void	free_minirt(t_minirt *m, int exit_code);
 void	*calloc_and_check(size_t memb_size, size_t nmemb, t_minirt *m, char *s);
 
 #endif

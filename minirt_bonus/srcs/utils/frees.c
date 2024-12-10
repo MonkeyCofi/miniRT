@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:03:24 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 20:47:02 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:30:03 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,17 @@ void	free_lights(t_minirt *m)
 
 	i = -1;
 	while (++i < m->light_count)
+	{
 		free(m->lights[i]);
+	}
 	free(m->lights);
 }
 
-void	free_minirt(t_minirt *m)
+void	free_minirt(t_minirt *m, int exit_code)
 {
 	if (m)
 	{
+		//printf("object %d lights %d\n", m->object_count, m->light_count);
 		if (m->ambient)
 			free(m->ambient);
 		if (m->shapes)
@@ -36,10 +39,12 @@ void	free_minirt(t_minirt *m)
 			free(m->mlx);
 		if (m->cam)
 			free(m->cam);
+		if (m->file_fd != -1)
+			close(m->file_fd);
 		free(m);
-		exit(EXIT_FAILURE);
+		exit(exit_code);
 	}
-	exit(EXIT_FAILURE);
+	exit(exit_code);
 }
 
 void	*calloc_and_check(size_t memb_size, size_t nmemb, t_minirt *m,
@@ -51,8 +56,8 @@ void	*calloc_and_check(size_t memb_size, size_t nmemb, t_minirt *m,
 	if (ptr == NULL)
 	{
 		if (write(2, err_msg, ft_strlen(err_msg)) == -1)
-			free_minirt(m);
-		free_minirt(m);
+			free_minirt(m, EXIT_FAILURE);
+		free_minirt(m, EXIT_FAILURE);
 	}
 	return (ptr);
 }
@@ -74,16 +79,4 @@ void	free_shapes(t_minirt *minirt)
 		free(minirt->shapes[i]);
 	}
 	free(minirt->shapes);
-}
-// put this up
-// i = -1;
-// while (++i < minirt->light_count)
-// 	free(minirt->lights[i]);
-// free(minirt->lights);
-
-void	free_things(t_minirt *minirt)
-{
-	free_shapes(minirt);
-	free(minirt->mlx);
-	free(minirt);
 }

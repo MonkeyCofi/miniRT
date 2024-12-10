@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 21:39:45 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/09 22:10:51 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,12 @@ int			parse_bonus_specs(t_minirt *m, t_mater *material, char **tokens, t_bool is
 
 int			resetcam(t_minirt *m);
 
+int			check_magnitude(t_minirt *m, t_tuple *vector, char *line);
+
 void		write_err(char *err, char need_newline);
 
 void		write_check(t_minirt *m, char *str);
+
+int			write_and_return(t_minirt *m, char *str, int return_num);
 
 #endif

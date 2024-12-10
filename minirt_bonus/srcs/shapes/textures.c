@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 19:29:29 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 19:29:36 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:32:41 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ int	*get_uv_sphere(t_inter_comp *inter, double *phi, double *theta)
 	*phi = atan2(point.z, point.x);
 	*theta = acos(point.y / sphere->radius);
 	mat = inter->material;
-	tex_uv = ft_calloc(sizeof(int), 2);
-	if (!tex_uv)
-		free_minirt(inter->m);
+	tex_uv = calloc_and_check(2, sizeof(int), inter->m, \
+		"Error\nFailed to allocate memory\n");
 	tex_uv[0] = ((int)(((-(*phi) + PI) / (2.0 * PI)) * \
 		mat->texture->img_width) % mat->texture->img_width);
 	tex_uv[1] = ((int)((*theta / PI) * \
