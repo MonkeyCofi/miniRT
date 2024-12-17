@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:03:24 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 15:13:44 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:36:39 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,11 @@ void	free_shapes(t_minirt *minirt)
 		free(minirt->shapes[i]);
 	}
 	free(minirt->shapes);
+}
+
+int	free_str(char *str)
+{
+	if (str)
+		free(str);
+	return (1);
 }

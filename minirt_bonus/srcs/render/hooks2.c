@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:40:33 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/27 09:03:58 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 18:52:17 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@ void	change_camrot(t_minirt *m, t_4dmat rot)
 	normalize(&m->up);
 	m->up = cross_product(&m->forward, &m->left);
 	normalize(&m->forward);
-	m->cam->view_matrix = view_transform_test(\
-	&m->left, &m->up, \
-	&m->cam->trans, &m->forward);
+	m->cam->view_matrix = view_transform(&m->left, &m->up, \
+		&m->cam->trans, &m->forward);
 	normalize(&m->forward);
 	normalize(&m->up);
 	normalize(&m->left);

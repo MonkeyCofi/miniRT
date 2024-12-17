@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 09:38:57 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/04 21:48:31 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:01:56 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ t_bool	set_inverse_transpose(t_shape *shape, t_4dmat *transform_mat)
 	t_4dmat	old_inverse;
 
 	old_inverse = shape->inverse_mat;
-	if (inverse_mat_test(transform_mat, &shape->inverse_mat) == error)
+	if (inverse_mat(transform_mat, &shape->inverse_mat) == error)
 		return (error);
-	shape->inverse_mat = mat4d_mult_fast_static(&shape->inverse_mat, \
+	shape->inverse_mat = mat4d_mult(&shape->inverse_mat, \
 	&old_inverse);
 	shape->inverse_transpose = transpose(&shape->inverse_mat);
 	return (true);
@@ -59,7 +59,7 @@ t_bool	transform_shape(t_shape *s, t_trans type, double angle)
 	rotation = identity();
 	translation = identity();
 	if (type == none)
-		return (inverse_mat_test(&s->transform, \
+		return (inverse_mat(&s->transform, \
 		&s->inverse_mat));
 	if (type == translate)
 		translation = translation_mat(s->coords.x, s->coords.y, s->coords.z);
@@ -67,9 +67,9 @@ t_bool	transform_shape(t_shape *s, t_trans type, double angle)
 		scaling = scaling_mat(s->coords.x, s->coords.y, s->coords.z);
 	else
 		check_rotation(&rotation, angle, type);
-	resultant = mat4d_mult_fast_static(&translation, &scaling);
-	resultant = mat4d_mult_fast_static(&resultant, &rotation);
-	s->transform = mat4d_mult_fast_static(\
+	resultant = mat4d_mult(&translation, &scaling);
+	resultant = mat4d_mult(&resultant, &rotation);
+	s->transform = mat4d_mult(\
 	&s->transform, &resultant);
 	if (set_inverse_transpose(s, &s->transform) == error)
 		return (error);
@@ -82,7 +82,7 @@ t_bool	translate_shape(t_shape *s)
 	t_4dmat	resultant;
 
 	translation = translation_mat(s->coords.x, s->coords.y, s->coords.z);
-	resultant = mat4d_mult_fast_static(&s->transform, &translation);
+	resultant = mat4d_mult(&s->transform, &translation);
 	s->transform = resultant;
 	if (set_inverse_transpose(s, &s->transform) == error)
 		return (error);

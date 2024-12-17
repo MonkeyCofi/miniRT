@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:06:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 21:19:27 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 18:55:36 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	init_cone(t_minirt *m, int *i)
 	m->shapes[*i]->coords = parsed->coords;
 	translate_shape(m->shapes[*i]);
 	rot = get_axis_angle(&parsed->orientation);
-	m->shapes[*i]->transform = mat4d_mult_fast_static \
+	m->shapes[*i]->transform = mat4d_mult \
 		(&m->shapes[*i]->transform, &rot);
 	set_inverse_transpose(m->shapes[*i], &m->shapes[*i]->transform);
 	free(parsed);

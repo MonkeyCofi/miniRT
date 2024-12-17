@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 16:01:31 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 21:17:30 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "../libft_notclone/libft.h"
+# include "../libft/libft.h"
 # include "../mlx/mlx.h"
 # include "vectors.h"
 # include "matrix.h"
@@ -121,7 +121,8 @@ t_mater		*create_default_material(t_minirt *m);
 
 int			closert(t_minirt *m);
 
-void		write_error(t_minirt *m, char *error_line, char *line_number, int should_exit);
+void		write_error(t_minirt *m, char *error_line, \
+char *line_number, int should_exit);
 
 void		write_check(t_minirt *m, char *str);
 

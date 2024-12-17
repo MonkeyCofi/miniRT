@@ -14,6 +14,8 @@
 		"locale": "c",
 		"sstream": "c",
 		"material.h": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"iosfwd": "c",
+		"iterator": "c"
 	}
 }

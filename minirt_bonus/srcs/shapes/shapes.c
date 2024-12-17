@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 13:17:33 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 19:32:23 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:01:56 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_shape	*create_shape(t_minirt *m, t_shape_type type, void *shape_ptr)
 
 	shape = calloc_and_check(sizeof(t_shape), 1, m, SHP_ERR);
 	shape->transform = identity();
-	inverse_mat_test(&shape->transform, &shape->inverse_mat);
+	inverse_mat(&shape->transform, &shape->inverse_mat);
 	shape->inverse_transpose = transpose(&shape->inverse_mat);
 	shape->type = type;
 	shape->shape = shape_ptr;

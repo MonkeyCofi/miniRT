@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:35:15 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/09 15:00:34 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:25:01 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_shape	*alloc_shape(t_minirt *m)
 	shape->material = create_default_material(m);
 	if (!shape->material)
 		return (NULL);
+	m->object_count++;
 	return (shape);
 }
 
@@ -42,6 +43,8 @@ char	*trimline(char *str)
 
 int	check_magnitude(t_minirt *m, t_tuple *vector, char *line)
 {
+	if (is_equal(magnitude(vector), 0))
+		return (0);
 	if (is_equal(magnitude(vector), 1) == false)
 	{
 		write_check(m, "Line: ");

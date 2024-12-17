@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_ops4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:35:27 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/25 16:36:33 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 18:59:59 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-t_tuple	*tuple_mult(t_4dmat *mat, t_tuple *tuple)
-{
-	t_tuple	*resultant;
-	double	res[4];
-	int		i;
-
-	i = -1;
-	while (++i < 4)
-	{
-		res[i] = mat->matrix[i][0] * tuple->x + \
-				mat->matrix[i][1] * tuple->y + \
-				mat->matrix[i][2] * tuple->z + \
-				mat->matrix[i][3] * tuple->w;
-	}
-	resultant = ft_calloc(1, sizeof(t_tuple));
-	resultant->x = res[0];
-	resultant->y = res[1];
-	resultant->z = res[2];
-	resultant->w = res[3];
-	return (resultant);
-}
 
 t_4dmat	identity(void)
 {

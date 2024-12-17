@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:03:24 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 16:04:38 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 19:31:24 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,11 @@ void	free_shapes(t_minirt *minirt)
 		free(minirt->shapes[i]);
 	}
 	free(minirt->shapes);
+}
+
+int	free_str(char *str)
+{
+	if (str)
+		free(str);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:40:13 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 21:44:35 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 18:53:13 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ void	change_cammove(t_minirt *m)
 	normalize(&m->forward);
 	normalize(&m->up);
 	normalize(&m->left);
-	m->cam->view_matrix = view_transform_test(\
-	&m->left, &m->up, \
-	&m->cam->trans, &m->forward);
+	m->cam->view_matrix = view_transform(&m->left, &m->up, \
+		&m->cam->trans, &m->forward);
 }
 
 t_bool	handle_w_s(t_minirt *m, t_tuple scaled_forward)

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:31:46 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 17:34:50 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:01:56 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	threaded_render(t_mlx *mlx, t_minirt *minirt)
 
 	i = -1;
 	ft_bzero(&thr, sizeof(t_thread));
-	if (inverse_mat_test(&minirt->cam->view_matrix, &minirt->cam->inverse) \
+	if (inverse_mat(&minirt->cam->view_matrix, &minirt->cam->inverse) \
 	== false)
 		return (-1);
 	while (++i < THREAD_NUM)

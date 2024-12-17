@@ -3,76 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_ops.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:03:16 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/25 16:36:05 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 19:07:57 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_2dmat	*mat2d_mult(t_2dmat *mat_one, t_2dmat *mat_two)
-{
-	double	res[2][2];
-	int		i;
-	int		j;
-
-	i = -1;
-	while (++i < 2)
-	{
-		j = -1;
-		while (++j < 2)
-		{
-			res[i][j] = mat_one->matrix[i][0] * mat_two->matrix[0][j] + \
-						mat_one->matrix[i][1] * mat_two->matrix[1][j];
-		}
-	}
-	return (create_2dmat(res));
-}
-
-t_3dmat	*mat3d_mult(t_3dmat *mat_one, t_3dmat *mat_two)
-{
-	double	res[3][3];
-	int		i;
-	int		j;
-
-	i = -1;
-	while (++i < 3)
-	{
-		j = -1;
-		while (++j < 3)
-		{
-			res[i][j] = mat_one->matrix[i][0] * mat_two->matrix[0][j] + \
-						mat_one->matrix[i][1] * mat_two->matrix[1][j] + \
-						mat_one->matrix[i][2] * mat_two->matrix[2][j];
-		}
-	}
-	return (create_3dmat(res));
-}
-
-t_4dmat	*mat4d_mult(t_4dmat *mat_one, t_4dmat *mat_two)
-{
-	double	res[4][4];
-	int		i;
-	int		j;
-
-	i = -1;
-	while (++i < 4)
-	{
-		j = -1;
-		while (++j < 4)
-		{
-			res[i][j] = mat_one->matrix[i][0] * mat_two->matrix[0][j] + \
-						mat_one->matrix[i][1] * mat_two->matrix[1][j] + \
-						mat_one->matrix[i][2] * mat_two->matrix[2][j] + \
-						mat_one->matrix[i][3] * mat_two->matrix[3][j];
-		}
-	}
-	return (create_4dmat(res));
-}
-
-t_4dmat	*mat4d_mult_fast_static2(t_4dmat *o, t_4dmat *t, t_4dmat *r)
+static inline t_4dmat	*mat4d_mult2(t_4dmat *o, t_4dmat *t, t_4dmat *r)
 {
 	r->m31 = (o->m31 * t->m11) + (o->m32 * t->m21) + (o->m33 * t->m31) + \
 	(o->m34 * t->m41);
@@ -93,7 +33,7 @@ t_4dmat	*mat4d_mult_fast_static2(t_4dmat *o, t_4dmat *t, t_4dmat *r)
 	return (r);
 }
 
-t_4dmat	mat4d_mult_fast_static(t_4dmat *o, t_4dmat *t)
+t_4dmat	mat4d_mult(t_4dmat *o, t_4dmat *t)
 {
 	t_4dmat	r;
 
@@ -114,6 +54,6 @@ t_4dmat	mat4d_mult_fast_static(t_4dmat *o, t_4dmat *t)
 	(o->m24 * t->m43);
 	r.m24 = (o->m21 * t->m14) + (o->m22 * t->m24) + (o->m23 * t->m34) + \
 	(o->m24 * t->m44);
-	mat4d_mult_fast_static2(o, t, &r);
+	mat4d_mult2(o, t, &r);
 	return (r);
 }

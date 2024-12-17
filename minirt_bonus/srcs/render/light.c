@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:18:08 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 17:17:34 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:00:03 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	cylinder_cone_pattern(t_inter_comp *inter, t_lighting *light)
 		min_y = ((t_cone *)(inter->obj->shape))->minimum;
 		max_y = ((t_cone *)(inter->obj->shape))->maximum;
 	}
-	obj_point = tuple_mult_fast(&inter->obj->inverse_mat, \
+	obj_point = tuple_mult(&inter->obj->inverse_mat, \
 		&inter->point_adjusted);
 	y_value = obj_point.y;
 	if (fabs(y_value - min_y) < EPSILON || fabs(y_value - max_y) < EPSILON)
@@ -55,7 +55,7 @@ static void	check_shape_pattern(t_inter_comp *inter, t_lighting *vars)
 	}
 	else
 	{
-		object_point = tuple_mult_fast(&inter->obj->inverse_mat, &inter->point);
+		object_point = tuple_mult(&inter->obj->inverse_mat, &inter->point);
 		normal = inter->obj->normal(inter->obj->shape, object_point);
 		normalize(&normal);
 		vars->color = checkerboard(vars->material->pattern, \

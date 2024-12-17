@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 19:29:29 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/09 17:32:41 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:00:03 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_tuple	normal_from_sample(t_inter_comp *intersection)
 
 	tangent_normal = texture_sphere(intersection, &phi, &theta);
 	matrix = construct_tbn(intersection, &phi, &theta);
-	res = tuple_mult_fast(&matrix, &tangent_normal);
+	res = tuple_mult(&matrix, &tangent_normal);
 	normalize(&res);
 	return (res);
 }

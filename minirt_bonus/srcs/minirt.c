@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 10:27:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 17:02:52 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 20:49:56 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_minirt	*parse_objects(t_minirt *m)
 	int	i;
 
 	i = 0;
-	printf("object count %d\n", m->object_count);
 	while (i < m->object_count)
 	{
 		if (m->shapes[i]->type == SPHERE)
@@ -73,8 +72,8 @@ int	main(int ac, char **av)
 		m->cam = return_camera_ptr(WIDTH, HEIGHT, deg_rad(m->cam->fov));
 		m->cam->trans = m->from;
 		m->forward = m->to;
-		m->cam->view_matrix = view_transform_test(&m->left, &m->up, \
-		&m->cam->trans, &m->forward);
+		m->cam->view_matrix = view_transform(&m->left, &m->up, \
+			&m->cam->trans, &m->forward);
 		m->original_from = return_point(m->from.x, m->from.y, m->from.z);
 		m->original_to = return_point(m->to.x, m->to.y, m->to.z);
 		m->original_up = return_vector(m->up.x, m->up.y, m->up.z);

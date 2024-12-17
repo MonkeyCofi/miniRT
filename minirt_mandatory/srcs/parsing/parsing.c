@@ -3,39 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:23:17 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/10 16:02:54 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 21:13:04 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	parse_camera(t_minirt *minirt, char *string)
+int	parse_camera(t_minirt *minirt, char *str)
 {
-	char	**str;
+	char	**strs;
 	int		i;
 
 	i = 0;
-	if (minirt->cam->flag != 0)
+	if (minirt->cam->flag != 0 && free_str(str))
 		parse_error(minirt, CAM_AMT_ERR, NULL, 1);
-	else
-		minirt->cam->flag = 1;
-	str = ft_split(string, ' ');
-	if (arr_len(str) != 4)
-		parse_error(minirt, CAM_ARG_ERR, str, 1);
-	while (str[i] && str[i++])
+	minirt->cam->flag = 1;
+	strs = ft_split(str, ' ');
+	if (arr_len(strs) != 4 && free_str(str))
+		parse_error(minirt, CAM_ARG_ERR, strs, 1);
+	while (strs[i] && strs[i++])
 	{
-		if (i == 1 && !dovector(minirt, str[i], &minirt->from, false))
-			parse_error(minirt, CAM_COORD_ERR, str, 1);
-		if (i == 2 && !dovector(minirt, str[i], &minirt->to, true))
-			parse_error(minirt, CAM_ORIENT_ERR, str, 1);
-		if (i == 3 && check_ulong(str[i], &minirt->cam->fov))
-			parse_error(minirt, "Camera: Invalid FOV", str, 1);
+		if (i == 1 && !dovector(minirt, strs[i], &minirt->from, false) \
+			&& free_str(str))
+			parse_error(minirt, CAM_COORD_ERR, strs, 1);
+		if (i == 2 && !dovector(minirt, strs[i], &minirt->to, true) \
+			&& free_str(str))
+			parse_error(minirt, CAM_ORIENT_ERR, strs, 1);
+		if (i == 3 && check_ulong(strs[i], &minirt->cam->fov) \
+			&& free_str(str))
+			parse_error(minirt, "Camera: Invalid FOV", strs, 1);
 		minirt->from.w = POINT;
 	}
-	free_arr(str);
+	free_arr(strs);
 	return (0);
 }
 
@@ -70,11 +72,10 @@ static inline int	parse_elements(char *str, t_minirt *m)
 
 static inline int	parsing_sphere(char *str, t_minirt *m, int *i)
 {
-	if (ft_strncmp(str, "sp", 2) == 0)
+	if (ft_strncmp(str, "sp ", 3) == 0)
 	{
 		if (parse_sphere(m, str, i) == 0)
 		{
-			m->object_count++;
 			*i += 1;
 			return (0);
 		}
@@ -95,7 +96,6 @@ int	parsing(char *str, t_minirt *minirt, int *i)
 		if (parse_cylinder(minirt, str, i) == 0)
 		{
 			minirt->shapes[*i]->type = CYLINDER;
-			minirt->object_count += 1;
 			*i += 1;
 			return (0);
 		}

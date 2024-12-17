@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_ops5.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:36:10 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/25 16:36:30 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 19:06:54 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_4dmat	mat4d_cross(t_4dmat *a, t_4dmat *b)
 	return (result);
 }
 
-t_tuple	tuple_mult_fast(t_4dmat *mat, t_tuple *tuple)
+t_tuple	tuple_mult(t_4dmat *mat, t_tuple *tuple)
 {
 	t_tuple	resultant;
 

@@ -6,12 +6,11 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 18:38:30 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 14:49:43 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 21:09:45 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static int	is_set(char *set, int c)
 {

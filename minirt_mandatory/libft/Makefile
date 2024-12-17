@@ -46,7 +46,6 @@ $(PRINTF):
 re: fclean all
 
 clean:
-	@echo "\033[91mWhy are you using wildcards?????? \033[0m"
 	make -C $(PRINTF_DIR) clean
 	rm -rf $(OBJS)
 	rm -rf $(GNL_OBJ)

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 21:13:25 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/05 20:33:02 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 18:50:16 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ t_4dmat	x_rotation_mat(double angle);
 t_4dmat	y_rotation_mat(double angle);
 
 t_4dmat	z_rotation_mat(double angle);
-
-t_tuple	translate_ray(t_tuple *point, double x, double y, double z);
 
 t_bool	translate_shape(t_shape *s);
 

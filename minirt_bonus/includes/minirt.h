@@ -6,14 +6,14 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:59:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 15:33:51 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 21:14:49 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "../libft_notclone/libft.h"
+# include "../libft/libft.h"
 # include "vectors.h"
 # include "matrix.h"
 # include "camera.h"
@@ -39,30 +39,37 @@
 # define PI 3.1415926535897932385
 # define EPSILON 0.00001f
 # define MRT_ERR \
-"Error! Malloc failed while trying to create main minirt struct\n"
-# define SPH_ERR "Error! Malloc failed while trying to create a sphere\n"
-# define PL_ERR "Error! Malloc failed while trying to create a plane\n"
-# define SHP_ERR "Error! Malloc failed while trying to create a shape\n"
-# define CYL_ERR "Error! Malloc failed while trying to create a cylinder\n"
-# define CON_ERR "Error! Malloc failed while trying to create a cone\n"
-# define CAM_ERR "Error! Malloc failed while trying to create a camera\n"
-# define SHP_ERR "Error! Malloc failed while trying to create a shape\n"
-# define AMB_ERR "Error! Malloc failed while trying to create an ambient\n"
-# define LGT_ERR "Error! Malloc failed while trying to create a light\n"
-# define MLX_ERR "Error! Malloc failed while trying to create mlx\n"
-# define IMG_ERR "Error! Malloc failed while trying to create an image\n"
-# define CAM_AMT_ERR "Error: Camera: You can only have one camera"
-# define CAM_ARG_ERR "Error: Camera: Invalid number of arguments"
-# define CAM_COORD_ERR "Error: Camera: Invalid coordinates"
-# define CAM_ORIENT_ERR "Error: Camera: Invalid orientation"
-# define ERR_SPH_PARAM "Error\nInvalid sphere parameters\n"
-# define ERR_CYL_PARAM "Error\nInvalid cylinder parameters\n"
-//# define MAX_INTERSECTS 200
+"Malloc failed while trying to create main minirt struct\n"
+# define SPH_ERR "Malloc failed while trying to create a sphere\n"
+# define PL_ERR "Malloc failed while trying to create a plane\n"
+# define SHP_ERR "Malloc failed while trying to create a shape\n"
+# define CYL_ERR "Malloc failed while trying to create a cylinder\n"
+# define CON_ERR "Malloc failed while trying to create a cone\n"
+# define CAM_ERR "Malloc failed while trying to create a camera\n"
+# define SHP_ERR "Malloc failed while trying to create a shape\n"
+# define AMB_ERR "Malloc failed while trying to create an ambient\n"
+# define LGT_ERR "Malloc failed while trying to create a light\n"
+# define MLX_ERR "Malloc failed while trying to create mlx\n"
+# define IMG_ERR "Malloc failed while trying to create an image\n"
+# define CAM_AMT_ERR "Camera: You can only have one camera"
+# define CAM_ARG_ERR "Camera: Invalid number of arguments"
+# define CAM_COORD_ERR "Camera: Invalid coordinates"
+# define CAM_ORIENT_ERR "Camera: Invalid orientation"
+# define ERR_SPH_PARAM "Invalid sphere parameters\n"
+# define ERR_CYL_PARAM "Invalid cylinder parameters\n"
+# define ERR_DIF_EX "Error\nDiffuse: Diffuse already exists\n"
+# define ERR_DIF_INV "Error\nDiffuse: Invalid keyword\n"
+# define ERR_DIF_VAL "Error\nDiffuse: Invalid value\n"
+# define ERR_SHP_AMB_EX "Error\nShape ambient: ambient already exists\n"
+# define ERR_SHP_AMB_INV "Error\nShape ambient: Invalid keyword\n"
+# define ERR_SHP_AMB_VAL "Error\nShape ambient: Invalid value\n"
+# define ERR_PAT_EX "Error\nPattern: Pattern already exists\n"
+# define ERR_PAT_INV "Error\nPattern: Invalid keyword\n"
+# define ERR_PAT_VAL "Error\nPattern: Invalid color\n"
+# define ERR_PAT_PAR "Error\nInvalid paramters for pattern\n"
 
 # ifdef __APPLE__
 #  define APP 1
-// #  define HEIGHT 1080
-// #  define WIDTH 1920
 #  include "../mlx/mlx.h"
 #  define APPLE 1
 #  define HEIGHT 400
@@ -111,18 +118,6 @@
 #  define ESC 65307
 # endif
 
-//# ifdef __APPLE__
-//#  define HEIGHT 1080
-//#  define WIDTH 1920
-//#  define APPLE 1
-//#  define ESC 53
-//#  else
-//#  define HEIGHT 800
-//#  define WIDTH 1000
-//#  define APPLE 0
-//#  define ESC 65307
-//# endif
-
 int			escape(int keycode, void *param);
 
 int			destroy(void *param);
@@ -163,13 +158,12 @@ void		camera_movement(t_minirt *m);
 
 void		change_cammove(t_minirt *m);
 
-int			parse_bon_sp(t_minirt *m, t_shape *shape, char **tokens, t_bool is_sphere);
+int			parse_bon_sp(t_minirt *m, t_shape *shape, \
+			char **tokens, t_bool is_sphere);
 
 int			resetcam(t_minirt *m);
 
 int			check_magnitude(t_minirt *m, t_tuple *vector, char *line);
-
-void		write_err(char *err, char need_newline);
 
 void		write_check(t_minirt *m, char *str);
 

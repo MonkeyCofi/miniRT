@@ -5,7 +5,6 @@ CC = cc
 INCLUDES = ./includes
 
 CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES) -pthread -Ofast -flto
-# CFLAGS += -fsanitize=address -g3
 
 SRCSPATH	=	srcs
 MATRIX 		=	$(SRCSPATH)/matrix
@@ -81,17 +80,9 @@ SRCS		=	$(SRCSPATH)/minirt.c \
 				$(UTILS)/utils.c \
 				$(UTILS)/err.c
 
-
-# SRCS = minirt.c camera.c hooks.c color.c vector_math.c vector_ops.c \
-# 		vector_utils.c utils.c init.c tuple_utils.c matrix_utils.c \
-# 		matrix_cmp.c matrix_ops.c transformations.c intersects.c light.c \
-# 		sphere.c frees.c material.c cylinder.c cone.c shapes.c plane.c \
-# 		normal.c render.c threads.c pattern.c read_ppm.c \
-# 		parsing.c
-
 OBJS = $(SRCS:.c=.o)
 
-LIBFT_DIR = libft_notclone
+LIBFT_DIR = libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
@@ -111,12 +102,10 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	make -C $(MLXOS) -j2
 	make -C $(LIBFT_DIR) -j2
-#	$(CC) $(OBJS) -fsanitize=address $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I. $(MLXFLAGS) -o $(NAME)
 
 %.o: %.c
-#	$(CC) $(CFLAGS) -g3 -c $< -o $@
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -g3 -c $< -o $@
 
 run: re
 	./$(NAME)

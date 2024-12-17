@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_ops2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:34:15 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/11/25 16:36:39 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 19:02:00 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,7 @@ t_4dmat	*create_4dcofactor(t_4dmat *mat)
 	return (create_4dmat(res));
 }
 
-t_bool	inverse_mat(t_4dmat *mat, t_4dmat **ptr)
-{
-	t_4dmat	*cofactor;
-	t_4dmat	t;
-	double	res[4][4];
-	int		i;
-	int		j;
-
-	if (determinant(NULL, NULL, mat) == 0)
-		return (false);
-	cofactor = create_4dcofactor(mat);
-	t = transpose(cofactor);
-	i = -1;
-	while (++i < 4)
-	{
-		j = -1;
-		while (++j < 4)
-			res[i][j] = t.matrix[i][j] / determinant(NULL, NULL, mat);
-	}
-	free(cofactor);
-	(*ptr) = create_4dmat(res);
-	if (!ptr)
-		return (error);
-	return (true);
-}
-
-t_bool	inverse_mat_test(t_4dmat *mat, t_4dmat *ptr)
+t_bool	inverse_mat(t_4dmat *mat, t_4dmat *ptr)
 {
 	t_4dmat	*cofactor;
 	t_4dmat	t;

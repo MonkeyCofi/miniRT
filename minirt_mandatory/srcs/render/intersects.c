@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersects.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:06:55 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 14:52:46 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 19:06:54 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,9 @@ t_intersects	intersect_enivornment(t_minirt *minirt, t_ray *ray)
 	inter.intersection_count = 0;
 	while (++i < minirt->object_count)
 	{
-		ray_world_space = create_ray_static(tuple_mult_fast(\
+		ray_world_space = create_ray_static(tuple_mult(\
 			&minirt->shapes[i]->inverse_mat, &ray->origin), \
-			tuple_mult_fast(&minirt->shapes[i]->inverse_mat, &ray->direction));
+			tuple_mult(&minirt->shapes[i]->inverse_mat, &ray->direction));
 		if (minirt->shapes[i]->intersect(&inter, \
 			&ray_world_space, minirt->shapes[i]) == false)
 			continue ;

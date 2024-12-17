@@ -6,11 +6,43 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:05 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/10 15:56:22 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 20:44:24 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+t_bool	get_filename_and_open_texture(t_minirt *m, \
+t_mater *material, char *name)
+{
+	char	*filename;
+
+	filename = ft_strtrim(name, "\"");
+	if (!filename)
+		parse_error(m, "strtrim: failed to trim string", NULL, 0);
+	material->texture = calloc_and_check(sizeof(t_img), 1, m, IMG_ERR);
+	if (open_image(m, material, filename) == error)
+	{
+		free(filename);
+		return (false);
+	}
+	return (true);
+}
+
+t_bool	open_texture(t_minirt *m, t_mater *material, char **params)
+{
+	int	i;
+
+	i = -1;
+	while (params[++i])
+	{
+		if (i == 0 && ft_strncmp(params[i], "texture", 7) != 0)
+			parse_error(m, "Texture: Invalid keyword: ", params, 1);
+		if (i == 1)
+			get_filename_and_open_texture(m, material, params[i]);
+	}
+	return (true);
+}
 
 int	fileopen(char *path, t_minirt *minirt)
 {
@@ -21,10 +53,7 @@ int	fileopen(char *path, t_minirt *minirt)
 	j = 0;
 	minirt->file_fd = open(path, O_RDONLY);
 	if (minirt->file_fd == -1)
-	{
-		close(minirt->file_fd);
 		parse_error(minirt, "Error\nCouldn't open rt file", NULL, 0);
-	}
 	if (!rt_file(path))
 	{
 		close(minirt->file_fd);

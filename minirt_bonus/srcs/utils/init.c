@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:17:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 16:07:54 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 20:47:00 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	count_shapes_lights(char *file, int *lights, int *shapes)
 	*lights = 0;
 	*shapes = 0;
 	fd = open(file, O_RDONLY);
-	if (!fd)
+	if (fd == -1)
 	{
 		write_check(NULL, "Error\nCouldn't open rt file\n");
 		exit(EXIT_FAILURE);

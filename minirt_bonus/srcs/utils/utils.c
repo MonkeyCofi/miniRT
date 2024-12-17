@@ -6,25 +6,16 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 07:29:54 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/10 16:12:08 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 18:44:53 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-//void	write_err(char *err, char need_newline)
-//{
-//	if (write(2, err, ft_strlen(err)) == -1)
-//		return ;
-//	if (need_newline != '\0')
-//	{
-//		if (write(2, "\n", 1) == -1)
-//			return ;
-//	}
-//}
-
 int	check_magnitude(t_minirt *m, t_tuple *vector, char *line)
 {
+	if (is_equal(magnitude(vector), 0))
+		return (0);
 	if (is_equal(magnitude(vector), 1) == false)
 	{
 		write_check(m, "Line: ");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:58:09 by pipolint          #+#    #+#             */
-/*   Updated: 2024/11/27 09:06:13 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 18:55:36 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,55 +60,20 @@ double fov)
 	return (cam);
 }
 
-// t_4dmat	*view_transform(t_tuple *to, t_tuple *from, t_tuple *up)
-// {
-// 	t_tuple	forward_vec;
-// 	t_tuple	left_vec;
-// 	t_tuple	real_up;
-// 	t_4dmat	*orientation;
-// 	t_4dmat	transl8;
-// 	t_4dmat	*res;
-// 	t_tuple	up_normalized;
-// 	double	points[4][4];
-// 	ft_bzero(&points, sizeof(double) * (4 * 4));
-// 	forward_vec = subtract_tuples(from, to);
-// 	up_normalized = return_tuple(up->x, up->y, up->z, VECTOR);
-// 	normalize(&up_normalized);
-// 	normalize(&forward_vec);
-// 	left_vec = cross_product(&forward_vec, &up_normalized);
-// 	normalize(&left_vec);
-// 	real_up = cross_product(&left_vec, &forward_vec);
-// 	points[0][0] = left_vec.x;
-// 	points[0][1] = left_vec.y;
-// 	points[0][2] = left_vec.z;
-// 	points[1][0] = real_up.x;
-// 	points[1][1] = real_up.y;
-// 	points[1][2] = real_up.z;
-// 	points[2][0] = -forward_vec.x;
-// 	points[2][1] = -forward_vec.y;
-// 	points[2][2] = -forward_vec.z;
-// 	points[3][3] = 1;
-// 	orientation = create_4dmat(points);
-// 	transl8 = translation_mat(-from->x, -from->y, -from->z);
-// 	res = mat4d_mult(orientation, &transl8);
-// 	free(orientation);
-// 	return (res);
-// }
-
-t_4dmat	view_transform_test(t_tuple *left_vec, t_tuple *up, \
-t_tuple *cam, t_tuple *forward_vec)
+t_4dmat	view_transform(t_tuple *left_vec, t_tuple *up, \
+t_tuple *cam, t_tuple *forward)
 {
 	t_tuple	real_up;
 	t_4dmat	orientation;
 	t_4dmat	translate_scene;
 
 	ft_bzero(&orientation, sizeof(t_4dmat));
-	if (is_equal(forward_vec->x, 0) && is_equal(forward_vec->z, 0))
+	if (is_equal(forward->x, 0) && is_equal(forward->z, 0))
 		*left_vec = return_vector(1, 0, 0);
 	else
-		*left_vec = cross_product(forward_vec, up);
+		*left_vec = cross_product(forward, up);
 	normalize(left_vec);
-	real_up = cross_product(left_vec, forward_vec);
+	real_up = cross_product(left_vec, forward);
 	normalize(&real_up);
 	orientation.matrix[0][0] = left_vec->x;
 	orientation.matrix[0][1] = left_vec->y;
@@ -116,10 +81,10 @@ t_tuple *cam, t_tuple *forward_vec)
 	orientation.matrix[1][0] = up->x;
 	orientation.matrix[1][1] = up->y;
 	orientation.matrix[1][2] = up->z;
-	orientation.matrix[2][0] = -forward_vec->x;
-	orientation.matrix[2][1] = -forward_vec->y;
-	orientation.matrix[2][2] = -forward_vec->z;
+	orientation.matrix[2][0] = -forward->x;
+	orientation.matrix[2][1] = -forward->y;
+	orientation.matrix[2][2] = -forward->z;
 	orientation.matrix[3][3] = 1;
 	translate_scene = translation_mat(-cam->x, -cam->y, -cam->z);
-	return (mat4d_mult_fast_static(&orientation, &translate_scene));
+	return (mat4d_mult(&orientation, &translate_scene));
 }

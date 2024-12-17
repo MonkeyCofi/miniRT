@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   transformations2.c                                 :+:      :+:    :+:   */
+/*   transform.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 09:38:57 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/05 20:20:40 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:07:07 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_bool	set_inverse_transpose(t_shape *shape, t_4dmat *transform_mat)
 	old_inverse = shape->inverse_mat;
 	if (inverse_mat_test(transform_mat, &shape->inverse_mat) == error)
 		return (error);
-	shape->inverse_mat = mat4d_mult_fast_static(&shape->inverse_mat, \
+	shape->inverse_mat = mat4d_mult(&shape->inverse_mat, \
 	&old_inverse);
 	shape->inverse_transpose = transpose(&shape->inverse_mat);
 	return (true);
@@ -31,7 +31,7 @@ t_bool	translate_shape(t_shape *s)
 	t_4dmat	resultant;
 
 	translation = translation_mat(s->coords.x, s->coords.y, s->coords.z);
-	resultant = mat4d_mult_fast_static(&s->transform, &translation);
+	resultant = mat4d_mult(&s->transform, &translation);
 	s->transform = resultant;
 	if (set_inverse_transpose(s, &s->transform) == error)
 		return (error);

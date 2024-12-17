@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:35:06 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/04 19:32:03 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:00:03 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_tuple	checkerboard_sphere(t_pattern pattern, t_inter_comp *intersection)
 	double			radius;
 	double			phi;
 
-	point = tuple_mult_fast(&intersection->obj->inverse_mat, \
+	point = tuple_mult(&intersection->obj->inverse_mat, \
 	&intersection->point);
 	s.u = 0.5 + (atan2(point.z, point.x) / (2 * M_PI));
 	radius = magnitude(&point);
@@ -77,7 +77,7 @@ t_tuple	checkerboard_cylinder(t_pattern pattern, t_inter_comp *intersection)
 	double			max_y;
 	double			height;
 
-	point = tuple_mult_fast(&intersection->obj->inverse_mat, \
+	point = tuple_mult(&intersection->obj->inverse_mat, \
 		&intersection->point);
 	s.u = 0.5 + (atan2(point.z, point.x) / (2 * M_PI));
 	min_y = ((t_cylinder *)(intersection->obj->shape))->minimum;

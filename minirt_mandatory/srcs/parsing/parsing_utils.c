@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 08:48:18 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/10 14:46:35 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 18:34:06 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,13 @@ t_bool	dovector(t_minirt *m, char *string, t_tuple *vec, t_bool should_norm)
 	}
 	if (arr_len(str) != 3 && free_arr(str))
 		return (false);
-	else
+	vec->x = str_to_double(str[0]);
+	vec->y = str_to_double(str[1]);
+	vec->z = str_to_double(str[2]);
+	if (should_norm == true && free_arr(str))
 	{
-		vec->x = str_to_double(str[0]);
-		vec->y = str_to_double(str[1]);
-		vec->z = str_to_double(str[2]);
-	}
-	if (should_norm == true && check_magnitude(m, vec, string) && free_arr(str))
-	{
+		if (check_magnitude(m, vec, string) == 0)
+			return (false);
 		normalize(vec);
 		return (is_in_bounds(vec, false));
 	}

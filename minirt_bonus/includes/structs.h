@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 17:36:39 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 21:15:37 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define STRUCTS_H
 
 # include <stdlib.h>
-# include "../libft_notclone/libft.h"
+# include "../libft/libft.h"
 
 # define MAX_INTERSECTS 200
 # define VECTOR 0

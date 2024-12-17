@@ -6,15 +6,15 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:47:27 by ahaarij           #+#    #+#             */
-/*   Updated: 2024/12/10 17:01:27 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/10 21:03:02 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-//void	parse_error(t_minirt *m, char *err, char *line, char **parse_arr);
-void	parse_error(t_minirt *m, char *err, char **parse_arr, int print_line_num);
+void	parse_error(t_minirt *m, char *err, char **parse_arr, \
+												int print_line_num);
 void	write_two_errs(t_minirt *m, char *str1, int need_newline, char *str2);
 t_bool	open_image(t_minirt *m, t_mater *material, char *filename);
 t_bool	open_texture(t_minirt *m, t_mater *material, char **params);
@@ -55,7 +55,9 @@ int		recognizespecular(t_minirt *m, char *string, \
 
 int		recognizetexture(t_minirt *m, char *string, \
 						t_mater *material, int *clones);
-						
+
 int		set_sphere_only(int *clones, t_bool is_sphere);
+
+int		parse_cone_helper(t_minirt *m, char **strs, char *str, int *j);
 
 #endif

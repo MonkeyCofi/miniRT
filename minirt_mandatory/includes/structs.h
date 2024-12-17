@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaarij <ahaarij@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:09:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/10 15:17:17 by ahaarij          ###   ########.fr       */
+/*   Updated: 2024/12/10 21:16:55 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define STRUCTS_H
 
 # include <stdlib.h>
-# include "../libft_notclone/libft.h"
+# include "../libft/libft.h"
 
 # define MAX_INTERSECTS 200
 # define VECTOR 0
@@ -290,23 +290,6 @@ typedef struct s_ambient
 	int				flag;
 }	t_ambient;
 
-typedef struct s_movement
-{
-	t_bool	w;
-	t_bool	a;
-	t_bool	s;
-	t_bool	d;
-	t_bool	left;
-	t_bool	right;
-	t_bool	up;
-	t_bool	down;
-	t_bool	space;
-	t_bool	shift;
-	t_bool	r;
-	t_bool	esc;
-	t_bool	sprint;
-}	t_movement;
-
 typedef struct s_minirt
 {
 	t_mlx			*mlx;
@@ -319,14 +302,6 @@ typedef struct s_minirt
 	t_tuple			up;
 	t_tuple			forward;
 	t_tuple			left;
-	t_strokes		stroke;
-	t_movement		movement;
-	t_tuple			original_from;
-	t_tuple			original_to;
-	t_tuple			original_up;
-	double			pitch;
-	double			yaw;
-	double			delta_time;
 	int				line;
 	int				object_count;
 	int				file_fd;
@@ -368,14 +343,6 @@ typedef struct s_thing
 	t_tuple	coords;
 	int		i;
 }	t_thing;
-
-typedef struct s_norm_thread
-{
-	int	i;
-	int	j;
-	int	height;
-	int	width;
-}	t_norm_thread;
 
 typedef struct s_cam_specs
 {
